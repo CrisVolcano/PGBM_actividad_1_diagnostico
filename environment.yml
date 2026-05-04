@@ -1,0 +1,45 @@
+name: pgbm_actividad1
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+  - geopandas>=0.14
+  - pandas>=2.2
+  - numpy>=1.26
+  - shapely>=2.0
+  - pyogrio>=0.8
+  - fiona
+  - pyproj
+  - gdal
+  - rasterio
+  - rioxarray
+  - xarray
+  - duckdb
+  - sqlalchemy
+  - sqlite-utils
+  - scikit-learn
+  - scipy
+  - matplotlib
+  - seaborn
+  - plotly
+  - folium
+  - contextily
+  - jupyterlab
+  - ipykernel
+  - nbconvert
+  - papermill
+  - pyyaml
+  - python-dotenv
+  - tqdm
+  - loguru
+  - black
+  - ruff
+  - isort
+  - pip
+  - pip:
+      - leafmap
+      - geemap
+      - ydata-profiling

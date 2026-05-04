@@ -1,0 +1,2 @@
+fecha,responsable,modulo,tipo_decision,descripcion,criterio,fuente_afectada,registros_afectados,archivo_salida,version_git
+2026-05-04,Equipo PGBM,Modulo 0,Configuracion inicial,"Se crea estructura base del proyecto en disco externo PGB_disco","Reproducibilidad, trazabilidad y separación de datos crudos/intermedios/procesados","No aplica",0,"estructura_proyecto",NA

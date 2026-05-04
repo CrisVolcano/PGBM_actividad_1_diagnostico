@@ -1,0 +1,17 @@
+[project]
+name = "pgbm-actividad-1-diagnostico"
+version = "0.1.0"
+description = "Implementación reproducible de la Actividad 1 del proyecto PGBM"
+authors = [
+    { name = "Equipo PGBM" }
+]
+requires-python = ">=3.11"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+
+[tool.isort]
+profile = "black"

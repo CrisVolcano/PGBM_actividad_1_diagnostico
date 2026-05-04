@@ -1,0 +1,60 @@
+project:
+  name: "PGBM_actividad_1_diagnostico"
+  description: "Diagnóstico regional de aptitud de fuentes y vacíos de información"
+  stage: "Modulo 0 - Configuracion inicial"
+  version: "0.1.0"
+  author: "Equipo PGBM"
+
+paths:
+  project_root: "/media/estb/PGB_disco/PGBM_actividad_1_diagnostico"
+  data_raw: "data/raw"
+  data_interim: "data/interim"
+  data_processed: "data/processed"
+  data_external: "data/external"
+  notebooks: "notebooks"
+  src: "src"
+  outputs_tables: "outputs/tables"
+  outputs_figures: "outputs/figures"
+  outputs_maps: "outputs/maps"
+  outputs_reports: "outputs/reports"
+  logs: "logs"
+  docs: "docs"
+
+input_data:
+  gpkg_file: "data/raw/GeoPackage_puntos_control_mesoamerica.gpkg"
+  gpkg_layer: null
+  geometry_column: "geometry"
+
+fields:
+  id_primary: "Id"
+  id_origin: "Id_Origen"
+  source: "Fuente"
+  source_id: "id_fuente"
+  source_type: "Tipo"
+  year: "Año"
+  country: "País_es"
+  country_code: "País_cod3"
+  level_0: "Nivel_0"
+  level_1: "Nivel_1"
+  level_2: "Nivel_2"
+  id_level_0: "id_0"
+  id_level_1: "id_cob_niv1"
+  id_level_2: "id_cob_niv2"
+
+quality_fields:
+  ndvi: "NDVI"
+  canopy_cover: "Cobertura"
+  canopy_height: "Altura"
+  conf_ndvi: "Conf_ndvi"
+  conf_cover: "Conf_cobertura"
+  conf_height: "Conf_altura"
+  conf_integrated: "Conf_integrada"
+
+spatial:
+  expected_crs: "EPSG:4326"
+  projected_crs_analysis: null
+  coordinate_precision: 6
+
+outputs:
+  overwrite: true
+  save_intermediate: true

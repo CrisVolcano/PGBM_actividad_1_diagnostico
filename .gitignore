@@ -1,0 +1,74 @@
+# ============================================================
+# Datos del proyecto
+# ============================================================
+data/raw/
+data/interim/
+data/processed/
+data/external/
+
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# ============================================================
+# Archivos geoespaciales pesados
+# ============================================================
+*.gpkg
+*.gdb/
+*.shp
+*.dbf
+*.shx
+*.prj
+*.cpg
+*.qpj
+*.geojson
+*.tif
+*.tiff
+*.vrt
+*.img
+*.nc
+*.hdf
+*.h5
+*.parquet
+*.feather
+*.zip
+*.7z
+*.rar
+
+# ============================================================
+# Salidas pesadas
+# ============================================================
+outputs/maps/
+outputs/figures/*.png
+outputs/figures/*.jpg
+outputs/figures/*.jpeg
+outputs/figures/*.pdf
+
+!outputs/maps/.gitkeep
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+!outputs/reports/.gitkeep
+
+# ============================================================
+# Python y Jupyter
+# ============================================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# ============================================================
+# Entornos y variables locales
+# ============================================================
+.env
+.venv/
+venv/
+conda-meta/
+
+# ============================================================
+# Sistema
+# ============================================================
+.DS_Store
+Thumbs.db
