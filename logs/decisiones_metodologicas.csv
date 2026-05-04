@@ -1,2 +1,3 @@
 fecha,responsable,modulo,tipo_decision,descripcion,criterio,fuente_afectada,registros_afectados,archivo_salida,version_git
 2026-05-04,Equipo PGBM,Modulo 0,Configuracion inicial,"Se crea estructura base del proyecto en disco externo PGB_disco","Reproducibilidad, trazabilidad y separación de datos crudos/intermedios/procesados","No aplica",0,"estructura_proyecto",NA
+2026-05-04,Equipo PGBM,Modulo 1,Lectura inicial,"Se identificó correctamente la capa principal del GeoPackage: Puntos_control_mesoamerica, con 2881123 registros, geometría Point, CRS EPSG:4326 y 41 campos","Reconocimiento inicial sin modificación de datos originales","GeoPackage regional",2881123,"outputs/reports/01_perfil_inicial_gpkg.md",NA

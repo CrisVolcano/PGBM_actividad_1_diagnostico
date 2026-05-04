@@ -22,7 +22,7 @@ paths:
 
 input_data:
   gpkg_file: "data/raw/GeoPackage_puntos_control_mesoamerica.gpkg"
-  gpkg_layer: null
+  gpkg_layer: "Puntos_control_mesoamerica"
   geometry_column: "geometry"
 
 fields:
