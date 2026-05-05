@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Síntesis interpretativa - Módulo 3 | Auditoría espacial</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      margin: 40px auto;
+      max-width: 1150px;
+      color: #1f2933;
+      background-color: #ffffff;
+    }
+
+    h1, h2, h3 {
+      color: #174A7C;
+    }
+
+    h1 {
+      border-bottom: 4px solid #174A7C;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 6px;
+      margin-top: 36px;
+    }
+
+    h3 {
+      margin-top: 24px;
+    }
+
+    .subtitle {
+      color: #52616b;
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+    }
+
+    .box {
+      background-color: #f4f8fb;
+      border-left: 5px solid #174A7C;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .success {
+      background-color: #ecfdf5;
+      border-left: 5px solid #0f766e;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .warning {
+      background-color: #fff7ed;
+      border-left: 5px solid #ea580c;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .critical {
+      background-color: #fef2f2;
+      border-left: 5px solid #dc2626;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .note {
+      background-color: #f8fafc;
+      border-left: 5px solid #64748b;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background-color: #f3f4f6;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background-color: #f3f4f6;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #174A7C;
+      color: white;
+      text-align: left;
+      padding: 9px;
+    }
+
+    td {
+      border: 1px solid #d0d7de;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .metric-card {
+      border: 1px solid #d0d7de;
+      border-radius: 10px;
+      padding: 16px;
+      background-color: #f8fafc;
+    }
+
+    .metric-card .value {
+      font-size: 1.55rem;
+      font-weight: bold;
+      color: #174A7C;
+      margin-bottom: 5px;
+    }
+
+    .metric-card .label {
+      font-size: 0.95rem;
+      color: #52616b;
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding-top: 18px;
+      border-top: 1px solid #d0d7de;
+      font-size: 0.9rem;
+      color: #52616b;
+    }
+
+    @media print {
+      body {
+        margin: 20mm;
+        max-width: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Síntesis interpretativa - Módulo 3</h1>
+  <p class="subtitle">
+    <strong>Auditoría espacial inicial del GeoPackage</strong><br>
+    PGBM - Actividad 1: Diagnóstico regional de aptitud de fuentes y vacíos de información
+  </p>
+
+  <div class="box">
+    <p>
+      Este documento sintetiza los resultados del <strong>Módulo 3: auditoría espacial inicial</strong>.
+      Su objetivo es interpretar qué dicen los resultados espaciales de la base de puntos de control,
+      qué implican para el uso posterior en entrenamiento, validación y prueba de modelos, y qué
+      decisiones metodológicas deben tomarse antes de avanzar.
+    </p>
+  </div>
+
+  <h2>1. Lectura ejecutiva</h2>
+
+  <div class="success">
+    <p>
+      La base está correctamente georreferenciada, tiene coordenadas completas, no presenta puntos
+      fuera de rango global ni fuera de un rango regional amplio para Mesoamérica. Por tanto, el
+      problema principal no es de ubicación extrema, CRS o coordenadas faltantes.
+    </p>
+  </div>
+
+  <div class="critical">
+    <p>
+      El hallazgo crítico es la alta cantidad de registros que comparten exactamente las mismas
+      coordenadas. Esto revela una condición fuerte de <strong>duplicidad posicional</strong> o
+      <strong>multirregistros espaciales</strong>. Esta situación no invalida la base, pero impide usarla
+      directamente para entrenamiento, validación o prueba sin una estrategia previa de consolidación,
+      agrupamiento o clasificación funcional de registros.
+    </p>
+  </div>
+
+  <h2>2. Indicadores principales</h2>
+
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="value">2,881,123</div>
+      <div class="label">Total de registros</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">EPSG:4326</div>
+      <div class="label">Sistema de referencia declarado</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">0</div>
+      <div class="label">Registros fuera de rango global</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">0</div>
+      <div class="label">Registros fuera de rango regional amplio</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">758,797</div>
+      <div class="label">Grupos duplicados XY exactos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">2,356,284</div>
+      <div class="label">Registros en grupos XY duplicados exactos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">1,597,487</div>
+      <div class="label">Exceso de registros duplicados XY exactos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">38</div>
+      <div class="label">Máximo de registros en una misma coordenada</div>
+    </div>
+  </div>
+
+
+  <h2>2.1 ¿Cuántos registros quedarían con coordenadas XY únicas?</h2>
+
+  <p>
+    Una forma práctica de interpretar la duplicidad espacial es calcular cuántos registros quedarían
+    si se conservara solamente una fila por cada coordenada única <code>Longitud-Latitud</code>.
+    Este cálculo no implica que deban eliminarse registros automáticamente, pero ayuda a dimensionar
+    la magnitud real de ubicaciones únicas dentro de la base.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Valor</th>
+        <th>Interpretación sencilla</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total de registros originales</td>
+        <td>2,881,123</td>
+        <td>Total de filas existentes en la base antes de cualquier consolidación espacial.</td>
+      </tr>
+      <tr>
+        <td>Registros en grupos duplicados XY</td>
+        <td>2,356,284</td>
+        <td>Filas ubicadas en coordenadas donde existe al menos otro registro.</td>
+      </tr>
+      <tr>
+        <td>Registros sin coordenada repetida</td>
+        <td>524,839</td>
+        <td>Filas cuya coordenada aparece una sola vez en toda la base.</td>
+      </tr>
+      <tr>
+        <td>Grupos de coordenadas repetidas</td>
+        <td>758,797</td>
+        <td>Coordenadas distintas que tienen dos o más registros asociados.</td>
+      </tr>
+      <tr>
+        <td>Exceso de registros duplicados</td>
+        <td>1,597,487</td>
+        <td>Filas adicionales que sobrarían si se conservara solo una por coordenada repetida.</td>
+      </tr>
+      <tr>
+        <td><strong>Registros únicos XY finales</strong></td>
+        <td><strong>1,283,636</strong></td>
+        <td><strong>Cantidad de ubicaciones únicas si se deja solo una fila por coordenada exacta.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <p>
+      El cálculo clave es:
+    </p>
+    <pre><code>Registros únicos XY = Total de registros originales - Exceso de registros duplicados
+
+Registros únicos XY = 2,881,123 - 1,597,487 = 1,283,636</code></pre>
+    <p>
+      Por tanto, una versión consolidada a una sola fila por coordenada exacta pasaría de
+      <strong>2,881,123 registros</strong> a <strong>1,283,636 ubicaciones únicas</strong>.
+      Esto representa una reducción aproximada de <strong>55.45 %</strong> de las filas originales.
+    </p>
+  </div>
+
+  <div class="warning">
+    <p>
+      Esta tabla debe interpretarse como una medida diagnóstica, no como una instrucción de eliminación.
+      Antes de borrar o consolidar registros, es necesario caracterizar si los registros repetidos representan
+      redundancia simple, coincidencia entre fuentes, multitemporalidad o conflicto temático.
+    </p>
+  </div>
+
+
+  <h2>3. Calidad espacial básica</h2>
+
+  <p>
+    La auditoría confirma que la capa <code>Puntos_control_mesoamerica</code> está declarada como una
+    geometría de tipo <code>POINT</code>, con sistema de referencia <code>EPSG:4326</code>, correspondiente
+    a coordenadas geográficas WGS84. Los campos de coordenadas <code>Longitud</code> y <code>Latitud</code>
+    están presentes y son de tipo <code>DOUBLE</code>.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Elemento evaluado</th>
+        <th>Resultado</th>
+        <th>Interpretación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Tipo de geometría</td>
+        <td>POINT</td>
+        <td>Coherente con una base de puntos de control.</td>
+      </tr>
+      <tr>
+        <td>CRS</td>
+        <td>EPSG:4326 / WGS84</td>
+        <td>Adecuado para una base regional de Mesoamérica.</td>
+      </tr>
+      <tr>
+        <td>Campo de longitud</td>
+        <td><code>Longitud</code>, tipo DOUBLE</td>
+        <td>Campo presente y numéricamente utilizable.</td>
+      </tr>
+      <tr>
+        <td>Campo de latitud</td>
+        <td><code>Latitud</code>, tipo DOUBLE</td>
+        <td>Campo presente y numéricamente utilizable.</td>
+      </tr>
+      <tr>
+        <td>Coordenadas nulas o vacías</td>
+        <td>0</td>
+        <td>No hay pérdida estructural de coordenadas.</td>
+      </tr>
+      <tr>
+        <td>Coordenadas fuera de rango global</td>
+        <td>0</td>
+        <td>No hay puntos con valores imposibles de longitud o latitud.</td>
+      </tr>
+      <tr>
+        <td>Coordenadas fuera de rango regional amplio</td>
+        <td>0</td>
+        <td>No se detectan puntos fuera del marco espacial esperado para Mesoamérica.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="success">
+    <p>
+      En términos de integridad espacial básica, la base pasa satisfactoriamente las pruebas iniciales:
+      no hay coordenadas nulas, vacías, imposibles ni evidentemente fuera de la región de trabajo.
+    </p>
+  </div>
+
+  <h2>4. Bounding box global</h2>
+
+  <p>
+    El rango espacial global de la base es coherente con Mesoamérica. Los valores observados son:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Indicador</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Longitud mínima</td><td>-94.1033</td></tr>
+      <tr><td>Longitud máxima</td><td>-77.1859</td></tr>
+      <tr><td>Latitud mínima</td><td>7.20538</td></tr>
+      <tr><td>Latitud máxima</td><td>21.6108</td></tr>
+      <tr><td>Longitud media</td><td>-87.8665</td></tr>
+      <tr><td>Latitud media</td><td>13.816</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Estos valores no sugieren errores gruesos de ubicación. La extensión espacial cubre desde el sur de
+    Panamá hasta el sur/sureste de México, con rangos consistentes para una base regional de Mesoamérica.
+  </p>
+
+  <h2>5. Hallazgo crítico: duplicados por coordenadas</h2>
+
+  <p>
+    El hallazgo más relevante del Módulo 3 es la alta duplicidad espacial. Una parte muy importante
+    de los registros comparte coordenadas exactas con otros registros.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo de duplicado</th>
+        <th>Grupos duplicados</th>
+        <th>Registros en grupos duplicados</th>
+        <th>Exceso de registros duplicados</th>
+        <th>Máximo por coordenada</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>XY exacto</td>
+        <td>758,797</td>
+        <td>2,356,284</td>
+        <td>1,597,487</td>
+        <td>38</td>
+      </tr>
+      <tr>
+        <td>XY redondeado a 6 decimales</td>
+        <td>719,495</td>
+        <td>2,356,787</td>
+        <td>1,637,292</td>
+        <td>38</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="critical">
+    <p>
+      Este resultado implica que la base no debe tratarse como un conjunto de puntos independientes.
+      Muchos registros corresponden a las mismas coordenadas o a posiciones prácticamente equivalentes.
+      Esto puede afectar fuertemente cualquier análisis de balance de clases, entrenamiento de modelos,
+      validación o estimación de desempeño.
+    </p>
+  </div>
+
+  <h3>5.1 Implicaciones para modelamiento</h3>
+
+  <ul>
+    <li>Puede inflarse artificialmente el número de muestras disponibles.</li>
+    <li>Puede sobre-representarse un mismo sitio o una misma fuente.</li>
+    <li>Puede generarse dependencia espacial severa entre registros.</li>
+    <li>Puede existir fuga de información si registros de la misma coordenada caen en entrenamiento y validación.</li>
+    <li>Puede sobreestimarse el desempeño de modelos de clasificación.</li>
+    <li>Puede alterarse el balance real de clases y países.</li>
+  </ul>
+
+  <h3>5.2 Interpretación correcta</h3>
+
+  <p>
+    La presencia de duplicados por coordenadas no significa automáticamente que la base sea incorrecta.
+    Puede deberse a múltiples situaciones:
+  </p>
+
+  <ul>
+    <li>varios registros provenientes de la misma fuente en una misma coordenada;</li>
+    <li>registros multitemporales;</li>
+    <li>mallas de interpretación visual;</li>
+    <li>distintas clases asignadas en una misma ubicación;</li>
+    <li>integración de fuentes diferentes sobre un mismo punto;</li>
+    <li>redundancia técnica generada durante procesos previos de consolidación.</li>
+  </ul>
+
+  <div class="warning">
+    <p>
+      Por esta razón, los duplicados espaciales <strong>no deben eliminarse automáticamente</strong>.
+      Primero deben caracterizarse según fuente, año, clase, confiabilidad y consistencia temática.
+    </p>
+  </div>
+
+  <h2>6. Distribución por país</h2>
+
+  <p>
+    La distribución por país muestra un desbalance regional fuerte. El Salvador concentra la mayor
+    parte de los registros, seguido por Costa Rica, Honduras y Belice.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>País</th>
+        <th>Registros</th>
+        <th>Porcentaje</th>
+        <th>Lectura técnica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>El Salvador</td>
+        <td>1,215,773</td>
+        <td>42.20 %</td>
+        <td>Alta concentración; puede dominar patrones regionales si no se controla.</td>
+      </tr>
+      <tr>
+        <td>Costa Rica</td>
+        <td>478,141</td>
+        <td>16.60 %</td>
+        <td>Alta representación relativa.</td>
+      </tr>
+      <tr>
+        <td>Honduras</td>
+        <td>468,040</td>
+        <td>16.25 %</td>
+        <td>Alta representación relativa.</td>
+      </tr>
+      <tr>
+        <td>Belice</td>
+        <td>426,926</td>
+        <td>14.82 %</td>
+        <td>Alta representación relativa.</td>
+      </tr>
+      <tr>
+        <td>Guatemala</td>
+        <td>240,339</td>
+        <td>8.34 %</td>
+        <td>Representación intermedia.</td>
+      </tr>
+      <tr>
+        <td>Panamá</td>
+        <td>39,847</td>
+        <td>1.38 %</td>
+        <td>Baja representación; posible vacío relativo.</td>
+      </tr>
+      <tr>
+        <td>México</td>
+        <td>10,085</td>
+        <td>0.35 %</td>
+        <td>Muy baja representación; requiere revisión del alcance territorial.</td>
+      </tr>
+      <tr>
+        <td>Nicaragua</td>
+        <td>1,972</td>
+        <td>0.07 %</td>
+        <td>Representación extremadamente baja; alerta prioritaria.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <p>
+      Este desbalance debe considerarse en el scoring de aptitud, en la selección de muestras y en
+      cualquier partición de entrenamiento, validación o prueba. Si no se controla, el modelo puede
+      aprender patrones dominados por países con alta densidad de puntos.
+    </p>
+  </div>
+
+  <h2>7. Bounding box por país</h2>
+
+  <p>
+    Los rangos espaciales por país son coherentes con las ubicaciones esperadas. No se observan
+    indicios evidentes de puntos ubicados en países completamente incorrectos a partir del rango
+    mínimo y máximo de coordenadas.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>País</th>
+        <th>Registros</th>
+        <th>Longitud mínima</th>
+        <th>Longitud máxima</th>
+        <th>Latitud mínima</th>
+        <th>Latitud máxima</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>El Salvador</td><td>1,215,773</td><td>-90.1181</td><td>-87.6850</td><td>13.1571</td><td>14.4422</td></tr>
+      <tr><td>Costa Rica</td><td>478,141</td><td>-85.9176</td><td>-82.5539</td><td>8.04353</td><td>11.2095</td></tr>
+      <tr><td>Honduras</td><td>468,040</td><td>-89.3527</td><td>-83.1728</td><td>12.9891</td><td>16.5009</td></tr>
+      <tr><td>Belice</td><td>426,926</td><td>-89.2256</td><td>-87.4944</td><td>15.8943</td><td>18.4884</td></tr>
+      <tr><td>Guatemala</td><td>240,339</td><td>-92.2171</td><td>-88.2531</td><td>13.7406</td><td>17.8188</td></tr>
+      <tr><td>Panamá</td><td>39,847</td><td>-83.0183</td><td>-77.1859</td><td>7.20538</td><td>9.61665</td></tr>
+      <tr><td>México</td><td>10,085</td><td>-94.1033</td><td>-86.8341</td><td>14.5755</td><td>21.6108</td></tr>
+      <tr><td>Nicaragua</td><td>1,972</td><td>-87.6796</td><td>-83.0506</td><td>10.7136</td><td>14.9914</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Aunque el bounding box por país luce razonable, este análisis todavía no sustituye un cruce espacial
+    contra límites nacionales. En una fase posterior convendría verificar si el atributo <code>Pais_es</code>
+    coincide con el país donde cae espacialmente cada punto.
+  </p>
+
+  <h2>8. Diagnóstico técnico preliminar</h2>
+
+  <div class="box">
+    <p>
+      La auditoría espacial confirma que la geodatabase regional tiene coordenadas completas, CRS correcto
+      y distribución geográfica coherente con Mesoamérica. No se observan errores extremos de ubicación
+      ni coordenadas fuera de rango. Sin embargo, la base presenta una duplicidad posicional muy alta:
+      más de 2.35 millones de registros pertenecen a grupos de coordenadas repetidas, con un exceso
+      aproximado de 1.6 millones de registros. Esta condición no invalida la base, pero obliga a desarrollar
+      una estrategia específica de consolidación, selección o clasificación funcional de multirregistros antes
+      de usar los datos para entrenamiento, validación o prueba de modelos.
+    </p>
+  </div>
+
+  <h2>9. Recomendación metodológica inmediata</h2>
+
+  <p>
+    Antes de avanzar directamente hacia auditoría temporal o temática, se recomienda crear un submódulo
+    puente:
+  </p>
+
+  <h3>Módulo 3B: caracterización de multirregistros espaciales</h3>
+
+  <p>Este submódulo debería responder:</p>
+
+  <ul>
+    <li>Cuando varios registros tienen la misma coordenada, ¿son de la misma fuente o de fuentes distintas?</li>
+    <li>¿Tienen la misma clase <code>Nivel_1</code> y <code>Nivel_2</code>?</li>
+    <li>¿Son del mismo año o de años distintos?</li>
+    <li>¿Tienen valores similares de confiabilidad?</li>
+    <li>¿Representan conflicto temático o redundancia?</li>
+    <li>¿Son puntos de una malla interpretativa?</li>
+    <li>¿Son registros válidos pero repetidos por diseño?</li>
+  </ul>
+
+  <p>Las categorías recomendadas para clasificar estos casos son:</p>
+
+  <pre><code>duplicado_xy_misma_clase_misma_fuente
+duplicado_xy_misma_clase_fuente_distinta
+duplicado_xy_conflicto_tematico
+duplicado_xy_multitemporal
+duplicado_xy_revision_prioritaria
+duplicado_xy_redundancia_controlada</code></pre>
+
+  <h2>10. Riesgos si no se atiende este hallazgo</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Riesgo</th>
+        <th>Consecuencia potencial</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Entrenar con registros repetidos en la misma coordenada</td>
+        <td>Sobre-representación espacial y sesgo del modelo.</td>
+      </tr>
+      <tr>
+        <td>Dividir entrenamiento y validación sin agrupar coordenadas</td>
+        <td>Fuga de información y métricas artificialmente altas.</td>
+      </tr>
+      <tr>
+        <td>Eliminar duplicados automáticamente</td>
+        <td>Pérdida de información válida, especialmente si son multitemporales o de fuentes distintas.</td>
+      </tr>
+      <tr>
+        <td>No controlar el desbalance por país</td>
+        <td>Modelo dominado por los países con mayor cantidad de registros.</td>
+      </tr>
+      <tr>
+        <td>No distinguir redundancia de conflicto temático</td>
+        <td>Mezcla de registros confiables con registros que requieren revisión experta.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>11. Acciones recomendadas antes de continuar</h2>
+
+  <ol>
+    <li>No eliminar duplicados espaciales todavía.</li>
+    <li>Crear identificador de grupo por coordenada exacta.</li>
+    <li>Caracterizar cada grupo por fuente, año, país, clase y confiabilidad.</li>
+    <li>Separar grupos redundantes de grupos conflictivos.</li>
+    <li>Marcar casos de conflicto temático como prioridad de revisión.</li>
+    <li>Diseñar reglas para que entrenamiento, validación y prueba no compartan el mismo grupo espacial.</li>
+    <li>Usar el desbalance por país como insumo para el scoring de representatividad.</li>
+  </ol>
+
+  <h2>12. Criterio de cierre del Módulo 3</h2>
+
+  <p>El Módulo 3 puede considerarse cerrado porque ya permite responder con evidencia:</p>
+
+  <ul>
+    <li>La capa tiene CRS declarado y válido.</li>
+    <li>Los campos de coordenadas existen y son numéricos.</li>
+    <li>No hay coordenadas nulas, vacías ni fuera de rango.</li>
+    <li>La extensión espacial general es coherente con Mesoamérica.</li>
+    <li>Existe una duplicidad posicional muy alta.</li>
+    <li>La distribución por país está fuertemente desbalanceada.</li>
+    <li>Se requiere un submódulo de caracterización de multirregistros antes de usar la base para modelamiento.</li>
+  </ul>
+
+  <h2>13. Conclusión</h2>
+
+  <div class="critical">
+    <p>
+      El Módulo 3 no evidencia un problema grave de georreferenciación. Evidencia, más bien, un problema
+      metodológico de independencia espacial, redundancia y concentración muestral. Por ello, la base puede
+      continuar en el pipeline, pero no debe usarse directamente para entrenamiento, validación o prueba sin
+      controlar primero los grupos de coordenadas repetidas.
+    </p>
+  </div>
+
+  <div class="box">
+    <p>
+      Regla metodológica derivada:
+    </p>
+    <pre><code>Ninguna partición de entrenamiento, validación o prueba debe realizarse sin controlar primero los grupos de coordenadas repetidas.</code></pre>
+  </div>
+
+  <div class="footer">
+    Síntesis interpretativa generada para el proyecto PGBM - Actividad 1.
+  </div>
+
+</body>
+</html>
