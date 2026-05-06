@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Síntesis interpretativa - Módulo 3B | Multirregistros XY</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      margin: 40px auto;
+      max-width: 1180px;
+      color: #1f2933;
+      background-color: #ffffff;
+    }
+
+    h1, h2, h3 {
+      color: #174A7C;
+    }
+
+    h1 {
+      border-bottom: 4px solid #174A7C;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 6px;
+      margin-top: 36px;
+    }
+
+    h3 {
+      margin-top: 24px;
+    }
+
+    .subtitle {
+      color: #52616b;
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+    }
+
+    .box {
+      background-color: #f4f8fb;
+      border-left: 5px solid #174A7C;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .success {
+      background-color: #ecfdf5;
+      border-left: 5px solid #0f766e;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .warning {
+      background-color: #fff7ed;
+      border-left: 5px solid #ea580c;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .critical {
+      background-color: #fef2f2;
+      border-left: 5px solid #dc2626;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .note {
+      background-color: #f8fafc;
+      border-left: 5px solid #64748b;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background-color: #f3f4f6;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background-color: #f3f4f6;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #174A7C;
+      color: white;
+      text-align: left;
+      padding: 9px;
+    }
+
+    td {
+      border: 1px solid #d0d7de;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 22px 0;
+    }
+
+    .metric-card {
+      border: 1px solid #d0d7de;
+      border-radius: 10px;
+      padding: 16px;
+      background-color: #f8fafc;
+    }
+
+    .metric-card .value {
+      font-size: 1.55rem;
+      font-weight: bold;
+      color: #174A7C;
+      margin-bottom: 5px;
+    }
+
+    .metric-card .label {
+      font-size: 0.95rem;
+      color: #52616b;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 5px;
+      background: #e5eef7;
+      color: #174A7C;
+      font-size: 0.88rem;
+      font-weight: bold;
+      margin: 2px 0;
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding-top: 18px;
+      border-top: 1px solid #d0d7de;
+      font-size: 0.9rem;
+      color: #52616b;
+    }
+
+    @media print {
+      body {
+        margin: 20mm;
+        max-width: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Síntesis interpretativa - Módulo 3B</h1>
+  <p class="subtitle">
+    <strong>Caracterización de multirregistros espaciales XY</strong><br>
+    PGBM - Actividad 1: Diagnóstico regional de aptitud de fuentes y vacíos de información
+  </p>
+
+  <div class="box">
+    <p>
+      Este documento sintetiza e interpreta los resultados del <strong>Módulo 3B</strong>, cuyo propósito fue
+      caracterizar los grupos de coordenadas <code>Longitud-Latitud</code> generados a partir de la base regional
+      de puntos de control. A diferencia del Módulo 3, que identificó duplicados por coordenadas, este submódulo
+      analiza qué tipo de multirregistro existe en cada coordenada: coordenada única, multitemporalidad,
+      conflicto temático, redundancia simple o coincidencia entre fuentes.
+    </p>
+  </div>
+
+  <h2>1. Lectura ejecutiva</h2>
+
+  <div class="critical">
+    <p>
+      El resultado principal es que la duplicidad espacial de la base no corresponde principalmente a copias
+      simples. La mayor parte de los registros repetidos por coordenada se explica por dos fenómenos:
+      <strong>multitemporalidad</strong> y <strong>conflicto temático</strong>. Por tanto, no es metodológicamente
+      correcto eliminar duplicados automáticamente ni dejar una sola fila por coordenada sin reglas de decisión.
+    </p>
+  </div>
+
+  <div class="success">
+    <p>
+      El Módulo 3B logró consolidar la base en <strong>1,283,636 grupos XY únicos</strong>, equivalentes a
+      ubicaciones únicas. Esta tabla de grupos permite trabajar con unidades espaciales más robustas y evitar
+      que una misma coordenada se reparta entre entrenamiento, validación y prueba.
+    </p>
+  </div>
+
+  <h2>2. Indicadores principales</h2>
+
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="value">2,881,123</div>
+      <div class="label">Registros originales</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">1,283,636</div>
+      <div class="label">Grupos XY únicos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">524,839</div>
+      <div class="label">Grupos XY sin repetición</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">758,797</div>
+      <div class="label">Grupos XY repetidos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">2,356,284</div>
+      <div class="label">Registros en grupos repetidos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">1,597,487</div>
+      <div class="label">Exceso de registros repetidos</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">55.45 %</div>
+      <div class="label">Reducción si se conserva uno por XY</div>
+    </div>
+    <div class="metric-card">
+      <div class="value">38</div>
+      <div class="label">Máximo registros en una misma coordenada</div>
+    </div>
+  </div>
+
+  <h2>3. Qué significa pasar de filas a grupos XY</h2>
+
+  <p>
+    La base original tiene <strong>2,881,123 filas</strong>, pero no todas representan ubicaciones independientes.
+    Al agrupar por coordenada exacta, se obtienen <strong>1,283,636 ubicaciones únicas</strong>. Esto significa que
+    una parte importante del volumen original corresponde a registros adicionales localizados en coordenadas ya
+    existentes.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Valor</th>
+        <th>Interpretación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total de registros originales</td>
+        <td>2,881,123</td>
+        <td>Total de filas de la base antes de agrupar por coordenada.</td>
+      </tr>
+      <tr>
+        <td>Total de grupos XY únicos</td>
+        <td>1,283,636</td>
+        <td>Cantidad de coordenadas únicas <code>Longitud-Latitud</code>.</td>
+      </tr>
+      <tr>
+        <td>Grupos XY únicos sin repetición</td>
+        <td>524,839</td>
+        <td>Coordenadas que aparecen una sola vez.</td>
+      </tr>
+      <tr>
+        <td>Grupos XY repetidos</td>
+        <td>758,797</td>
+        <td>Coordenadas que tienen dos o más registros asociados.</td>
+      </tr>
+      <tr>
+        <td>Registros en grupos repetidos</td>
+        <td>2,356,284</td>
+        <td>Filas ubicadas en coordenadas repetidas.</td>
+      </tr>
+      <tr>
+        <td>Exceso de registros repetidos</td>
+        <td>1,597,487</td>
+        <td>Filas adicionales si se conservara solo una por coordenada repetida.</td>
+      </tr>
+      <tr>
+        <td><strong>Registros únicos XY finales</strong></td>
+        <td><strong>1,283,636</strong></td>
+        <td><strong>Ubicaciones únicas disponibles para análisis agrupado.</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <p>
+      El cálculo de reducción potencial es:
+    </p>
+    <pre><code>Reducción potencial = exceso de registros repetidos / total de registros originales
+
+Reducción potencial = 1,597,487 / 2,881,123 = 55.4467 %</code></pre>
+    <p>
+      Esta reducción no debe interpretarse como una recomendación de eliminación automática. Es una medida
+      diagnóstica de la magnitud de la repetición espacial.
+    </p>
+  </div>
+
+  <h2>4. Distribución por tipo de grupo XY</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo de grupo XY</th>
+        <th>Grupos</th>
+        <th>Registros</th>
+        <th>Exceso</th>
+        <th>% grupos</th>
+        <th>% registros</th>
+        <th>Interpretación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>multitemporal_xy</code></td>
+        <td>530,300</td>
+        <td>1,715,267</td>
+        <td>1,184,967</td>
+        <td>41.31 %</td>
+        <td>59.53 %</td>
+        <td>Misma coordenada, más de un año, sin cambio de clase en <code>Nivel_1</code> ni <code>Nivel_2</code> según la regla aplicada.</td>
+      </tr>
+      <tr>
+        <td><code>conflicto_tematico_xy</code></td>
+        <td>221,342</td>
+        <td>626,664</td>
+        <td>405,322</td>
+        <td>17.24 %</td>
+        <td>21.75 %</td>
+        <td>Misma coordenada con más de una clase temática en <code>Nivel_1</code> o <code>Nivel_2</code>.</td>
+      </tr>
+      <tr>
+        <td><code>xy_unico</code></td>
+        <td>524,839</td>
+        <td>524,839</td>
+        <td>0</td>
+        <td>40.89 %</td>
+        <td>18.22 %</td>
+        <td>Coordenadas con un solo registro; son los casos espacialmente más simples.</td>
+      </tr>
+      <tr>
+        <td><code>redundancia_misma_fuente_misma_clase</code></td>
+        <td>7,154</td>
+        <td>14,351</td>
+        <td>7,197</td>
+        <td>0.56 %</td>
+        <td>0.50 %</td>
+        <td>Repetición simple probable: misma fuente y misma clase en la misma coordenada.</td>
+      </tr>
+      <tr>
+        <td><code>coincidencia_fuentes_misma_clase</code></td>
+        <td>1</td>
+        <td>2</td>
+        <td>1</td>
+        <td>0.000078 %</td>
+        <td>0.000069 %</td>
+        <td>Caso casi inexistente bajo la jerarquía actual de clasificación.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="critical">
+    <p>
+      La lectura más importante es que <strong>81.29 % de los registros</strong> se concentran en dos categorías:
+      <code>multitemporal_xy</code> y <code>conflicto_tematico_xy</code>. Esto implica que el tratamiento de la
+      base debe combinar criterios temporales y temáticos, no solo espaciales.
+    </p>
+  </div>
+
+  <h2>5. Interpretación de las categorías principales</h2>
+
+  <h3>5.1 Grupos multitemporales</h3>
+
+  <p>
+    Los grupos <code>multitemporal_xy</code> son coordenadas observadas en más de un año, pero que mantienen una
+    sola clase temática en <code>Nivel_1</code> y una sola clase temática en <code>Nivel_2</code> según la jerarquía
+    de clasificación usada. En otras palabras, son sitios temporalmente repetidos pero temáticamente estables.
+  </p>
+
+  <div class="success">
+    <p>
+      Para una línea base 2020, estos grupos pueden ser valiosos si incluyen observaciones cercanas a 2020.
+      Si una coordenada aparece en varios años con la misma clase, puede ser una señal de estabilidad temática.
+      Sin embargo, deben controlarse para evitar sobre-representar una misma ubicación en el entrenamiento.
+    </p>
+  </div>
+
+  <h3>5.2 Conflictos temáticos</h3>
+
+  <p>
+    Los grupos <code>conflicto_tematico_xy</code> son más delicados. Indican que una misma coordenada tiene más
+    de una clase asociada en <code>Nivel_1</code> o <code>Nivel_2</code>. Esto puede deberse a errores de
+    homologación, diferencias entre fuentes, cambios reales en el tiempo, límites de clases o problemas de
+    interpretación.
+  </p>
+
+  <div class="warning">
+    <p>
+      Estos grupos no deben entrar directamente como muestras de entrenamiento confiables. Primero deben
+      revisarse o resolverse mediante reglas de prioridad temporal, jerarquía de fuentes, confiabilidad integrada
+      y coherencia temática.
+    </p>
+  </div>
+
+  <h3>5.3 Coordenadas únicas</h3>
+
+  <p>
+    Las coordenadas <code>xy_unico</code> representan el 40.89 % de los grupos, pero solo el 18.22 % de los
+    registros. Son las unidades más simples espacialmente, aunque aún deben evaluarse por año, fuente,
+    clase, país y confiabilidad antes de ser seleccionadas para entrenamiento o validación.
+  </p>
+
+  <h3>5.4 Redundancia simple</h3>
+
+  <p>
+    La redundancia simple es muy baja: apenas 0.50 % de los registros. Esto confirma que el problema de la base
+    no es principalmente de copias idénticas, sino de estructura temporal y temática compleja.
+  </p>
+
+  <h2>6. Distribución por tamaño de grupo XY</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tamaño del grupo</th>
+        <th>Grupos</th>
+        <th>Registros</th>
+        <th>Exceso</th>
+        <th>Lectura</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>524,839</td>
+        <td>524,839</td>
+        <td>0</td>
+        <td>Coordenadas sin repetición espacial.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>546,724</td>
+        <td>1,093,448</td>
+        <td>546,724</td>
+        <td>Duplicación de baja complejidad; requiere revisar si es temporal, temática o redundante.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>171,182</td>
+        <td>513,546</td>
+        <td>342,364</td>
+        <td>Grupos pequeños, pero con potencial de conflicto temporal o temático.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>529</td>
+        <td>2,116</td>
+        <td>1,587</td>
+        <td>Casos poco frecuentes.</td>
+      </tr>
+      <tr>
+        <td>6-10</td>
+        <td>107</td>
+        <td>648</td>
+        <td>541</td>
+        <td>Casos muy localizados que pueden requerir revisión puntual.</td>
+      </tr>
+      <tr>
+        <td>11-20</td>
+        <td>40,244</td>
+        <td>746,116</td>
+        <td>705,872</td>
+        <td>Grupo muy importante; probablemente asociado a series temporales sistemáticas.</td>
+      </tr>
+      <tr>
+        <td>&gt;20</td>
+        <td>11</td>
+        <td>410</td>
+        <td>399</td>
+        <td>Casos extremos; deben revisarse como prioridad.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <p>
+      El rango <strong>11-20 registros por coordenada</strong> concentra 746,116 registros. Esto sugiere que
+      una parte relevante de la base proviene de observaciones repetidas sistemáticamente en el tiempo, no de
+      duplicados accidentales.
+    </p>
+  </div>
+
+  <h2>7. Tipos de grupo XY por país</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>País o categoría</th>
+        <th>Patrón dominante</th>
+        <th>Interpretación</th>
+        <th>Acción recomendada</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Belice</td>
+        <td>Multitemporalidad extrema</td>
+        <td>371,336 registros multitemporales y 41,553 en conflicto temático.</td>
+        <td>Priorizar auditoría temporal respecto a 2020 y revisar conflictos de clase.</td>
+      </tr>
+      <tr>
+        <td>Costa Rica</td>
+        <td>Conflicto temático alto</td>
+        <td>240,583 registros en conflicto temático; patrón más temático que temporal.</td>
+        <td>Priorizar auditoría temática y reglas de resolución de etiquetas.</td>
+      </tr>
+      <tr>
+        <td>El Salvador</td>
+        <td>Multitemporalidad y conflicto</td>
+        <td>911,540 registros multitemporales y 296,233 en conflicto temático.</td>
+        <td>Definir reglas específicas por año, fuente, clase y confiabilidad.</td>
+      </tr>
+      <tr>
+        <td>Guatemala</td>
+        <td>Predominio de coordenadas únicas</td>
+        <td>216,221 registros únicos; menor complejidad espacial relativa.</td>
+        <td>Evaluar directamente balance de clases, año y cobertura temática.</td>
+      </tr>
+      <tr>
+        <td>Honduras</td>
+        <td>Multitemporalidad densa</td>
+        <td>304,340 registros multitemporales y 119,071 únicos.</td>
+        <td>Controlar el peso de grupos multitemporales en entrenamiento.</td>
+      </tr>
+      <tr>
+        <td>México</td>
+        <td>Coordenadas mayoritariamente únicas</td>
+        <td>9,919 registros únicos; bajo volumen regional.</td>
+        <td>Revisar representatividad y posible vacío territorial.</td>
+      </tr>
+      <tr>
+        <td>Nicaragua</td>
+        <td>Coordenadas únicas con muy bajo volumen</td>
+        <td>1,813 registros únicos y solo 72 multitemporales.</td>
+        <td>Marcar como país con posible vacío crítico de datos.</td>
+      </tr>
+      <tr>
+        <td>Panamá</td>
+        <td>Coordenadas únicas</td>
+        <td>39,818 registros únicos.</td>
+        <td>Revisar balance temático y cobertura por clases.</td>
+      </tr>
+      <tr>
+        <td>Multipaís o inconsistente</td>
+        <td>Inconsistencia geográfica</td>
+        <td>Hay grupos XY con más de un país asociado.</td>
+        <td>Revisión prioritaria mediante cruce con límites nacionales.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning">
+    <p>
+      La distribución por país muestra que no conviene aplicar una regla única regional. El Salvador, Belice
+      y Honduras requieren énfasis temporal; Costa Rica requiere énfasis temático; Guatemala, Panamá, México
+      y Nicaragua requieren evaluación de representatividad y vacíos.
+    </p>
+  </div>
+
+  <h2>8. Principales grupos con conflicto temático</h2>
+
+  <p>
+    Los principales conflictos temáticos reportados aparecen con grupos de hasta <strong>38 registros</strong>,
+    hasta <strong>19 años distintos</strong> y variación en <code>Nivel_1</code> o <code>Nivel_2</code>.
+    En los primeros casos listados, muchos grupos pertenecen a Belice y cubren periodos como 2000-2018.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Patrón observado</th>
+        <th>Implicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Una fuente, varios años y más de una clase</td>
+        <td>Puede indicar cambio temporal real, inconsistencia de clasificación o problema de homologación.</td>
+      </tr>
+      <tr>
+        <td>Alta cantidad de años distintos</td>
+        <td>Debe cruzarse con año objetivo 2020 antes de decidir aptitud.</td>
+      </tr>
+      <tr>
+        <td>Confianza integrada variable</td>
+        <td>La resolución del conflicto debería considerar confiabilidad mínima, máxima y promedio.</td>
+      </tr>
+      <tr>
+        <td>Conflictos concentrados espacialmente</td>
+        <td>Puede haber zonas, fuentes o clases específicas que requieran revisión experta.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="critical">
+    <p>
+      Un conflicto temático no significa automáticamente que el grupo sea inutilizable. Sin embargo, sí significa
+      que no debe usarse como muestra directa de entrenamiento hasta resolver qué clase representa mejor la
+      condición del punto para el año objetivo o para el propósito analítico.
+    </p>
+  </div>
+
+  <h2>9. Principales grupos multitemporales</h2>
+
+  <p>
+    Los principales grupos multitemporales tienen hasta <strong>38 registros</strong>, hasta <strong>19 años</strong>
+    y una sola clase en <code>Nivel_1</code> y <code>Nivel_2</code>. Esto indica estabilidad temática según la
+    leyenda armonizada, aunque no necesariamente igualdad completa en todos los atributos.
+  </p>
+
+  <div class="success">
+    <p>
+      Estos grupos pueden convertirse en registros de alta utilidad si se confirma que incluyen observaciones
+      cercanas al año 2020 y que la clase se mantiene estable. En una estrategia de selección, podrían recibir
+      mayor aptitud que registros únicos de baja confiabilidad, siempre que no generen sobre-representación
+      espacial.
+    </p>
+  </div>
+
+  <h2>10. Implicaciones para entrenamiento, validación y prueba</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Situación</th>
+        <th>Riesgo si no se controla</th>
+        <th>Regla recomendada</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Varios registros en la misma coordenada</td>
+        <td>Fuga de información entre entrenamiento y validación.</td>
+        <td>Particionar por <code>xy_group_id</code>, no por fila.</td>
+      </tr>
+      <tr>
+        <td>Grupos multitemporales densos</td>
+        <td>Sobre-representación de sitios con muchas observaciones.</td>
+        <td>Seleccionar un representante o ponderar por grupo XY.</td>
+      </tr>
+      <tr>
+        <td>Conflictos temáticos</td>
+        <td>Ruido de etiqueta y aprendizaje contradictorio.</td>
+        <td>Excluir temporalmente o enviar a revisión/resolución.</td>
+      </tr>
+      <tr>
+        <td>Redundancia simple</td>
+        <td>Inflar artificialmente el tamaño muestral.</td>
+        <td>Consolidar o conservar el registro de mayor confiabilidad.</td>
+      </tr>
+      <tr>
+        <td>Países con baja representación</td>
+        <td>Modelo regional sesgado hacia países con muchos datos.</td>
+        <td>Aplicar balance territorial o identificar vacíos críticos.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>11. Reglas preliminares de aptitud sugeridas</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Condición</th>
+        <th>Aptitud preliminar</th>
+        <th>Uso recomendado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>xy_unico</code> + año 2020 + clase válida + confiabilidad alta</td>
+        <td>Alta</td>
+        <td>Candidato directo para entrenamiento o validación, según balance.</td>
+      </tr>
+      <tr>
+        <td><code>multitemporal_xy</code> + incluye 2020 + misma clase</td>
+        <td>Alta o media-alta</td>
+        <td>Candidato robusto por estabilidad temporal.</td>
+      </tr>
+      <tr>
+        <td><code>multitemporal_xy</code> sin 2020 pero cercano temporalmente</td>
+        <td>Media</td>
+        <td>Uso condicionado a fuente, clase y distancia temporal.</td>
+      </tr>
+      <tr>
+        <td><code>conflicto_tematico_xy</code></td>
+        <td>Baja temporalmente</td>
+        <td>Revisión prioritaria antes de uso como etiqueta confiable.</td>
+      </tr>
+      <tr>
+        <td><code>redundancia_misma_fuente_misma_clase</code></td>
+        <td>Media-alta si la confiabilidad es adecuada</td>
+        <td>Consolidar y conservar un representante.</td>
+      </tr>
+      <tr>
+        <td><code>multipais_o_inconsistente</code></td>
+        <td>Baja hasta revisión</td>
+        <td>Cruzar con límites nacionales antes de usar.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>12. Recomendaciones operativas</h2>
+
+  <ol>
+    <li>No eliminar duplicados espaciales automáticamente.</li>
+    <li>Usar <code>xy_group_id</code> como unidad mínima para partición de entrenamiento, validación y prueba.</li>
+    <li>Ejecutar el Módulo 4 de auditoría temporal antes de definir aptitud definitiva.</li>
+    <li>Crear reglas para seleccionar el registro más adecuado dentro de cada grupo XY.</li>
+    <li>Marcar <code>conflicto_tematico_xy</code> como prioridad de revisión temática.</li>
+    <li>Evaluar si grupos multitemporales incluyen el año objetivo 2020 o años cercanos.</li>
+    <li>Construir una matriz de aptitud que combine temporalidad, clase, fuente, país y confiabilidad.</li>
+    <li>Generar reportes específicos por país para Costa Rica, El Salvador, Belice y Honduras.</li>
+    <li>Validar la categoría <code>multipais_o_inconsistente</code> mediante cruce con límites nacionales.</li>
+  </ol>
+
+  <h2>13. Relación con el siguiente módulo</h2>
+
+  <p>
+    Los resultados del Módulo 3B justifican directamente el <strong>Módulo 4: auditoría temporal</strong>.
+    Dado que <code>multitemporal_xy</code> concentra 1,715,267 registros y que varios conflictos temáticos
+    también involucran múltiples años, el siguiente paso debe evaluar:
+  </p>
+
+  <ul>
+    <li>cuántos registros corresponden exactamente a 2020;</li>
+    <li>cuántos están dentro de una ventana cercana a 2020;</li>
+    <li>qué países y fuentes concentran registros temporalmente relevantes;</li>
+    <li>qué grupos multitemporales incluyen o no el año objetivo;</li>
+    <li>cómo se distribuye la temporalidad por clase temática.</li>
+  </ul>
+
+  <div class="box">
+    <p>
+      Decisión metodológica recomendada:
+    </p>
+    <pre><code>Avanzar al Módulo 4 antes de cualquier depuración, selección de muestras o scoring definitivo.</code></pre>
+  </div>
+
+  <h2>14. Conclusión</h2>
+
+  <div class="critical">
+    <p>
+      El Módulo 3B confirma que la base es potencialmente muy útil, pero no está lista para ser usada
+      directamente como conjunto de entrenamiento. La estructura de multirregistros está dominada por
+      estabilidad temporal de clases y por conflictos temáticos. Por ello, la depuración debe realizarse mediante
+      reglas explícitas y reproducibles, no mediante eliminación simple de duplicados.
+    </p>
+  </div>
+
+  <div class="box">
+    <p>
+      Regla operativa central:
+    </p>
+    <pre><code>Toda partición de entrenamiento, validación y prueba debe hacerse a nivel de grupo XY, no a nivel de fila individual.</code></pre>
+  </div>
+
+  <div class="footer">
+    Síntesis interpretativa generada para el proyecto PGBM - Actividad 1. Documento basado en el reporte del Módulo 3B:
+    <code>outputs/reports/03b_caracterizacion_multirregistros_xy.md</code>.
+  </div>
+
+</body>
+</html>
