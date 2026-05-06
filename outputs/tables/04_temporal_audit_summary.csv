@@ -1,0 +1,2 @@
+﻿gpkg_path,table_name,total_registros,year_field,target_year,near_window_years,min_plausible_year,max_plausible_year,n_anio_null,n_anio_vacio,n_anio_fuera_rango_plausible,anio_min_observado,anio_max_observado,n_anios_distintos
+/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/GeoPackage_puntos_control_mesoamerica.gpkg,Puntos_control_mesoamerica,2881123,Año,2020,2,1980,2026,0,0,0,2000,2022,23

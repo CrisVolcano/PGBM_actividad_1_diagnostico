@@ -1,0 +1,71 @@
+﻿pais,fuente,n_registros,anio_min,anio_max,n_anios_distintos
+Belice,FCPF - Malla MRV-REDD+ Belize ,412927,2000,2018,19
+Belice,FOREST DEPARTMENT - Cultivos - Mapa Belize,11585,2018,2018,1
+Belice,"Muestras de Entrenamiento de Jimenez, 2020 - Belice",2408,2017,2017,1
+Belice,MAGA - Cultivos - Mapa Guatemala,6,2020,2020,1
+Costa Rica,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,316785,2005,2018,5
+Costa Rica,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",99756,2021,2021,1
+Costa Rica,ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,31172,2012,2018,2
+Costa Rica,CENAT/PRIAS - Cultivos - Costa Rica,22219,2019,2019,1
+Costa Rica,"Muestras de Entrenamiento de Jimenez, 2020 - Costa Rica",7854,2017,2017,1
+Costa Rica,SINAC-CCAD/GIZ - Inventario Forestal Costa Rica,276,2014,2014,1
+Costa Rica,FAO - Evaluación Nacional Forestal Costa Rica,35,2001,2001,1
+Costa Rica,SINA-CCAD/GIZ - Inventario Forestal Piloto Terraba-Sierpe Costa Rica,30,2016,2016,1
+Costa Rica,"Muestras de Entrenamiento de Jimenez, 2020 - Panamá",8,2017,2017,1
+Costa Rica,MIAMBIENTE - Cultivos Mapa Panamá,6,2021,2021,1
+El Salvador,FCPF - Malla MRV-REDD+ El Salvador,1012034,2000,2018,2
+El Salvador,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,197043,2001,2018,3
+El Salvador,"Muestras de Entrenamiento de Jimenez, 2020 - El Salvador",6166,2017,2017,1
+El Salvador,MARN-MAG/FCPF - Inventario Forestal El Salvador,318,2018,2018,1
+El Salvador,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,112,2019,2019,1
+El Salvador,MAG - Inventario Forestal Preliminar Piloto El Salvador,70,2003,2004,2
+El Salvador,FCPF - Malla MRV-REDD+ Honduras,18,2005,2022,18
+El Salvador,MAGA - Cultivos - Mapa Guatemala,7,2020,2020,1
+El Salvador,FCPF - Malla MRV-REDD+ Guatemala,4,2006,2016,2
+El Salvador,"Muestras de Entrenamiento de Jimenez, 2020 - Honduras",1,2017,2017,1
+Guatemala,MAGA - Cultivos - Mapa Guatemala,206856,2020,2020,1
+Guatemala,FCPF - Malla MRV-REDD+ Guatemala,22728,2006,2016,2
+Guatemala,"Muestras de Entrenamiento de Jimenez, 2020 - Guatemala",6786,2017,2017,1
+Guatemala,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,2267,2018,2019,2
+Guatemala,FCPF - Malla MRV-REDD+ El Salvador,870,2000,2018,2
+Guatemala,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,333,2001,2018,3
+Guatemala,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,250,2019,2019,1
+Guatemala,FAO - Evaluación Nacional Forestal Guatemala,100,2002,2003,2
+Guatemala,FCPF - Malla MRV-REDD+ Belize ,76,2000,2018,19
+Guatemala,INAB-CCAD/GIZ- Inventario Bosque Municipal Olintepeque,54,2014,2015,2
+Guatemala,ICF - Cultivos - Mapa Honduras,15,2018,2018,1
+Guatemala,"Muestras de Entrenamiento de Jimenez, 2020 - El Salvador",4,2017,2017,1
+Honduras,FCPF - Malla MRV-REDD+ Honduras,333360,2005,2022,18
+Honduras,ICF - Cultivos - Mapa Honduras,106393,2018,2018,1
+Honduras,FCPF - Malla MRV-REDD+ El Salvador,15568,2000,2018,2
+Honduras,"Muestras de Entrenamiento de Jimenez, 2020 - Honduras",12497,2017,2017,1
+Honduras,FAO - Evaluación Nacional Forestal Honduras,153,2005,2005,1
+Honduras,"Muestras de Entrenamiento de Jimenez, 2020 - El Salvador",51,2017,2017,1
+Honduras,MAGA - Cultivos - Mapa Guatemala,18,2020,2020,1
+México,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",3150,2015,2019,5
+México,"CONAFOR -Inventario Forestal Estado Campeche, México",2693,2015,2019,5
+México,"CONAFOR -Inventario Forestal Estado Yucatán, México",1974,2015,2019,5
+México,"CONAFOR -Inventario Forestal Estado Chiapas, , México",1818,2015,2019,5
+México,"CONAFOR -Inventario Forestal Estado Tabasco, México",334,2015,2019,4
+México,MAGA - Cultivos - Mapa Guatemala,63,2020,2020,1
+México,FCPF - Malla MRV-REDD+ Guatemala,34,2006,2016,2
+México,FCPF - Malla MRV-REDD+ Belize ,19,2000,2018,19
+Nicaragua,"Muestras de Entrenamiento de Jimenez, 2020 - Nicaragua",1490,2017,2017,1
+Nicaragua,FAO - Evaluación Nacional Forestal  Nicaragua,320,2007,2007,1
+Nicaragua,FCPF - Malla MRV-REDD+ Honduras,126,2005,2022,18
+Nicaragua,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",25,2021,2021,1
+Nicaragua,ICF - Cultivos - Mapa Honduras,8,2018,2018,1
+Nicaragua,"Muestras de Entrenamiento de Jimenez, 2020 - Honduras",2,2017,2017,1
+Nicaragua,CENAT/PRIAS - Cultivos - Costa Rica,1,2019,2019,1
+Panamá,MIAMBIENTE - Cultivos Mapa Panamá,24469,2021,2021,1
+Panamá,"Muestras de Entrenamiento de Jimenez, 2020 - Panamá",10425,2017,2017,1
+Panamá,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,4716,2021,2021,1
+Panamá,ACP-CCAD/GIZ - Inventario Forestal Complemento Piloto Panamá,73,2016,2016,1
+Panamá,ACP-CCAD/GIZ - Inventario de Bosque Natural Piloto Panamá,49,2015,2015,1
+Panamá,ACP-CCAD/GIZ - Inventario Forestal Piloto Panamá,37,2014,2014,1
+Panamá,MIAMBIENTE/ONUREDD - Inventario Forestal Panamá,36,2015,2015,1
+Panamá,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",22,2021,2021,1
+Panamá,ACP-CCAD/GIZ - Inventario de Matorrales Piloto Panamá,10,2016,2016,1
+Panamá,ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,4,2018,2018,1
+Panamá,CENAT/PRIAS - Cultivos - Costa Rica,4,2019,2019,1
+Panamá,"Muestras de Entrenamiento de Jimenez, 2020 - Costa Rica",2,2017,2017,1

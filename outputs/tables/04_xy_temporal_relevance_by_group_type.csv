@@ -1,0 +1,13 @@
+﻿tipo_grupo_xy,relacion_rango_con_anio_objetivo,n_grupos,n_registros,promedio_n_anios,anio_min_global,anio_max_global
+coincidencia_fuentes_misma_clase,rango_anterior_anio_objetivo,1,2,1.0,2019,2019
+conflicto_tematico_xy,rango_anterior_anio_objetivo,216849,580350,2.674801359471337,2000,2018
+conflicto_tematico_xy,rango_incluye_anio_objetivo,2333,41994,18.0,2005,2022
+conflicto_tematico_xy,rango_posterior_anio_objetivo,2160,4320,1.0,2021,2021
+multitemporal_xy,rango_anterior_anio_objetivo,514109,1423757,2.767109698526966,2000,2018
+multitemporal_xy,rango_incluye_anio_objetivo,16191,291510,18.0,2005,2022
+redundancia_misma_fuente_misma_clase,rango_posterior_anio_objetivo,7020,14040,1.0,2021,2021
+redundancia_misma_fuente_misma_clase,rango_incluye_anio_objetivo,72,186,1.0,2020,2020
+redundancia_misma_fuente_misma_clase,rango_anterior_anio_objetivo,62,125,1.0,2002,2019
+xy_unico,rango_anterior_anio_objetivo,207441,207441,1.0,2001,2019
+xy_unico,rango_incluye_anio_objetivo,206764,206764,1.0,2020,2020
+xy_unico,rango_posterior_anio_objetivo,110634,110634,1.0,2021,2021

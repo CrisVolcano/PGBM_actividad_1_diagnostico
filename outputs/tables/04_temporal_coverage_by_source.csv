@@ -1,0 +1,44 @@
+﻿group_field,grupo,n_registros,anio_min,anio_max,n_anios_distintos
+Fuente,FCPF - Malla MRV-REDD+ El Salvador,1028472,2000,2018,2
+Fuente,FCPF - Malla MRV-REDD+ Belize ,413022,2000,2018,19
+Fuente,FCPF - Malla MRV-REDD+ Honduras,333504,2005,2022,18
+Fuente,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,316785,2005,2018,5
+Fuente,MAGA - Cultivos - Mapa Guatemala,206950,2020,2020,1
+Fuente,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,197376,2001,2018,3
+Fuente,ICF - Cultivos - Mapa Honduras,106416,2018,2018,1
+Fuente,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",99803,2021,2021,1
+Fuente,ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,31176,2012,2018,2
+Fuente,MIAMBIENTE - Cultivos Mapa Panamá,24475,2021,2021,1
+Fuente,FCPF - Malla MRV-REDD+ Guatemala,22766,2006,2016,2
+Fuente,CENAT/PRIAS - Cultivos - Costa Rica,22224,2019,2019,1
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Honduras",12500,2017,2017,1
+Fuente,FOREST DEPARTMENT - Cultivos - Mapa Belize,11585,2018,2018,1
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Panamá",10433,2017,2017,1
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Costa Rica",7856,2017,2017,1
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Guatemala",6786,2017,2017,1
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - El Salvador",6221,2017,2017,1
+Fuente,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,4716,2021,2021,1
+Fuente,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",3150,2015,2019,5
+Fuente,"CONAFOR -Inventario Forestal Estado Campeche, México",2693,2015,2019,5
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Belice",2408,2017,2017,1
+Fuente,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,2267,2018,2019,2
+Fuente,"CONAFOR -Inventario Forestal Estado Yucatán, México",1974,2015,2019,5
+Fuente,"CONAFOR -Inventario Forestal Estado Chiapas, , México",1818,2015,2019,5
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Nicaragua",1490,2017,2017,1
+Fuente,"CONAFOR -Inventario Forestal Estado Tabasco, México",334,2015,2019,4
+Fuente,FAO - Evaluación Nacional Forestal  Nicaragua,320,2007,2007,1
+Fuente,MARN-MAG/FCPF - Inventario Forestal El Salvador,318,2018,2018,1
+Fuente,SINAC-CCAD/GIZ - Inventario Forestal Costa Rica,276,2014,2014,1
+Fuente,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,250,2019,2019,1
+Fuente,FAO - Evaluación Nacional Forestal Honduras,153,2005,2005,1
+Fuente,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,112,2019,2019,1
+Fuente,FAO - Evaluación Nacional Forestal Guatemala,100,2002,2003,2
+Fuente,ACP-CCAD/GIZ - Inventario Forestal Complemento Piloto Panamá,73,2016,2016,1
+Fuente,MAG - Inventario Forestal Preliminar Piloto El Salvador,70,2003,2004,2
+Fuente,INAB-CCAD/GIZ- Inventario Bosque Municipal Olintepeque,54,2014,2015,2
+Fuente,ACP-CCAD/GIZ - Inventario de Bosque Natural Piloto Panamá,49,2015,2015,1
+Fuente,ACP-CCAD/GIZ - Inventario Forestal Piloto Panamá,37,2014,2014,1
+Fuente,MIAMBIENTE/ONUREDD - Inventario Forestal Panamá,36,2015,2015,1
+Fuente,FAO - Evaluación Nacional Forestal Costa Rica,35,2001,2001,1
+Fuente,SINA-CCAD/GIZ - Inventario Forestal Piloto Terraba-Sierpe Costa Rica,30,2016,2016,1
+Fuente,ACP-CCAD/GIZ - Inventario de Matorrales Piloto Panamá,10,2016,2016,1
