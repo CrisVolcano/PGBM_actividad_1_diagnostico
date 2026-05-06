@@ -1,0 +1,63 @@
+# ============================================================
+# Diccionario preliminar de campos esperados
+# PGBM - Actividad 1
+# ============================================================
+
+identificacion:
+  - Id
+  - Id_Origen
+
+fuente_temporalidad:
+  - id_fuente
+  - Fuente
+  - Tipo
+  - Detalle_Tipo
+  - Año
+
+clasificacion:
+  - Uso_Origen
+  - Subuso_Origen
+  - id_0
+  - Nivel_0
+  - id_cob_niv1
+  - Nivel_1
+  - id_cob_niv2
+  - Nivel_2
+
+localizacion:
+  - Longitud
+  - Latitud
+  - Pais_cod3
+  - Pais_es
+  - Admin1_id
+  - Admin1name
+  - Admin2_id
+  - Admin2name
+  - GBM_Nivel1
+  - GBM_Nivel2
+
+variables_auxiliares:
+  - Cobertura
+  - Altura
+  - NDVI
+  - Deforesta
+  - conf_ndvi
+  - conf_cobertura
+  - conf_altura
+  - conf_integrada
+  - Forest20
+  - WorldCov21
+
+geometria:
+  - geom
+  - geometry
+
+campos_criticos_minimos:
+  - Id
+  - Fuente
+  - Tipo
+  - Año
+  - Pais_es
+  - Nivel_0
+  - Nivel_1
+  - Nivel_2

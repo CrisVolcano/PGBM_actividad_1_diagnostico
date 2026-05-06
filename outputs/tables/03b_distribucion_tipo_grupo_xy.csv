@@ -1,0 +1,6 @@
+﻿tipo_grupo_xy,n_grupos,n_registros,exceso_registros,pct_grupos,pct_registros
+multitemporal_xy,530300,1715267,1184967,41.312335,59.534668
+conflicto_tematico_xy,221342,626664,405322,17.243362,21.750685
+xy_unico,524839,524839,0,40.886903,18.216473
+redundancia_misma_fuente_misma_clase,7154,14351,7197,0.557323,0.498104
+coincidencia_fuentes_misma_clase,1,2,1,7.8e-05,6.9e-05

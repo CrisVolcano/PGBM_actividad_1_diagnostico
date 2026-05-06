@@ -1,0 +1,28 @@
+﻿pais_grupo,tipo_grupo_xy,n_grupos,n_registros,exceso_registros
+Belice,multitemporal_xy,19540,371336,351796
+Belice,conflicto_tematico_xy,2186,41553,39367
+Belice,xy_unico,13993,13993,0
+Costa Rica,conflicto_tematico_xy,80915,240583,159668
+Costa Rica,xy_unico,117343,117343,0
+Costa Rica,multitemporal_xy,39679,106208,66529
+Costa Rica,redundancia_misma_fuente_misma_clase,6977,13954,6977
+El Salvador,multitemporal_xy,438175,911540,473365
+El Salvador,conflicto_tematico_xy,132923,296233,163310
+El Salvador,xy_unico,6661,6661,0
+Guatemala,xy_unico,216221,216221,0
+Guatemala,multitemporal_xy,9708,19452,9744
+Guatemala,conflicto_tematico_xy,1879,3765,1886
+Guatemala,redundancia_misma_fuente_misma_clase,1,2,1
+Honduras,multitemporal_xy,22706,304340,281634
+Honduras,xy_unico,119071,119071,0
+Honduras,conflicto_tematico_xy,3304,43936,40632
+México,xy_unico,9919,9919,0
+México,redundancia_misma_fuente_misma_clase,24,49,25
+México,multitemporal_xy,6,29,23
+México,coincidencia_fuentes_misma_clase,1,2,1
+Nicaragua,xy_unico,1813,1813,0
+Nicaragua,multitemporal_xy,4,72,68
+Panamá,xy_unico,39818,39818,0
+multipais_o_inconsistente,multitemporal_xy,482,2290,1808
+multipais_o_inconsistente,conflicto_tematico_xy,135,594,459
+multipais_o_inconsistente,redundancia_misma_fuente_misma_clase,152,346,194

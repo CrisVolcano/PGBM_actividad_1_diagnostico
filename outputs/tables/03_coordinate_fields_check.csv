@@ -1,0 +1,3 @@
+﻿rol,field_name,presente,sqlite_type
+longitud,Longitud,True,DOUBLE
+latitud,Latitud,True,DOUBLE

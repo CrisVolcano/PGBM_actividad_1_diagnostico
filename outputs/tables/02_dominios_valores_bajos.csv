@@ -1,0 +1,425 @@
+﻿field_name,valor,n
+id_fuente,16,1028472
+id_fuente,1,413022
+id_fuente,3,333504
+id_fuente,4,316785
+id_fuente,14,206950
+id_fuente,5,197376
+id_fuente,13,106416
+id_fuente,10,99803
+id_fuente,36,31176
+id_fuente,15,24475
+id_fuente,2,22766
+id_fuente,11,22224
+id_fuente,40,12500
+id_fuente,12,11585
+id_fuente,43,10433
+id_fuente,42,7856
+id_fuente,9,6786
+id_fuente,39,6221
+id_fuente,37,4716
+id_fuente,33,3150
+id_fuente,31,2693
+id_fuente,38,2408
+id_fuente,6,2267
+id_fuente,35,1974
+id_fuente,32,1818
+id_fuente,41,1490
+id_fuente,34,334
+id_fuente,25,320
+id_fuente,20,318
+id_fuente,17,276
+id_fuente,8,250
+id_fuente,24,153
+id_fuente,7,112
+id_fuente,23,100
+id_fuente,29,73
+id_fuente,21,70
+id_fuente,22,54
+id_fuente,28,49
+id_fuente,30,37
+id_fuente,26,36
+id_fuente,18,35
+id_fuente,19,30
+id_fuente,27,10
+Fuente,FCPF - Malla MRV-REDD+ El Salvador,1028472
+Fuente,FCPF - Malla MRV-REDD+ Belize ,413022
+Fuente,FCPF - Malla MRV-REDD+ Honduras,333504
+Fuente,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,316785
+Fuente,MAGA - Cultivos - Mapa Guatemala,206950
+Fuente,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,197376
+Fuente,ICF - Cultivos - Mapa Honduras,106416
+Fuente,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",99803
+Fuente,ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,31176
+Fuente,MIAMBIENTE - Cultivos Mapa Panamá,24475
+Fuente,FCPF - Malla MRV-REDD+ Guatemala,22766
+Fuente,CENAT/PRIAS - Cultivos - Costa Rica,22224
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Honduras",12500
+Fuente,FOREST DEPARTMENT - Cultivos - Mapa Belize,11585
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Panamá",10433
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Costa Rica",7856
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Guatemala",6786
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - El Salvador",6221
+Fuente,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,4716
+Fuente,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",3150
+Fuente,"CONAFOR -Inventario Forestal Estado Campeche, México",2693
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Belice",2408
+Fuente,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,2267
+Fuente,"CONAFOR -Inventario Forestal Estado Yucatán, México",1974
+Fuente,"CONAFOR -Inventario Forestal Estado Chiapas, , México",1818
+Fuente,"Muestras de Entrenamiento de Jimenez, 2020 - Nicaragua",1490
+Fuente,"CONAFOR -Inventario Forestal Estado Tabasco, México",334
+Fuente,FAO - Evaluación Nacional Forestal  Nicaragua,320
+Fuente,MARN-MAG/FCPF - Inventario Forestal El Salvador,318
+Fuente,SINAC-CCAD/GIZ - Inventario Forestal Costa Rica,276
+Fuente,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,250
+Fuente,FAO - Evaluación Nacional Forestal Honduras,153
+Fuente,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,112
+Fuente,FAO - Evaluación Nacional Forestal Guatemala,100
+Fuente,ACP-CCAD/GIZ - Inventario Forestal Complemento Piloto Panamá,73
+Fuente,MAG - Inventario Forestal Preliminar Piloto El Salvador,70
+Fuente,INAB-CCAD/GIZ- Inventario Bosque Municipal Olintepeque,54
+Fuente,ACP-CCAD/GIZ - Inventario de Bosque Natural Piloto Panamá,49
+Fuente,ACP-CCAD/GIZ - Inventario Forestal Piloto Panamá,37
+Fuente,MIAMBIENTE/ONUREDD - Inventario Forestal Panamá,36
+Fuente,FAO - Evaluación Nacional Forestal Costa Rica,35
+Fuente,SINA-CCAD/GIZ - Inventario Forestal Piloto Terraba-Sierpe Costa Rica,30
+Fuente,ACP-CCAD/GIZ - Inventario de Matorrales Piloto Panamá,10
+Nivel_2,410 Bosque latifoliado y mixto ,511603
+Nivel_2,332 Pastizales naturales y cultivados,346197
+Nivel_2,321 Café,317678
+Nivel_2,315 Otros cultivos intensivos no arbóreos,246132
+Nivel_2,411 Latifoliado maduro húmedo,240046
+Nivel_2,333 Matorrales (barbecho o en descanso),197248
+Nivel_2,313 Caña de azúcar,135835
+Nivel_2,331 Granos básicos y hortalizas  y otros,90730
+Nivel_2,311 Palma aceitera,87428
+Nivel_2,443  Árboles fuera de bosque y otras áreas naturales,83868
+Nivel_2,420 Bosque de coníferas,78256
+Nivel_2,910 Otras,73010
+Nivel_2,412 Latifoliado secundario húmedo,67901
+Nivel_2,325 Otros sistemas agroforestales o silvopastoriles,52389
+Nivel_2,430 Manglares,39344
+Nivel_2,220 Humedales,34882
+Nivel_2,112 Urbano discontinuo,33607
+Nivel_2,414 Bosque seco o deciduo,30636
+Nivel_2,110 Urbano,29798
+Nivel_2,423 Sabanas de pino,28933
+Nivel_2,111 Urbano continuo,23065
+Nivel_2,324 Hule,22718
+Nivel_2,312 Bananeras,17402
+Nivel_2,413 Bosque Mixto (Lat-Coniferas),17078
+Nivel_2,323 Frutales,13865
+Nivel_2,314 Piña,13466
+Nivel_2,210 Cuerpos de Agua,12291
+Nivel_2,444 Regeneración forestal,9673
+Nivel_2,"122 Suelo desnudo, arena, rocoso, lava, otros",6987
+Nivel_2,442 Plantaciones forestales,6776
+Nivel_2,121 Otros artificializado,6164
+Nivel_2,421 Coníferas denso,2593
+Nivel_2,441 Masa arbórea ribereña,917
+Nivel_2,212 Cuerpos de agua artificial,892
+Nivel_2,322 Cacao,620
+Nivel_2,422 Coníferas ralo,439
+Nivel_2,211 Cuerpos de agua natural,406
+Nivel_2,431 Manglar alto,194
+Nivel_2,445 Bosque de Palmas,48
+Nivel_2,432 Manglar bajo,8
+Altura,0,1059889
+Altura,1,195154
+Altura,2,129295
+Altura,3,110947
+Altura,4,99944
+Altura,5,92965
+Altura,6,90270
+Altura,7,87254
+Altura,8,85211
+Altura,9,84527
+Altura,10,83849
+Altura,11,81738
+Altura,12,79668
+Altura,13,77859
+Altura,14,74708
+Altura,15,70315
+Altura,16,65015
+Altura,17,59912
+Altura,18,53413
+Altura,19,45598
+Altura,20,39668
+Altura,21,31847
+Altura,22,26492
+Altura,23,19961
+Altura,24,14350
+Altura,25,9287
+Altura,26,5451
+Altura,27,3121
+Altura,28,1590
+Altura,29,957
+Altura,30,381
+Altura,31,238
+Altura,32,160
+Altura,33,43
+Altura,34,34
+Altura,35,7
+Altura,36,2
+Altura,46,1
+Altura,39,1
+Altura,37,1
+id_cob_niv2,410,511603
+id_cob_niv2,332,346197
+id_cob_niv2,321,317678
+id_cob_niv2,315,246132
+id_cob_niv2,411,240046
+id_cob_niv2,333,197248
+id_cob_niv2,313,135835
+id_cob_niv2,331,90730
+id_cob_niv2,311,87428
+id_cob_niv2,443,83868
+id_cob_niv2,420,78256
+id_cob_niv2,910,73010
+id_cob_niv2,412,67901
+id_cob_niv2,325,52389
+id_cob_niv2,430,39344
+id_cob_niv2,220,34882
+id_cob_niv2,112,33607
+id_cob_niv2,414,30636
+id_cob_niv2,110,29798
+id_cob_niv2,423,28933
+id_cob_niv2,111,23065
+id_cob_niv2,324,22718
+id_cob_niv2,312,17402
+id_cob_niv2,413,17078
+id_cob_niv2,323,13865
+id_cob_niv2,314,13466
+id_cob_niv2,210,12291
+id_cob_niv2,444,9673
+id_cob_niv2,122,6987
+id_cob_niv2,442,6776
+id_cob_niv2,121,6164
+id_cob_niv2,421,2593
+id_cob_niv2,441,917
+id_cob_niv2,212,892
+id_cob_niv2,322,620
+id_cob_niv2,422,439
+id_cob_niv2,211,406
+id_cob_niv2,431,194
+id_cob_niv2,445,48
+id_cob_niv2,432,8
+Admin1_id,1,448591
+Admin1_id,2,380411
+Admin1_id,6,273238
+Admin1_id,4,237390
+Admin1_id,5,223416
+Admin1_id,3,211974
+Admin1_id,12,142311
+Admin1_id,9,117960
+Admin1_id,14,114430
+Admin1_id,11,112879
+Admin1_id,13,107275
+Admin1_id,7,101504
+Admin1_id,8,92708
+Admin1_id,10,91344
+Admin1_id,15,77380
+Admin1_id,18,46927
+Admin1_id,16,35229
+Admin1_id,17,32899
+Admin1_id,21,8215
+Admin1_id,22,6907
+Admin1_id,20,6882
+Admin1_id,19,4069
+Admin1_id,23,3171
+Admin1_id,31,1975
+Admin1_id,91,533
+Admin1_id,27,334
+Admin1_id,30,247
+Admin1_id,93,212
+Admin1_id,35,121
+Admin1_id,40,95
+Admin1_id,65,89
+Admin1_id,85,87
+Admin1_id,80,80
+Admin1_id,55,73
+Admin1_id,50,59
+Admin1_id,25,46
+Admin1_id,70,30
+Admin1_id,75,21
+Admin1_id,60,11
+CodigoNiv1,1,448591
+CodigoNiv1,2,380411
+CodigoNiv1,6,273238
+CodigoNiv1,4,237390
+CodigoNiv1,5,223416
+CodigoNiv1,3,211974
+CodigoNiv1,12,142311
+CodigoNiv1,9,117960
+CodigoNiv1,14,114430
+CodigoNiv1,11,112879
+CodigoNiv1,13,107275
+CodigoNiv1,7,101504
+CodigoNiv1,8,92708
+CodigoNiv1,10,91344
+CodigoNiv1,15,77380
+CodigoNiv1,18,46927
+CodigoNiv1,16,35229
+CodigoNiv1,17,32899
+CodigoNiv1,21,8215
+CodigoNiv1,22,6907
+CodigoNiv1,20,6882
+CodigoNiv1,19,4069
+CodigoNiv1,23,3171
+CodigoNiv1,31,1975
+CodigoNiv1,91,533
+CodigoNiv1,27,334
+CodigoNiv1,30,247
+CodigoNiv1,93,212
+CodigoNiv1,35,121
+CodigoNiv1,40,95
+CodigoNiv1,65,89
+CodigoNiv1,85,87
+CodigoNiv1,80,80
+CodigoNiv1,55,73
+CodigoNiv1,50,59
+CodigoNiv1,25,46
+CodigoNiv1,70,30
+CodigoNiv1,75,21
+CodigoNiv1,60,11
+Deforesta,0,2629092
+Deforesta,16,19944
+Deforesta,17,15353
+Deforesta,1,14241
+Deforesta,20,13689
+Deforesta,11,12624
+Deforesta,23,12395
+Deforesta,9,12039
+Deforesta,19,11781
+Deforesta,2,11185
+Deforesta,5,11137
+Deforesta,14,11041
+Deforesta,12,10507
+Deforesta,13,10370
+Deforesta,18,10316
+Deforesta,8,10098
+Deforesta,7,9974
+Deforesta,15,9073
+Deforesta,21,8661
+Deforesta,10,8010
+Deforesta,3,7893
+Deforesta,22,7868
+Deforesta,4,7143
+Deforesta,6,6689
+Año,2018,761746
+Año,2000,535974
+Año,2012,227254
+Año,2020,225478
+Año,2021,147522
+Año,2005,146014
+Año,2016,139840
+Año,2017,104646
+Año,2001,87565
+Año,2006,51649
+Año,2015,44354
+Año,2019,42637
+Año,2014,40616
+Año,2007,40586
+Año,2013,40266
+Año,2011,40266
+Año,2010,40266
+Año,2009,40266
+Año,2008,40266
+Año,2003,21842
+Año,2002,21780
+Año,2004,21762
+Año,2022,18528
+Nivel_1,41 Bosque latifoliado y mixto ,867264
+Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",634175
+Nivel_1,31 Cultivos intensivos No-Arbóreos,500263
+Nivel_1,32 Cultivos Arbóreos,407270
+Nivel_1,42 Bosque de coníferas,110221
+Nivel_1,44 Otros arbóreo en tierras no agrícola,101282
+Nivel_1,11 Urbano,86470
+Nivel_1,91 Otras,73010
+Nivel_1,43 Manglares,39546
+Nivel_1,22 Humedales,34882
+Nivel_1,21 Cuerpos de Agua,13589
+Nivel_1,12 Otras tierras,13151
+id_cob_niv1,41,867264
+id_cob_niv1,33,634175
+id_cob_niv1,31,500263
+id_cob_niv1,32,407270
+id_cob_niv1,42,110221
+id_cob_niv1,44,101282
+id_cob_niv1,11,86470
+id_cob_niv1,91,73010
+id_cob_niv1,43,39546
+id_cob_niv1,22,34882
+id_cob_niv1,21,13589
+id_cob_niv1,12,13151
+GBM_Nivel2,,2131439
+GBM_Nivel2,Selva Maya,352698
+GBM_Nivel2,Trifinio,139309
+GBM_Nivel2,Moskitia,113054
+GBM_Nivel2,Indio Maíz - Tortuguero,73808
+GBM_Nivel2,La Amistad,56715
+GBM_Nivel2,Chagres - Narganá,4754
+GBM_Nivel2,Montes Azules,3613
+GBM_Nivel2,Darién,2299
+GBM_Nivel2,Santa Fé - Torrijos,1760
+GBM_Nivel2,Yucatán,1674
+WorldCov21,10,1872046
+WorldCov21,30,656781
+WorldCov21,40,155717
+WorldCov21,50,57858
+WorldCov21,20,47441
+WorldCov21,95,40568
+WorldCov21,90,35336
+WorldCov21,80,10754
+WorldCov21,60,4622
+Pais_cod3,SLV,1215773
+Pais_cod3,CRI,478141
+Pais_cod3,HND,468040
+Pais_cod3,BLZ,426926
+Pais_cod3,GTM,240339
+Pais_cod3,PAN,39847
+Pais_cod3,MEX,10085
+Pais_cod3,NIC,1972
+Pais_es,El Salvador,1215773
+Pais_es,Costa Rica,478141
+Pais_es,Honduras,468040
+Pais_es,Belice,426926
+Pais_es,Guatemala,240339
+Pais_es,Panamá,39847
+Pais_es,México,10085
+Pais_es,Nicaragua,1972
+GBM_Nivel1,,2131439
+GBM_Nivel1,Selva Maya,357985
+GBM_Nivel1,Trifinio,139309
+GBM_Nivel1,Moskitia,113054
+GBM_Nivel1,Indio Maíz - Tortuguero,73808
+GBM_Nivel1,La Amistad,58475
+GBM_Nivel1,Darién,7053
+id_0,30,1541708
+id_0,40,1118313
+id_0,10,99621
+id_0,90,73010
+id_0,20,48471
+Nivel_0,30 Tierras de Cultivo y Pastos,1541708
+Nivel_0,40 Tierras Forestales,1118313
+Nivel_0,10 Artificializado y otra tierras,99621
+Nivel_0,90 Otras,73010
+Nivel_0,20 Tierras húmedas y agua,48471
+Tipo,Interpretación Visual,2413995
+Tipo,Extracción de mapa nacional,455236
+Tipo,Inventario Forestal,11530
+Tipo,Verificación de Campo,362
+Adm2tipo,Municipio,1936209
+Adm2tipo,Cantón,478141
+Adm2tipo,District,426926
+Adm2tipo,Distrito,39847
+Adm1tipo,Departamento,1926124
+Adm1tipo,Provincia,517988
+Adm1tipo,District,426926
+Adm1tipo,Estado,10085
+Detalle_Tipo,Uso interno CCAD/GIZ,1994196
+Detalle_Tipo,Dominio Público,886927
+Forest20,1,1781125
+Forest20,0,1099998

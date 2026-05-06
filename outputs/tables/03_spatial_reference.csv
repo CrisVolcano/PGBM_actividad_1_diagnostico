@@ -1,0 +1,2 @@
+﻿table_name,column_name,geometry_type_name,srs_id,srs_name,organization,organization_coordsys_id,definition,warning
+Puntos_control_mesoamerica,Shape,POINT,4326,GCS_WGS_1984,EPSG,4326,"GEOGCS[""GCS_WGS_1984"",DATUM[""D_WGS_1984"",SPHEROID[""WGS_1984"",6378137.0,298.257223563]],PRIMEM[""Greenwich"",0.0],UNIT[""Degree"",0.0174532925199433]]",

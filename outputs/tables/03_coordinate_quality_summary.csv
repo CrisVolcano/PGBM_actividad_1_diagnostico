@@ -1,0 +1,2 @@
+﻿n_total,n_lon_null,n_lat_null,n_lon_vacia,n_lat_vacia,n_fuera_rango_global,n_fuera_rango_regional_amplio,pct_lonull,pct_lat_null,pct_lovacia,pct_lat_vacia,pct_fuera_rango_global,pct_fuera_rango_regional_amplio,regional_bounds
+2881123,0,0,0,0,0,0,0.0,0.0,0.0,0.0,0.0,0.0,"{'lon_min': -120, 'lon_max': -75, 'lat_min': 5, 'lat_max': 25}"

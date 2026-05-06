@@ -73,3 +73,7 @@ conda-meta/
 .DS_Store
 Thumbs.db
 .Rhistory
+*.sqlite
+*.sqlite3
+*.db
+.~lock.*#

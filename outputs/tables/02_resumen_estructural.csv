@@ -1,0 +1,2 @@
+﻿gpkg_path,table_name,total_registros,total_campos_sqlite,total_campos_atributivos,total_columnas_geometria,campos_criticos_ausentes,grupos_duplicados_hash_atributos,registros_en_grupos_duplicados_hash
+/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/GeoPackage_puntos_control_mesoamerica.gpkg,Puntos_control_mesoamerica,2881123,43,42,1,0,7091,14183
