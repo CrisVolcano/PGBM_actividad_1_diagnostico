@@ -1,0 +1,41 @@
+﻿clase,n,pct,pct_acumulado,balance_flag
+410 Bosque latifoliado y mixto,511603,17.757069,17.757069,dominante
+332 Pastizales naturales y cultivados,346197,12.016044,29.773113,dominante
+321 Café,317678,11.026187,40.7993,dominante
+315 Otros cultivos intensivos no arbóreos,246132,8.542919,49.342219,representacion_media
+411 Latifoliado maduro húmedo,240046,8.331682,57.673901,representacion_media
+333 Matorrales (barbecho o en descanso),197248,6.846219,64.52012,representacion_media
+313 Caña de azúcar,135835,4.714655,69.234775,representacion_media
+331 Granos básicos y hortalizas  y otros,90730,3.149119,72.383894,representacion_media
+311 Palma aceitera,87428,3.034511,75.418405,representacion_media
+443  Árboles fuera de bosque y otras áreas naturales,83868,2.910948,78.329353,representacion_media
+420 Bosque de coníferas,78256,2.716163,81.045516,representacion_media
+910 Otras,73010,2.534081,83.579597,representacion_media
+412 Latifoliado secundario húmedo,67901,2.356755,85.936352,representacion_media
+325 Otros sistemas agroforestales o silvopastoriles,52389,1.818353,87.754705,representacion_media
+430 Manglares,39344,1.365579,89.120284,representacion_media
+220 Humedales,34882,1.210708,90.330992,representacion_media
+112 Urbano discontinuo,33607,1.166455,91.497447,representacion_media
+414 Bosque seco o deciduo,30636,1.063335,92.560782,representacion_media
+110 Urbano,29798,1.034249,93.595031,representacion_media
+423 Sabanas de pino,28933,1.004226,94.599257,representacion_media
+111 Urbano continuo,23065,0.800556,95.399813,representacion_media
+324 Hule,22718,0.788512,96.188325,representacion_media
+312 Bananeras,17402,0.604001,96.792326,representacion_media
+413 Bosque Mixto (Lat-Coniferas),17078,0.592755,97.385081,representacion_media
+323 Frutales,13865,0.481236,97.866317,representacion_media
+314 Piña,13466,0.467387,98.333704,representacion_media
+210 Cuerpos de Agua,12291,0.426604,98.760308,representacion_media
+444 Regeneración forestal,9673,0.335737,99.096045,representacion_media
+"122 Suelo desnudo, arena, rocoso, lava, otros",6987,0.24251,99.338555,representacion_media
+442 Plantaciones forestales,6776,0.235186,99.573741,representacion_media
+121 Otros artificializado,6164,0.213944,99.787685,representacion_media
+421 Coníferas denso,2593,0.09,99.877685,representacion_media
+441 Masa arbórea ribereña,917,0.031828,99.909513,representacion_media
+212 Cuerpos de agua artificial,892,0.03096,99.940473,representacion_media
+322 Cacao,620,0.021519,99.961992,representacion_media
+422 Coníferas ralo,439,0.015237,99.977229,representacion_media
+211 Cuerpos de agua natural,406,0.014092,99.991321,representacion_media
+431 Manglar alto,194,0.006733,99.998054,representacion_media
+445 Bosque de Palmas,48,0.001666,99.99972,baja
+432 Manglar bajo,8,0.000278,99.999998,critica_muy_baja

@@ -1,0 +1,41 @@
+﻿relacion,clase_hija,n_registros,n_padres_distintos,padres_asociados,inconsistente
+Nivel_2 -> Nivel_1,410 Bosque latifoliado y mixto,511603,1,41 Bosque latifoliado y mixto,False
+Nivel_2 -> Nivel_1,332 Pastizales naturales y cultivados,346197,1,"33 Cultivos extensivos, Pastizales y matorrales",False
+Nivel_2 -> Nivel_1,321 Café,317678,1,32 Cultivos Arbóreos,False
+Nivel_2 -> Nivel_1,315 Otros cultivos intensivos no arbóreos,246132,1,31 Cultivos intensivos No-Arbóreos,False
+Nivel_2 -> Nivel_1,411 Latifoliado maduro húmedo,240046,1,41 Bosque latifoliado y mixto,False
+Nivel_2 -> Nivel_1,333 Matorrales (barbecho o en descanso),197248,1,"33 Cultivos extensivos, Pastizales y matorrales",False
+Nivel_2 -> Nivel_1,313 Caña de azúcar,135835,1,31 Cultivos intensivos No-Arbóreos,False
+Nivel_2 -> Nivel_1,331 Granos básicos y hortalizas  y otros,90730,1,"33 Cultivos extensivos, Pastizales y matorrales",False
+Nivel_2 -> Nivel_1,311 Palma aceitera,87428,1,31 Cultivos intensivos No-Arbóreos,False
+Nivel_2 -> Nivel_1,443  Árboles fuera de bosque y otras áreas naturales,83868,1,44 Otros arbóreo en tierras no agrícola,False
+Nivel_2 -> Nivel_1,420 Bosque de coníferas,78256,1,42 Bosque de coníferas,False
+Nivel_2 -> Nivel_1,910 Otras,73010,1,91 Otras,False
+Nivel_2 -> Nivel_1,412 Latifoliado secundario húmedo,67901,1,41 Bosque latifoliado y mixto,False
+Nivel_2 -> Nivel_1,325 Otros sistemas agroforestales o silvopastoriles,52389,1,32 Cultivos Arbóreos,False
+Nivel_2 -> Nivel_1,430 Manglares,39344,1,43 Manglares,False
+Nivel_2 -> Nivel_1,220 Humedales,34882,1,22 Humedales,False
+Nivel_2 -> Nivel_1,112 Urbano discontinuo,33607,1,11 Urbano,False
+Nivel_2 -> Nivel_1,414 Bosque seco o deciduo,30636,1,41 Bosque latifoliado y mixto,False
+Nivel_2 -> Nivel_1,110 Urbano,29798,1,11 Urbano,False
+Nivel_2 -> Nivel_1,423 Sabanas de pino,28933,1,42 Bosque de coníferas,False
+Nivel_2 -> Nivel_1,111 Urbano continuo,23065,1,11 Urbano,False
+Nivel_2 -> Nivel_1,324 Hule,22718,1,32 Cultivos Arbóreos,False
+Nivel_2 -> Nivel_1,312 Bananeras,17402,1,31 Cultivos intensivos No-Arbóreos,False
+Nivel_2 -> Nivel_1,413 Bosque Mixto (Lat-Coniferas),17078,1,41 Bosque latifoliado y mixto,False
+Nivel_2 -> Nivel_1,323 Frutales,13865,1,32 Cultivos Arbóreos,False
+Nivel_2 -> Nivel_1,314 Piña,13466,1,31 Cultivos intensivos No-Arbóreos,False
+Nivel_2 -> Nivel_1,210 Cuerpos de Agua,12291,1,21 Cuerpos de Agua,False
+Nivel_2 -> Nivel_1,444 Regeneración forestal,9673,1,44 Otros arbóreo en tierras no agrícola,False
+Nivel_2 -> Nivel_1,"122 Suelo desnudo, arena, rocoso, lava, otros",6987,1,12 Otras tierras,False
+Nivel_2 -> Nivel_1,442 Plantaciones forestales,6776,1,44 Otros arbóreo en tierras no agrícola,False
+Nivel_2 -> Nivel_1,121 Otros artificializado,6164,1,12 Otras tierras,False
+Nivel_2 -> Nivel_1,421 Coníferas denso,2593,1,42 Bosque de coníferas,False
+Nivel_2 -> Nivel_1,441 Masa arbórea ribereña,917,1,44 Otros arbóreo en tierras no agrícola,False
+Nivel_2 -> Nivel_1,212 Cuerpos de agua artificial,892,1,21 Cuerpos de Agua,False
+Nivel_2 -> Nivel_1,322 Cacao,620,1,32 Cultivos Arbóreos,False
+Nivel_2 -> Nivel_1,422 Coníferas ralo,439,1,42 Bosque de coníferas,False
+Nivel_2 -> Nivel_1,211 Cuerpos de agua natural,406,1,21 Cuerpos de Agua,False
+Nivel_2 -> Nivel_1,431 Manglar alto,194,1,43 Manglares,False
+Nivel_2 -> Nivel_1,445 Bosque de Palmas,48,1,44 Otros arbóreo en tierras no agrícola,False
+Nivel_2 -> Nivel_1,432 Manglar bajo,8,1,43 Manglares,False

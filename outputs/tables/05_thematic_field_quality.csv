@@ -1,0 +1,9 @@
+﻿campo,descripcion,n_total,n_null_o_vacio,pct_null_o_vacio,n_valores_distintos
+uso_origen,Uso original,2881123,0,0.0,170
+subuso_origen,Subuso original,2881123,0,0.0,387
+id_nivel_0,Código Nivel_0,2881123,0,0.0,5
+nivel_0,Nivel_0,2881123,0,0.0,5
+id_nivel_1,Código Nivel_1,2881123,0,0.0,12
+nivel_1,Nivel_1,2881123,0,0.0,12
+id_nivel_2,Código Nivel_2,2881123,0,0.0,40
+nivel_2,Nivel_2,2881123,0,0.0,40

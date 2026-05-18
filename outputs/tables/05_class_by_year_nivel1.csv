@@ -1,0 +1,259 @@
+﻿anio,clase,n
+2000,41 Bosque latifoliado y mixto,165280
+2000,31 Cultivos intensivos No-Arbóreos,131654
+2000,"33 Cultivos extensivos, Pastizales y matorrales",124487
+2000,32 Cultivos Arbóreos,61772
+2000,11 Urbano,21736
+2000,43 Manglares,10883
+2000,42 Bosque de coníferas,10261
+2000,12 Otras tierras,4110
+2000,44 Otros arbóreo en tierras no agrícola,2730
+2000,21 Cuerpos de Agua,1972
+2000,22 Humedales,1079
+2000,91 Otras,10
+2001,41 Bosque latifoliado y mixto,26987
+2001,"33 Cultivos extensivos, Pastizales y matorrales",26129
+2001,32 Cultivos Arbóreos,20039
+2001,31 Cultivos intensivos No-Arbóreos,3988
+2001,11 Urbano,2675
+2001,44 Otros arbóreo en tierras no agrícola,2041
+2001,42 Bosque de coníferas,1859
+2001,43 Manglares,1421
+2001,22 Humedales,1080
+2001,12 Otras tierras,917
+2001,21 Cuerpos de Agua,420
+2001,91 Otras,9
+2002,41 Bosque latifoliado y mixto,12900
+2002,"33 Cultivos extensivos, Pastizales y matorrales",3360
+2002,42 Bosque de coníferas,1710
+2002,22 Humedales,1080
+2002,31 Cultivos intensivos No-Arbóreos,1016
+2002,43 Manglares,627
+2002,44 Otros arbóreo en tierras no agrícola,612
+2002,21 Cuerpos de Agua,228
+2002,11 Urbano,199
+2002,12 Otras tierras,48
+2003,41 Bosque latifoliado y mixto,12848
+2003,"33 Cultivos extensivos, Pastizales y matorrales",3415
+2003,42 Bosque de coníferas,1743
+2003,22 Humedales,1079
+2003,31 Cultivos intensivos No-Arbóreos,1032
+2003,43 Manglares,627
+2003,44 Otros arbóreo en tierras no agrícola,620
+2003,21 Cuerpos de Agua,231
+2003,11 Urbano,199
+2003,12 Otras tierras,48
+2004,41 Bosque latifoliado y mixto,12744
+2004,"33 Cultivos extensivos, Pastizales y matorrales",3443
+2004,42 Bosque de coníferas,1719
+2004,22 Humedales,1077
+2004,31 Cultivos intensivos No-Arbóreos,1046
+2004,43 Manglares,629
+2004,44 Otros arbóreo en tierras no agrícola,618
+2004,21 Cuerpos de Agua,232
+2004,11 Urbano,205
+2004,12 Otras tierras,49
+2005,"33 Cultivos extensivos, Pastizales y matorrales",44468
+2005,41 Bosque latifoliado y mixto,43958
+2005,44 Otros arbóreo en tierras no agrícola,33672
+2005,11 Urbano,7835
+2005,42 Bosque de coníferas,4933
+2005,31 Cultivos intensivos No-Arbóreos,2750
+2005,32 Cultivos Arbóreos,2569
+2005,91 Otras,1909
+2005,22 Humedales,1840
+2005,21 Cuerpos de Agua,883
+2005,43 Manglares,728
+2005,12 Otras tierras,469
+2006,41 Bosque latifoliado y mixto,24305
+2006,"33 Cultivos extensivos, Pastizales y matorrales",15165
+2006,42 Bosque de coníferas,4928
+2006,31 Cultivos intensivos No-Arbóreos,1718
+2006,22 Humedales,1649
+2006,32 Cultivos Arbóreos,1294
+2006,43 Manglares,755
+2006,44 Otros arbóreo en tierras no agrícola,610
+2006,11 Urbano,561
+2006,21 Cuerpos de Agua,548
+2006,12 Otras tierras,116
+2007,41 Bosque latifoliado y mixto,20383
+2007,"33 Cultivos extensivos, Pastizales y matorrales",9463
+2007,42 Bosque de coníferas,4897
+2007,22 Humedales,1559
+2007,31 Cultivos intensivos No-Arbóreos,1371
+2007,43 Manglares,727
+2007,44 Otros arbóreo en tierras no agrícola,656
+2007,32 Cultivos Arbóreos,654
+2007,11 Urbano,427
+2007,21 Cuerpos de Agua,382
+2007,12 Otras tierras,67
+2008,41 Bosque latifoliado y mixto,20189
+2008,"33 Cultivos extensivos, Pastizales y matorrales",9380
+2008,42 Bosque de coníferas,4876
+2008,22 Humedales,1554
+2008,31 Cultivos intensivos No-Arbóreos,1394
+2008,43 Manglares,728
+2008,32 Cultivos Arbóreos,663
+2008,44 Otros arbóreo en tierras no agrícola,607
+2008,11 Urbano,433
+2008,21 Cuerpos de Agua,375
+2008,12 Otras tierras,67
+2009,41 Bosque latifoliado y mixto,20076
+2009,"33 Cultivos extensivos, Pastizales y matorrales",9448
+2009,42 Bosque de coníferas,4876
+2009,22 Humedales,1554
+2009,31 Cultivos intensivos No-Arbóreos,1424
+2009,43 Manglares,728
+2009,32 Cultivos Arbóreos,669
+2009,44 Otros arbóreo en tierras no agrícola,608
+2009,11 Urbano,439
+2009,21 Cuerpos de Agua,375
+2009,12 Otras tierras,69
+2010,41 Bosque latifoliado y mixto,19976
+2010,"33 Cultivos extensivos, Pastizales y matorrales",9494
+2010,42 Bosque de coníferas,4870
+2010,22 Humedales,1550
+2010,31 Cultivos intensivos No-Arbóreos,1455
+2010,43 Manglares,728
+2010,32 Cultivos Arbóreos,673
+2010,44 Otros arbóreo en tierras no agrícola,627
+2010,11 Urbano,447
+2010,21 Cuerpos de Agua,375
+2010,12 Otras tierras,71
+2011,41 Bosque latifoliado y mixto,19734
+2011,"33 Cultivos extensivos, Pastizales y matorrales",9628
+2011,42 Bosque de coníferas,4863
+2011,22 Humedales,1549
+2011,31 Cultivos intensivos No-Arbóreos,1522
+2011,43 Manglares,729
+2011,32 Cultivos Arbóreos,689
+2011,44 Otros arbóreo en tierras no agrícola,651
+2011,11 Urbano,455
+2011,21 Cuerpos de Agua,374
+2011,12 Otras tierras,72
+2012,91 Otras,59640
+2012,"33 Cultivos extensivos, Pastizales y matorrales",46618
+2012,41 Bosque latifoliado y mixto,40980
+2012,32 Cultivos Arbóreos,34890
+2012,44 Otros arbóreo en tierras no agrícola,20637
+2012,11 Urbano,7447
+2012,31 Cultivos intensivos No-Arbóreos,6679
+2012,42 Bosque de coníferas,5028
+2012,22 Humedales,1805
+2012,43 Manglares,1468
+2012,12 Otras tierras,1115
+2012,21 Cuerpos de Agua,947
+2013,41 Bosque latifoliado y mixto,19429
+2013,"33 Cultivos extensivos, Pastizales y matorrales",9736
+2013,42 Bosque de coníferas,4842
+2013,31 Cultivos intensivos No-Arbóreos,1665
+2013,22 Humedales,1549
+2013,32 Cultivos Arbóreos,739
+2013,43 Manglares,726
+2013,44 Otros arbóreo en tierras no agrícola,659
+2013,11 Urbano,468
+2013,21 Cuerpos de Agua,380
+2013,12 Otras tierras,73
+2014,41 Bosque latifoliado y mixto,19523
+2014,"33 Cultivos extensivos, Pastizales y matorrales",9746
+2014,42 Bosque de coníferas,4827
+2014,31 Cultivos intensivos No-Arbóreos,1719
+2014,22 Humedales,1548
+2014,32 Cultivos Arbóreos,792
+2014,44 Otros arbóreo en tierras no agrícola,789
+2014,43 Manglares,740
+2014,11 Urbano,477
+2014,21 Cuerpos de Agua,381
+2014,12 Otras tierras,74
+2015,41 Bosque latifoliado y mixto,21343
+2015,"33 Cultivos extensivos, Pastizales y matorrales",10780
+2015,42 Bosque de coníferas,4826
+2015,31 Cultivos intensivos No-Arbóreos,2100
+2015,22 Humedales,1767
+2015,43 Manglares,1062
+2015,32 Cultivos Arbóreos,802
+2015,44 Otros arbóreo en tierras no agrícola,675
+2015,11 Urbano,510
+2015,21 Cuerpos de Agua,400
+2015,12 Otras tierras,88
+2015,91 Otras,1
+2016,41 Bosque latifoliado y mixto,52246
+2016,"33 Cultivos extensivos, Pastizales y matorrales",39039
+2016,44 Otros arbóreo en tierras no agrícola,20185
+2016,11 Urbano,7523
+2016,42 Bosque de coníferas,4843
+2016,91 Otras,4617
+2016,31 Cultivos intensivos No-Arbóreos,4141
+2016,32 Cultivos Arbóreos,2842
+2016,22 Humedales,2003
+2016,21 Cuerpos de Agua,1102
+2016,43 Manglares,816
+2016,12 Otras tierras,483
+2017,41 Bosque latifoliado y mixto,39232
+2017,"33 Cultivos extensivos, Pastizales y matorrales",32630
+2017,42 Bosque de coníferas,8875
+2017,44 Otros arbóreo en tierras no agrícola,7008
+2017,11 Urbano,4040
+2017,32 Cultivos Arbóreos,3371
+2017,43 Manglares,3110
+2017,31 Cultivos intensivos No-Arbóreos,2660
+2017,22 Humedales,2089
+2017,21 Cuerpos de Agua,827
+2017,91 Otras,672
+2017,12 Otras tierras,132
+2018,41 Bosque latifoliado y mixto,185494
+2018,31 Cultivos intensivos No-Arbóreos,184550
+2018,32 Cultivos Arbóreos,162218
+2018,"33 Cultivos extensivos, Pastizales y matorrales",159245
+2018,11 Urbano,29161
+2018,42 Bosque de coníferas,13512
+2018,43 Manglares,11782
+2018,44 Otros arbóreo en tierras no agrícola,6306
+2018,12 Otras tierras,5032
+2018,21 Cuerpos de Agua,2409
+2018,22 Humedales,1643
+2018,91 Otras,394
+2019,31 Cultivos intensivos No-Arbóreos,22769
+2019,41 Bosque latifoliado y mixto,8158
+2019,"33 Cultivos extensivos, Pastizales y matorrales",6610
+2019,42 Bosque de coníferas,3014
+2019,32 Cultivos Arbóreos,927
+2019,22 Humedales,500
+2019,11 Urbano,321
+2019,21 Cuerpos de Agua,167
+2019,43 Manglares,129
+2019,44 Otros arbóreo en tierras no agrícola,24
+2019,12 Otras tierras,13
+2019,91 Otras,5
+2020,32 Cultivos Arbóreos,109903
+2020,31 Cultivos intensivos No-Arbóreos,98308
+2020,41 Bosque latifoliado y mixto,7009
+2020,"33 Cultivos extensivos, Pastizales y matorrales",6256
+2020,42 Bosque de coníferas,2986
+2020,22 Humedales,474
+2020,11 Urbano,271
+2020,21 Cuerpos de Agua,165
+2020,43 Manglares,98
+2020,12 Otras tierras,8
+2021,41 Bosque latifoliado y mixto,67614
+2021,"33 Cultivos extensivos, Pastizales y matorrales",39212
+2021,31 Cultivos intensivos No-Arbóreos,24913
+2021,91 Otras,5753
+2021,22 Humedales,4380
+2021,42 Bosque de coníferas,2973
+2021,44 Otros arbóreo en tierras no agrícola,947
+2021,32 Cultivos Arbóreos,888
+2021,11 Urbano,366
+2021,21 Cuerpos de Agua,247
+2021,43 Manglares,207
+2021,12 Otras tierras,22
+2022,41 Bosque latifoliado y mixto,6856
+2022,"33 Cultivos extensivos, Pastizales y matorrales",6423
+2022,42 Bosque de coníferas,2960
+2022,32 Cultivos Arbóreos,876
+2022,22 Humedales,474
+2022,31 Cultivos intensivos No-Arbóreos,389
+2022,11 Urbano,275
+2022,21 Cuerpos de Agua,169
+2022,43 Manglares,98
+2022,12 Otras tierras,8
