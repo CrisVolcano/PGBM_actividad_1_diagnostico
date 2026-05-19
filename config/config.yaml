@@ -68,3 +68,11 @@ temporal:
   min_plausible_year: 1980
   max_plausible_year: 2026
 
+
+thematic_window:
+  target_year: 2020
+  near_window_years: 2
+  min_records_low_class: 100
+  min_records_critical_class: 30
+  min_records_sufficient_country_class: 500
+

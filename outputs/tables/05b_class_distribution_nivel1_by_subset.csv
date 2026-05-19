@@ -1,0 +1,23 @@
+﻿subset,nivel,clase,n_registros,n_paises,n_fuentes,n_anios,anio_min,anio_max,pct_subset,pct_acumulado,balance_flag
+exacto_2020,Nivel_1,32 Cultivos Arbóreos,109903,4,2,1,2020,2020,48.742228,48.742228,dominante_extrema
+exacto_2020,Nivel_1,31 Cultivos intensivos No-Arbóreos,98308,5,2,1,2020,2020,43.599819,92.342047,dominante_extrema
+exacto_2020,Nivel_1,41 Bosque latifoliado y mixto,7009,2,1,1,2020,2020,3.108507,95.450554,dependiente_fuente_unica
+exacto_2020,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",6256,2,1,1,2020,2020,2.77455,98.225104,dependiente_fuente_unica
+exacto_2020,Nivel_1,42 Bosque de coníferas,2986,1,1,1,2020,2020,1.324298,99.549402,territorialmente_limitada
+exacto_2020,Nivel_1,22 Humedales,474,1,1,1,2020,2020,0.21022,99.759622,territorialmente_limitada
+exacto_2020,Nivel_1,11 Urbano,271,1,1,1,2020,2020,0.120189,99.879811,territorialmente_limitada
+exacto_2020,Nivel_1,21 Cuerpos de Agua,165,2,1,1,2020,2020,0.073178,99.952989,dependiente_fuente_unica
+exacto_2020,Nivel_1,43 Manglares,98,2,1,1,2020,2020,0.043463,99.996452,baja
+exacto_2020,Nivel_1,12 Otras tierras,8,1,1,1,2020,2020,0.003548,100.0,critica_muy_baja
+ventana_2018_2022,Nivel_1,31 Cultivos intensivos No-Arbóreos,330929,8,17,5,2018,2022,27.671708,27.671708,dominante_extrema
+ventana_2018_2022,Nivel_1,41 Bosque latifoliado y mixto,275131,8,16,5,2018,2022,23.005976,50.677684,dominante_extrema
+ventana_2018_2022,Nivel_1,32 Cultivos Arbóreos,274812,7,12,5,2018,2022,22.979302,73.656986,dominante_extrema
+ventana_2018_2022,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",217746,8,15,5,2018,2022,18.207542,91.864528,dominante
+ventana_2018_2022,Nivel_1,11 Urbano,30394,7,10,5,2018,2022,2.541493,94.406021,representacion_media
+ventana_2018_2022,Nivel_1,42 Bosque de coníferas,25445,5,7,5,2018,2022,2.127667,96.533688,representacion_media
+ventana_2018_2022,Nivel_1,43 Manglares,12314,7,11,5,2018,2022,1.029675,97.563363,representacion_media
+ventana_2018_2022,Nivel_1,22 Humedales,7471,7,9,5,2018,2022,0.624712,98.188075,representacion_media
+ventana_2018_2022,Nivel_1,44 Otros arbóreo en tierras no agrícola,7277,7,11,3,2018,2021,0.60849,98.796565,representacion_media
+ventana_2018_2022,Nivel_1,91 Otras,6152,3,3,3,2018,2021,0.51442,99.310985,representacion_media
+ventana_2018_2022,Nivel_1,12 Otras tierras,5083,6,8,5,2018,2022,0.425032,99.736017,representacion_media
+ventana_2018_2022,Nivel_1,21 Cuerpos de Agua,3157,7,8,5,2018,2022,0.263983,100.0,representacion_media

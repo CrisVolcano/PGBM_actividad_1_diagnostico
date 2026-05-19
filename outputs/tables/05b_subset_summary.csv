@@ -1,0 +1,3 @@
+﻿subset,descripcion,n_registros,pct_total_base,n_paises,n_fuentes,n_anios,anio_min,anio_max,n_nivel0,n_nivel1,n_nivel2
+exacto_2020,Registros exactamente del año 2020,225478,7.826046,6,2,1,2020,2020,4,10,22
+ventana_2018_2022,Registros entre 2018 y 2022,1195911,41.508502,8,22,5,2018,2022,5,12,36

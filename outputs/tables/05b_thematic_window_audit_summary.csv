@@ -1,0 +1,2 @@
+﻿total_base,target_year,near_window_years,window_start,window_end,n_subsets,min_records_low_class,min_records_critical_class,min_records_sufficient_country_class
+2881123,2020,2,2018,2022,2,100,30,500

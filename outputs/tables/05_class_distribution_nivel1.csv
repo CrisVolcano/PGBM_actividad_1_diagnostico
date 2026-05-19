@@ -1,0 +1,13 @@
+﻿clase,n,pct,pct_acumulado,balance_flag
+41 Bosque latifoliado y mixto,867264,30.101596,30.101596,dominante_extrema
+"33 Cultivos extensivos, Pastizales y matorrales",634175,22.011382,52.112978,dominante_extrema
+31 Cultivos intensivos No-Arbóreos,500263,17.363473,69.476451,dominante
+32 Cultivos Arbóreos,407270,14.135807,83.612258,dominante
+42 Bosque de coníferas,110221,3.825626,87.437884,representacion_media
+44 Otros arbóreo en tierras no agrícola,101282,3.515365,90.953249,representacion_media
+11 Urbano,86470,3.00126,93.954509,representacion_media
+91 Otras,73010,2.534081,96.48859,representacion_media
+43 Manglares,39546,1.37259,97.86118,representacion_media
+22 Humedales,34882,1.210708,99.071888,representacion_media
+21 Cuerpos de Agua,13589,0.471656,99.543544,representacion_media
+12 Otras tierras,13151,0.456454,99.999998,representacion_media

@@ -1,0 +1,10 @@
+﻿subset,nivel,clase,n_registros,n_paises,n_fuentes,n_anios,anio_min,anio_max,pct_subset,pct_acumulado,balance_flag
+exacto_2020,Nivel_0,30 Tierras de Cultivo y Pastos,214467,6,2,1,2020,2020,95.116597,95.116597,dominante_extrema
+exacto_2020,Nivel_0,40 Tierras Forestales,10093,3,1,1,2020,2020,4.476268,99.592865,dependiente_fuente_unica
+exacto_2020,Nivel_0,20 Tierras húmedas y agua,639,2,1,1,2020,2020,0.283398,99.876263,dependiente_fuente_unica
+exacto_2020,Nivel_0,10 Artificializado y otra tierras,279,1,1,1,2020,2020,0.123737,100.0,territorialmente_limitada
+ventana_2018_2022,Nivel_0,30 Tierras de Cultivo y Pastos,823487,8,22,5,2018,2022,68.858552,68.858552,dominante_extrema
+ventana_2018_2022,Nivel_0,40 Tierras Forestales,320167,8,16,5,2018,2022,26.771808,95.63036,dominante_extrema
+ventana_2018_2022,Nivel_0,10 Artificializado y otra tierras,35477,7,10,5,2018,2022,2.966525,98.596885,representacion_media
+ventana_2018_2022,Nivel_0,20 Tierras húmedas y agua,10628,8,12,5,2018,2022,0.888695,99.48558,representacion_media
+ventana_2018_2022,Nivel_0,90 Otras,6152,3,3,3,2018,2021,0.51442,100.0,representacion_media

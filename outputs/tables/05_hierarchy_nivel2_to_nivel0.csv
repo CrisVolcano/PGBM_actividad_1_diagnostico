@@ -1,0 +1,41 @@
+﻿relacion,clase_hija,n_registros,n_padres_distintos,padres_asociados,inconsistente
+Nivel_2 -> Nivel_0,410 Bosque latifoliado y mixto,511603,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,332 Pastizales naturales y cultivados,346197,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,321 Café,317678,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,315 Otros cultivos intensivos no arbóreos,246132,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,411 Latifoliado maduro húmedo,240046,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,333 Matorrales (barbecho o en descanso),197248,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,313 Caña de azúcar,135835,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,331 Granos básicos y hortalizas  y otros,90730,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,311 Palma aceitera,87428,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,443  Árboles fuera de bosque y otras áreas naturales,83868,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,420 Bosque de coníferas,78256,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,910 Otras,73010,1,90 Otras,False
+Nivel_2 -> Nivel_0,412 Latifoliado secundario húmedo,67901,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,325 Otros sistemas agroforestales o silvopastoriles,52389,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,430 Manglares,39344,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,220 Humedales,34882,1,20 Tierras húmedas y agua,False
+Nivel_2 -> Nivel_0,112 Urbano discontinuo,33607,1,10 Artificializado y otra tierras,False
+Nivel_2 -> Nivel_0,414 Bosque seco o deciduo,30636,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,110 Urbano,29798,1,10 Artificializado y otra tierras,False
+Nivel_2 -> Nivel_0,423 Sabanas de pino,28933,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,111 Urbano continuo,23065,1,10 Artificializado y otra tierras,False
+Nivel_2 -> Nivel_0,324 Hule,22718,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,312 Bananeras,17402,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,413 Bosque Mixto (Lat-Coniferas),17078,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,323 Frutales,13865,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,314 Piña,13466,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,210 Cuerpos de Agua,12291,1,20 Tierras húmedas y agua,False
+Nivel_2 -> Nivel_0,444 Regeneración forestal,9673,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,"122 Suelo desnudo, arena, rocoso, lava, otros",6987,1,10 Artificializado y otra tierras,False
+Nivel_2 -> Nivel_0,442 Plantaciones forestales,6776,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,121 Otros artificializado,6164,1,10 Artificializado y otra tierras,False
+Nivel_2 -> Nivel_0,421 Coníferas denso,2593,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,441 Masa arbórea ribereña,917,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,212 Cuerpos de agua artificial,892,1,20 Tierras húmedas y agua,False
+Nivel_2 -> Nivel_0,322 Cacao,620,1,30 Tierras de Cultivo y Pastos,False
+Nivel_2 -> Nivel_0,422 Coníferas ralo,439,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,211 Cuerpos de agua natural,406,1,20 Tierras húmedas y agua,False
+Nivel_2 -> Nivel_0,431 Manglar alto,194,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,445 Bosque de Palmas,48,1,40 Tierras Forestales,False
+Nivel_2 -> Nivel_0,432 Manglar bajo,8,1,40 Tierras Forestales,False

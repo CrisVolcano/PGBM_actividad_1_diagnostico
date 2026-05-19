@@ -1,0 +1,8 @@
+﻿subset,estado_xy_subset,n_grupos,n_registros,exceso_registros_subset,promedio_registros_por_grupo,pct_grupos_subset,pct_registros_subset
+exacto_2020,xy_unico_en_subset,225284,225284,0,1.0,99.966276,99.913961
+exacto_2020,redundancia_misma_fuente_misma_clase_subset,76,194,118,2.5526315789473686,0.033724,0.086039
+ventana_2018_2022,xy_unico_en_subset,1083423,1083423,0,1.0,97.44327,90.593949
+ventana_2018_2022,multitemporal_estable_subset,17905,89545,71640,5.001117006422787,1.610379,7.487597
+ventana_2018_2022,redundancia_misma_fuente_misma_clase_subset,7742,15526,7784,2.0054249547920433,0.696317,1.298257
+ventana_2018_2022,conflicto_tematico_subset,2779,7415,4636,2.66822598056855,0.249944,0.620029
+ventana_2018_2022,coincidencia_fuentes_misma_clase_subset,1,2,1,2.0,9e-05,0.000167

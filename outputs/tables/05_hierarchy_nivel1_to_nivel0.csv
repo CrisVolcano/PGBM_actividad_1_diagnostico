@@ -1,0 +1,13 @@
+﻿relacion,clase_hija,n_registros,n_padres_distintos,padres_asociados,inconsistente
+Nivel_1 -> Nivel_0,41 Bosque latifoliado y mixto,867264,1,40 Tierras Forestales,False
+Nivel_1 -> Nivel_0,"33 Cultivos extensivos, Pastizales y matorrales",634175,1,30 Tierras de Cultivo y Pastos,False
+Nivel_1 -> Nivel_0,31 Cultivos intensivos No-Arbóreos,500263,1,30 Tierras de Cultivo y Pastos,False
+Nivel_1 -> Nivel_0,32 Cultivos Arbóreos,407270,1,30 Tierras de Cultivo y Pastos,False
+Nivel_1 -> Nivel_0,42 Bosque de coníferas,110221,1,40 Tierras Forestales,False
+Nivel_1 -> Nivel_0,44 Otros arbóreo en tierras no agrícola,101282,1,40 Tierras Forestales,False
+Nivel_1 -> Nivel_0,11 Urbano,86470,1,10 Artificializado y otra tierras,False
+Nivel_1 -> Nivel_0,91 Otras,73010,1,90 Otras,False
+Nivel_1 -> Nivel_0,43 Manglares,39546,1,40 Tierras Forestales,False
+Nivel_1 -> Nivel_0,22 Humedales,34882,1,20 Tierras húmedas y agua,False
+Nivel_1 -> Nivel_0,21 Cuerpos de Agua,13589,1,20 Tierras húmedas y agua,False
+Nivel_1 -> Nivel_0,12 Otras tierras,13151,1,10 Artificializado y otra tierras,False

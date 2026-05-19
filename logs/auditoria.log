@@ -7,7 +7,5 @@
 [2026-05-04 18:14:01] Módulo 3 ejecutado correctamente. Tabla: Puntos_control_mesoamerica. Registros: 2881123. Duplicados XY exactos: 758797 grupos.
 [2026-05-06 08:27:36] Módulo 3B optimizado ejecutado correctamente. Total grupos XY: 1283636. Grupos repetidos: 758797. Exceso registros repetidos: 1597487.
 [2026-05-06 15:01:04] Módulo 4 ejecutado correctamente. Tabla: Puntos_control_mesoamerica. Campo temporal: Año. Año objetivo: 2020.
-[2026-05-18 17:53:10] Inicio de preparación de puntos para GEE Sentinel-2 SR.
-[2026-05-18 17:58:17] Preparación de puntos para GEE Sentinel-2 SR ejecutada correctamente. Registros elegibles: 1195911. Unidades GEE: 1185946. Batches: 42.
-[2026-05-19 09:20:21] Inicio de preparación de puntos para GEE Sentinel-2 SR.
-[2026-05-19 09:24:00] Preparación de puntos para GEE Sentinel-2 SR ejecutada correctamente. Registros elegibles: 1195911. Unidades GEE: 1185946. Batches: 42.
+[2026-05-18 14:59:55] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Inconsistencias jerárquicas: 0.
+[2026-05-19 07:05:25] Módulo 5B ejecutado correctamente. Año objetivo: 2020. Ventana: ±2. Total thematic_base: 2881123.

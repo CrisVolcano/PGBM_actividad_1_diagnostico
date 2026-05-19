@@ -1,0 +1,193 @@
+﻿subset,nivel,pais,clase,n_registros,estado_pais_clase
+exacto_2020,Nivel_1,Belice,11 Urbano,0,vacio
+exacto_2020,Nivel_1,Belice,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,Belice,21 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_1,Belice,22 Humedales,0,vacio
+exacto_2020,Nivel_1,Belice,31 Cultivos intensivos No-Arbóreos,6,critico
+exacto_2020,Nivel_1,Belice,32 Cultivos Arbóreos,0,vacio
+exacto_2020,Nivel_1,Belice,"33 Cultivos extensivos, Pastizales y matorrales",0,vacio
+exacto_2020,Nivel_1,Belice,41 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_1,Belice,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,Belice,43 Manglares,0,vacio
+exacto_2020,Nivel_1,Belice,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,Belice,91 Otras,0,vacio
+exacto_2020,Nivel_1,Costa Rica,11 Urbano,0,vacio
+exacto_2020,Nivel_1,Costa Rica,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,Costa Rica,21 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_1,Costa Rica,22 Humedales,0,vacio
+exacto_2020,Nivel_1,Costa Rica,31 Cultivos intensivos No-Arbóreos,0,vacio
+exacto_2020,Nivel_1,Costa Rica,32 Cultivos Arbóreos,0,vacio
+exacto_2020,Nivel_1,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales",0,vacio
+exacto_2020,Nivel_1,Costa Rica,41 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_1,Costa Rica,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,Costa Rica,43 Manglares,0,vacio
+exacto_2020,Nivel_1,Costa Rica,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,Costa Rica,91 Otras,0,vacio
+exacto_2020,Nivel_1,El Salvador,11 Urbano,0,vacio
+exacto_2020,Nivel_1,El Salvador,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,El Salvador,21 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_1,El Salvador,22 Humedales,0,vacio
+exacto_2020,Nivel_1,El Salvador,31 Cultivos intensivos No-Arbóreos,5,critico
+exacto_2020,Nivel_1,El Salvador,32 Cultivos Arbóreos,2,critico
+exacto_2020,Nivel_1,El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",0,vacio
+exacto_2020,Nivel_1,El Salvador,41 Bosque latifoliado y mixto,1,critico
+exacto_2020,Nivel_1,El Salvador,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,El Salvador,43 Manglares,0,vacio
+exacto_2020,Nivel_1,El Salvador,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,El Salvador,91 Otras,0,vacio
+exacto_2020,Nivel_1,Guatemala,11 Urbano,0,vacio
+exacto_2020,Nivel_1,Guatemala,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,Guatemala,21 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_1,Guatemala,22 Humedales,0,vacio
+exacto_2020,Nivel_1,Guatemala,31 Cultivos intensivos No-Arbóreos,97852,suficiente
+exacto_2020,Nivel_1,Guatemala,32 Cultivos Arbóreos,109004,suficiente
+exacto_2020,Nivel_1,Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",0,vacio
+exacto_2020,Nivel_1,Guatemala,41 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_1,Guatemala,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,Guatemala,43 Manglares,0,vacio
+exacto_2020,Nivel_1,Guatemala,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,Guatemala,91 Otras,0,vacio
+exacto_2020,Nivel_1,Honduras,11 Urbano,271,moderado
+exacto_2020,Nivel_1,Honduras,12 Otras tierras,8,critico
+exacto_2020,Nivel_1,Honduras,21 Cuerpos de Agua,160,moderado
+exacto_2020,Nivel_1,Honduras,22 Humedales,474,moderado
+exacto_2020,Nivel_1,Honduras,31 Cultivos intensivos No-Arbóreos,390,moderado
+exacto_2020,Nivel_1,Honduras,32 Cultivos Arbóreos,889,suficiente
+exacto_2020,Nivel_1,Honduras,"33 Cultivos extensivos, Pastizales y matorrales",6255,suficiente
+exacto_2020,Nivel_1,Honduras,41 Bosque latifoliado y mixto,7008,suficiente
+exacto_2020,Nivel_1,Honduras,42 Bosque de coníferas,2986,suficiente
+exacto_2020,Nivel_1,Honduras,43 Manglares,97,bajo
+exacto_2020,Nivel_1,Honduras,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,Honduras,91 Otras,0,vacio
+exacto_2020,Nivel_1,México,11 Urbano,0,vacio
+exacto_2020,Nivel_1,México,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,México,21 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_1,México,22 Humedales,0,vacio
+exacto_2020,Nivel_1,México,31 Cultivos intensivos No-Arbóreos,55,bajo
+exacto_2020,Nivel_1,México,32 Cultivos Arbóreos,8,critico
+exacto_2020,Nivel_1,México,"33 Cultivos extensivos, Pastizales y matorrales",0,vacio
+exacto_2020,Nivel_1,México,41 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_1,México,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,México,43 Manglares,0,vacio
+exacto_2020,Nivel_1,México,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,México,91 Otras,0,vacio
+exacto_2020,Nivel_1,Nicaragua,11 Urbano,0,vacio
+exacto_2020,Nivel_1,Nicaragua,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,Nicaragua,21 Cuerpos de Agua,5,critico
+exacto_2020,Nivel_1,Nicaragua,22 Humedales,0,vacio
+exacto_2020,Nivel_1,Nicaragua,31 Cultivos intensivos No-Arbóreos,0,vacio
+exacto_2020,Nivel_1,Nicaragua,32 Cultivos Arbóreos,0,vacio
+exacto_2020,Nivel_1,Nicaragua,"33 Cultivos extensivos, Pastizales y matorrales",1,critico
+exacto_2020,Nivel_1,Nicaragua,41 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_1,Nicaragua,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,Nicaragua,43 Manglares,1,critico
+exacto_2020,Nivel_1,Nicaragua,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,Nicaragua,91 Otras,0,vacio
+exacto_2020,Nivel_1,Panamá,11 Urbano,0,vacio
+exacto_2020,Nivel_1,Panamá,12 Otras tierras,0,vacio
+exacto_2020,Nivel_1,Panamá,21 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_1,Panamá,22 Humedales,0,vacio
+exacto_2020,Nivel_1,Panamá,31 Cultivos intensivos No-Arbóreos,0,vacio
+exacto_2020,Nivel_1,Panamá,32 Cultivos Arbóreos,0,vacio
+exacto_2020,Nivel_1,Panamá,"33 Cultivos extensivos, Pastizales y matorrales",0,vacio
+exacto_2020,Nivel_1,Panamá,41 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_1,Panamá,42 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_1,Panamá,43 Manglares,0,vacio
+exacto_2020,Nivel_1,Panamá,44 Otros arbóreo en tierras no agrícola,0,vacio
+exacto_2020,Nivel_1,Panamá,91 Otras,0,vacio
+ventana_2018_2022,Nivel_1,Belice,11 Urbano,245,moderado
+ventana_2018_2022,Nivel_1,Belice,12 Otras tierras,72,bajo
+ventana_2018_2022,Nivel_1,Belice,21 Cuerpos de Agua,235,moderado
+ventana_2018_2022,Nivel_1,Belice,22 Humedales,1072,suficiente
+ventana_2018_2022,Nivel_1,Belice,31 Cultivos intensivos No-Arbóreos,13105,suficiente
+ventana_2018_2022,Nivel_1,Belice,32 Cultivos Arbóreos,0,vacio
+ventana_2018_2022,Nivel_1,Belice,"33 Cultivos extensivos, Pastizales y matorrales",4117,suficiente
+ventana_2018_2022,Nivel_1,Belice,41 Bosque latifoliado y mixto,11530,suficiente
+ventana_2018_2022,Nivel_1,Belice,42 Bosque de coníferas,1661,suficiente
+ventana_2018_2022,Nivel_1,Belice,43 Manglares,628,suficiente
+ventana_2018_2022,Nivel_1,Belice,44 Otros arbóreo en tierras no agrícola,659,suficiente
+ventana_2018_2022,Nivel_1,Belice,91 Otras,0,vacio
+ventana_2018_2022,Nivel_1,Costa Rica,11 Urbano,438,moderado
+ventana_2018_2022,Nivel_1,Costa Rica,12 Otras tierras,9,critico
+ventana_2018_2022,Nivel_1,Costa Rica,21 Cuerpos de Agua,5,critico
+ventana_2018_2022,Nivel_1,Costa Rica,22 Humedales,3884,suficiente
+ventana_2018_2022,Nivel_1,Costa Rica,31 Cultivos intensivos No-Arbóreos,22225,suficiente
+ventana_2018_2022,Nivel_1,Costa Rica,32 Cultivos Arbóreos,15719,suficiente
+ventana_2018_2022,Nivel_1,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales",32144,suficiente
+ventana_2018_2022,Nivel_1,Costa Rica,41 Bosque latifoliado y mixto,59352,suficiente
+ventana_2018_2022,Nivel_1,Costa Rica,42 Bosque de coníferas,0,vacio
+ventana_2018_2022,Nivel_1,Costa Rica,43 Manglares,0,vacio
+ventana_2018_2022,Nivel_1,Costa Rica,44 Otros arbóreo en tierras no agrícola,2286,suficiente
+ventana_2018_2022,Nivel_1,Costa Rica,91 Otras,6145,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,11 Urbano,28102,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,12 Otras tierras,4638,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,21 Cuerpos de Agua,1857,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,22 Humedales,0,vacio
+ventana_2018_2022,Nivel_1,El Salvador,31 Cultivos intensivos No-Arbóreos,129214,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,32 Cultivos Arbóreos,79159,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",145794,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,41 Bosque latifoliado y mixto,163221,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,42 Bosque de coníferas,6060,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,43 Manglares,9875,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,44 Otros arbóreo en tierras no agrícola,4215,suficiente
+ventana_2018_2022,Nivel_1,El Salvador,91 Otras,5,critico
+ventana_2018_2022,Nivel_1,Guatemala,11 Urbano,125,moderado
+ventana_2018_2022,Nivel_1,Guatemala,12 Otras tierras,164,moderado
+ventana_2018_2022,Nivel_1,Guatemala,21 Cuerpos de Agua,52,bajo
+ventana_2018_2022,Nivel_1,Guatemala,22 Humedales,84,bajo
+ventana_2018_2022,Nivel_1,Guatemala,31 Cultivos intensivos No-Arbóreos,98335,suficiente
+ventana_2018_2022,Nivel_1,Guatemala,32 Cultivos Arbóreos,109282,suficiente
+ventana_2018_2022,Nivel_1,Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",1178,suficiente
+ventana_2018_2022,Nivel_1,Guatemala,41 Bosque latifoliado y mixto,607,suficiente
+ventana_2018_2022,Nivel_1,Guatemala,42 Bosque de coníferas,5,critico
+ventana_2018_2022,Nivel_1,Guatemala,43 Manglares,84,bajo
+ventana_2018_2022,Nivel_1,Guatemala,44 Otros arbóreo en tierras no agrícola,22,critico
+ventana_2018_2022,Nivel_1,Guatemala,91 Otras,0,vacio
+ventana_2018_2022,Nivel_1,Honduras,11 Urbano,1385,suficiente
+ventana_2018_2022,Nivel_1,Honduras,12 Otras tierras,186,moderado
+ventana_2018_2022,Nivel_1,Honduras,21 Cuerpos de Agua,905,suficiente
+ventana_2018_2022,Nivel_1,Honduras,22 Humedales,2373,suficiente
+ventana_2018_2022,Nivel_1,Honduras,31 Cultivos intensivos No-Arbóreos,43360,suficiente
+ventana_2018_2022,Nivel_1,Honduras,32 Cultivos Arbóreos,70618,suficiente
+ventana_2018_2022,Nivel_1,Honduras,"33 Cultivos extensivos, Pastizales y matorrales",32443,suficiente
+ventana_2018_2022,Nivel_1,Honduras,41 Bosque latifoliado y mixto,36229,suficiente
+ventana_2018_2022,Nivel_1,Honduras,42 Bosque de coníferas,17675,suficiente
+ventana_2018_2022,Nivel_1,Honduras,43 Manglares,1597,suficiente
+ventana_2018_2022,Nivel_1,Honduras,44 Otros arbóreo en tierras no agrícola,24,critico
+ventana_2018_2022,Nivel_1,Honduras,91 Otras,0,vacio
+ventana_2018_2022,Nivel_1,México,11 Urbano,6,critico
+ventana_2018_2022,Nivel_1,México,12 Otras tierras,0,vacio
+ventana_2018_2022,Nivel_1,México,21 Cuerpos de Agua,0,vacio
+ventana_2018_2022,Nivel_1,México,22 Humedales,36,bajo
+ventana_2018_2022,Nivel_1,México,31 Cultivos intensivos No-Arbóreos,168,moderado
+ventana_2018_2022,Nivel_1,México,32 Cultivos Arbóreos,8,critico
+ventana_2018_2022,Nivel_1,México,"33 Cultivos extensivos, Pastizales y matorrales",483,moderado
+ventana_2018_2022,Nivel_1,México,41 Bosque latifoliado y mixto,1454,suficiente
+ventana_2018_2022,Nivel_1,México,42 Bosque de coníferas,44,bajo
+ventana_2018_2022,Nivel_1,México,43 Manglares,16,critico
+ventana_2018_2022,Nivel_1,México,44 Otros arbóreo en tierras no agrícola,8,critico
+ventana_2018_2022,Nivel_1,México,91 Otras,0,vacio
+ventana_2018_2022,Nivel_1,Nicaragua,11 Urbano,0,vacio
+ventana_2018_2022,Nivel_1,Nicaragua,12 Otras tierras,0,vacio
+ventana_2018_2022,Nivel_1,Nicaragua,21 Cuerpos de Agua,25,critico
+ventana_2018_2022,Nivel_1,Nicaragua,22 Humedales,6,critico
+ventana_2018_2022,Nivel_1,Nicaragua,31 Cultivos intensivos No-Arbóreos,1,critico
+ventana_2018_2022,Nivel_1,Nicaragua,32 Cultivos Arbóreos,8,critico
+ventana_2018_2022,Nivel_1,Nicaragua,"33 Cultivos extensivos, Pastizales y matorrales",23,critico
+ventana_2018_2022,Nivel_1,Nicaragua,41 Bosque latifoliado y mixto,1,critico
+ventana_2018_2022,Nivel_1,Nicaragua,42 Bosque de coníferas,0,vacio
+ventana_2018_2022,Nivel_1,Nicaragua,43 Manglares,5,critico
+ventana_2018_2022,Nivel_1,Nicaragua,44 Otros arbóreo en tierras no agrícola,0,vacio
+ventana_2018_2022,Nivel_1,Nicaragua,91 Otras,0,vacio
+ventana_2018_2022,Nivel_1,Panamá,11 Urbano,93,bajo
+ventana_2018_2022,Nivel_1,Panamá,12 Otras tierras,14,critico
+ventana_2018_2022,Nivel_1,Panamá,21 Cuerpos de Agua,78,bajo
+ventana_2018_2022,Nivel_1,Panamá,22 Humedales,16,critico
+ventana_2018_2022,Nivel_1,Panamá,31 Cultivos intensivos No-Arbóreos,24521,suficiente
+ventana_2018_2022,Nivel_1,Panamá,32 Cultivos Arbóreos,18,critico
+ventana_2018_2022,Nivel_1,Panamá,"33 Cultivos extensivos, Pastizales y matorrales",1564,suficiente
+ventana_2018_2022,Nivel_1,Panamá,41 Bosque latifoliado y mixto,2737,suficiente
+ventana_2018_2022,Nivel_1,Panamá,42 Bosque de coníferas,0,vacio
+ventana_2018_2022,Nivel_1,Panamá,43 Manglares,109,moderado
+ventana_2018_2022,Nivel_1,Panamá,44 Otros arbóreo en tierras no agrícola,63,bajo
+ventana_2018_2022,Nivel_1,Panamá,91 Otras,2,critico

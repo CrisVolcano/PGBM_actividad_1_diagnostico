@@ -1,0 +1,6 @@
+﻿clase,n,pct,pct_acumulado,balance_flag
+30 Tierras de Cultivo y Pastos,1541708,53.510662,53.510662,dominante_extrema
+40 Tierras Forestales,1118313,38.815177,92.325839,dominante_extrema
+10 Artificializado y otra tierras,99621,3.457714,95.783553,representacion_media
+90 Otras,73010,2.534081,98.317634,representacion_media
+20 Tierras húmedas y agua,48471,1.682365,99.999999,representacion_media

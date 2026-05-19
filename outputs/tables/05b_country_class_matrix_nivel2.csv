@@ -1,0 +1,641 @@
+﻿subset,nivel,pais,clase,n_registros,estado_pais_clase
+exacto_2020,Nivel_2,Belice,110 Urbano,0,vacio
+exacto_2020,Nivel_2,Belice,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,Belice,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,Belice,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,Belice,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,Belice,210 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_2,Belice,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,Belice,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,Belice,220 Humedales,0,vacio
+exacto_2020,Nivel_2,Belice,311 Palma aceitera,6,critico
+exacto_2020,Nivel_2,Belice,312 Bananeras,0,vacio
+exacto_2020,Nivel_2,Belice,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,Belice,314 Piña,0,vacio
+exacto_2020,Nivel_2,Belice,315 Otros cultivos intensivos no arbóreos,0,vacio
+exacto_2020,Nivel_2,Belice,321 Café,0,vacio
+exacto_2020,Nivel_2,Belice,322 Cacao,0,vacio
+exacto_2020,Nivel_2,Belice,323 Frutales,0,vacio
+exacto_2020,Nivel_2,Belice,324 Hule,0,vacio
+exacto_2020,Nivel_2,Belice,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,Belice,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,Belice,332 Pastizales naturales y cultivados,0,vacio
+exacto_2020,Nivel_2,Belice,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,Belice,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,Belice,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,Belice,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,Belice,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,Belice,414 Bosque seco o deciduo,0,vacio
+exacto_2020,Nivel_2,Belice,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,Belice,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,Belice,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,Belice,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,Belice,430 Manglares,0,vacio
+exacto_2020,Nivel_2,Belice,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,Belice,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,Belice,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,Belice,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,Belice,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,Belice,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,Belice,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,Belice,910 Otras,0,vacio
+exacto_2020,Nivel_2,Costa Rica,110 Urbano,0,vacio
+exacto_2020,Nivel_2,Costa Rica,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,Costa Rica,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,Costa Rica,210 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_2,Costa Rica,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,Costa Rica,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,Costa Rica,220 Humedales,0,vacio
+exacto_2020,Nivel_2,Costa Rica,311 Palma aceitera,0,vacio
+exacto_2020,Nivel_2,Costa Rica,312 Bananeras,0,vacio
+exacto_2020,Nivel_2,Costa Rica,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,Costa Rica,314 Piña,0,vacio
+exacto_2020,Nivel_2,Costa Rica,315 Otros cultivos intensivos no arbóreos,0,vacio
+exacto_2020,Nivel_2,Costa Rica,321 Café,0,vacio
+exacto_2020,Nivel_2,Costa Rica,322 Cacao,0,vacio
+exacto_2020,Nivel_2,Costa Rica,323 Frutales,0,vacio
+exacto_2020,Nivel_2,Costa Rica,324 Hule,0,vacio
+exacto_2020,Nivel_2,Costa Rica,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,Costa Rica,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,Costa Rica,332 Pastizales naturales y cultivados,0,vacio
+exacto_2020,Nivel_2,Costa Rica,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,Costa Rica,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,Costa Rica,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,Costa Rica,414 Bosque seco o deciduo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,Costa Rica,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,Costa Rica,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,Costa Rica,430 Manglares,0,vacio
+exacto_2020,Nivel_2,Costa Rica,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,Costa Rica,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,Costa Rica,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,Costa Rica,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,Costa Rica,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,Costa Rica,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,Costa Rica,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,Costa Rica,910 Otras,0,vacio
+exacto_2020,Nivel_2,El Salvador,110 Urbano,0,vacio
+exacto_2020,Nivel_2,El Salvador,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,El Salvador,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,El Salvador,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,El Salvador,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,El Salvador,210 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_2,El Salvador,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,El Salvador,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,El Salvador,220 Humedales,0,vacio
+exacto_2020,Nivel_2,El Salvador,311 Palma aceitera,0,vacio
+exacto_2020,Nivel_2,El Salvador,312 Bananeras,5,critico
+exacto_2020,Nivel_2,El Salvador,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,El Salvador,314 Piña,0,vacio
+exacto_2020,Nivel_2,El Salvador,315 Otros cultivos intensivos no arbóreos,0,vacio
+exacto_2020,Nivel_2,El Salvador,321 Café,2,critico
+exacto_2020,Nivel_2,El Salvador,322 Cacao,0,vacio
+exacto_2020,Nivel_2,El Salvador,323 Frutales,0,vacio
+exacto_2020,Nivel_2,El Salvador,324 Hule,0,vacio
+exacto_2020,Nivel_2,El Salvador,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,El Salvador,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,El Salvador,332 Pastizales naturales y cultivados,0,vacio
+exacto_2020,Nivel_2,El Salvador,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,El Salvador,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,El Salvador,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,El Salvador,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,El Salvador,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,El Salvador,414 Bosque seco o deciduo,1,critico
+exacto_2020,Nivel_2,El Salvador,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,El Salvador,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,El Salvador,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,El Salvador,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,El Salvador,430 Manglares,0,vacio
+exacto_2020,Nivel_2,El Salvador,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,El Salvador,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,El Salvador,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,El Salvador,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,El Salvador,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,El Salvador,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,El Salvador,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,El Salvador,910 Otras,0,vacio
+exacto_2020,Nivel_2,Guatemala,110 Urbano,0,vacio
+exacto_2020,Nivel_2,Guatemala,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,Guatemala,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,Guatemala,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,Guatemala,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,Guatemala,210 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_2,Guatemala,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,Guatemala,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,Guatemala,220 Humedales,0,vacio
+exacto_2020,Nivel_2,Guatemala,311 Palma aceitera,29404,suficiente
+exacto_2020,Nivel_2,Guatemala,312 Bananeras,12263,suficiente
+exacto_2020,Nivel_2,Guatemala,313 Caña de azúcar,51753,suficiente
+exacto_2020,Nivel_2,Guatemala,314 Piña,2069,suficiente
+exacto_2020,Nivel_2,Guatemala,315 Otros cultivos intensivos no arbóreos,2363,suficiente
+exacto_2020,Nivel_2,Guatemala,321 Café,85958,suficiente
+exacto_2020,Nivel_2,Guatemala,322 Cacao,558,suficiente
+exacto_2020,Nivel_2,Guatemala,323 Frutales,0,vacio
+exacto_2020,Nivel_2,Guatemala,324 Hule,22488,suficiente
+exacto_2020,Nivel_2,Guatemala,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,Guatemala,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,Guatemala,332 Pastizales naturales y cultivados,0,vacio
+exacto_2020,Nivel_2,Guatemala,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,Guatemala,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,Guatemala,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,Guatemala,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,Guatemala,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,Guatemala,414 Bosque seco o deciduo,0,vacio
+exacto_2020,Nivel_2,Guatemala,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,Guatemala,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,Guatemala,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,Guatemala,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,Guatemala,430 Manglares,0,vacio
+exacto_2020,Nivel_2,Guatemala,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,Guatemala,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,Guatemala,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,Guatemala,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,Guatemala,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,Guatemala,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,Guatemala,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,Guatemala,910 Otras,0,vacio
+exacto_2020,Nivel_2,Honduras,110 Urbano,271,moderado
+exacto_2020,Nivel_2,Honduras,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,Honduras,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,Honduras,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,Honduras,"122 Suelo desnudo, arena, rocoso, lava, otros",8,critico
+exacto_2020,Nivel_2,Honduras,210 Cuerpos de Agua,160,moderado
+exacto_2020,Nivel_2,Honduras,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,Honduras,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,Honduras,220 Humedales,474,moderado
+exacto_2020,Nivel_2,Honduras,311 Palma aceitera,390,moderado
+exacto_2020,Nivel_2,Honduras,312 Bananeras,0,vacio
+exacto_2020,Nivel_2,Honduras,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,Honduras,314 Piña,0,vacio
+exacto_2020,Nivel_2,Honduras,315 Otros cultivos intensivos no arbóreos,0,vacio
+exacto_2020,Nivel_2,Honduras,321 Café,412,moderado
+exacto_2020,Nivel_2,Honduras,322 Cacao,3,critico
+exacto_2020,Nivel_2,Honduras,323 Frutales,38,bajo
+exacto_2020,Nivel_2,Honduras,324 Hule,0,vacio
+exacto_2020,Nivel_2,Honduras,325 Otros sistemas agroforestales o silvopastoriles,436,moderado
+exacto_2020,Nivel_2,Honduras,331 Granos básicos y hortalizas  y otros,1170,suficiente
+exacto_2020,Nivel_2,Honduras,332 Pastizales naturales y cultivados,2611,suficiente
+exacto_2020,Nivel_2,Honduras,333 Matorrales (barbecho o en descanso),2474,suficiente
+exacto_2020,Nivel_2,Honduras,410 Bosque latifoliado y mixto,4474,suficiente
+exacto_2020,Nivel_2,Honduras,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,Honduras,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,Honduras,413 Bosque Mixto (Lat-Coniferas),868,suficiente
+exacto_2020,Nivel_2,Honduras,414 Bosque seco o deciduo,1666,suficiente
+exacto_2020,Nivel_2,Honduras,420 Bosque de coníferas,2986,suficiente
+exacto_2020,Nivel_2,Honduras,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,Honduras,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,Honduras,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,Honduras,430 Manglares,97,bajo
+exacto_2020,Nivel_2,Honduras,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,Honduras,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,Honduras,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,Honduras,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,Honduras,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,Honduras,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,Honduras,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,Honduras,910 Otras,0,vacio
+exacto_2020,Nivel_2,México,110 Urbano,0,vacio
+exacto_2020,Nivel_2,México,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,México,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,México,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,México,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,México,210 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_2,México,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,México,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,México,220 Humedales,0,vacio
+exacto_2020,Nivel_2,México,311 Palma aceitera,19,critico
+exacto_2020,Nivel_2,México,312 Bananeras,5,critico
+exacto_2020,Nivel_2,México,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,México,314 Piña,0,vacio
+exacto_2020,Nivel_2,México,315 Otros cultivos intensivos no arbóreos,31,bajo
+exacto_2020,Nivel_2,México,321 Café,8,critico
+exacto_2020,Nivel_2,México,322 Cacao,0,vacio
+exacto_2020,Nivel_2,México,323 Frutales,0,vacio
+exacto_2020,Nivel_2,México,324 Hule,0,vacio
+exacto_2020,Nivel_2,México,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,México,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,México,332 Pastizales naturales y cultivados,0,vacio
+exacto_2020,Nivel_2,México,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,México,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,México,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,México,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,México,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,México,414 Bosque seco o deciduo,0,vacio
+exacto_2020,Nivel_2,México,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,México,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,México,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,México,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,México,430 Manglares,0,vacio
+exacto_2020,Nivel_2,México,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,México,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,México,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,México,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,México,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,México,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,México,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,México,910 Otras,0,vacio
+exacto_2020,Nivel_2,Nicaragua,110 Urbano,0,vacio
+exacto_2020,Nivel_2,Nicaragua,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,Nicaragua,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,Nicaragua,210 Cuerpos de Agua,5,critico
+exacto_2020,Nivel_2,Nicaragua,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,Nicaragua,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,Nicaragua,220 Humedales,0,vacio
+exacto_2020,Nivel_2,Nicaragua,311 Palma aceitera,0,vacio
+exacto_2020,Nivel_2,Nicaragua,312 Bananeras,0,vacio
+exacto_2020,Nivel_2,Nicaragua,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,Nicaragua,314 Piña,0,vacio
+exacto_2020,Nivel_2,Nicaragua,315 Otros cultivos intensivos no arbóreos,0,vacio
+exacto_2020,Nivel_2,Nicaragua,321 Café,0,vacio
+exacto_2020,Nivel_2,Nicaragua,322 Cacao,0,vacio
+exacto_2020,Nivel_2,Nicaragua,323 Frutales,0,vacio
+exacto_2020,Nivel_2,Nicaragua,324 Hule,0,vacio
+exacto_2020,Nivel_2,Nicaragua,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,Nicaragua,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,Nicaragua,332 Pastizales naturales y cultivados,1,critico
+exacto_2020,Nivel_2,Nicaragua,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,Nicaragua,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,Nicaragua,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,Nicaragua,414 Bosque seco o deciduo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,Nicaragua,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,Nicaragua,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,Nicaragua,430 Manglares,1,critico
+exacto_2020,Nivel_2,Nicaragua,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,Nicaragua,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,Nicaragua,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,Nicaragua,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,Nicaragua,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,Nicaragua,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,Nicaragua,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,Nicaragua,910 Otras,0,vacio
+exacto_2020,Nivel_2,Panamá,110 Urbano,0,vacio
+exacto_2020,Nivel_2,Panamá,111 Urbano continuo,0,vacio
+exacto_2020,Nivel_2,Panamá,112 Urbano discontinuo,0,vacio
+exacto_2020,Nivel_2,Panamá,121 Otros artificializado,0,vacio
+exacto_2020,Nivel_2,Panamá,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+exacto_2020,Nivel_2,Panamá,210 Cuerpos de Agua,0,vacio
+exacto_2020,Nivel_2,Panamá,211 Cuerpos de agua natural,0,vacio
+exacto_2020,Nivel_2,Panamá,212 Cuerpos de agua artificial,0,vacio
+exacto_2020,Nivel_2,Panamá,220 Humedales,0,vacio
+exacto_2020,Nivel_2,Panamá,311 Palma aceitera,0,vacio
+exacto_2020,Nivel_2,Panamá,312 Bananeras,0,vacio
+exacto_2020,Nivel_2,Panamá,313 Caña de azúcar,0,vacio
+exacto_2020,Nivel_2,Panamá,314 Piña,0,vacio
+exacto_2020,Nivel_2,Panamá,315 Otros cultivos intensivos no arbóreos,0,vacio
+exacto_2020,Nivel_2,Panamá,321 Café,0,vacio
+exacto_2020,Nivel_2,Panamá,322 Cacao,0,vacio
+exacto_2020,Nivel_2,Panamá,323 Frutales,0,vacio
+exacto_2020,Nivel_2,Panamá,324 Hule,0,vacio
+exacto_2020,Nivel_2,Panamá,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+exacto_2020,Nivel_2,Panamá,331 Granos básicos y hortalizas  y otros,0,vacio
+exacto_2020,Nivel_2,Panamá,332 Pastizales naturales y cultivados,0,vacio
+exacto_2020,Nivel_2,Panamá,333 Matorrales (barbecho o en descanso),0,vacio
+exacto_2020,Nivel_2,Panamá,410 Bosque latifoliado y mixto,0,vacio
+exacto_2020,Nivel_2,Panamá,411 Latifoliado maduro húmedo,0,vacio
+exacto_2020,Nivel_2,Panamá,412 Latifoliado secundario húmedo,0,vacio
+exacto_2020,Nivel_2,Panamá,413 Bosque Mixto (Lat-Coniferas),0,vacio
+exacto_2020,Nivel_2,Panamá,414 Bosque seco o deciduo,0,vacio
+exacto_2020,Nivel_2,Panamá,420 Bosque de coníferas,0,vacio
+exacto_2020,Nivel_2,Panamá,421 Coníferas denso,0,vacio
+exacto_2020,Nivel_2,Panamá,422 Coníferas ralo,0,vacio
+exacto_2020,Nivel_2,Panamá,423 Sabanas de pino,0,vacio
+exacto_2020,Nivel_2,Panamá,430 Manglares,0,vacio
+exacto_2020,Nivel_2,Panamá,431 Manglar alto,0,vacio
+exacto_2020,Nivel_2,Panamá,432 Manglar bajo,0,vacio
+exacto_2020,Nivel_2,Panamá,441 Masa arbórea ribereña,0,vacio
+exacto_2020,Nivel_2,Panamá,442 Plantaciones forestales,0,vacio
+exacto_2020,Nivel_2,Panamá,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+exacto_2020,Nivel_2,Panamá,444 Regeneración forestal,0,vacio
+exacto_2020,Nivel_2,Panamá,445 Bosque de Palmas,0,vacio
+exacto_2020,Nivel_2,Panamá,910 Otras,0,vacio
+ventana_2018_2022,Nivel_2,Belice,110 Urbano,245,moderado
+ventana_2018_2022,Nivel_2,Belice,111 Urbano continuo,0,vacio
+ventana_2018_2022,Nivel_2,Belice,112 Urbano discontinuo,0,vacio
+ventana_2018_2022,Nivel_2,Belice,121 Otros artificializado,51,bajo
+ventana_2018_2022,Nivel_2,Belice,"122 Suelo desnudo, arena, rocoso, lava, otros",21,critico
+ventana_2018_2022,Nivel_2,Belice,210 Cuerpos de Agua,194,moderado
+ventana_2018_2022,Nivel_2,Belice,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,Belice,212 Cuerpos de agua artificial,41,bajo
+ventana_2018_2022,Nivel_2,Belice,220 Humedales,1072,suficiente
+ventana_2018_2022,Nivel_2,Belice,311 Palma aceitera,6,critico
+ventana_2018_2022,Nivel_2,Belice,312 Bananeras,1920,suficiente
+ventana_2018_2022,Nivel_2,Belice,313 Caña de azúcar,7602,suficiente
+ventana_2018_2022,Nivel_2,Belice,314 Piña,0,vacio
+ventana_2018_2022,Nivel_2,Belice,315 Otros cultivos intensivos no arbóreos,3577,suficiente
+ventana_2018_2022,Nivel_2,Belice,321 Café,0,vacio
+ventana_2018_2022,Nivel_2,Belice,322 Cacao,0,vacio
+ventana_2018_2022,Nivel_2,Belice,323 Frutales,0,vacio
+ventana_2018_2022,Nivel_2,Belice,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,Belice,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+ventana_2018_2022,Nivel_2,Belice,331 Granos básicos y hortalizas  y otros,148,moderado
+ventana_2018_2022,Nivel_2,Belice,332 Pastizales naturales y cultivados,1364,suficiente
+ventana_2018_2022,Nivel_2,Belice,333 Matorrales (barbecho o en descanso),2605,suficiente
+ventana_2018_2022,Nivel_2,Belice,410 Bosque latifoliado y mixto,0,vacio
+ventana_2018_2022,Nivel_2,Belice,411 Latifoliado maduro húmedo,9028,suficiente
+ventana_2018_2022,Nivel_2,Belice,412 Latifoliado secundario húmedo,2502,suficiente
+ventana_2018_2022,Nivel_2,Belice,413 Bosque Mixto (Lat-Coniferas),0,vacio
+ventana_2018_2022,Nivel_2,Belice,414 Bosque seco o deciduo,0,vacio
+ventana_2018_2022,Nivel_2,Belice,420 Bosque de coníferas,200,moderado
+ventana_2018_2022,Nivel_2,Belice,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,Belice,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,Belice,423 Sabanas de pino,1461,suficiente
+ventana_2018_2022,Nivel_2,Belice,430 Manglares,628,suficiente
+ventana_2018_2022,Nivel_2,Belice,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,Belice,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,Belice,441 Masa arbórea ribereña,0,vacio
+ventana_2018_2022,Nivel_2,Belice,442 Plantaciones forestales,10,critico
+ventana_2018_2022,Nivel_2,Belice,443  Árboles fuera de bosque y otras áreas naturales,107,moderado
+ventana_2018_2022,Nivel_2,Belice,444 Regeneración forestal,542,suficiente
+ventana_2018_2022,Nivel_2,Belice,445 Bosque de Palmas,0,vacio
+ventana_2018_2022,Nivel_2,Belice,910 Otras,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,110 Urbano,438,moderado
+ventana_2018_2022,Nivel_2,Costa Rica,111 Urbano continuo,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,112 Urbano discontinuo,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,121 Otros artificializado,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,"122 Suelo desnudo, arena, rocoso, lava, otros",9,critico
+ventana_2018_2022,Nivel_2,Costa Rica,210 Cuerpos de Agua,5,critico
+ventana_2018_2022,Nivel_2,Costa Rica,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,212 Cuerpos de agua artificial,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,220 Humedales,3884,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,311 Palma aceitera,11850,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,312 Bananeras,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,313 Caña de azúcar,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,314 Piña,10375,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,315 Otros cultivos intensivos no arbóreos,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,321 Café,15704,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,322 Cacao,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,323 Frutales,15,critico
+ventana_2018_2022,Nivel_2,Costa Rica,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,331 Granos básicos y hortalizas  y otros,8566,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,332 Pastizales naturales y cultivados,23578,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,333 Matorrales (barbecho o en descanso),0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,410 Bosque latifoliado y mixto,57948,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,411 Latifoliado maduro húmedo,548,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,412 Latifoliado secundario húmedo,856,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,413 Bosque Mixto (Lat-Coniferas),0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,414 Bosque seco o deciduo,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,420 Bosque de coníferas,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,430 Manglares,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,441 Masa arbórea ribereña,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,442 Plantaciones forestales,1004,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,443  Árboles fuera de bosque y otras áreas naturales,1282,suficiente
+ventana_2018_2022,Nivel_2,Costa Rica,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,445 Bosque de Palmas,0,vacio
+ventana_2018_2022,Nivel_2,Costa Rica,910 Otras,6145,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,110 Urbano,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,111 Urbano continuo,10953,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,112 Urbano discontinuo,17149,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,121 Otros artificializado,2780,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,"122 Suelo desnudo, arena, rocoso, lava, otros",1858,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,210 Cuerpos de Agua,1829,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,212 Cuerpos de agua artificial,28,critico
+ventana_2018_2022,Nivel_2,El Salvador,220 Humedales,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,311 Palma aceitera,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,312 Bananeras,5,critico
+ventana_2018_2022,Nivel_2,El Salvador,313 Caña de azúcar,32367,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,314 Piña,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,315 Otros cultivos intensivos no arbóreos,96842,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,321 Café,50139,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,322 Cacao,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,323 Frutales,6453,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,325 Otros sistemas agroforestales o silvopastoriles,22567,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,331 Granos básicos y hortalizas  y otros,12834,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,332 Pastizales naturales y cultivados,83629,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,333 Matorrales (barbecho o en descanso),49331,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,410 Bosque latifoliado y mixto,163070,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,411 Latifoliado maduro húmedo,15,critico
+ventana_2018_2022,Nivel_2,El Salvador,412 Latifoliado secundario húmedo,117,moderado
+ventana_2018_2022,Nivel_2,El Salvador,413 Bosque Mixto (Lat-Coniferas),0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,414 Bosque seco o deciduo,19,critico
+ventana_2018_2022,Nivel_2,El Salvador,420 Bosque de coníferas,6060,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,430 Manglares,9875,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,441 Masa arbórea ribereña,338,moderado
+ventana_2018_2022,Nivel_2,El Salvador,442 Plantaciones forestales,2249,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,443  Árboles fuera de bosque y otras áreas naturales,1628,suficiente
+ventana_2018_2022,Nivel_2,El Salvador,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,445 Bosque de Palmas,0,vacio
+ventana_2018_2022,Nivel_2,El Salvador,910 Otras,5,critico
+ventana_2018_2022,Nivel_2,Guatemala,110 Urbano,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,111 Urbano continuo,42,bajo
+ventana_2018_2022,Nivel_2,Guatemala,112 Urbano discontinuo,83,bajo
+ventana_2018_2022,Nivel_2,Guatemala,121 Otros artificializado,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,"122 Suelo desnudo, arena, rocoso, lava, otros",164,moderado
+ventana_2018_2022,Nivel_2,Guatemala,210 Cuerpos de Agua,15,critico
+ventana_2018_2022,Nivel_2,Guatemala,211 Cuerpos de agua natural,37,bajo
+ventana_2018_2022,Nivel_2,Guatemala,212 Cuerpos de agua artificial,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,220 Humedales,84,bajo
+ventana_2018_2022,Nivel_2,Guatemala,311 Palma aceitera,29409,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,312 Bananeras,12263,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,313 Caña de azúcar,52194,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,314 Piña,2070,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,315 Otros cultivos intensivos no arbóreos,2399,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,321 Café,86075,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,322 Cacao,558,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,323 Frutales,12,critico
+ventana_2018_2022,Nivel_2,Guatemala,324 Hule,22488,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,325 Otros sistemas agroforestales o silvopastoriles,149,moderado
+ventana_2018_2022,Nivel_2,Guatemala,331 Granos básicos y hortalizas  y otros,112,moderado
+ventana_2018_2022,Nivel_2,Guatemala,332 Pastizales naturales y cultivados,709,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,333 Matorrales (barbecho o en descanso),357,moderado
+ventana_2018_2022,Nivel_2,Guatemala,410 Bosque latifoliado y mixto,601,suficiente
+ventana_2018_2022,Nivel_2,Guatemala,411 Latifoliado maduro húmedo,2,critico
+ventana_2018_2022,Nivel_2,Guatemala,412 Latifoliado secundario húmedo,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,413 Bosque Mixto (Lat-Coniferas),4,critico
+ventana_2018_2022,Nivel_2,Guatemala,414 Bosque seco o deciduo,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,420 Bosque de coníferas,5,critico
+ventana_2018_2022,Nivel_2,Guatemala,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,430 Manglares,84,bajo
+ventana_2018_2022,Nivel_2,Guatemala,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,441 Masa arbórea ribereña,1,critico
+ventana_2018_2022,Nivel_2,Guatemala,442 Plantaciones forestales,1,critico
+ventana_2018_2022,Nivel_2,Guatemala,443  Árboles fuera de bosque y otras áreas naturales,20,critico
+ventana_2018_2022,Nivel_2,Guatemala,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,445 Bosque de Palmas,0,vacio
+ventana_2018_2022,Nivel_2,Guatemala,910 Otras,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,110 Urbano,1346,suficiente
+ventana_2018_2022,Nivel_2,Honduras,111 Urbano continuo,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,112 Urbano discontinuo,39,bajo
+ventana_2018_2022,Nivel_2,Honduras,121 Otros artificializado,60,bajo
+ventana_2018_2022,Nivel_2,Honduras,"122 Suelo desnudo, arena, rocoso, lava, otros",126,moderado
+ventana_2018_2022,Nivel_2,Honduras,210 Cuerpos de Agua,905,suficiente
+ventana_2018_2022,Nivel_2,Honduras,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,212 Cuerpos de agua artificial,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,220 Humedales,2373,suficiente
+ventana_2018_2022,Nivel_2,Honduras,311 Palma aceitera,34273,suficiente
+ventana_2018_2022,Nivel_2,Honduras,312 Bananeras,1068,suficiente
+ventana_2018_2022,Nivel_2,Honduras,313 Caña de azúcar,6375,suficiente
+ventana_2018_2022,Nivel_2,Honduras,314 Piña,594,suficiente
+ventana_2018_2022,Nivel_2,Honduras,315 Otros cultivos intensivos no arbóreos,1050,suficiente
+ventana_2018_2022,Nivel_2,Honduras,321 Café,68207,suficiente
+ventana_2018_2022,Nivel_2,Honduras,322 Cacao,17,critico
+ventana_2018_2022,Nivel_2,Honduras,323 Frutales,189,moderado
+ventana_2018_2022,Nivel_2,Honduras,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,325 Otros sistemas agroforestales o silvopastoriles,2205,suficiente
+ventana_2018_2022,Nivel_2,Honduras,331 Granos básicos y hortalizas  y otros,5831,suficiente
+ventana_2018_2022,Nivel_2,Honduras,332 Pastizales naturales y cultivados,13735,suficiente
+ventana_2018_2022,Nivel_2,Honduras,333 Matorrales (barbecho o en descanso),12877,suficiente
+ventana_2018_2022,Nivel_2,Honduras,410 Bosque latifoliado y mixto,23546,suficiente
+ventana_2018_2022,Nivel_2,Honduras,411 Latifoliado maduro húmedo,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,412 Latifoliado secundario húmedo,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,413 Bosque Mixto (Lat-Coniferas),4338,suficiente
+ventana_2018_2022,Nivel_2,Honduras,414 Bosque seco o deciduo,8345,suficiente
+ventana_2018_2022,Nivel_2,Honduras,420 Bosque de coníferas,17675,suficiente
+ventana_2018_2022,Nivel_2,Honduras,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,430 Manglares,1597,suficiente
+ventana_2018_2022,Nivel_2,Honduras,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,441 Masa arbórea ribereña,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,442 Plantaciones forestales,24,critico
+ventana_2018_2022,Nivel_2,Honduras,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,445 Bosque de Palmas,0,vacio
+ventana_2018_2022,Nivel_2,Honduras,910 Otras,0,vacio
+ventana_2018_2022,Nivel_2,México,110 Urbano,6,critico
+ventana_2018_2022,Nivel_2,México,111 Urbano continuo,0,vacio
+ventana_2018_2022,Nivel_2,México,112 Urbano discontinuo,0,vacio
+ventana_2018_2022,Nivel_2,México,121 Otros artificializado,0,vacio
+ventana_2018_2022,Nivel_2,México,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+ventana_2018_2022,Nivel_2,México,210 Cuerpos de Agua,0,vacio
+ventana_2018_2022,Nivel_2,México,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,México,212 Cuerpos de agua artificial,0,vacio
+ventana_2018_2022,Nivel_2,México,220 Humedales,36,bajo
+ventana_2018_2022,Nivel_2,México,311 Palma aceitera,19,critico
+ventana_2018_2022,Nivel_2,México,312 Bananeras,5,critico
+ventana_2018_2022,Nivel_2,México,313 Caña de azúcar,0,vacio
+ventana_2018_2022,Nivel_2,México,314 Piña,0,vacio
+ventana_2018_2022,Nivel_2,México,315 Otros cultivos intensivos no arbóreos,144,moderado
+ventana_2018_2022,Nivel_2,México,321 Café,8,critico
+ventana_2018_2022,Nivel_2,México,322 Cacao,0,vacio
+ventana_2018_2022,Nivel_2,México,323 Frutales,0,vacio
+ventana_2018_2022,Nivel_2,México,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,México,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+ventana_2018_2022,Nivel_2,México,331 Granos básicos y hortalizas  y otros,0,vacio
+ventana_2018_2022,Nivel_2,México,332 Pastizales naturales y cultivados,156,moderado
+ventana_2018_2022,Nivel_2,México,333 Matorrales (barbecho o en descanso),327,moderado
+ventana_2018_2022,Nivel_2,México,410 Bosque latifoliado y mixto,1184,suficiente
+ventana_2018_2022,Nivel_2,México,411 Latifoliado maduro húmedo,0,vacio
+ventana_2018_2022,Nivel_2,México,412 Latifoliado secundario húmedo,79,bajo
+ventana_2018_2022,Nivel_2,México,413 Bosque Mixto (Lat-Coniferas),79,bajo
+ventana_2018_2022,Nivel_2,México,414 Bosque seco o deciduo,112,moderado
+ventana_2018_2022,Nivel_2,México,420 Bosque de coníferas,44,bajo
+ventana_2018_2022,Nivel_2,México,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,México,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,México,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,México,430 Manglares,16,critico
+ventana_2018_2022,Nivel_2,México,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,México,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,México,441 Masa arbórea ribereña,0,vacio
+ventana_2018_2022,Nivel_2,México,442 Plantaciones forestales,4,critico
+ventana_2018_2022,Nivel_2,México,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+ventana_2018_2022,Nivel_2,México,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,México,445 Bosque de Palmas,4,critico
+ventana_2018_2022,Nivel_2,México,910 Otras,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,110 Urbano,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,111 Urbano continuo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,112 Urbano discontinuo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,121 Otros artificializado,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,"122 Suelo desnudo, arena, rocoso, lava, otros",0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,210 Cuerpos de Agua,25,critico
+ventana_2018_2022,Nivel_2,Nicaragua,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,212 Cuerpos de agua artificial,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,220 Humedales,6,critico
+ventana_2018_2022,Nivel_2,Nicaragua,311 Palma aceitera,1,critico
+ventana_2018_2022,Nivel_2,Nicaragua,312 Bananeras,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,313 Caña de azúcar,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,314 Piña,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,315 Otros cultivos intensivos no arbóreos,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,321 Café,8,critico
+ventana_2018_2022,Nivel_2,Nicaragua,322 Cacao,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,323 Frutales,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,325 Otros sistemas agroforestales o silvopastoriles,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,331 Granos básicos y hortalizas  y otros,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,332 Pastizales naturales y cultivados,23,critico
+ventana_2018_2022,Nivel_2,Nicaragua,333 Matorrales (barbecho o en descanso),0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,410 Bosque latifoliado y mixto,1,critico
+ventana_2018_2022,Nivel_2,Nicaragua,411 Latifoliado maduro húmedo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,412 Latifoliado secundario húmedo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,413 Bosque Mixto (Lat-Coniferas),0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,414 Bosque seco o deciduo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,420 Bosque de coníferas,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,430 Manglares,5,critico
+ventana_2018_2022,Nivel_2,Nicaragua,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,441 Masa arbórea ribereña,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,442 Plantaciones forestales,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,445 Bosque de Palmas,0,vacio
+ventana_2018_2022,Nivel_2,Nicaragua,910 Otras,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,110 Urbano,93,bajo
+ventana_2018_2022,Nivel_2,Panamá,111 Urbano continuo,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,112 Urbano discontinuo,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,121 Otros artificializado,10,critico
+ventana_2018_2022,Nivel_2,Panamá,"122 Suelo desnudo, arena, rocoso, lava, otros",4,critico
+ventana_2018_2022,Nivel_2,Panamá,210 Cuerpos de Agua,78,bajo
+ventana_2018_2022,Nivel_2,Panamá,211 Cuerpos de agua natural,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,212 Cuerpos de agua artificial,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,220 Humedales,16,critico
+ventana_2018_2022,Nivel_2,Panamá,311 Palma aceitera,3498,suficiente
+ventana_2018_2022,Nivel_2,Panamá,312 Bananeras,2042,suficiente
+ventana_2018_2022,Nivel_2,Panamá,313 Caña de azúcar,5622,suficiente
+ventana_2018_2022,Nivel_2,Panamá,314 Piña,414,moderado
+ventana_2018_2022,Nivel_2,Panamá,315 Otros cultivos intensivos no arbóreos,12945,suficiente
+ventana_2018_2022,Nivel_2,Panamá,321 Café,10,critico
+ventana_2018_2022,Nivel_2,Panamá,322 Cacao,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,323 Frutales,3,critico
+ventana_2018_2022,Nivel_2,Panamá,324 Hule,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,325 Otros sistemas agroforestales o silvopastoriles,5,critico
+ventana_2018_2022,Nivel_2,Panamá,331 Granos básicos y hortalizas  y otros,96,bajo
+ventana_2018_2022,Nivel_2,Panamá,332 Pastizales naturales y cultivados,1163,suficiente
+ventana_2018_2022,Nivel_2,Panamá,333 Matorrales (barbecho o en descanso),305,moderado
+ventana_2018_2022,Nivel_2,Panamá,410 Bosque latifoliado y mixto,22,critico
+ventana_2018_2022,Nivel_2,Panamá,411 Latifoliado maduro húmedo,1764,suficiente
+ventana_2018_2022,Nivel_2,Panamá,412 Latifoliado secundario húmedo,951,suficiente
+ventana_2018_2022,Nivel_2,Panamá,413 Bosque Mixto (Lat-Coniferas),0,vacio
+ventana_2018_2022,Nivel_2,Panamá,414 Bosque seco o deciduo,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,420 Bosque de coníferas,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,421 Coníferas denso,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,422 Coníferas ralo,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,423 Sabanas de pino,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,430 Manglares,109,moderado
+ventana_2018_2022,Nivel_2,Panamá,431 Manglar alto,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,432 Manglar bajo,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,441 Masa arbórea ribereña,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,442 Plantaciones forestales,53,bajo
+ventana_2018_2022,Nivel_2,Panamá,443  Árboles fuera de bosque y otras áreas naturales,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,444 Regeneración forestal,0,vacio
+ventana_2018_2022,Nivel_2,Panamá,445 Bosque de Palmas,10,critico
+ventana_2018_2022,Nivel_2,Panamá,910 Otras,2,critico
