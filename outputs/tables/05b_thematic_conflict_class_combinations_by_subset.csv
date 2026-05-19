@@ -1,0 +1,73 @@
+﻿subset,pais_grupo,valores_nivel1_subset,valores_nivel2_subset,n_grupos,n_registros,promedio_anios,anio_min_global,anio_max_global
+ventana_2018_2022,Costa Rica,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","410 Bosque latifoliado y mixto,332 Pastizales naturales y cultivados",815,1630,1.0,2021,2021
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","410 Bosque latifoliado y mixto,332 Pastizales naturales y cultivados",245,1225,5.0,2018,2022
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales,91 Otras","332 Pastizales naturales y cultivados,910 Otras",364,728,1.0,2021,2021
+ventana_2018_2022,Costa Rica,"41 Bosque latifoliado y mixto,91 Otras","410 Bosque latifoliado y mixto,910 Otras",177,354,1.0,2021,2021
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","410 Bosque latifoliado y mixto,333 Matorrales (barbecho o en descanso)",64,320,5.0,2018,2022
+ventana_2018_2022,Costa Rica,"41 Bosque latifoliado y mixto,22 Humedales","410 Bosque latifoliado y mixto,220 Humedales",149,298,1.0,2021,2021
+ventana_2018_2022,Costa Rica,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","410 Bosque latifoliado y mixto,331 Granos básicos y hortalizas  y otros",148,296,1.0,2021,2021
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales,22 Humedales","332 Pastizales naturales y cultivados,220 Humedales",122,244,1.0,2021,2021
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales","332 Pastizales naturales y cultivados,331 Granos básicos y hortalizas  y otros",95,190,1.0,2021,2021
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales,91 Otras","331 Granos básicos y hortalizas  y otros,910 Otras",80,160,1.0,2021,2021
+ventana_2018_2022,Honduras,"42 Bosque de coníferas,33 Cultivos extensivos, Pastizales y matorrales","420 Bosque de coníferas,332 Pastizales naturales y cultivados",27,135,5.0,2018,2022
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales","331 Granos básicos y hortalizas  y otros,332 Pastizales naturales y cultivados",63,126,1.0,2021,2021
+ventana_2018_2022,Costa Rica,"41 Bosque latifoliado y mixto,44 Otros arbóreo en tierras no agrícola","410 Bosque latifoliado y mixto,442 Plantaciones forestales",62,124,1.0,2021,2021
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,41 Bosque latifoliado y mixto","333 Matorrales (barbecho o en descanso),414 Bosque seco o deciduo",23,115,5.0,2018,2022
+ventana_2018_2022,Honduras,32 Cultivos Arbóreos,"321 Café,325 Otros sistemas agroforestales o silvopastoriles",20,100,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,41 Bosque latifoliado y mixto","333 Matorrales (barbecho o en descanso),410 Bosque latifoliado y mixto",19,95,5.0,2018,2022
+ventana_2018_2022,Costa Rica,"22 Humedales,91 Otras","220 Humedales,910 Otras",45,90,1.0,2021,2021
+ventana_2018_2022,Honduras,"42 Bosque de coníferas,33 Cultivos extensivos, Pastizales y matorrales","420 Bosque de coníferas,333 Matorrales (barbecho o en descanso)",18,90,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","410 Bosque latifoliado y mixto,331 Granos básicos y hortalizas  y otros",16,80,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","414 Bosque seco o deciduo,332 Pastizales naturales y cultivados",16,80,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales","333 Matorrales (barbecho o en descanso),332 Pastizales naturales y cultivados",14,70,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales","333 Matorrales (barbecho o en descanso),331 Granos básicos y hortalizas  y otros",13,65,5.0,2018,2022
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales,44 Otros arbóreo en tierras no agrícola","332 Pastizales naturales y cultivados,442 Plantaciones forestales",31,62,1.0,2021,2021
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","414 Bosque seco o deciduo,333 Matorrales (barbecho o en descanso)",12,60,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","414 Bosque seco o deciduo,331 Granos básicos y hortalizas  y otros",11,55,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales","332 Pastizales naturales y cultivados,333 Matorrales (barbecho o en descanso)",8,40,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales","332 Pastizales naturales y cultivados,331 Granos básicos y hortalizas  y otros",6,30,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos","333 Matorrales (barbecho o en descanso),321 Café",6,30,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","413 Bosque Mixto (Lat-Coniferas),332 Pastizales naturales y cultivados",6,30,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales","331 Granos básicos y hortalizas  y otros,333 Matorrales (barbecho o en descanso)",5,25,5.0,2018,2022
+ventana_2018_2022,Honduras,"42 Bosque de coníferas,32 Cultivos Arbóreos","420 Bosque de coníferas,321 Café",5,25,5.0,2018,2022
+ventana_2018_2022,Honduras,"42 Bosque de coníferas,33 Cultivos extensivos, Pastizales y matorrales","420 Bosque de coníferas,331 Granos básicos y hortalizas  y otros",5,25,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,11 Urbano","332 Pastizales naturales y cultivados,110 Urbano",4,20,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua","331 Granos básicos y hortalizas  y otros,210 Cuerpos de Agua",4,20,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua","332 Pastizales naturales y cultivados,210 Cuerpos de Agua",4,20,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua","333 Matorrales (barbecho o en descanso),210 Cuerpos de Agua",4,20,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos","332 Pastizales naturales y cultivados,321 Café",4,20,5.0,2018,2022
+ventana_2018_2022,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales,22 Humedales","331 Granos básicos y hortalizas  y otros,220 Humedales",9,18,1.0,2021,2021
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales","331 Granos básicos y hortalizas  y otros,332 Pastizales naturales y cultivados",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,31 Cultivos intensivos No-Arbóreos","333 Matorrales (barbecho o en descanso),311 Palma aceitera",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos","331 Granos básicos y hortalizas  y otros,321 Café",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,41 Bosque latifoliado y mixto","333 Matorrales (barbecho o en descanso),413 Bosque Mixto (Lat-Coniferas)",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,32 Cultivos Arbóreos","414 Bosque seco o deciduo,321 Café",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","413 Bosque Mixto (Lat-Coniferas),333 Matorrales (barbecho o en descanso)",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"42 Bosque de coníferas,11 Urbano","420 Bosque de coníferas,110 Urbano",3,15,5.0,2018,2022
+ventana_2018_2022,Honduras,"31 Cultivos intensivos No-Arbóreos,33 Cultivos extensivos, Pastizales y matorrales","311 Palma aceitera,332 Pastizales naturales y cultivados",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,32 Cultivos Arbóreos,"325 Otros sistemas agroforestales o silvopastoriles,321 Café",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"32 Cultivos Arbóreos,33 Cultivos extensivos, Pastizales y matorrales","321 Café,331 Granos básicos y hortalizas  y otros",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"32 Cultivos Arbóreos,33 Cultivos extensivos, Pastizales y matorrales","321 Café,333 Matorrales (barbecho o en descanso)",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"32 Cultivos Arbóreos,33 Cultivos extensivos, Pastizales y matorrales","325 Otros sistemas agroforestales o silvopastoriles,332 Pastizales naturales y cultivados",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,11 Urbano","333 Matorrales (barbecho o en descanso),110 Urbano",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,31 Cultivos intensivos No-Arbóreos","332 Pastizales naturales y cultivados,311 Palma aceitera",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos","332 Pastizales naturales y cultivados,323 Frutales",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,11 Urbano","414 Bosque seco o deciduo,110 Urbano",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,21 Cuerpos de Agua","410 Bosque latifoliado y mixto,210 Cuerpos de Agua",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,21 Cuerpos de Agua","414 Bosque seco o deciduo,210 Cuerpos de Agua",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales","413 Bosque Mixto (Lat-Coniferas),331 Granos básicos y hortalizas  y otros",2,10,5.0,2018,2022
+ventana_2018_2022,Honduras,"22 Humedales,21 Cuerpos de Agua","220 Humedales,210 Cuerpos de Agua",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"22 Humedales,33 Cultivos extensivos, Pastizales y matorrales","220 Humedales,332 Pastizales naturales y cultivados",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"31 Cultivos intensivos No-Arbóreos,33 Cultivos extensivos, Pastizales y matorrales","311 Palma aceitera,333 Matorrales (barbecho o en descanso)",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,32 Cultivos Arbóreos,"322 Cacao,325 Otros sistemas agroforestales o silvopastoriles",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"32 Cultivos Arbóreos,33 Cultivos extensivos, Pastizales y matorrales","323 Frutales,332 Pastizales naturales y cultivados",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"32 Cultivos Arbóreos,41 Bosque latifoliado y mixto","321 Café,410 Bosque latifoliado y mixto",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,11 Urbano","331 Granos básicos y hortalizas  y otros,110 Urbano",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua","333 Matorrales (barbecho o en descanso),331 Granos básicos y hortalizas  y otros,210 Cuerpos de Agua",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,22 Humedales","332 Pastizales naturales y cultivados,220 Humedales",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,31 Cultivos intensivos No-Arbóreos","331 Granos básicos y hortalizas  y otros,311 Palma aceitera",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos","333 Matorrales (barbecho o en descanso),323 Frutales",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"33 Cultivos extensivos, Pastizales y matorrales,41 Bosque latifoliado y mixto","332 Pastizales naturales y cultivados,410 Bosque latifoliado y mixto",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,11 Urbano","413 Bosque Mixto (Lat-Coniferas),110 Urbano",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales,31 Cultivos intensivos No-Arbóreos","410 Bosque latifoliado y mixto,332 Pastizales naturales y cultivados,311 Palma aceitera",1,5,5.0,2018,2022
+ventana_2018_2022,Honduras,"42 Bosque de coníferas,21 Cuerpos de Agua","420 Bosque de coníferas,210 Cuerpos de Agua",1,5,5.0,2018,2022

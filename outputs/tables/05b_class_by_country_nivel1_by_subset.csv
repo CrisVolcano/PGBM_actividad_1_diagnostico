@@ -1,0 +1,102 @@
+﻿subset,nivel,pais,clase,n_registros,pct_pais_subset
+exacto_2020,Nivel_1,Belice,31 Cultivos intensivos No-Arbóreos,6,100.0
+exacto_2020,Nivel_1,El Salvador,31 Cultivos intensivos No-Arbóreos,5,62.5
+exacto_2020,Nivel_1,El Salvador,32 Cultivos Arbóreos,2,25.0
+exacto_2020,Nivel_1,El Salvador,41 Bosque latifoliado y mixto,1,12.5
+exacto_2020,Nivel_1,Guatemala,32 Cultivos Arbóreos,109004,52.695595
+exacto_2020,Nivel_1,Guatemala,31 Cultivos intensivos No-Arbóreos,97852,47.304405
+exacto_2020,Nivel_1,Honduras,41 Bosque latifoliado y mixto,7008,37.803431
+exacto_2020,Nivel_1,Honduras,"33 Cultivos extensivos, Pastizales y matorrales",6255,33.741504
+exacto_2020,Nivel_1,Honduras,42 Bosque de coníferas,2986,16.107455
+exacto_2020,Nivel_1,Honduras,32 Cultivos Arbóreos,889,4.795555
+exacto_2020,Nivel_1,Honduras,22 Humedales,474,2.55691
+exacto_2020,Nivel_1,Honduras,31 Cultivos intensivos No-Arbóreos,390,2.103787
+exacto_2020,Nivel_1,Honduras,11 Urbano,271,1.461862
+exacto_2020,Nivel_1,Honduras,21 Cuerpos de Agua,160,0.863092
+exacto_2020,Nivel_1,Honduras,43 Manglares,97,0.52325
+exacto_2020,Nivel_1,Honduras,12 Otras tierras,8,0.043155
+exacto_2020,Nivel_1,México,31 Cultivos intensivos No-Arbóreos,55,87.301587
+exacto_2020,Nivel_1,México,32 Cultivos Arbóreos,8,12.698413
+exacto_2020,Nivel_1,Nicaragua,21 Cuerpos de Agua,5,71.428571
+exacto_2020,Nivel_1,Nicaragua,43 Manglares,1,14.285714
+exacto_2020,Nivel_1,Nicaragua,"33 Cultivos extensivos, Pastizales y matorrales",1,14.285714
+ventana_2018_2022,Nivel_1,Belice,31 Cultivos intensivos No-Arbóreos,13105,39.326011
+ventana_2018_2022,Nivel_1,Belice,41 Bosque latifoliado y mixto,11530,34.599688
+ventana_2018_2022,Nivel_1,Belice,"33 Cultivos extensivos, Pastizales y matorrales",4117,12.354459
+ventana_2018_2022,Nivel_1,Belice,42 Bosque de coníferas,1661,4.984396
+ventana_2018_2022,Nivel_1,Belice,22 Humedales,1072,3.216901
+ventana_2018_2022,Nivel_1,Belice,44 Otros arbóreo en tierras no agrícola,659,1.977554
+ventana_2018_2022,Nivel_1,Belice,43 Manglares,628,1.884528
+ventana_2018_2022,Nivel_1,Belice,11 Urbano,245,0.735206
+ventana_2018_2022,Nivel_1,Belice,21 Cuerpos de Agua,235,0.705197
+ventana_2018_2022,Nivel_1,Belice,12 Otras tierras,72,0.21606
+ventana_2018_2022,Nivel_1,Costa Rica,41 Bosque latifoliado y mixto,59352,41.736342
+ventana_2018_2022,Nivel_1,Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales",32144,22.603669
+ventana_2018_2022,Nivel_1,Costa Rica,31 Cultivos intensivos No-Arbóreos,22225,15.628626
+ventana_2018_2022,Nivel_1,Costa Rica,32 Cultivos Arbóreos,15719,11.053605
+ventana_2018_2022,Nivel_1,Costa Rica,91 Otras,6145,4.321166
+ventana_2018_2022,Nivel_1,Costa Rica,22 Humedales,3884,2.73123
+ventana_2018_2022,Nivel_1,Costa Rica,44 Otros arbóreo en tierras no agrícola,2286,1.607516
+ventana_2018_2022,Nivel_1,Costa Rica,11 Urbano,438,0.308002
+ventana_2018_2022,Nivel_1,Costa Rica,12 Otras tierras,9,0.006329
+ventana_2018_2022,Nivel_1,Costa Rica,21 Cuerpos de Agua,5,0.003516
+ventana_2018_2022,Nivel_1,El Salvador,41 Bosque latifoliado y mixto,163221,28.528157
+ventana_2018_2022,Nivel_1,El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",145794,25.482225
+ventana_2018_2022,Nivel_1,El Salvador,31 Cultivos intensivos No-Arbóreos,129214,22.584333
+ventana_2018_2022,Nivel_1,El Salvador,32 Cultivos Arbóreos,79159,13.8356
+ventana_2018_2022,Nivel_1,El Salvador,11 Urbano,28102,4.911735
+ventana_2018_2022,Nivel_1,El Salvador,43 Manglares,9875,1.725976
+ventana_2018_2022,Nivel_1,El Salvador,42 Bosque de coníferas,6060,1.059181
+ventana_2018_2022,Nivel_1,El Salvador,12 Otras tierras,4638,0.810641
+ventana_2018_2022,Nivel_1,El Salvador,44 Otros arbóreo en tierras no agrícola,4215,0.736708
+ventana_2018_2022,Nivel_1,El Salvador,21 Cuerpos de Agua,1857,0.324571
+ventana_2018_2022,Nivel_1,El Salvador,91 Otras,5,0.000874
+ventana_2018_2022,Nivel_1,Guatemala,32 Cultivos Arbóreos,109282,52.054416
+ventana_2018_2022,Nivel_1,Guatemala,31 Cultivos intensivos No-Arbóreos,98335,46.840019
+ventana_2018_2022,Nivel_1,Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",1178,0.561118
+ventana_2018_2022,Nivel_1,Guatemala,41 Bosque latifoliado y mixto,607,0.289133
+ventana_2018_2022,Nivel_1,Guatemala,12 Otras tierras,164,0.078118
+ventana_2018_2022,Nivel_1,Guatemala,11 Urbano,125,0.059541
+ventana_2018_2022,Nivel_1,Guatemala,43 Manglares,84,0.040012
+ventana_2018_2022,Nivel_1,Guatemala,22 Humedales,84,0.040012
+ventana_2018_2022,Nivel_1,Guatemala,21 Cuerpos de Agua,52,0.024769
+ventana_2018_2022,Nivel_1,Guatemala,44 Otros arbóreo en tierras no agrícola,22,0.010479
+ventana_2018_2022,Nivel_1,Guatemala,42 Bosque de coníferas,5,0.002382
+ventana_2018_2022,Nivel_1,Honduras,32 Cultivos Arbóreos,70618,34.148795
+ventana_2018_2022,Nivel_1,Honduras,31 Cultivos intensivos No-Arbóreos,43360,20.967625
+ventana_2018_2022,Nivel_1,Honduras,41 Bosque latifoliado y mixto,36229,17.519282
+ventana_2018_2022,Nivel_1,Honduras,"33 Cultivos extensivos, Pastizales y matorrales",32443,15.688484
+ventana_2018_2022,Nivel_1,Honduras,42 Bosque de coníferas,17675,8.547112
+ventana_2018_2022,Nivel_1,Honduras,22 Humedales,2373,1.147513
+ventana_2018_2022,Nivel_1,Honduras,43 Manglares,1597,0.772262
+ventana_2018_2022,Nivel_1,Honduras,11 Urbano,1385,0.669745
+ventana_2018_2022,Nivel_1,Honduras,21 Cuerpos de Agua,905,0.437631
+ventana_2018_2022,Nivel_1,Honduras,12 Otras tierras,186,0.089944
+ventana_2018_2022,Nivel_1,Honduras,44 Otros arbóreo en tierras no agrícola,24,0.011606
+ventana_2018_2022,Nivel_1,México,41 Bosque latifoliado y mixto,1454,65.407108
+ventana_2018_2022,Nivel_1,México,"33 Cultivos extensivos, Pastizales y matorrales",483,21.727395
+ventana_2018_2022,Nivel_1,México,31 Cultivos intensivos No-Arbóreos,168,7.557355
+ventana_2018_2022,Nivel_1,México,42 Bosque de coníferas,44,1.979307
+ventana_2018_2022,Nivel_1,México,22 Humedales,36,1.619433
+ventana_2018_2022,Nivel_1,México,43 Manglares,16,0.719748
+ventana_2018_2022,Nivel_1,México,44 Otros arbóreo en tierras no agrícola,8,0.359874
+ventana_2018_2022,Nivel_1,México,32 Cultivos Arbóreos,8,0.359874
+ventana_2018_2022,Nivel_1,México,11 Urbano,6,0.269906
+ventana_2018_2022,Nivel_1,Nicaragua,21 Cuerpos de Agua,25,36.231884
+ventana_2018_2022,Nivel_1,Nicaragua,"33 Cultivos extensivos, Pastizales y matorrales",23,33.333333
+ventana_2018_2022,Nivel_1,Nicaragua,32 Cultivos Arbóreos,8,11.594203
+ventana_2018_2022,Nivel_1,Nicaragua,22 Humedales,6,8.695652
+ventana_2018_2022,Nivel_1,Nicaragua,43 Manglares,5,7.246377
+ventana_2018_2022,Nivel_1,Nicaragua,41 Bosque latifoliado y mixto,1,1.449275
+ventana_2018_2022,Nivel_1,Nicaragua,31 Cultivos intensivos No-Arbóreos,1,1.449275
+ventana_2018_2022,Nivel_1,Panamá,31 Cultivos intensivos No-Arbóreos,24521,83.932911
+ventana_2018_2022,Nivel_1,Panamá,41 Bosque latifoliado y mixto,2737,9.368475
+ventana_2018_2022,Nivel_1,Panamá,"33 Cultivos extensivos, Pastizales y matorrales",1564,5.353414
+ventana_2018_2022,Nivel_1,Panamá,43 Manglares,109,0.373096
+ventana_2018_2022,Nivel_1,Panamá,11 Urbano,93,0.31833
+ventana_2018_2022,Nivel_1,Panamá,21 Cuerpos de Agua,78,0.266986
+ventana_2018_2022,Nivel_1,Panamá,44 Otros arbóreo en tierras no agrícola,63,0.215643
+ventana_2018_2022,Nivel_1,Panamá,32 Cultivos Arbóreos,18,0.061612
+ventana_2018_2022,Nivel_1,Panamá,22 Humedales,16,0.054766
+ventana_2018_2022,Nivel_1,Panamá,12 Otras tierras,14,0.047921
+ventana_2018_2022,Nivel_1,Panamá,91 Otras,2,0.006846

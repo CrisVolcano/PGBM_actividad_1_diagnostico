@@ -1,0 +1,140 @@
+﻿subset,nivel,fuente,clase,n_registros,pct_fuente_subset
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,41 Bosque latifoliado y mixto,7009,37.829231
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,"33 Cultivos extensivos, Pastizales y matorrales",6256,33.765112
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,42 Bosque de coníferas,2986,16.116149
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,32 Cultivos Arbóreos,872,4.70639
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,22 Humedales,474,2.55829
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,31 Cultivos intensivos No-Arbóreos,389,2.099525
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,11 Urbano,271,1.462651
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,21 Cuerpos de Agua,165,0.890544
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,43 Manglares,98,0.528929
+exacto_2020,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,12 Otras tierras,8,0.043178
+exacto_2020,Nivel_1,MAGA - Cultivos - Mapa Guatemala,32 Cultivos Arbóreos,109031,52.684706
+exacto_2020,Nivel_1,MAGA - Cultivos - Mapa Guatemala,31 Cultivos intensivos No-Arbóreos,97919,47.315294
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",40,35.714286
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,32 Cultivos Arbóreos,25,22.321429
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,11 Urbano,19,16.964286
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,44 Otros arbóreo en tierras no agrícola,8,7.142857
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,31 Cultivos intensivos No-Arbóreos,8,7.142857
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,41 Bosque latifoliado y mixto,7,6.25
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,91 Otras,5,4.464286
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",72,28.8
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,31 Cultivos intensivos No-Arbóreos,60,24.0
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,43 Manglares,25,10.0
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,11 Urbano,25,10.0
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,32 Cultivos Arbóreos,22,8.8
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,22 Humedales,17,6.8
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,41 Bosque latifoliado y mixto,11,4.4
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,44 Otros arbóreo en tierras no agrícola,8,3.2
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,21 Cuerpos de Agua,6,2.4
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,12 Otras tierras,4,1.6
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,41 Bosque latifoliado y mixto,1404,30.161117
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,44 Otros arbóreo en tierras no agrícola,1402,30.118153
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales",855,18.367347
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,11 Urbano,438,9.409237
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,91 Otras,394,8.464017
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,32 Cultivos Arbóreos,148,3.179377
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,12 Otras tierras,9,0.19334
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,21 Cuerpos de Agua,5,0.107411
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",23678,35.989178
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,32 Cultivos Arbóreos,17584,26.726654
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,41 Bosque latifoliado y mixto,10957,16.654
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,31 Cultivos intensivos No-Arbóreos,4952,7.526751
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,11 Urbano,4685,7.120927
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,44 Otros arbóreo en tierras no agrícola,1958,2.976046
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,12 Otras tierras,842,1.279791
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,43 Manglares,755,1.147556
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,21 Cuerpos de Agua,223,0.338947
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,42 Bosque de coníferas,158,0.240151
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",938,41.376268
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,31 Cultivos intensivos No-Arbóreos,386,17.026908
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,41 Bosque latifoliado y mixto,307,13.542126
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,32 Cultivos Arbóreos,229,10.101456
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,12 Otras tierras,156,6.881341
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,11 Urbano,75,3.308337
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,22 Humedales,67,2.955448
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,43 Manglares,59,2.602558
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,21 Cuerpos de Agua,31,1.367446
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,44 Otros arbóreo en tierras no agrícola,14,0.617556
+ventana_2018_2022,Nivel_1,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,42 Bosque de coníferas,5,0.220556
+ventana_2018_2022,Nivel_1,CENAT/PRIAS - Cultivos - Costa Rica,31 Cultivos intensivos No-Arbóreos,22224,100.0
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Campeche, México",41 Bosque latifoliado y mixto,343,76.733781
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Campeche, México","33 Cultivos extensivos, Pastizales y matorrales",80,17.897092
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Campeche, México",31 Cultivos intensivos No-Arbóreos,20,4.474273
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Campeche, México",43 Manglares,4,0.894855
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Chiapas, , México",41 Bosque latifoliado y mixto,239,47.140039
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Chiapas, , México","33 Cultivos extensivos, Pastizales y matorrales",203,40.039448
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Chiapas, , México",42 Bosque de coníferas,44,8.678501
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Chiapas, , México",31 Cultivos intensivos No-Arbóreos,17,3.353057
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Chiapas, , México",22 Humedales,4,0.788955
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",41 Bosque latifoliado y mixto,572,80.56338
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Quintana Roo, México","33 Cultivos extensivos, Pastizales y matorrales",92,12.957746
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",31 Cultivos intensivos No-Arbóreos,32,4.507042
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",11 Urbano,6,0.84507
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",44 Otros arbóreo en tierras no agrícola,4,0.56338
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",22 Humedales,4,0.56338
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Tabasco, México",22 Humedales,28,44.444444
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Tabasco, México",41 Bosque latifoliado y mixto,15,23.809524
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Tabasco, México","33 Cultivos extensivos, Pastizales y matorrales",12,19.047619
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Tabasco, México",43 Manglares,8,12.698413
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Yucatán, México",41 Bosque latifoliado y mixto,284,65.740741
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Yucatán, México","33 Cultivos extensivos, Pastizales y matorrales",96,22.222222
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Yucatán, México",31 Cultivos intensivos No-Arbóreos,44,10.185185
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Yucatán, México",44 Otros arbóreo en tierras no agrícola,4,0.925926
+ventana_2018_2022,Nivel_1,"CONAFOR -Inventario Forestal Estado Yucatán, México",43 Manglares,4,0.925926
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,41 Bosque latifoliado y mixto,11533,53.054559
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,"33 Cultivos extensivos, Pastizales y matorrales",4118,18.943785
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,42 Bosque de coníferas,1661,7.640997
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,31 Cultivos intensivos No-Arbóreos,1514,6.964762
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,22 Humedales,1072,4.931456
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,44 Otros arbóreo en tierras no agrícola,659,3.031558
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,43 Manglares,628,2.88895
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,11 Urbano,245,1.127059
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,21 Cuerpos de Agua,236,1.085656
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Belize,12 Otras tierras,72,0.331217
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,41 Bosque latifoliado y mixto,153516,29.853219
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,31 Cultivos intensivos No-Arbóreos,125285,24.363327
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",123449,24.006293
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,32 Cultivos Arbóreos,61798,12.017439
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,11 Urbano,23462,4.562497
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,43 Manglares,10180,1.979636
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,42 Bosque de coníferas,8554,1.663439
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,12 Otras tierras,3946,0.767352
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,44 Otros arbóreo en tierras no agrícola,2273,0.442015
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ El Salvador,21 Cuerpos de Agua,1773,0.344783
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,41 Bosque latifoliado y mixto,35111,37.900475
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,"33 Cultivos extensivos, Pastizales y matorrales",31242,33.724093
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,42 Bosque de coníferas,14943,16.130181
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,32 Cultivos Arbóreos,4348,4.693437
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,22 Humedales,2373,2.561528
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,31 Cultivos intensivos No-Arbóreos,1942,2.096287
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,11 Urbano,1346,1.452936
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,21 Cuerpos de Agua,805,0.868955
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,43 Manglares,490,0.528929
+ventana_2018_2022,Nivel_1,FCPF - Malla MRV-REDD+ Honduras,12 Otras tierras,40,0.043178
+ventana_2018_2022,Nivel_1,FOREST DEPARTMENT - Cultivos - Mapa Belize,31 Cultivos intensivos No-Arbóreos,11585,100.0
+ventana_2018_2022,Nivel_1,ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,32 Cultivos Arbóreos,15575,100.0
+ventana_2018_2022,Nivel_1,ICF - Cultivos - Mapa Honduras,32 Cultivos Arbóreos,65998,62.018869
+ventana_2018_2022,Nivel_1,ICF - Cultivos - Mapa Honduras,31 Cultivos intensivos No-Arbóreos,40418,37.981131
+ventana_2018_2022,Nivel_1,MAGA - Cultivos - Mapa Guatemala,32 Cultivos Arbóreos,109031,52.684706
+ventana_2018_2022,Nivel_1,MAGA - Cultivos - Mapa Guatemala,31 Cultivos intensivos No-Arbóreos,97919,47.315294
+ventana_2018_2022,Nivel_1,MARN-MAG/FCPF - Inventario Forestal El Salvador,41 Bosque latifoliado y mixto,146,45.91195
+ventana_2018_2022,Nivel_1,MARN-MAG/FCPF - Inventario Forestal El Salvador,42 Bosque de coníferas,80,25.157233
+ventana_2018_2022,Nivel_1,MARN-MAG/FCPF - Inventario Forestal El Salvador,43 Manglares,52,16.352201
+ventana_2018_2022,Nivel_1,MARN-MAG/FCPF - Inventario Forestal El Salvador,32 Cultivos Arbóreos,40,12.578616
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Cultivos Mapa Panamá,31 Cultivos intensivos No-Arbóreos,24475,100.0
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,41 Bosque latifoliado y mixto,2720,57.675997
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,"33 Cultivos extensivos, Pastizales y matorrales",1561,33.100085
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,43 Manglares,109,2.311281
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,11 Urbano,93,1.97201
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,21 Cuerpos de Agua,78,1.653944
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,44 Otros arbóreo en tierras no agrícola,63,1.335878
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,31 Cultivos intensivos No-Arbóreos,48,1.017812
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,22 Humedales,16,0.339271
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,32 Cultivos Arbóreos,14,0.296862
+ventana_2018_2022,Nivel_1,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,12 Otras tierras,14,0.296862
+ventana_2018_2022,Nivel_1,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",41 Bosque latifoliado y mixto,57966,58.080418
+ventana_2018_2022,Nivel_1,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica","33 Cultivos extensivos, Pastizales y matorrales",31310,31.371802
+ventana_2018_2022,Nivel_1,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",91 Otras,5753,5.764356
+ventana_2018_2022,Nivel_1,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",22 Humedales,3890,3.897678
+ventana_2018_2022,Nivel_1,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",44 Otros arbóreo en tierras no agrícola,884,0.885745

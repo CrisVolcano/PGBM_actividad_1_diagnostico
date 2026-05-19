@@ -1,0 +1,25 @@
+﻿subset,fuente,n_registros,n_paises,n_anios,anio_min,anio_max,n_nivel1,n_nivel2,pct_subset
+exacto_2020,MAGA - Cultivos - Mapa Guatemala,206950,5,1,2020,2020,2,8,91.78279
+exacto_2020,FCPF - Malla MRV-REDD+ Honduras,18528,3,1,2020,2020,10,17,8.21721
+ventana_2018_2022,FCPF - Malla MRV-REDD+ El Salvador,514236,3,1,2018,2018,10,16,42.999521
+ventana_2018_2022,MAGA - Cultivos - Mapa Guatemala,206950,5,1,2020,2020,2,8,17.304799
+ventana_2018_2022,ICF - Cultivos - Mapa Honduras,106416,3,1,2018,2018,2,6,8.898321
+ventana_2018_2022,"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",99803,3,1,2021,2021,5,6,8.345353
+ventana_2018_2022,FCPF - Malla MRV-REDD+ Honduras,92640,3,5,2018,2022,10,17,7.746396
+ventana_2018_2022,CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,65792,2,1,2018,2018,10,17,5.501413
+ventana_2018_2022,MIAMBIENTE - Cultivos Mapa Panamá,24475,2,1,2021,2021,1,5,2.046557
+ventana_2018_2022,CENAT/PRIAS - Cultivos - Costa Rica,22224,3,1,2019,2019,1,2,1.858332
+ventana_2018_2022,FCPF - Malla MRV-REDD+ Belize,21738,3,1,2018,2018,10,18,1.817694
+ventana_2018_2022,ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,15575,2,1,2018,2018,1,1,1.302354
+ventana_2018_2022,FOREST DEPARTMENT - Cultivos - Mapa Belize,11585,1,1,2018,2018,1,3,0.968718
+ventana_2018_2022,MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,4716,1,1,2021,2021,10,21,0.394344
+ventana_2018_2022,CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,4655,1,1,2018,2018,8,12,0.389243
+ventana_2018_2022,CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,2267,1,2,2018,2019,11,17,0.189563
+ventana_2018_2022,"CONAFOR -Inventario Forestal Estado Quintana Roo, México",710,1,2,2018,2019,6,8,0.059369
+ventana_2018_2022,"CONAFOR -Inventario Forestal Estado Chiapas, , México",507,1,2,2018,2019,5,9,0.042394
+ventana_2018_2022,"CONAFOR -Inventario Forestal Estado Campeche, México",447,1,2,2018,2019,4,7,0.037377
+ventana_2018_2022,"CONAFOR -Inventario Forestal Estado Yucatán, México",432,1,2,2018,2019,5,7,0.036123
+ventana_2018_2022,MARN-MAG/FCPF - Inventario Forestal El Salvador,318,1,1,2018,2018,4,6,0.026591
+ventana_2018_2022,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,250,1,1,2019,2019,10,19,0.020905
+ventana_2018_2022,CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,112,1,1,2019,2019,7,12,0.009365
+ventana_2018_2022,"CONAFOR -Inventario Forestal Estado Tabasco, México",63,1,2,2018,2019,4,6,0.005268
