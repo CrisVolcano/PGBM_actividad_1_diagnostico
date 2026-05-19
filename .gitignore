@@ -77,3 +77,12 @@ Thumbs.db
 *.sqlite3
 *.db
 .~lock.*#
+
+
+# ============================================================
+# Archivos específicos del proyecto que no se deben versionar
+# ============================================================
+
+outputs/tables/s2_sr_spectral_class_audit/09_rare_spectral_records.csv
+outputs/tables/s2_sr_spectral_class_audit/09_priority_original_records_s2sr.csv
+outputs/tables/s2_sr_spectral_class_audit/09_low_satellite_availability_records.csv
