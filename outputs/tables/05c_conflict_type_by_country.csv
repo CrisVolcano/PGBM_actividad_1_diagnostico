@@ -1,0 +1,6 @@
+﻿subset,pais_grupo,tipo_conflicto,n_grupos,n_registros,promedio_score,max_score
+ventana_2018_2022,Costa Rica,bosque_vs_no_bosque,1320,2640,100.0,100
+ventana_2018_2022,Costa Rica,conflicto_mismo_anio,840,1680,93.564,100
+ventana_2018_2022,Honduras,bosque_vs_no_bosque,517,2585,84.07,90
+ventana_2018_2022,Honduras,posible_cambio_temporal,95,475,55.0,55
+ventana_2018_2022,Honduras,residual_otras,7,35,78.0,78

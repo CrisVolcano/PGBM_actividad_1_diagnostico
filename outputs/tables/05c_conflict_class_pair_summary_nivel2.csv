@@ -1,0 +1,58 @@
+﻿subset,pais_grupo,class_level,clase_a,clase_b,tipo_conflicto,severidad_conflicto,n_grupos,n_registros,promedio_score,max_score
+ventana_2018_2022,Costa Rica,Nivel_2,332 Pastizales naturales y cultivados,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,muy_alta,815,1630,100.0,100
+ventana_2018_2022,Honduras,Nivel_2,332 Pastizales naturales y cultivados,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,247,1235,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_2,332 Pastizales naturales y cultivados,910 Otras,conflicto_mismo_anio,muy_alta,364,728,100.0,100
+ventana_2018_2022,Honduras,Nivel_2,333 Matorrales (barbecho o en descanso),410 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,83,415,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_2,410 Bosque latifoliado y mixto,910 Otras,bosque_vs_no_bosque,muy_alta,177,354,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_2,331 Granos básicos y hortalizas  y otros,332 Pastizales naturales y cultivados,conflicto_mismo_anio,alta,158,316,79.0,79
+ventana_2018_2022,Costa Rica,Nivel_2,220 Humedales,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,muy_alta,149,298,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_2,331 Granos básicos y hortalizas  y otros,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,muy_alta,148,296,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_2,220 Humedales,332 Pastizales naturales y cultivados,conflicto_mismo_anio,muy_alta,122,244,94.0,94
+ventana_2018_2022,Honduras,Nivel_2,333 Matorrales (barbecho o en descanso),414 Bosque seco o deciduo,bosque_vs_no_bosque,alta,35,175,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_2,331 Granos básicos y hortalizas  y otros,910 Otras,conflicto_mismo_anio,muy_alta,80,160,100.0,100
+ventana_2018_2022,Honduras,Nivel_2,332 Pastizales naturales y cultivados,420 Bosque de coníferas,bosque_vs_no_bosque,alta,27,135,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_2,410 Bosque latifoliado y mixto,442 Plantaciones forestales,conflicto_mismo_anio,alta,62,124,79.0,79
+ventana_2018_2022,Honduras,Nivel_2,321 Café,325 Otros sistemas agroforestales o silvopastoriles,bosque_vs_no_bosque,alta,22,110,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,332 Pastizales naturales y cultivados,333 Matorrales (barbecho o en descanso),posible_cambio_temporal,media,22,110,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,331 Granos básicos y hortalizas  y otros,333 Matorrales (barbecho o en descanso),posible_cambio_temporal,media,19,95,55.0,55
+ventana_2018_2022,Costa Rica,Nivel_2,220 Humedales,910 Otras,conflicto_mismo_anio,muy_alta,45,90,100.0,100
+ventana_2018_2022,Honduras,Nivel_2,333 Matorrales (barbecho o en descanso),420 Bosque de coníferas,bosque_vs_no_bosque,alta,18,90,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,331 Granos básicos y hortalizas  y otros,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,16,80,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,332 Pastizales naturales y cultivados,414 Bosque seco o deciduo,bosque_vs_no_bosque,alta,16,80,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_2,332 Pastizales naturales y cultivados,442 Plantaciones forestales,bosque_vs_no_bosque,muy_alta,31,62,100.0,100
+ventana_2018_2022,Honduras,Nivel_2,331 Granos básicos y hortalizas  y otros,414 Bosque seco o deciduo,bosque_vs_no_bosque,alta,11,55,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,331 Granos básicos y hortalizas  y otros,332 Pastizales naturales y cultivados,posible_cambio_temporal,media,9,45,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,321 Café,333 Matorrales (barbecho o en descanso),posible_cambio_temporal,media,8,40,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,332 Pastizales naturales y cultivados,413 Bosque Mixto (Lat-Coniferas),bosque_vs_no_bosque,alta,6,30,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,333 Matorrales (barbecho o en descanso),413 Bosque Mixto (Lat-Coniferas),bosque_vs_no_bosque,alta,6,30,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,331 Granos básicos y hortalizas  y otros,posible_cambio_temporal,media,5,25,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,333 Matorrales (barbecho o en descanso),posible_cambio_temporal,media,5,25,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,321 Café,331 Granos básicos y hortalizas  y otros,posible_cambio_temporal,media,5,25,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,321 Café,420 Bosque de coníferas,bosque_vs_no_bosque,alta,5,25,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,331 Granos básicos y hortalizas  y otros,420 Bosque de coníferas,bosque_vs_no_bosque,alta,5,25,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,110 Urbano,332 Pastizales naturales y cultivados,residual_otras,alta,4,20,78.0,78
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,332 Pastizales naturales y cultivados,posible_cambio_temporal,media,4,20,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,311 Palma aceitera,332 Pastizales naturales y cultivados,posible_cambio_temporal,media,4,20,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,311 Palma aceitera,333 Matorrales (barbecho o en descanso),posible_cambio_temporal,media,4,20,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,321 Café,332 Pastizales naturales y cultivados,posible_cambio_temporal,media,4,20,55.0,55
+ventana_2018_2022,Costa Rica,Nivel_2,220 Humedales,331 Granos básicos y hortalizas  y otros,conflicto_mismo_anio,muy_alta,9,18,94.0,94
+ventana_2018_2022,Honduras,Nivel_2,110 Urbano,420 Bosque de coníferas,bosque_vs_no_bosque,alta,3,15,90.0,90
+ventana_2018_2022,Honduras,Nivel_2,321 Café,414 Bosque seco o deciduo,bosque_vs_no_bosque,alta,3,15,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,323 Frutales,332 Pastizales naturales y cultivados,posible_cambio_temporal,media,3,15,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,110 Urbano,333 Matorrales (barbecho o en descanso),residual_otras,alta,2,10,78.0,78
+ventana_2018_2022,Honduras,Nivel_2,110 Urbano,414 Bosque seco o deciduo,bosque_vs_no_bosque,alta,2,10,90.0,90
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,2,10,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,414 Bosque seco o deciduo,bosque_vs_no_bosque,alta,2,10,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,220 Humedales,332 Pastizales naturales y cultivados,posible_cambio_temporal,media,2,10,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,325 Otros sistemas agroforestales o silvopastoriles,332 Pastizales naturales y cultivados,bosque_vs_no_bosque,alta,2,10,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,331 Granos básicos y hortalizas  y otros,413 Bosque Mixto (Lat-Coniferas),bosque_vs_no_bosque,alta,2,10,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,110 Urbano,331 Granos básicos y hortalizas  y otros,residual_otras,alta,1,5,78.0,78
+ventana_2018_2022,Honduras,Nivel_2,110 Urbano,413 Bosque Mixto (Lat-Coniferas),bosque_vs_no_bosque,alta,1,5,90.0,90
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,220 Humedales,posible_cambio_temporal,media,1,5,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,210 Cuerpos de Agua,420 Bosque de coníferas,bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,311 Palma aceitera,331 Granos básicos y hortalizas  y otros,posible_cambio_temporal,media,1,5,55.0,55
+ventana_2018_2022,Honduras,Nivel_2,311 Palma aceitera,332 Pastizales naturales y cultivados,bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,311 Palma aceitera,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,321 Café,410 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,322 Cacao,325 Otros sistemas agroforestales o silvopastoriles,bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_2,323 Frutales,333 Matorrales (barbecho o en descanso),posible_cambio_temporal,media,1,5,55.0,55

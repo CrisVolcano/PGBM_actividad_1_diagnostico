@@ -1,0 +1,7 @@
+﻿subset,tipo_conflicto,severidad_conflicto,n_grupos,n_registros,promedio_score,max_score
+ventana_2018_2022,bosque_vs_no_bosque,muy_alta,1320,2640,100.0,100
+ventana_2018_2022,bosque_vs_no_bosque,alta,517,2585,84.07,90
+ventana_2018_2022,conflicto_mismo_anio,muy_alta,620,1240,98.732,100
+ventana_2018_2022,posible_cambio_temporal,media,95,475,55.0,55
+ventana_2018_2022,conflicto_mismo_anio,alta,220,440,79.0,79
+ventana_2018_2022,residual_otras,alta,7,35,78.0,78

@@ -76,3 +76,28 @@ thematic_window:
   min_records_critical_class: 30
   min_records_sufficient_country_class: 500
 
+
+conflict_taxonomy:
+  priority_subset: "ventana_2018_2022"
+  include_exact_year_subset: true
+  include_window_subset: true
+  review_priority_threshold: 75
+  high_priority_threshold: 60
+  medium_priority_threshold: 40
+  forest_keywords:
+    - "forest"
+    - "bosque"
+    - "manglar"
+  agro_keywords:
+    - "cultivo"
+    - "pastizal"
+    - "matorral"
+    - "cafe"
+    - "café"
+  residual_keywords:
+    - "otras"
+    - "otra"
+  water_keywords:
+    - "agua"
+    - "humedal"
+

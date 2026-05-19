@@ -1,0 +1,26 @@
+﻿subset,pais_grupo,class_level,clase_a,clase_b,tipo_conflicto,severidad_conflicto,n_grupos,n_registros,promedio_score,max_score
+ventana_2018_2022,Honduras,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",41 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,422,2110,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",41 Bosque latifoliado y mixto,bosque_vs_no_bosque,muy_alta,963,1926,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",91 Otras,conflicto_mismo_anio,muy_alta,444,888,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_1,41 Bosque latifoliado y mixto,91 Otras,bosque_vs_no_bosque,muy_alta,177,354,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_1,22 Humedales,41 Bosque latifoliado y mixto,bosque_vs_no_bosque,muy_alta,149,298,100.0,100
+ventana_2018_2022,Costa Rica,Nivel_1,22 Humedales,"33 Cultivos extensivos, Pastizales y matorrales",conflicto_mismo_anio,muy_alta,131,262,94.0,94
+ventana_2018_2022,Honduras,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",42 Bosque de coníferas,bosque_vs_no_bosque,alta,50,250,84.0,84
+ventana_2018_2022,Costa Rica,Nivel_1,41 Bosque latifoliado y mixto,44 Otros arbóreo en tierras no agrícola,conflicto_mismo_anio,alta,62,124,79.0,79
+ventana_2018_2022,Honduras,Nivel_1,32 Cultivos Arbóreos,"33 Cultivos extensivos, Pastizales y matorrales",posible_cambio_temporal,media,21,105,55.0,55
+ventana_2018_2022,Costa Rica,Nivel_1,22 Humedales,91 Otras,conflicto_mismo_anio,muy_alta,45,90,100.0,100
+ventana_2018_2022,Honduras,Nivel_1,21 Cuerpos de Agua,"33 Cultivos extensivos, Pastizales y matorrales",posible_cambio_temporal,media,13,65,55.0,55
+ventana_2018_2022,Costa Rica,Nivel_1,"33 Cultivos extensivos, Pastizales y matorrales",44 Otros arbóreo en tierras no agrícola,bosque_vs_no_bosque,muy_alta,31,62,100.0,100
+ventana_2018_2022,Honduras,Nivel_1,31 Cultivos intensivos No-Arbóreos,"33 Cultivos extensivos, Pastizales y matorrales",posible_cambio_temporal,media,9,45,55.0,55
+ventana_2018_2022,Honduras,Nivel_1,11 Urbano,"33 Cultivos extensivos, Pastizales y matorrales",residual_otras,alta,7,35,78.0,78
+ventana_2018_2022,Honduras,Nivel_1,32 Cultivos Arbóreos,42 Bosque de coníferas,bosque_vs_no_bosque,alta,5,25,84.0,84
+ventana_2018_2022,Honduras,Nivel_1,21 Cuerpos de Agua,41 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,4,20,84.0,84
+ventana_2018_2022,Honduras,Nivel_1,32 Cultivos Arbóreos,41 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,4,20,84.0,84
+ventana_2018_2022,Honduras,Nivel_1,11 Urbano,41 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,3,15,90.0,90
+ventana_2018_2022,Honduras,Nivel_1,11 Urbano,42 Bosque de coníferas,bosque_vs_no_bosque,alta,3,15,90.0,90
+ventana_2018_2022,Honduras,Nivel_1,22 Humedales,"33 Cultivos extensivos, Pastizales y matorrales",posible_cambio_temporal,media,2,10,55.0,55
+ventana_2018_2022,Honduras,Nivel_1,32 Cultivos Arbóreos,"33 Cultivos extensivos, Pastizales y matorrales",bosque_vs_no_bosque,alta,2,10,84.0,84
+ventana_2018_2022,Honduras,Nivel_1,21 Cuerpos de Agua,22 Humedales,posible_cambio_temporal,media,1,5,55.0,55
+ventana_2018_2022,Honduras,Nivel_1,21 Cuerpos de Agua,42 Bosque de coníferas,bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_1,31 Cultivos intensivos No-Arbóreos,"33 Cultivos extensivos, Pastizales y matorrales",bosque_vs_no_bosque,alta,1,5,84.0,84
+ventana_2018_2022,Honduras,Nivel_1,31 Cultivos intensivos No-Arbóreos,41 Bosque latifoliado y mixto,bosque_vs_no_bosque,alta,1,5,84.0,84

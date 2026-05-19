@@ -1,0 +1,2 @@
+﻿target_year,near_window_years,subsets_evaluados,n_registros_conflictivos,n_grupos_conflictivos,n_casos_revision_prioritaria,n_casos_conflicto_mismo_anio,n_casos_conflicto_multifuente_mismo_anio,review_priority_threshold
+2020,2,ventana_2018_2022,7415,2779,2684,2160,0,75

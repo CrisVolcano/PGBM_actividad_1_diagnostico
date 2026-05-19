@@ -1,0 +1,5 @@
+﻿subset,pais_grupo,severidad_conflicto,n_grupos,n_registros,promedio_score,max_score
+ventana_2018_2022,Costa Rica,muy_alta,1940,3880,99.595,100
+ventana_2018_2022,Costa Rica,alta,220,440,79.0,79
+ventana_2018_2022,Honduras,alta,524,2620,83.989,90
+ventana_2018_2022,Honduras,media,95,475,55.0,55
