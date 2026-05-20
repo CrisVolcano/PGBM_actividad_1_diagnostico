@@ -1,0 +1,2216 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<title>Síntesis interpretativa - Módulo 5B | Auditoría temática ventana 2020</title>
+
+<style>
+  :root { --blue:#174A7C; --blue2:#0f355b; --light:#f5f8fb; --border:#d5dde5; --green:#0f766e; --orange:#c2410c; --red:#b91c1c; --gray:#475569; }
+  body { font-family: Arial, Helvetica, sans-serif; margin: 40px auto; max-width: 1220px; line-height: 1.58; color: #1f2937; background: #fff; }
+  h1 { color: var(--blue); border-bottom: 4px solid var(--blue); padding-bottom: 12px; margin-bottom: 6px; }
+  h2 { color: var(--blue); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-top: 36px; }
+  h3 { color: var(--blue2); margin-top: 24px; }
+  .subtitle { color: #52616b; margin-bottom: 28px; }
+  .box { background: var(--light); border-left: 5px solid var(--blue); padding: 14px 18px; margin: 18px 0; }
+  .good { background:#ecfdf5; border-left: 5px solid var(--green); padding: 14px 18px; margin: 18px 0; }
+  .warn { background:#fff7ed; border-left: 5px solid var(--orange); padding: 14px 18px; margin: 18px 0; }
+  .critical { background:#fef2f2; border-left: 5px solid var(--red); padding: 14px 18px; margin: 18px 0; }
+  .note { background:#f8fafc; border-left: 5px solid #64748b; padding: 14px 18px; margin: 18px 0; }
+  .metric-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap:14px; margin:22px 0; }
+  .metric-card { border:1px solid var(--border); border-radius:10px; padding:16px; background:#f8fafc; }
+  .metric-card .value { font-size:1.55rem; font-weight:700; color:var(--blue); margin-bottom:5px; }
+  .metric-card .label { color:#52616b; font-size:0.95rem; }
+  table.dataframe, table.data-table { width:100%; border-collapse:collapse; margin: 16px 0 24px 0; font-size:0.92rem; }
+  table.dataframe th, table.data-table th { background:var(--blue); color:white; text-align:left; padding:8px; }
+  table.dataframe td, table.data-table td { border:1px solid var(--border); padding:7px; vertical-align:top; }
+  table.dataframe tr:nth-child(even), table.data-table tr:nth-child(even) { background:#f8fafc; }
+  .compact { font-size:0.88rem; }
+  code { background:#f1f5f9; padding:2px 5px; border-radius:4px; }
+  pre { background:#f1f5f9; border:1px solid var(--border); padding:14px; border-radius:6px; overflow-x:auto; }
+  .pill { display:inline-block; background:#e5eef7; color:var(--blue); padding:3px 8px; border-radius:99px; font-size:0.85rem; font-weight:bold; }
+  .small { font-size:0.88rem; color:#52616b; }
+  .toc li { margin: 5px 0; }
+  .footer { margin-top:50px; padding-top:18px; border-top:1px solid var(--border); font-size:0.9rem; color:#52616b; }
+  @media print { body { max-width:none; margin: 20mm; } table { page-break-inside: avoid; } }
+</style>
+
+</head><body>
+<h1>Síntesis interpretativa - Módulo 5B</h1>
+<p class="subtitle"><strong>Auditoría temática focalizada en 2020 y ventana 2018–2022</strong><br>PGBM - Actividad 1: diagnóstico regional de aptitud de fuentes y muestras de control</p>
+<div class="box"><p>Este informe consolida los resultados del Módulo 5B. Su objetivo es contrastar el diagnóstico temático general contra dos subconjuntos operativos: <code>exacto_2020</code>, que representa el núcleo temporal estricto, y <code>ventana_2018_2022</code>, que representa la ventana flexible definida para la línea base 2020. La lectura se enfoca en representatividad temática, cobertura país-clase, sesgo por fuente, estructura XY y conflictos temáticos aún activos dentro de la ventana.</p></div>
+<h2>1. Lectura ejecutiva</h2>
+<div class="good"><p><strong>Resultado central:</strong> la ventana 2018–2022 es metodológicamente mucho más útil que 2020 estricto. Pasa de 225,478 registros (7.83% de la base) a 1,195,911 registros (41.51%), aumenta la cobertura de fuentes de 2 a 22, incorpora los 8 países y amplía la diversidad temática de 10 a 12 clases en Nivel_1.</p></div>
+<div class="warn"><p><strong>Pero el subconjunto exacto 2020 no debe descartarse:</strong> es un núcleo conservador muy limpio desde el punto de vista XY, con 225,284 registros únicos en el subconjunto. Su problema no es la calidad espacial-temática, sino el sesgo extremo hacia Guatemala, MAGA y clases agrícolas.</p></div>
+<div class="critical"><p><strong>Conflictos temáticos:</strong> dentro de la ventana 2018–2022 se reducen a 7,415 registros y 2,779 grupos. Es apenas 0.62% de la ventana, pero son casos altamente estratégicos porque se concentran en Costa Rica y Honduras y afectan principalmente límites bosque/no bosque.</p></div>
+<div class="metric-grid">
+<div class="metric-card"><div class="value">225,478</div><div class="label">Registros exacto 2020</div></div>
+<div class="metric-card"><div class="value">1,195,911</div><div class="label">Registros ventana 2018–2022</div></div>
+<div class="metric-card"><div class="value">2 → 22</div><div class="label">Fuentes: 2020 estricto → ventana</div></div>
+<div class="metric-card"><div class="value">6 → 8</div><div class="label">Países: 2020 estricto → ventana</div></div>
+<div class="metric-card"><div class="value">10 → 12</div><div class="label">Clases Nivel_1: 2020 → ventana</div></div>
+<div class="metric-card"><div class="value">22 → 36</div><div class="label">Clases Nivel_2: 2020 → ventana</div></div>
+<div class="metric-card"><div class="value">92.34%</div><div class="label">Peso dos clases dominantes en 2020</div></div>
+<div class="metric-card"><div class="value">91.86%</div><div class="label">Peso cuatro clases dominantes en ventana</div></div>
+</div>
+<h2>2. Subconjuntos temporales evaluados</h2>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>descripcion</th>
+      <th>n_registros</th>
+      <th>pct_total_base</th>
+      <th>n_paises</th>
+      <th>n_fuentes</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>n_nivel0</th>
+      <th>n_nivel1</th>
+      <th>n_nivel2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Registros exactamente del año 2020</td>
+      <td>225,478</td>
+      <td>7.83%</td>
+      <td>6</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>4</td>
+      <td>10</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Registros entre 2018 y 2022</td>
+      <td>1,195,911</td>
+      <td>41.51%</td>
+      <td>8</td>
+      <td>22</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>5</td>
+      <td>12</td>
+      <td>36</td>
+    </tr>
+  </tbody>
+</table>
+<p>La comparación confirma que <code>exacto_2020</code> es un subconjunto muy preciso temporalmente, pero insuficiente como base regional balanceada. La ventana <code>2018–2022</code> multiplica por 5.3 el volumen disponible y amplía el espectro territorial, temático y de fuentes.</p>
+<h2>3. Cobertura territorial</h2>
+<h3>3.1 Países en 2020 estricto</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>pais</th>
+      <th>n_registros</th>
+      <th>n_fuentes</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>n_nivel1</th>
+      <th>n_nivel2</th>
+      <th>pct_subset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Guatemala</td>
+      <td>206,856</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>2</td>
+      <td>8</td>
+      <td>91.74%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Honduras</td>
+      <td>18,538</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>10</td>
+      <td>17</td>
+      <td>8.22%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>México</td>
+      <td>63</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>2</td>
+      <td>4</td>
+      <td>0.03%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>El Salvador</td>
+      <td>8</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>3</td>
+      <td>3</td>
+      <td>0.00%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nicaragua</td>
+      <td>7</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>3</td>
+      <td>3</td>
+      <td>0.00%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Belice</td>
+      <td>6</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0.00%</td>
+    </tr>
+  </tbody>
+</table>
+<div class="warn"><p>En 2020 exacto, Guatemala concentra 91.74% de los registros y Honduras 8.22%. Los demás países aparecen con volúmenes testimoniales. Esto implica que 2020 exacto no puede representar por sí solo una base regional; sí puede servir como núcleo de alta precisión temporal para los países y clases efectivamente cubiertos.</p></div>
+<h3>3.2 Países en la ventana 2018–2022</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>pais</th>
+      <th>n_registros</th>
+      <th>n_fuentes</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>n_nivel1</th>
+      <th>n_nivel2</th>
+      <th>pct_subset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>El Salvador</td>
+      <td>572,140</td>
+      <td>6</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>11</td>
+      <td>25</td>
+      <td>47.84%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Guatemala</td>
+      <td>209,938</td>
+      <td>7</td>
+      <td>3</td>
+      <td>2018</td>
+      <td>2020</td>
+      <td>11</td>
+      <td>27</td>
+      <td>17.55%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>206,795</td>
+      <td>4</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>11</td>
+      <td>24</td>
+      <td>17.29%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>142,207</td>
+      <td>5</td>
+      <td>3</td>
+      <td>2018</td>
+      <td>2021</td>
+      <td>10</td>
+      <td>16</td>
+      <td>11.89%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Belice</td>
+      <td>33,324</td>
+      <td>3</td>
+      <td>2</td>
+      <td>2018</td>
+      <td>2020</td>
+      <td>10</td>
+      <td>21</td>
+      <td>2.79%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Panamá</td>
+      <td>29,215</td>
+      <td>5</td>
+      <td>3</td>
+      <td>2018</td>
+      <td>2021</td>
+      <td>11</td>
+      <td>23</td>
+      <td>2.44%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>México</td>
+      <td>2,223</td>
+      <td>7</td>
+      <td>3</td>
+      <td>2018</td>
+      <td>2020</td>
+      <td>9</td>
+      <td>16</td>
+      <td>0.19%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nicaragua</td>
+      <td>69</td>
+      <td>4</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>7</td>
+      <td>7</td>
+      <td>0.01%</td>
+    </tr>
+  </tbody>
+</table>
+<p>En la ventana flexible, El Salvador domina el subconjunto con 47.84%, seguido por Guatemala, Honduras y Costa Rica. La cobertura mejora mucho, pero Nicaragua y México siguen siendo países de baja representación para modelamiento regional.</p>
+<h2>4. Sesgo y trazabilidad por fuente</h2>
+<h3>4.1 Fuentes en 2020 estricto</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>fuente</th>
+      <th>n_registros</th>
+      <th>n_paises</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>n_nivel1</th>
+      <th>n_nivel2</th>
+      <th>pct_subset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>exacto_2020</td>
+      <td>MAGA - Cultivos - Mapa Guatemala</td>
+      <td>206,950</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>2</td>
+      <td>8</td>
+      <td>91.78%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>FCPF - Malla MRV-REDD+ Honduras</td>
+      <td>18,528</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>10</td>
+      <td>17</td>
+      <td>8.22%</td>
+    </tr>
+  </tbody>
+</table>
+<p>El núcleo 2020 está dominado por dos fuentes. MAGA - Cultivos - Mapa Guatemala aporta 91.78% y FCPF - Malla MRV-REDD+ Honduras aporta 8.22%. Esta configuración explica el sesgo agrícola de 2020 exacto: no es un problema de codificación, sino de procedencia del dato.</p>
+<h3>4.2 Fuentes principales en ventana 2018–2022</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>fuente</th>
+      <th>n_registros</th>
+      <th>n_paises</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>n_nivel1</th>
+      <th>n_nivel2</th>
+      <th>pct_subset</th>
+      <th>pct_acum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>FCPF - Malla MRV-REDD+ El Salvador</td>
+      <td>514,236</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2018</td>
+      <td>2018</td>
+      <td>10</td>
+      <td>16</td>
+      <td>43.00%</td>
+      <td>43.00%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>MAGA - Cultivos - Mapa Guatemala</td>
+      <td>206,950</td>
+      <td>5</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>2</td>
+      <td>8</td>
+      <td>17.30%</td>
+      <td>60.30%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>ICF - Cultivos - Mapa Honduras</td>
+      <td>106,416</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2018</td>
+      <td>2018</td>
+      <td>2</td>
+      <td>6</td>
+      <td>8.90%</td>
+      <td>69.20%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+      <td>99,803</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2021</td>
+      <td>2021</td>
+      <td>5</td>
+      <td>6</td>
+      <td>8.35%</td>
+      <td>77.55%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>FCPF - Malla MRV-REDD+ Honduras</td>
+      <td>92,640</td>
+      <td>3</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>10</td>
+      <td>17</td>
+      <td>7.75%</td>
+      <td>85.29%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador</td>
+      <td>65,792</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2018</td>
+      <td>2018</td>
+      <td>10</td>
+      <td>17</td>
+      <td>5.50%</td>
+      <td>90.80%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>MIAMBIENTE - Cultivos Mapa Panamá</td>
+      <td>24,475</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2021</td>
+      <td>2021</td>
+      <td>1</td>
+      <td>5</td>
+      <td>2.05%</td>
+      <td>92.84%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>CENAT/PRIAS - Cultivos - Costa Rica</td>
+      <td>22,224</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2019</td>
+      <td>2019</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1.86%</td>
+      <td>94.70%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>FCPF - Malla MRV-REDD+ Belize</td>
+      <td>21,738</td>
+      <td>3</td>
+      <td>1</td>
+      <td>2018</td>
+      <td>2018</td>
+      <td>10</td>
+      <td>18</td>
+      <td>1.82%</td>
+      <td>96.52%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>ICAFE - Poligono de zonasdel cultivo de café de Costa Rica</td>
+      <td>15,575</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2018</td>
+      <td>2018</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1.30%</td>
+      <td>97.82%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>FOREST DEPARTMENT - Cultivos - Mapa Belize</td>
+      <td>11,585</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2018</td>
+      <td>2018</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.97%</td>
+      <td>98.79%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá</td>
+      <td>4,716</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2021</td>
+      <td>2021</td>
+      <td>10</td>
+      <td>21</td>
+      <td>0.39%</td>
+      <td>99.18%</td>
+    </tr>
+  </tbody>
+</table>
+<div class="note"><p>Las seis primeras fuentes concentran 90.80% de la ventana. Esto no invalida el subconjunto, pero obliga a controlar sesgo por fuente al seleccionar muestras. La ventana es más diversa que 2020, aunque sigue dominada por FCPF El Salvador, MAGA Guatemala, ICF Honduras, SINAC Costa Rica y FCPF Honduras.</p></div>
+<h2>5. Distribución temática en Nivel_1</h2>
+<h3>5.1 Nivel_1 en 2020 exacto</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>nivel</th>
+      <th>clase</th>
+      <th>n_registros</th>
+      <th>n_paises</th>
+      <th>n_fuentes</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>pct_subset</th>
+      <th>pct_acumulado</th>
+      <th>balance_flag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>32 Cultivos Arbóreos</td>
+      <td>109,903</td>
+      <td>4</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>48.74%</td>
+      <td>48.74%</td>
+      <td>dominante_extrema</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>31 Cultivos intensivos No-Arbóreos</td>
+      <td>98,308</td>
+      <td>5</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>43.60%</td>
+      <td>92.34%</td>
+      <td>dominante_extrema</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>41 Bosque latifoliado y mixto</td>
+      <td>7,009</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>3.11%</td>
+      <td>95.45%</td>
+      <td>dependiente_fuente_unica</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>6,256</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>2.77%</td>
+      <td>98.23%</td>
+      <td>dependiente_fuente_unica</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>42 Bosque de coníferas</td>
+      <td>2,986</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>1.32%</td>
+      <td>99.55%</td>
+      <td>territorialmente_limitada</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>22 Humedales</td>
+      <td>474</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>0.21%</td>
+      <td>99.76%</td>
+      <td>territorialmente_limitada</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>11 Urbano</td>
+      <td>271</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>0.12%</td>
+      <td>99.88%</td>
+      <td>territorialmente_limitada</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>21 Cuerpos de Agua</td>
+      <td>165</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>0.07%</td>
+      <td>99.95%</td>
+      <td>dependiente_fuente_unica</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>43 Manglares</td>
+      <td>98</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>0.04%</td>
+      <td>100.00%</td>
+      <td>baja</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>12 Otras tierras</td>
+      <td>8</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2020</td>
+      <td>2020</td>
+      <td>0.00%</td>
+      <td>100.00%</td>
+      <td>critica_muy_baja</td>
+    </tr>
+  </tbody>
+</table>
+<div class="critical"><p>En 2020 exacto, <strong>Cultivos Arbóreos</strong> y <strong>Cultivos intensivos No-Arbóreos</strong> concentran 92.34%. Las clases forestales y no agrícolas quedan subordinadas, muchas con dependencia de fuente única o cobertura territorial limitada. Por eso 2020 exacto es fuerte como núcleo temporal, pero débil como muestra regional multiclase.</p></div>
+<h3>5.2 Nivel_1 en ventana 2018–2022</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>nivel</th>
+      <th>clase</th>
+      <th>n_registros</th>
+      <th>n_paises</th>
+      <th>n_fuentes</th>
+      <th>n_anios</th>
+      <th>anio_min</th>
+      <th>anio_max</th>
+      <th>pct_subset</th>
+      <th>pct_acumulado</th>
+      <th>balance_flag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>31 Cultivos intensivos No-Arbóreos</td>
+      <td>330,929</td>
+      <td>8</td>
+      <td>17</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>27.67%</td>
+      <td>27.67%</td>
+      <td>dominante_extrema</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>41 Bosque latifoliado y mixto</td>
+      <td>275,131</td>
+      <td>8</td>
+      <td>16</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>23.01%</td>
+      <td>50.68%</td>
+      <td>dominante_extrema</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>32 Cultivos Arbóreos</td>
+      <td>274,812</td>
+      <td>7</td>
+      <td>12</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>22.98%</td>
+      <td>73.66%</td>
+      <td>dominante_extrema</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>217,746</td>
+      <td>8</td>
+      <td>15</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>18.21%</td>
+      <td>91.86%</td>
+      <td>dominante</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>11 Urbano</td>
+      <td>30,394</td>
+      <td>7</td>
+      <td>10</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>2.54%</td>
+      <td>94.41%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>42 Bosque de coníferas</td>
+      <td>25,445</td>
+      <td>5</td>
+      <td>7</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>2.13%</td>
+      <td>96.53%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>43 Manglares</td>
+      <td>12,314</td>
+      <td>7</td>
+      <td>11</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>1.03%</td>
+      <td>97.56%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>22 Humedales</td>
+      <td>7,471</td>
+      <td>7</td>
+      <td>9</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>0.62%</td>
+      <td>98.19%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>44 Otros arbóreo en tierras no agrícola</td>
+      <td>7,277</td>
+      <td>7</td>
+      <td>11</td>
+      <td>3</td>
+      <td>2018</td>
+      <td>2021</td>
+      <td>0.61%</td>
+      <td>98.80%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>91 Otras</td>
+      <td>6,152</td>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+      <td>2018</td>
+      <td>2021</td>
+      <td>0.51%</td>
+      <td>99.31%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>12 Otras tierras</td>
+      <td>5,083</td>
+      <td>6</td>
+      <td>8</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>0.43%</td>
+      <td>99.74%</td>
+      <td>representacion_media</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>21 Cuerpos de Agua</td>
+      <td>3,157</td>
+      <td>7</td>
+      <td>8</td>
+      <td>5</td>
+      <td>2018</td>
+      <td>2022</td>
+      <td>0.26%</td>
+      <td>100.00%</td>
+      <td>representacion_media</td>
+    </tr>
+  </tbody>
+</table>
+<div class="good"><p>En la ventana 2018–2022, Bosque latifoliado y mixto alcanza 275,131 registros, equivalente a 23.01%. Esta es la mejora más importante frente a 2020 exacto, porque permite construir escenarios forestales y multiclase más realistas.</p></div>
+<h2>6. Distribución temática reconstruida en Nivel_2</h2>
+<p class="small">La distribución global de Nivel_2 se reconstruyó a partir de la tabla país-clase Nivel_2, sumando registros por clase y subconjunto.</p>
+<h3>6.1 Top Nivel_2 en 2020 exacto</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Clase Nivel_2</th>
+      <th>Registros</th>
+      <th>Países</th>
+      <th>% subconjunto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>321 Café</td>
+      <td>86,380</td>
+      <td>4</td>
+      <td>38.31%</td>
+    </tr>
+    <tr>
+      <td>313 Caña de azúcar</td>
+      <td>51,753</td>
+      <td>1</td>
+      <td>22.95%</td>
+    </tr>
+    <tr>
+      <td>311 Palma aceitera</td>
+      <td>29,819</td>
+      <td>4</td>
+      <td>13.22%</td>
+    </tr>
+    <tr>
+      <td>324 Hule</td>
+      <td>22,488</td>
+      <td>1</td>
+      <td>9.97%</td>
+    </tr>
+    <tr>
+      <td>312 Bananeras</td>
+      <td>12,273</td>
+      <td>3</td>
+      <td>5.44%</td>
+    </tr>
+    <tr>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>4,474</td>
+      <td>1</td>
+      <td>1.98%</td>
+    </tr>
+    <tr>
+      <td>420 Bosque de coníferas</td>
+      <td>2,986</td>
+      <td>1</td>
+      <td>1.32%</td>
+    </tr>
+    <tr>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>2,612</td>
+      <td>2</td>
+      <td>1.16%</td>
+    </tr>
+    <tr>
+      <td>333 Matorrales (barbecho o en descanso)</td>
+      <td>2,474</td>
+      <td>1</td>
+      <td>1.10%</td>
+    </tr>
+    <tr>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>2,394</td>
+      <td>2</td>
+      <td>1.06%</td>
+    </tr>
+    <tr>
+      <td>314 Piña</td>
+      <td>2,069</td>
+      <td>1</td>
+      <td>0.92%</td>
+    </tr>
+    <tr>
+      <td>414 Bosque seco o deciduo</td>
+      <td>1,667</td>
+      <td>2</td>
+      <td>0.74%</td>
+    </tr>
+    <tr>
+      <td>331 Granos básicos y hortalizas  y otros</td>
+      <td>1,170</td>
+      <td>1</td>
+      <td>0.52%</td>
+    </tr>
+    <tr>
+      <td>413 Bosque Mixto (Lat-Coniferas)</td>
+      <td>868</td>
+      <td>1</td>
+      <td>0.38%</td>
+    </tr>
+    <tr>
+      <td>322 Cacao</td>
+      <td>561</td>
+      <td>2</td>
+      <td>0.25%</td>
+    </tr>
+  </tbody>
+</table>
+<h3>6.2 Top Nivel_2 en ventana 2018–2022</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Clase Nivel_2</th>
+      <th>Registros</th>
+      <th>Países</th>
+      <th>% subconjunto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>246,372</td>
+      <td>7</td>
+      <td>20.60%</td>
+    </tr>
+    <tr>
+      <td>321 Café</td>
+      <td>220,151</td>
+      <td>7</td>
+      <td>18.41%</td>
+    </tr>
+    <tr>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>124,357</td>
+      <td>8</td>
+      <td>10.40%</td>
+    </tr>
+    <tr>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>116,957</td>
+      <td>6</td>
+      <td>9.78%</td>
+    </tr>
+    <tr>
+      <td>313 Caña de azúcar</td>
+      <td>104,160</td>
+      <td>5</td>
+      <td>8.71%</td>
+    </tr>
+    <tr>
+      <td>311 Palma aceitera</td>
+      <td>79,056</td>
+      <td>7</td>
+      <td>6.61%</td>
+    </tr>
+    <tr>
+      <td>333 Matorrales (barbecho o en descanso)</td>
+      <td>65,802</td>
+      <td>6</td>
+      <td>5.50%</td>
+    </tr>
+    <tr>
+      <td>331 Granos básicos y hortalizas  y otros</td>
+      <td>27,587</td>
+      <td>6</td>
+      <td>2.31%</td>
+    </tr>
+    <tr>
+      <td>325 Otros sistemas agroforestales o silvopastoriles</td>
+      <td>24,926</td>
+      <td>4</td>
+      <td>2.08%</td>
+    </tr>
+    <tr>
+      <td>420 Bosque de coníferas</td>
+      <td>23,984</td>
+      <td>5</td>
+      <td>2.01%</td>
+    </tr>
+    <tr>
+      <td>324 Hule</td>
+      <td>22,488</td>
+      <td>1</td>
+      <td>1.88%</td>
+    </tr>
+    <tr>
+      <td>312 Bananeras</td>
+      <td>17,303</td>
+      <td>6</td>
+      <td>1.45%</td>
+    </tr>
+    <tr>
+      <td>112 Urbano discontinuo</td>
+      <td>17,271</td>
+      <td>3</td>
+      <td>1.44%</td>
+    </tr>
+    <tr>
+      <td>314 Piña</td>
+      <td>13,453</td>
+      <td>4</td>
+      <td>1.12%</td>
+    </tr>
+    <tr>
+      <td>430 Manglares</td>
+      <td>12,314</td>
+      <td>7</td>
+      <td>1.03%</td>
+    </tr>
+    <tr>
+      <td>411 Latifoliado maduro húmedo</td>
+      <td>11,357</td>
+      <td>5</td>
+      <td>0.95%</td>
+    </tr>
+    <tr>
+      <td>111 Urbano continuo</td>
+      <td>10,995</td>
+      <td>2</td>
+      <td>0.92%</td>
+    </tr>
+    <tr>
+      <td>414 Bosque seco o deciduo</td>
+      <td>8,476</td>
+      <td>3</td>
+      <td>0.71%</td>
+    </tr>
+    <tr>
+      <td>220 Humedales</td>
+      <td>7,471</td>
+      <td>7</td>
+      <td>0.62%</td>
+    </tr>
+    <tr>
+      <td>323 Frutales</td>
+      <td>6,672</td>
+      <td>5</td>
+      <td>0.56%</td>
+    </tr>
+  </tbody>
+</table>
+<p>En Nivel_2, la ventana mejora la diversidad, pero mantiene concentración en café, bosque latifoliado/mixto, otros cultivos intensivos, pastizales/matorrales y palma/caña. Para modelamiento Nivel_2 todavía se requiere una leyenda reducida, fusiones o complementación dirigida.</p>
+<h2>7. Matriz país-clase: vacíos y suficiencia</h2>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>nivel</th>
+      <th>estado_pais_clase</th>
+      <th>n_celdas</th>
+      <th>pct_celdas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>bajo</td>
+      <td>2</td>
+      <td>2.08%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>critico</td>
+      <td>9</td>
+      <td>9.38%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>moderado</td>
+      <td>4</td>
+      <td>4.17%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>suficiente</td>
+      <td>6</td>
+      <td>6.25%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_1</td>
+      <td>vacio</td>
+      <td>75</td>
+      <td>78.12%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_2</td>
+      <td>bajo</td>
+      <td>3</td>
+      <td>0.94%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_2</td>
+      <td>critico</td>
+      <td>12</td>
+      <td>3.75%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_2</td>
+      <td>moderado</td>
+      <td>6</td>
+      <td>1.88%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_2</td>
+      <td>suficiente</td>
+      <td>15</td>
+      <td>4.69%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>Nivel_2</td>
+      <td>vacio</td>
+      <td>284</td>
+      <td>88.75%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>bajo</td>
+      <td>9</td>
+      <td>9.38%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>critico</td>
+      <td>21</td>
+      <td>21.88%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>moderado</td>
+      <td>9</td>
+      <td>9.38%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>suficiente</td>
+      <td>41</td>
+      <td>42.71%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_1</td>
+      <td>vacio</td>
+      <td>16</td>
+      <td>16.67%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_2</td>
+      <td>bajo</td>
+      <td>17</td>
+      <td>5.31%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_2</td>
+      <td>critico</td>
+      <td>44</td>
+      <td>13.75%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_2</td>
+      <td>moderado</td>
+      <td>21</td>
+      <td>6.56%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_2</td>
+      <td>suficiente</td>
+      <td>77</td>
+      <td>24.06%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Nivel_2</td>
+      <td>vacio</td>
+      <td>161</td>
+      <td>50.31%</td>
+    </tr>
+  </tbody>
+</table>
+<div class="critical"><p>La matriz país-clase muestra el límite principal del dataset: en 2020 exacto, 78.13% de las celdas país-clase Nivel_1 están vacías y 88.75% de las celdas Nivel_2 están vacías. La ventana 2018–2022 mejora mucho el Nivel_1, con 42.71% de celdas suficientes, pero en Nivel_2 todavía hay 50.31% de vacíos.</p></div>
+<p>Decisión metodológica derivada: <strong>Nivel_1 es la escala temática más viable para un primer escenario regional 2018–2022</strong>. Nivel_2 debe usarse con una leyenda reducida o como objetivo posterior, no como salida inicial completa.</p>
+<h2>8. Perfiles país-clase Nivel_2</h2>
+<h3>8.1 Top Nivel_2 por país - 2020 exacto</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>País</th>
+      <th>Clase Nivel_2</th>
+      <th>Registros</th>
+      <th>% país-subset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Belice</td>
+      <td>311 Palma aceitera</td>
+      <td>6</td>
+      <td>100.00%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>312 Bananeras</td>
+      <td>5</td>
+      <td>62.50%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>321 Café</td>
+      <td>2</td>
+      <td>25.00%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>414 Bosque seco o deciduo</td>
+      <td>1</td>
+      <td>12.50%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>321 Café</td>
+      <td>85,958</td>
+      <td>41.55%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>313 Caña de azúcar</td>
+      <td>51,753</td>
+      <td>25.02%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>311 Palma aceitera</td>
+      <td>29,404</td>
+      <td>14.21%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>324 Hule</td>
+      <td>22,488</td>
+      <td>10.87%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>312 Bananeras</td>
+      <td>12,263</td>
+      <td>5.93%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>4,474</td>
+      <td>24.13%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>420 Bosque de coníferas</td>
+      <td>2,986</td>
+      <td>16.11%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>2,611</td>
+      <td>14.08%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>333 Matorrales (barbecho o en descanso)</td>
+      <td>2,474</td>
+      <td>13.35%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>414 Bosque seco o deciduo</td>
+      <td>1,666</td>
+      <td>8.99%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>31</td>
+      <td>49.21%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>311 Palma aceitera</td>
+      <td>19</td>
+      <td>30.16%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>321 Café</td>
+      <td>8</td>
+      <td>12.70%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>312 Bananeras</td>
+      <td>5</td>
+      <td>7.94%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>210 Cuerpos de Agua</td>
+      <td>5</td>
+      <td>71.43%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>430 Manglares</td>
+      <td>1</td>
+      <td>14.29%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>1</td>
+      <td>14.29%</td>
+    </tr>
+  </tbody>
+</table>
+<h3>8.2 Top Nivel_2 por país - ventana 2018–2022</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>País</th>
+      <th>Clase Nivel_2</th>
+      <th>Registros</th>
+      <th>% país-subset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Belice</td>
+      <td>411 Latifoliado maduro húmedo</td>
+      <td>9,028</td>
+      <td>27.09%</td>
+    </tr>
+    <tr>
+      <td>Belice</td>
+      <td>313 Caña de azúcar</td>
+      <td>7,602</td>
+      <td>22.81%</td>
+    </tr>
+    <tr>
+      <td>Belice</td>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>3,577</td>
+      <td>10.73%</td>
+    </tr>
+    <tr>
+      <td>Belice</td>
+      <td>333 Matorrales (barbecho o en descanso)</td>
+      <td>2,605</td>
+      <td>7.82%</td>
+    </tr>
+    <tr>
+      <td>Belice</td>
+      <td>412 Latifoliado secundario húmedo</td>
+      <td>2,502</td>
+      <td>7.51%</td>
+    </tr>
+    <tr>
+      <td>Costa Rica</td>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>57,948</td>
+      <td>40.75%</td>
+    </tr>
+    <tr>
+      <td>Costa Rica</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>23,578</td>
+      <td>16.58%</td>
+    </tr>
+    <tr>
+      <td>Costa Rica</td>
+      <td>321 Café</td>
+      <td>15,704</td>
+      <td>11.04%</td>
+    </tr>
+    <tr>
+      <td>Costa Rica</td>
+      <td>311 Palma aceitera</td>
+      <td>11,850</td>
+      <td>8.33%</td>
+    </tr>
+    <tr>
+      <td>Costa Rica</td>
+      <td>314 Piña</td>
+      <td>10,375</td>
+      <td>7.30%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>163,070</td>
+      <td>28.50%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>96,842</td>
+      <td>16.93%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>83,629</td>
+      <td>14.62%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>321 Café</td>
+      <td>50,139</td>
+      <td>8.76%</td>
+    </tr>
+    <tr>
+      <td>El Salvador</td>
+      <td>333 Matorrales (barbecho o en descanso)</td>
+      <td>49,331</td>
+      <td>8.62%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>321 Café</td>
+      <td>86,075</td>
+      <td>41.00%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>313 Caña de azúcar</td>
+      <td>52,194</td>
+      <td>24.86%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>311 Palma aceitera</td>
+      <td>29,409</td>
+      <td>14.01%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>324 Hule</td>
+      <td>22,488</td>
+      <td>10.71%</td>
+    </tr>
+    <tr>
+      <td>Guatemala</td>
+      <td>312 Bananeras</td>
+      <td>12,263</td>
+      <td>5.84%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>321 Café</td>
+      <td>68,207</td>
+      <td>32.98%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>311 Palma aceitera</td>
+      <td>34,273</td>
+      <td>16.57%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>23,546</td>
+      <td>11.39%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>420 Bosque de coníferas</td>
+      <td>17,675</td>
+      <td>8.55%</td>
+    </tr>
+    <tr>
+      <td>Honduras</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>13,735</td>
+      <td>6.64%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>410 Bosque latifoliado y mixto</td>
+      <td>1,184</td>
+      <td>53.26%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>333 Matorrales (barbecho o en descanso)</td>
+      <td>327</td>
+      <td>14.71%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>156</td>
+      <td>7.02%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>144</td>
+      <td>6.48%</td>
+    </tr>
+    <tr>
+      <td>México</td>
+      <td>414 Bosque seco o deciduo</td>
+      <td>112</td>
+      <td>5.04%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>210 Cuerpos de Agua</td>
+      <td>25</td>
+      <td>36.23%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>332 Pastizales naturales y cultivados</td>
+      <td>23</td>
+      <td>33.33%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>321 Café</td>
+      <td>8</td>
+      <td>11.59%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>220 Humedales</td>
+      <td>6</td>
+      <td>8.70%</td>
+    </tr>
+    <tr>
+      <td>Nicaragua</td>
+      <td>430 Manglares</td>
+      <td>5</td>
+      <td>7.25%</td>
+    </tr>
+    <tr>
+      <td>Panamá</td>
+      <td>315 Otros cultivos intensivos no arbóreos</td>
+      <td>12,945</td>
+      <td>44.31%</td>
+    </tr>
+    <tr>
+      <td>Panamá</td>
+      <td>313 Caña de azúcar</td>
+      <td>5,622</td>
+      <td>19.24%</td>
+    </tr>
+    <tr>
+      <td>Panamá</td>
+      <td>311 Palma aceitera</td>
+      <td>3,498</td>
+      <td>11.97%</td>
+    </tr>
+    <tr>
+      <td>Panamá</td>
+      <td>312 Bananeras</td>
+      <td>2,042</td>
+      <td>6.99%</td>
+    </tr>
+    <tr>
+      <td>Panamá</td>
+      <td>411 Latifoliado maduro húmedo</td>
+      <td>1,764</td>
+      <td>6.04%</td>
+    </tr>
+  </tbody>
+</table>
+<p>La lectura país-clase confirma patrones diferenciados: Guatemala 2020 es casi exclusivamente agrícola/cultivos; Honduras 2020 aporta un perfil más mixto con bosque, coníferas, pastizales y matorrales; en la ventana, El Salvador aporta gran volumen mixto, Costa Rica tiene fuerte componente bosque-pastos-café, Honduras combina café/palma/bosque, y Nicaragua permanece con volumen extremadamente bajo.</p>
+<h2>9. Estado de grupos XY en los subconjuntos</h2>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>estado_xy_subset</th>
+      <th>n_grupos</th>
+      <th>n_registros</th>
+      <th>exceso_registros_subset</th>
+      <th>promedio_registros_por_grupo</th>
+      <th>pct_grupos_subset</th>
+      <th>pct_registros_subset</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>exacto_2020</td>
+      <td>xy_unico_en_subset</td>
+      <td>225,284</td>
+      <td>225,284</td>
+      <td>0</td>
+      <td>1.00</td>
+      <td>99.97%</td>
+      <td>99.91%</td>
+    </tr>
+    <tr>
+      <td>exacto_2020</td>
+      <td>redundancia_misma_fuente_misma_clase_subset</td>
+      <td>76</td>
+      <td>194</td>
+      <td>118</td>
+      <td>2.55</td>
+      <td>0.03%</td>
+      <td>0.09%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>xy_unico_en_subset</td>
+      <td>1,083,423</td>
+      <td>1,083,423</td>
+      <td>0</td>
+      <td>1.00</td>
+      <td>97.44%</td>
+      <td>90.59%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>multitemporal_estable_subset</td>
+      <td>17,905</td>
+      <td>89,545</td>
+      <td>71,640</td>
+      <td>5.00</td>
+      <td>1.61%</td>
+      <td>7.49%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>redundancia_misma_fuente_misma_clase_subset</td>
+      <td>7,742</td>
+      <td>15,526</td>
+      <td>7,784</td>
+      <td>2.01</td>
+      <td>0.70%</td>
+      <td>1.30%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>conflicto_tematico_subset</td>
+      <td>2,779</td>
+      <td>7,415</td>
+      <td>4,636</td>
+      <td>2.67</td>
+      <td>0.25%</td>
+      <td>0.62%</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>coincidencia_fuentes_misma_clase_subset</td>
+      <td>1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2.00</td>
+      <td>0.00%</td>
+      <td>0.00%</td>
+    </tr>
+  </tbody>
+</table>
+<div class="good"><p>El subconjunto 2020 exacto es prácticamente limpio: 99.91% de sus registros son <code>xy_unico_en_subset</code> y no aparecen conflictos temáticos. En la ventana 2018–2022, 90.59% de los registros son XY únicos y 7.49% pertenecen a grupos multitemporales estables. Esto refuerza que la ventana es operativamente viable si se trabaja por grupo XY y se controla la sobre-representación de grupos multitemporales.</p></div>
+<h2>10. Conflictos temáticos activos en la ventana</h2>
+<h3>10.1 Resumen general</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>n_grupos_conflicto</th>
+      <th>n_registros_conflicto</th>
+      <th>promedio_registros_por_grupo</th>
+      <th>max_registros_por_grupo</th>
+      <th>promedio_anios_por_grupo</th>
+      <th>max_anios_por_grupo</th>
+      <th>promedio_nivel1_distintos</th>
+      <th>promedio_nivel2_distintos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>2,779</td>
+      <td>7,415</td>
+      <td>2.67</td>
+      <td>5</td>
+      <td>1.89</td>
+      <td>5</td>
+      <td>1.92</td>
+      <td>2.00</td>
+    </tr>
+  </tbody>
+</table>
+<h3>10.2 Conflictos por país y tipo temporal</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>pais_grupo</th>
+      <th>n_combinaciones</th>
+      <th>n_grupos</th>
+      <th>n_registros</th>
+      <th>prom_anios</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>13</td>
+      <td>2,160</td>
+      <td>4,320</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>59</td>
+      <td>619</td>
+      <td>3,095</td>
+      <td>5.00</td>
+    </tr>
+  </tbody>
+</table>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>tipo_temporal_conflicto</th>
+      <th>n_combinaciones</th>
+      <th>n_grupos</th>
+      <th>n_registros</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mismo año</td>
+      <td>13</td>
+      <td>2,160</td>
+      <td>4,320</td>
+    </tr>
+    <tr>
+      <td>multianual</td>
+      <td>59</td>
+      <td>619</td>
+      <td>3,095</td>
+    </tr>
+  </tbody>
+</table>
+<div class="warn"><p>Los conflictos activos se concentran exclusivamente en Costa Rica y Honduras. Costa Rica suma 4,320 registros conflictivos, todos de mismo año promedio 1.0, lo que sugiere conflictos de etiqueta, fuente o semántica dentro de 2021. Honduras suma 3,095 registros, con promedio multianual cercano a 5 años, lo que sugiere series 2018–2022 o cambios temporales posibles.</p></div>
+<h3>10.3 Principales combinaciones conflictivas</h3>
+<table class="dataframe data-table compact">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>pais_grupo</th>
+      <th>valores_nivel1_subset</th>
+      <th>valores_nivel2_subset</th>
+      <th>n_grupos</th>
+      <th>n_registros</th>
+      <th>promedio_anios</th>
+      <th>anio_min_global</th>
+      <th>anio_max_global</th>
+      <th>tipo_temporal_conflicto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>410 Bosque latifoliado y mixto,332 Pastizales naturales y cultivados</td>
+      <td>815</td>
+      <td>1,630</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>410 Bosque latifoliado y mixto,332 Pastizales naturales y cultivados</td>
+      <td>245</td>
+      <td>1,225</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales,91 Otras</td>
+      <td>332 Pastizales naturales y cultivados,910 Otras</td>
+      <td>364</td>
+      <td>728</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>41 Bosque latifoliado y mixto,91 Otras</td>
+      <td>410 Bosque latifoliado y mixto,910 Otras</td>
+      <td>177</td>
+      <td>354</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>410 Bosque latifoliado y mixto,333 Matorrales (barbecho o en descanso)</td>
+      <td>64</td>
+      <td>320</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>41 Bosque latifoliado y mixto,22 Humedales</td>
+      <td>410 Bosque latifoliado y mixto,220 Humedales</td>
+      <td>149</td>
+      <td>298</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>410 Bosque latifoliado y mixto,331 Granos básicos y hortalizas  y otros</td>
+      <td>148</td>
+      <td>296</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales,22 Humedales</td>
+      <td>332 Pastizales naturales y cultivados,220 Humedales</td>
+      <td>122</td>
+      <td>244</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>332 Pastizales naturales y cultivados,331 Granos básicos y hortalizas  y otros</td>
+      <td>95</td>
+      <td>190</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales,91 Otras</td>
+      <td>331 Granos básicos y hortalizas  y otros,910 Otras</td>
+      <td>80</td>
+      <td>160</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>42 Bosque de coníferas,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>420 Bosque de coníferas,332 Pastizales naturales y cultivados</td>
+      <td>27</td>
+      <td>135</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>331 Granos básicos y hortalizas  y otros,332 Pastizales naturales y cultivados</td>
+      <td>63</td>
+      <td>126</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>41 Bosque latifoliado y mixto,44 Otros arbóreo en tierras no agrícola</td>
+      <td>410 Bosque latifoliado y mixto,442 Plantaciones forestales</td>
+      <td>62</td>
+      <td>124</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales,41 Bosque latifoliado y mixto</td>
+      <td>333 Matorrales (barbecho o en descanso),414 Bosque seco o deciduo</td>
+      <td>23</td>
+      <td>115</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>32 Cultivos Arbóreos</td>
+      <td>321 Café,325 Otros sistemas agroforestales o silvopastoriles</td>
+      <td>20</td>
+      <td>100</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales,41 Bosque latifoliado y mixto</td>
+      <td>333 Matorrales (barbecho o en descanso),410 Bosque latifoliado y mixto</td>
+      <td>19</td>
+      <td>95</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>22 Humedales,91 Otras</td>
+      <td>220 Humedales,910 Otras</td>
+      <td>45</td>
+      <td>90</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>42 Bosque de coníferas,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>420 Bosque de coníferas,333 Matorrales (barbecho o en descanso)</td>
+      <td>18</td>
+      <td>90</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>410 Bosque latifoliado y mixto,331 Granos básicos y hortalizas  y otros</td>
+      <td>16</td>
+      <td>80</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>414 Bosque seco o deciduo,332 Pastizales naturales y cultivados</td>
+      <td>16</td>
+      <td>80</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>333 Matorrales (barbecho o en descanso),332 Pastizales naturales y cultivados</td>
+      <td>14</td>
+      <td>70</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>333 Matorrales (barbecho o en descanso),331 Granos básicos y hortalizas  y otros</td>
+      <td>13</td>
+      <td>65</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Costa Rica</td>
+      <td>33 Cultivos extensivos, Pastizales y matorrales,44 Otros arbóreo en tierras no agrícola</td>
+      <td>332 Pastizales naturales y cultivados,442 Plantaciones forestales</td>
+      <td>31</td>
+      <td>62</td>
+      <td>1.00</td>
+      <td>2,021</td>
+      <td>2,021</td>
+      <td>mismo año</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>414 Bosque seco o deciduo,333 Matorrales (barbecho o en descanso)</td>
+      <td>12</td>
+      <td>60</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+    <tr>
+      <td>ventana_2018_2022</td>
+      <td>Honduras</td>
+      <td>41 Bosque latifoliado y mixto,33 Cultivos extensivos, Pastizales y matorrales</td>
+      <td>414 Bosque seco o deciduo,331 Granos básicos y hortalizas  y otros</td>
+      <td>11</td>
+      <td>55</td>
+      <td>5.00</td>
+      <td>2,018</td>
+      <td>2,022</td>
+      <td>multianual</td>
+    </tr>
+  </tbody>
+</table>
+<div class="critical"><p>Los conflictos más importantes son bosque latifoliado/mixto contra pastizales, matorrales, granos básicos u otras categorías. Estos son conflictos de alta prioridad porque afectan directamente la frontera bosque/no bosque, que será crítica para cualquier modelo forestal o de cobertura regional.</p></div>
+<h2>11. Interpretación operativa</h2>
+
+<table class="data-table">
+<thead><tr><th>Núcleo operativo</th><th>Definición</th><th>Fortaleza</th><th>Limitación</th><th>Uso recomendado</th></tr></thead>
+<tbody>
+<tr><td><span class="pill">A</span> 2020 estricto</td><td><code>exacto_2020 + xy_unico</code></td><td>Máxima pertinencia temporal y limpieza XY.</td><td>Muy sesgado hacia Guatemala, MAGA y cultivos.</td><td>Núcleo conservador, validación puntual, clases agrícolas 2020.</td></tr>
+<tr><td><span class="pill">B</span> Ventana flexible</td><td><code>ventana_2018_2022 + xy_unico</code></td><td>Mayor volumen, cobertura territorial, fuente y temática.</td><td>Aún concentrado en pocas fuentes y clases dominantes.</td><td>Base principal para escenarios Nivel_1 y balance regional.</td></tr>
+<tr><td><span class="pill">C</span> Estabilidad temporal</td><td><code>ventana_2018_2022 + multitemporal_estable</code></td><td>Potenciales puntos ancla temáticamente estables.</td><td>Debe ponderarse por grupo XY para evitar sobre-representación.</td><td>Validación cruzada con análisis espectro-temporal 1.6.</td></tr>
+<tr><td><span class="pill">D</span> Revisión prioritaria</td><td><code>ventana_2018_2022 + conflicto_tematico</code></td><td>Volumen pequeño y manejable.</td><td>Alto impacto semántico, sobre todo bosque/no bosque.</td><td>Entrada principal del Módulo 5C y revisión experta.</td></tr>
+</tbody>
+</table>
+
+<h2>12. Recomendaciones metodológicas</h2>
+
+<ol>
+<li><strong>Adoptar la ventana 2018–2022 como base operativa principal</strong>, manteniendo 2020 exacto como núcleo temporal conservador.</li>
+<li><strong>Trabajar el primer escenario regional a Nivel_1</strong>, porque Nivel_2 sigue mostrando demasiados vacíos país-clase.</li>
+<li><strong>No usar 2020 exacto como dataset regional completo</strong>; su sesgo de fuente, país y clases es demasiado alto.</li>
+<li><strong>Separar los conflictos de ventana como revisión prioritaria</strong>. Son pocos, pero estratégicos.</li>
+<li><strong>Aplicar control de fuente</strong>, porque las seis fuentes principales explican más de 90% de la ventana.</li>
+<li><strong>Generar matriz de vacíos país-clase</strong> para orientar fotointerpretación dirigida, especialmente en Nicaragua, México, Panamá y clases Nivel_2 minoritarias.</li>
+<li><strong>Usar los grupos multitemporales estables como candidatos de alta confianza</strong> solo si el análisis espectro-temporal paralelo confirma coherencia.</li>
+</ol>
+
+<h2>13. Próximo paso: Módulo 5C</h2>
+
+<div class="box"><p>El Módulo 5C debe enfocarse primero en los <strong>2,779 grupos conflictivos de la ventana 2018–2022</strong>, no en todos los conflictos históricos. La taxonomía sugerida debe separar: bosque/no bosque, intraforestal, agropecuario interno, residual/Otras, mismo año, multianual, fuente-fuente y posible cambio temporal.</p></div>
+<pre><code>Prioridad 5C-A: conflictos 2018–2022 en Costa Rica y Honduras.
+Prioridad 5C-B: conflictos históricos completos para diagnóstico secundario.
+Prioridad 5C-C: cruces con resultados espectro-temporales de la subactividad 1.6.</code></pre>
+
+<h2>14. Archivos utilizados</h2>
+<ul>
+<li><code>05b_subset_summary.csv</code></li>
+<li><code>05b_country_summary_by_subset.csv</code></li>
+<li><code>05b_source_summary_by_subset.csv</code></li>
+<li><code>05b_class_distribution_nivel1_by_subset.csv</code></li>
+<li><code>05b_class_by_country_nivel2_by_subset.csv</code></li>
+<li><code>05b_class_by_source_nivel1_by_subset.csv</code></li>
+<li><code>05b_class_by_source_nivel2_by_subset.csv</code></li>
+<li><code>05b_country_class_matrix_summary.csv</code></li>
+<li><code>05b_xy_group_type_by_subset.csv</code></li>
+<li><code>05b_thematic_conflicts_xy_summary_by_subset.csv</code></li>
+<li><code>05b_thematic_conflict_class_combinations_by_subset.csv</code></li>
+</ul>
+<p class="small">Nota: la distribución global Nivel_2 fue reconstruida a partir de <code>05b_class_by_country_nivel2_by_subset.csv</code>.</p>
+<div class="footer">Síntesis interpretativa generada para el proyecto PGBM - Actividad 1. El informe no modifica los datos originales y está orientado a apoyar la definición de reglas de aptitud, scoring preliminar y priorización de revisión temática.</div>
+</body></html>
