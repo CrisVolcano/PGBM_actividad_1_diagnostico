@@ -1009,3 +1009,4 @@ if __name__ == "__main__":
         registrar_log("Error durante la ejecución del Módulo 5.")
         traceback.print_exc()
         raise
+    
