@@ -88,3 +88,6 @@ outputs/tables/s2_sr_spectral_class_audit/09_priority_original_records_s2sr.csv
 outputs/tables/s2_sr_spectral_class_audit/09_low_satellite_availability_records.csv
 outputs/tables/10_record_aptitude_flags.csv
 outputs/tables/10_xy_group_aptitude_master.csv
+
+# ============================================================
+# Otros archivos que no se deben versionar
