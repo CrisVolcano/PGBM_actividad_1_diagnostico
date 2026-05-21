@@ -15,27 +15,6 @@ import pandas as pd
 import yaml
 
 
-# =============================================================================
-# PGBM - Etapa 1.7 / Módulo 10
-# Scoring multicriterio de aptitud preliminar
-# =============================================================================
-#
-# Corrección principal de esta versión:
-#   - El componente espectral NO se une por source_rowid.
-#   - El componente espectral se lee desde el Módulo 09, capa SIN duplicados:
-#
-#       data/processed/s2_sr_spectral_class_audit/
-#       └─ s2sr_spectral_class_audit_outputs.gpkg
-#          layer = audit_extract_units_s2sr_annual
-#
-#   - La capa espectral se agrega por xy_group_id.
-#   - El scoring final trabaja en la unidad principal del flujo: xy_group_id.
-#
-# Esto evita el error anterior donde se leía audit_original_records_s2sr_annual
-# y se intentaba hacer join por source_rowid, produciendo muchos registros
-# sin unión espectral.
-# =============================================================================
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -60,6 +39,30 @@ SPECTRAL_AUDIT_GPKG = (
 SPECTRAL_AUDIT_LAYER = "audit_extract_units_s2sr_annual"
 
 STRICT_SPECTRAL_COVERAGE_DEFAULT = True
+
+# -----------------------------------------------------------------------------
+# Control de ejecución
+# -----------------------------------------------------------------------------
+# TRUE/FALSE de control:
+#   False = si las salidas principales ya existen, NO recalcula el pipeline pesado;
+#           solo lee los CSV existentes y regenera el Markdown completo.
+#   True  = recalcula todo y sobrescribe las salidas.
+#
+# También puede cambiarse desde la terminal con:
+#   --recreate-outputs true
+#   --recreate-outputs false
+# Esto es porque volver a ejecutar todo solo para mejorar el md de salida es una pérdida de tiempo
+
+RECREATE_OUTPUTS_DEFAULT = False
+
+MASTER_CSV = OUT / "10_xy_group_aptitude_master.csv"
+SOURCE_RANKING_CSV = OUT / "10_source_aptitude_ranking.csv"
+RECORD_FLAGS_CSV = OUT / "10_record_aptitude_flags.csv"
+GAP_PRIORITY_CSV = OUT / "10_gap_priority_country_class.csv"
+REVIEW_CASES_CSV = OUT / "10_review_priority_cases.csv"
+SCENARIOS_CSV = OUT / "10_selection_scenarios_summary.csv"
+AUDIT_SUMMARY_CSV = OUT / "10_scoring_audit_summary.csv"
+REPORT_MD = REP / "10_scoring_multicriterio_aptitud.md"
 
 
 # =============================================================================
@@ -175,6 +178,24 @@ def normalize_xy_join_fields(
 
 def existing(df: pd.DataFrame, names: list[str]) -> list[str]:
     return [c for c in names if c in df.columns]
+
+
+def str_to_bool(value: Any) -> bool:
+    """Parsea valores tipo true/false para controlar si se recalculan salidas."""
+    if isinstance(value, bool):
+        return value
+
+    text = str(value).strip().lower()
+
+    if text in {"true", "1", "yes", "y", "si", "sí"}:
+        return True
+
+    if text in {"false", "0", "no", "n"}:
+        return False
+
+    raise argparse.ArgumentTypeError(
+        "Valor inválido. Use true o false."
+    )
 
 
 # =============================================================================
@@ -1094,6 +1115,342 @@ def scenarios(master: pd.DataFrame) -> pd.DataFrame:
 # REPORTES Y EXPORTACIÓN
 # =============================================================================
 
+def output_csv_paths() -> list[Path]:
+    return [
+        MASTER_CSV,
+        SOURCE_RANKING_CSV,
+        RECORD_FLAGS_CSV,
+        GAP_PRIORITY_CSV,
+        REVIEW_CASES_CSV,
+        SCENARIOS_CSV,
+        AUDIT_SUMMARY_CSV,
+    ]
+
+
+def outputs_exist() -> bool:
+    return all(path.exists() for path in output_csv_paths())
+
+
+def missing_output_paths() -> list[Path]:
+    return [path for path in output_csv_paths() if not path.exists()]
+
+
+def read_existing_outputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, dict[str, Any]]:
+    """
+    Lee salidas existentes para evitar repetir el proceso pesado.
+
+    Se usa cuando ya existen los CSV principales del Módulo 10. Permite
+    regenerar el Markdown sin volver a leer GPKG grandes ni recalcular scores.
+    """
+    master = pd.read_csv(MASTER_CSV, encoding="utf-8-sig", low_memory=False)
+    ranking = pd.read_csv(SOURCE_RANKING_CSV, encoding="utf-8-sig", low_memory=False)
+    gap = pd.read_csv(GAP_PRIORITY_CSV, encoding="utf-8-sig", low_memory=False)
+    review = pd.read_csv(REVIEW_CASES_CSV, encoding="utf-8-sig", low_memory=False)
+    scen = pd.read_csv(SCENARIOS_CSV, encoding="utf-8-sig", low_memory=False)
+    audit_df = pd.read_csv(AUDIT_SUMMARY_CSV, encoding="utf-8-sig", low_memory=False)
+
+    audit = audit_df.iloc[0].to_dict() if len(audit_df) else {}
+
+    return master, ranking, gap, review, scen, audit
+
+
+def write_sqlite_outputs_from_csv() -> None:
+    """
+    Crea o actualiza el SQLite final usando CSV ya existentes.
+
+    Esto es liviano comparado con repetir el pipeline completo y permite usar
+    --write-sqlite aunque se esté reutilizando la ejecución previa.
+    """
+    master, ranking, gap, review, scen, audit = read_existing_outputs()
+    records = pd.read_csv(RECORD_FLAGS_CSV, encoding="utf-8-sig", low_memory=False)
+
+    with sqlite3.connect(SCORING_DB) as out:
+        master.to_sql("xy_group_aptitude_master", out, if_exists="replace", index=False)
+        ranking.to_sql("source_aptitude_ranking", out, if_exists="replace", index=False)
+        records.to_sql("record_aptitude_flags", out, if_exists="replace", index=False)
+        gap.to_sql("gap_priority_country_class", out, if_exists="replace", index=False)
+        review.to_sql("review_priority_cases", out, if_exists="replace", index=False)
+        scen.to_sql("selection_scenarios_summary", out, if_exists="replace", index=False)
+        pd.DataFrame([audit]).to_sql("scoring_audit_summary", out, if_exists="replace", index=False)
+
+
+def safe_mean(df: pd.DataFrame, col: str) -> float:
+    if col not in df.columns:
+        return np.nan
+    return float(pd.to_numeric(df[col], errors="coerce").mean())
+
+
+def score_distribution_table(master: pd.DataFrame) -> pd.DataFrame:
+    if "score_aptitud_total" not in master.columns:
+        return pd.DataFrame()
+
+    score = pd.to_numeric(master["score_aptitud_total"], errors="coerce")
+
+    bins = [-np.inf, 40, 55, 70, 85, np.inf]
+    labels = ["<=40", "40-55", "55-70", "70-85", ">85"]
+
+    out = (
+        pd.DataFrame({"rango_score": pd.cut(score, bins=bins, labels=labels)})
+        .value_counts("rango_score", dropna=False)
+        .reset_index(name="n_grupos")
+    )
+
+    out["pct_grupos"] = (out["n_grupos"] / out["n_grupos"].sum() * 100).round(3)
+
+    return out
+
+
+def criteria_overall_table(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
+    weights = cfg.get("weights_xy", {})
+
+    rows = [
+        ("Temporal", "score_temporal", weights.get("temporal", "")),
+        ("Espacial", "score_espacial", weights.get("spatial", "")),
+        ("Temático", "score_tematico", weights.get("thematic", "")),
+        ("Espectral", "score_espectral", weights.get("spectral", "")),
+        ("Confiabilidad", "score_confiabilidad", weights.get("confidence", "")),
+        ("Representatividad", "score_representatividad", weights.get("representativity", "")),
+        ("Fuente", "score_fuente", weights.get("source", "")),
+        ("Score raw", "score_aptitud_raw", ""),
+        ("Score total", "score_aptitud_total", ""),
+    ]
+
+    data = []
+
+    for criterio, campo, peso in rows:
+        if campo not in master.columns:
+            continue
+
+        s = pd.to_numeric(master[campo], errors="coerce")
+
+        data.append(
+            {
+                "criterio": criterio,
+                "campo": campo,
+                "peso_configurado": peso,
+                "media": round(float(s.mean()), 3),
+                "mediana": round(float(s.median()), 3),
+                "min": round(float(s.min()), 3),
+                "max": round(float(s.max()), 3),
+                "n_validos": int(s.notna().sum()),
+            }
+        )
+
+    return pd.DataFrame(data)
+
+
+def criteria_description_table() -> pd.DataFrame:
+    return pd.DataFrame(
+        [
+            {
+                "criterio": "Temporal",
+                "campo_score": "score_temporal",
+                "qué_evalúa": "Cercanía temporal respecto al año objetivo 2020.",
+                "interpretación": "Favorece registros más próximos al año de referencia.",
+            },
+            {
+                "criterio": "Espacial",
+                "campo_score": "score_espacial",
+                "qué_evalúa": "Estado espacial del grupo XY dentro del subset.",
+                "interpretación": "Penaliza grupos con conflicto temático espacial o condiciones menos limpias.",
+            },
+            {
+                "criterio": "Temático",
+                "campo_score": "score_tematico",
+                "qué_evalúa": "Consistencia de clase, viabilidad país-clase, claridad semántica y nivel de leyenda.",
+                "interpretación": "Favorece clases consistentes, no residuales y bien representadas.",
+            },
+            {
+                "criterio": "Espectral",
+                "campo_score": "score_espectral",
+                "qué_evalúa": "Coherencia espectral Sentinel-2 SR agregada por xy_group_id.",
+                "interpretación": "Penaliza alertas, baja disponibilidad, ausencia de datos y señales que requieren revisión.",
+            },
+            {
+                "criterio": "Confiabilidad",
+                "campo_score": "score_confiabilidad",
+                "qué_evalúa": "Confianza integrada de los registros originales cuando existe.",
+                "interpretación": "Favorece grupos con mejor confianza documental o temática.",
+            },
+            {
+                "criterio": "Representatividad",
+                "campo_score": "score_representatividad",
+                "qué_evalúa": "Disponibilidad de registros por país y clase.",
+                "interpretación": "Penaliza combinaciones país-clase con pocos registros.",
+            },
+            {
+                "criterio": "Fuente",
+                "campo_score": "score_fuente",
+                "qué_evalúa": "Peso de fuente a nivel de grupo XY.",
+                "interpretación": "Actualmente entra como valor neutral en el score XY; el análisis detallado se realiza en el ranking de fuentes.",
+            },
+        ]
+    )
+
+
+def weights_table(cfg: dict[str, Any]) -> pd.DataFrame:
+    weights = cfg.get("weights_xy", {})
+
+    return pd.DataFrame(
+        [
+            {"criterio": "Temporal", "clave_config": "temporal", "peso": weights.get("temporal", "")},
+            {"criterio": "Espacial", "clave_config": "spatial", "peso": weights.get("spatial", "")},
+            {"criterio": "Temático", "clave_config": "thematic", "peso": weights.get("thematic", "")},
+            {"criterio": "Espectral", "clave_config": "spectral", "peso": weights.get("spectral", "")},
+            {"criterio": "Confiabilidad", "clave_config": "confidence", "peso": weights.get("confidence", "")},
+            {"criterio": "Representatividad", "clave_config": "representativity", "peso": weights.get("representativity", "")},
+            {"criterio": "Fuente", "clave_config": "source", "peso": weights.get("source", "")},
+        ]
+    )
+
+
+def caps_table(cfg: dict[str, Any]) -> pd.DataFrame:
+    caps_cfg = cfg.get("caps", {})
+
+    return pd.DataFrame(
+        [
+            {
+                "regla": "Alerta espectral alta",
+                "condición": "spectral_alert_level_max == alta",
+                "tope_aplicado": caps_cfg.get("spectral_alert_high", ""),
+                "cap_reason": "alerta_espectral_alta",
+            },
+            {
+                "regla": "Sin datos espectrales",
+                "condición": "spectral_alert_level_max == alta_sin_datos",
+                "tope_aplicado": caps_cfg.get("spectral_no_data", ""),
+                "cap_reason": "sin_datos_espectrales",
+            },
+            {
+                "regla": "Clase residual",
+                "condición": "flag_clase_residual == 1",
+                "tope_aplicado": caps_cfg.get("residual_class", ""),
+                "cap_reason": "clase_residual",
+            },
+        ]
+    )
+
+
+def cap_summary_table(master: pd.DataFrame) -> pd.DataFrame:
+    if "cap_reason" not in master.columns:
+        return pd.DataFrame()
+
+    out = (
+        master.assign(cap_reason_clean=master["cap_reason"].replace("", "sin_tope"))
+        .groupby("cap_reason_clean")
+        .agg(
+            n_grupos=("xy_group_id", "count"),
+            score_promedio=("score_aptitud_total", "mean"),
+            score_raw_promedio=("score_aptitud_raw", "mean"),
+        )
+        .reset_index()
+        .sort_values("n_grupos", ascending=False)
+    )
+
+    for col in ["score_promedio", "score_raw_promedio"]:
+        out[col] = out[col].round(3)
+
+    out["pct_grupos"] = (out["n_grupos"] / out["n_grupos"].sum() * 100).round(3)
+
+    return out
+
+
+def spectral_summary_table(master: pd.DataFrame) -> pd.DataFrame:
+    fields = [
+        "n_extract_units_spectral",
+        "pct_extract_units_sin_alerta",
+        "pct_extract_units_alerta_baja",
+        "pct_extract_units_alerta_media",
+        "pct_extract_units_alerta_alta",
+        "pct_extract_units_baja_disponibilidad",
+        "pct_extract_units_sin_datos",
+        "pct_extract_units_revision_espectral",
+        "s2yr_months_obs_median",
+        "s2yr_obs_total_median",
+        "s2yr_cloudprob_median",
+        "s2yr_ndvi_median",
+        "s2yr_ndre_median",
+        "score_espectral",
+    ]
+
+    rows = []
+
+    for col in fields:
+        if col not in master.columns:
+            continue
+
+        s = pd.to_numeric(master[col], errors="coerce")
+        rows.append(
+            {
+                "campo": col,
+                "media": round(float(s.mean()), 3),
+                "mediana": round(float(s.median()), 3),
+                "min": round(float(s.min()), 3),
+                "max": round(float(s.max()), 3),
+                "n_validos": int(s.notna().sum()),
+            }
+        )
+
+    return pd.DataFrame(rows)
+
+
+def state_by_criteria_table(master: pd.DataFrame) -> pd.DataFrame:
+    score_cols = existing(
+        master,
+        [
+            "score_aptitud_total",
+            "score_aptitud_raw",
+            "score_temporal",
+            "score_espacial",
+            "score_tematico",
+            "score_espectral",
+            "score_confiabilidad",
+            "score_representatividad",
+            "score_fuente",
+        ],
+    )
+
+    agg = {
+        "n_grupos": ("xy_group_id", "count"),
+        "n_registros": ("n_registros", "sum"),
+    }
+
+    for col in score_cols:
+        agg[f"{col}_promedio"] = (col, "mean")
+
+    out = (
+        master.groupby("estado_funcional_preliminar")
+        .agg(**agg)
+        .reset_index()
+        .sort_values("n_grupos", ascending=False)
+    )
+
+    for col in out.columns:
+        if col.endswith("_promedio"):
+            out[col] = out[col].round(3)
+
+    return out
+
+
+def state_spectral_alert_table(master: pd.DataFrame) -> pd.DataFrame:
+    if "spectral_alert_level_max" not in master.columns:
+        return pd.DataFrame()
+
+    out = (
+        master.groupby(["estado_funcional_preliminar", "spectral_alert_level_max"], dropna=False)
+        .agg(
+            n_grupos=("xy_group_id", "count"),
+            score_promedio=("score_aptitud_total", "mean"),
+        )
+        .reset_index()
+        .sort_values(["estado_funcional_preliminar", "n_grupos"], ascending=[True, False])
+    )
+
+    out["score_promedio"] = out["score_promedio"].round(3)
+
+    return out
+
+
 def write_report(
     master: pd.DataFrame,
     ranking: pd.DataFrame,
@@ -1101,21 +1458,37 @@ def write_report(
     review: pd.DataFrame,
     scen: pd.DataFrame,
     audit: dict[str, Any],
+    cfg: dict[str, Any],
 ) -> None:
     REP.mkdir(parents=True, exist_ok=True)
 
-    state = (
-        master.groupby("estado_funcional_preliminar")
-        .agg(
-            n_grupos=("xy_group_id", "count"),
-            n_registros=("n_registros", "sum"),
-            score_promedio=("score_aptitud_total", "mean"),
-        )
-        .reset_index()
-        .sort_values("n_grupos", ascending=False)
-    )
+    state = state_by_criteria_table(master)
+    criteria_overall = criteria_overall_table(master, cfg)
+    score_dist = score_distribution_table(master)
+    cap_summary = cap_summary_table(master)
+    spectral_summary = spectral_summary_table(master)
+    state_alert = state_spectral_alert_table(master)
 
-    state["score_promedio"] = state["score_promedio"].round(3)
+    score_formula_df = pd.DataFrame(
+        [
+            {
+                "score": "score_aptitud_raw",
+                "formula": (
+                    "w_temporal*score_temporal + "
+                    "w_spatial*score_espacial + "
+                    "w_thematic*score_tematico + "
+                    "w_spectral*score_espectral + "
+                    "w_confidence*score_confiabilidad + "
+                    "w_representativity*score_representatividad + "
+                    "w_source*score_fuente"
+                ),
+            },
+            {
+                "score": "score_aptitud_total",
+                "formula": "min(score_aptitud_raw, score_cap)",
+            },
+        ]
+    )
 
     lines = [
         "# Scoring multicriterio de aptitud preliminar",
@@ -1126,6 +1499,52 @@ def write_report(
         "",
         md(pd.DataFrame([audit])),
         "",
+        "## Interpretación general del resultado",
+        "",
+        "Este módulo no decide la aptitud de un grupo XY con un único criterio. La aptitud final se calcula mediante un score multicriterio que integra evidencia temporal, espacial, temática, espectral, de confiabilidad, representatividad y fuente.",
+        "",
+        "El componente espectral ya está integrado desde la capa sin duplicados por `extract_id` y agregado por `xy_group_id`. Sin embargo, el score espectral no sustituye a los demás criterios: funciona como una dimensión adicional de calidad y puede activar reglas de revisión o topes cuando la alerta es fuerte.",
+        "",
+        "## Fórmula del score",
+        "",
+        md(score_formula_df),
+        "",
+        "## Criterios usados en el score multicriterio",
+        "",
+        md(criteria_description_table()),
+        "",
+        "## Pesos configurados para el score por grupo XY",
+        "",
+        md(weights_table(cfg)),
+        "",
+        "## Resumen estadístico por criterio",
+        "",
+        md(criteria_overall),
+        "",
+        "## Distribución del score total",
+        "",
+        md(score_dist),
+        "",
+        "## Estados funcionales y promedios por criterio",
+        "",
+        md(state),
+        "",
+        "## Reglas de tope aplicadas al score",
+        "",
+        md(caps_table(cfg)),
+        "",
+        "## Resumen de topes aplicados",
+        "",
+        md(cap_summary),
+        "",
+        "## Resumen del componente espectral",
+        "",
+        md(spectral_summary),
+        "",
+        "## Cruce entre estado funcional y alerta espectral",
+        "",
+        md(state_alert),
+        "",
         "## Nota sobre duplicados espectrales",
         "",
         "El componente espectral se integró desde `audit_extract_units_s2sr_annual`, es decir, desde la capa sin duplicados por `extract_id`.",
@@ -1133,10 +1552,6 @@ def write_report(
         "Esto no elimina observaciones de años diferentes. Un mismo punto en 2020 y 2021 se conserva como dos unidades temporales distintas si tiene `extract_id` diferente. La eliminación de duplicados solo evita contar dos veces la misma unidad de extracción espectral.",
         "",
         "La capa completa `audit_original_records_s2sr_annual` se conserva para trazabilidad de registros originales, pero no se usa como insumo principal del score espectral agregado.",
-        "",
-        "## Estados funcionales",
-        "",
-        md(state),
         "",
         "## Escenarios",
         "",
@@ -1155,10 +1570,7 @@ def write_report(
         md(review.head(40)),
     ]
 
-    (REP / "10_scoring_multicriterio_aptitud.md").write_text(
-        "\n".join(lines),
-        encoding="utf-8",
-    )
+    REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
 
 
 def export_outputs(
@@ -1174,13 +1586,13 @@ def export_outputs(
     OUT.mkdir(parents=True, exist_ok=True)
 
     master.to_csv(
-        OUT / "10_xy_group_aptitude_master.csv",
+        MASTER_CSV,
         index=False,
         encoding="utf-8-sig",
     )
 
     ranking.to_csv(
-        OUT / "10_source_aptitude_ranking.csv",
+        SOURCE_RANKING_CSV,
         index=False,
         encoding="utf-8-sig",
     )
@@ -1203,31 +1615,31 @@ def export_outputs(
     records[
         [c for c in record_flag_cols if c in records.columns]
     ].to_csv(
-        OUT / "10_record_aptitude_flags.csv",
+        RECORD_FLAGS_CSV,
         index=False,
         encoding="utf-8-sig",
     )
 
     gap.to_csv(
-        OUT / "10_gap_priority_country_class.csv",
+        GAP_PRIORITY_CSV,
         index=False,
         encoding="utf-8-sig",
     )
 
     review.to_csv(
-        OUT / "10_review_priority_cases.csv",
+        REVIEW_CASES_CSV,
         index=False,
         encoding="utf-8-sig",
     )
 
     scen.to_csv(
-        OUT / "10_selection_scenarios_summary.csv",
+        SCENARIOS_CSV,
         index=False,
         encoding="utf-8-sig",
     )
 
     pd.DataFrame([audit]).to_csv(
-        OUT / "10_scoring_audit_summary.csv",
+        AUDIT_SUMMARY_CSV,
         index=False,
         encoding="utf-8-sig",
     )
@@ -1295,6 +1707,17 @@ def main() -> None:
     parser.add_argument("--config", default=str(CONFIG))
     parser.add_argument("--write-sqlite", action="store_true")
     parser.add_argument(
+        "--recreate-outputs",
+        type=str_to_bool,
+        default=RECREATE_OUTPUTS_DEFAULT,
+        metavar="true|false",
+        help=(
+            "True = recalcula todo y sobrescribe salidas. "
+            "False = si las salidas ya existen, las reutiliza y solo regenera el Markdown. "
+            f"Default: {RECREATE_OUTPUTS_DEFAULT}."
+        ),
+    )
+    parser.add_argument(
         "--allow-missing-spectral",
         action="store_true",
         help=(
@@ -1307,6 +1730,48 @@ def main() -> None:
     mkdirs()
 
     cfg = load_cfg(Path(args.config))
+
+    # -------------------------------------------------------------------------
+    # Modo rápido: si ya existen resultados y no se pide reprocesar, no se
+    # repite el proceso pesado. Solo se reconstruye el Markdown mejorado.
+    # -------------------------------------------------------------------------
+    if outputs_exist() and not args.recreate_outputs:
+        print("Salidas existentes detectadas. No se recalcula el pipeline completo.")
+        print("Se regenerará únicamente el reporte Markdown con los CSV existentes.")
+        print("Para recalcular todo, ejecutar con --recreate-outputs true.")
+
+        master, ranking, gap, review, scen, audit = read_existing_outputs()
+
+        write_report(
+            master=master,
+            ranking=ranking,
+            gap=gap,
+            review=review,
+            scen=scen,
+            audit=audit,
+            cfg=cfg,
+        )
+
+        if args.write_sqlite:
+            print("Actualizando SQLite desde CSV existentes...")
+            write_sqlite_outputs_from_csv()
+
+        log(
+            "Módulo 10 reutilizó salidas existentes y regeneró reporte. "
+            f"Reporte={REPORT_MD}"
+        )
+
+        print("Reporte regenerado:", REPORT_MD)
+        return
+
+    missing = missing_output_paths()
+    if missing:
+        print("No se encontraron todas las salidas previas. Se ejecutará el pipeline completo.")
+        print("Salidas faltantes:")
+        for path in missing:
+            print(" -", path)
+    else:
+        print("--force-recreate activo. Se recalculará el pipeline completo.")
 
     if not DB.exists():
         raise FileNotFoundError(f"No existe {DB}")
@@ -1375,7 +1840,6 @@ def main() -> None:
         )
 
         if args.allow_missing_spectral:
-            # Solo si el usuario lo permite explícitamente.
             spectral_fill_defaults = {
                 "n_extract_units_spectral": 0,
                 "n_spectral_rows": 0,
@@ -1455,7 +1919,15 @@ def main() -> None:
             write_sqlite=args.write_sqlite,
         )
 
-        write_report(master, ranking, gap, review, scen, audit)
+        write_report(
+            master=master,
+            ranking=ranking,
+            gap=gap,
+            review=review,
+            scen=scen,
+            audit=audit,
+            cfg=cfg,
+        )
 
         log(
             "Etapa 1.7 ejecutada correctamente. "
@@ -1471,10 +1943,10 @@ def main() -> None:
         print(f"Grupos XY: {master['xy_group_id'].nunique():,}")
         print(f"Insumo espectral: {spectral_meta.get('spectral_status', '')}")
         print(f"Capa espectral: {spectral_meta.get('spectral_layer', '')}")
-        print(f"Join espectral: xy_group_id")
+        print("Join espectral: xy_group_id")
         print(f"Cobertura espectral XY: {coverage_audit['spectral_xy_coverage_pct']}%")
         print("Salidas:", OUT)
-        print("Reporte:", REP / "10_scoring_multicriterio_aptitud.md")
+        print("Reporte:", REPORT_MD)
 
     finally:
         conn.close()

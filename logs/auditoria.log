@@ -20,3 +20,4 @@
 [2026-05-20 23:14:53] Error durante la ejecución de la Etapa 1.7.
 [2026-05-20 23:52:24] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09; spectral_join_key=source_rowid
 [2026-05-21 11:38:42] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
+[2026-05-21 12:45:57] Módulo 10 reutilizó salidas existentes y regeneró reporte. Reporte=C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\10_scoring_multicriterio_aptitud.md
