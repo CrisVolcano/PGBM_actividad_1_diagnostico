@@ -1,0 +1,75 @@
+scoring:
+  target_year: 2020
+  window_start: 2018
+  window_end: 2022
+  subset_name: "ventana_2018_2022"
+
+temporal_scores:
+  "2020": 100
+  "2019": 90
+  "2021": 90
+  "2018": 85
+  "2022": 85
+
+weights_xy:
+  temporal: 0.20
+  spatial: 0.20
+  thematic: 0.20
+  spectral: 0.15
+  confidence: 0.10
+  representativity: 0.10
+  source: 0.05
+
+weights_source:
+  traceability: 0.15
+  temporal: 0.15
+  thematic: 0.20
+  spatial: 0.15
+  representativity: 0.15
+  spectral: 0.15
+  pipeline_compatibility: 0.05
+
+spatial_scores:
+  xy_unico_en_subset: 100
+  multitemporal_estable_subset: 90
+  coincidencia_fuentes_misma_clase_subset: 85
+  redundancia_misma_fuente_misma_clase_subset: 70
+  conflicto_tematico_subset: 0
+
+spectral_scores:
+  sin_alerta: 100
+  baja: 80
+  media: 60
+  alta: 30
+  alta_sin_datos: 10
+
+class_viability_scores:
+  suficiente: 100
+  moderado: 80
+  bajo: 55
+  critico: 25
+  sin_matriz: 70
+
+representativity_scores:
+  suficiente: 100
+  moderado: 85
+  bajo: 65
+  critico: 40
+  sin_matriz: 70
+
+caps:
+  spectral_alert_high: 70
+  spectral_no_data: 60
+  residual_class: 75
+  multipais_inconsistent: 40
+
+state_thresholds:
+  training_high: 85
+  training_conditioned: 70
+  contextual: 55
+
+semantic_keywords:
+  residual:
+    - "otras"
+    - "otra"
+    - "sin clasificar"
