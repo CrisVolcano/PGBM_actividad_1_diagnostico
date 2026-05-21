@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reporte HTML · Etapa 1.7 Scoring multicriterio de aptitud</title>
+  <style>
+    :root {
+      --navy:#12355b;
+      --blue:#1f5f99;
+      --sky:#eaf4ff;
+      --teal:#0f766e;
+      --teal-soft:#ecfdf5;
+      --green:#15803d;
+      --green-soft:#f0fdf4;
+      --amber:#b45309;
+      --amber-soft:#fffbeb;
+      --red:#b91c1c;
+      --red-soft:#fef2f2;
+      --purple:#6d28d9;
+      --purple-soft:#f5f3ff;
+      --gray:#475569;
+      --light:#f8fafc;
+      --line:#d5dde7;
+      --text:#1f2937;
+      --white:#ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #edf3f8;
+      line-height: 1.58;
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      background: var(--white);
+      min-height: 100vh;
+      box-shadow: 0 18px 60px rgba(15,23,42,0.15);
+    }
+
+    header {
+      padding: 46px 52px 38px;
+      color: white;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.24), transparent 28%),
+        linear-gradient(135deg, #0c2a4d 0%, #164573 48%, #2476b8 100%);
+    }
+
+    header h1 {
+      margin: 0;
+      max-width: 1100px;
+      font-size: 2.25rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    header p {
+      margin: 16px 0 0;
+      max-width: 1080px;
+      color: #dbeafe;
+      font-size: 1.04rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .chips span {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.28);
+      font-size: 0.86rem;
+      color: #f8fafc;
+    }
+
+    main { padding: 34px 52px 60px; }
+
+    h2 {
+      margin-top: 44px;
+      color: var(--navy);
+      font-size: 1.55rem;
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      margin-top: 28px;
+      color: var(--blue);
+      font-size: 1.16rem;
+    }
+
+    p { margin: 12px 0; }
+
+    .lead {
+      color: #334155;
+      font-size: 1.08rem;
+    }
+
+    .toc {
+      margin: 24px 0 32px;
+      padding: 18px 22px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--light);
+    }
+
+    .toc strong { color: var(--navy); }
+
+    .toc ol {
+      margin: 10px 0 0 22px;
+      padding: 0;
+      columns: 2;
+      column-gap: 38px;
+    }
+
+    .toc li { margin: 5px 0; break-inside: avoid; }
+
+    .toc a {
+      color: var(--blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .toc a:hover { text-decoration: underline; }
+
+    .callout {
+      margin: 18px 0;
+      padding: 16px 18px;
+      border-left: 6px solid var(--blue);
+      border-radius: 14px;
+      background: var(--sky);
+    }
+
+    .callout strong { color: var(--navy); }
+    .callout.good { background: var(--green-soft); border-left-color: var(--green); }
+    .callout.warn { background: var(--amber-soft); border-left-color: var(--amber); }
+    .callout.danger { background: var(--red-soft); border-left-color: var(--red); }
+    .callout.purple { background: var(--purple-soft); border-left-color: var(--purple); }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .metric {
+      padding: 16px;
+      min-height: 112px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--light);
+    }
+
+    .metric .value {
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 1.55rem;
+      line-height: 1.1;
+    }
+
+    .metric .label {
+      color: var(--gray);
+      font-size: 0.92rem;
+      margin-top: 8px;
+    }
+
+    .metric.good .value { color: var(--green); }
+    .metric.warn .value { color: var(--amber); }
+    .metric.bad .value { color: var(--red); }
+    .metric.purple .value { color: var(--purple); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 0.92rem;
+      background: white;
+    }
+
+    th {
+      background: var(--navy);
+      color: white;
+      text-align: left;
+      padding: 10px 9px;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+
+    td {
+      border: 1px solid var(--line);
+      padding: 9px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: #fbfdff; }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background: #eef2f7;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+
+    pre {
+      margin: 18px 0;
+      padding: 16px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      border-radius: 14px;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-size: 0.92rem;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+
+    .pill.blue { background: #dbeafe; color: #1e3a8a; }
+    .pill.green { background: #dcfce7; color: #166534; }
+    .pill.amber { background: #fef3c7; color: #92400e; }
+    .pill.red { background: #fee2e2; color: #991b1b; }
+    .pill.purple { background: #ede9fe; color: #5b21b6; }
+    .pill.gray { background: #e5e7eb; color: #374151; }
+
+    .bar-list {
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: var(--light);
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 290px 1fr 80px;
+      gap: 12px;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .bar-label {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .bar-track {
+      height: 18px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #174a7c, #4f92ce);
+    }
+
+    .bar-fill.green { background: linear-gradient(90deg, #0f766e, #34d399); }
+    .bar-fill.amber { background: linear-gradient(90deg, #b45309, #f59e0b); }
+    .bar-fill.red { background: linear-gradient(90deg, #b91c1c, #ef4444); }
+    .bar-fill.purple { background: linear-gradient(90deg, #6d28d9, #a78bfa); }
+
+    .bar-value {
+      text-align: right;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 18px 0;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px;
+      background: white;
+      box-shadow: 0 4px 18px rgba(15,23,42,0.04);
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .kpi-line {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      border-bottom: 1px dashed var(--line);
+      padding: 8px 0;
+    }
+
+    .kpi-line:last-child { border-bottom: none; }
+
+    .kpi-line strong { color: var(--navy); }
+
+    .small { font-size: 0.88rem; color: var(--gray); }
+
+    .formula {
+      background: #f1f5f9;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      color: #0f172a;
+      overflow-x: auto;
+    }
+
+    footer {
+      margin-top: 52px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 980px) {
+      header, main { padding-left: 24px; padding-right: 24px; }
+      .metric-grid, .two-col { grid-template-columns: 1fr; }
+      .toc ol { columns: 1; }
+      table { display: block; overflow-x: auto; }
+      .bar-row { grid-template-columns: 1fr; }
+      .bar-value { text-align: left; }
+    }
+
+    @media print {
+      body { background: white; }
+      .page { box-shadow: none; max-width: none; }
+      header { background: var(--navy); print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      table, .card, .callout { page-break-inside: avoid; }
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Reporte interpretativo · Etapa 1.7 Scoring multicriterio de aptitud preliminar</h1>
+    <p>
+      Síntesis ejecutiva e interpretativa del scoring aplicado sobre la ventana 2018–2022. El reporte resume los resultados por grupo XY,
+      estados funcionales, escenarios de selección, ranking de fuentes, vacíos país-clase y casos de revisión prioritaria.
+    </p>
+    <div class="chips">
+      <span>Ventana 2018–2022</span>
+      <span>Año objetivo 2020</span>
+      <span>Unidad principal: xy_group_id</span>
+      <span>Score temporal: 2020=100 · 2019/2021=90 · 2018/2022=85</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="resumen">
+      <h2>1. Lectura ejecutiva</h2>
+      <p class="lead">
+        El scoring produjo una clasificación muy clara: la gran mayoría de los grupos XY de la ventana 2018–2022 quedaron como
+        <strong>entrenamiento de alta prioridad</strong>, mientras que los grupos conflictivos se concentraron en estados de revisión
+        prioritaria o revisión temporal. El resultado es operativo porque no solo entrega un puntaje, sino un estado funcional y una acción recomendada.
+      </p>
+
+      <div class="metric-grid">
+        <div class="metric good"><div class="value">1,195,911</div><div class="label">registros evaluados dentro de la ventana 2018–2022</div></div>
+        <div class="metric good"><div class="value">1,111,850</div><div class="label">grupos XY evaluados como unidad principal del scoring</div></div>
+        <div class="metric"><div class="value">22</div><div class="label">fuentes consideradas en el ranking de aptitud</div></div>
+        <div class="metric"><div class="value">8</div><div class="label">países representados en la ventana de trabajo</div></div>
+        <div class="metric good"><div class="value">1,097,441</div><div class="label">grupos en entrenamiento de alta prioridad</div></div>
+        <div class="metric warn"><div class="value">11,630</div><div class="label">grupos en entrenamiento condicionado</div></div>
+        <div class="metric bad"><div class="value">2,684</div><div class="label">grupos en revisión prioritaria</div></div>
+        <div class="metric purple"><div class="value">95</div><div class="label">grupos en revisión temporal</div></div>
+      </div>
+
+      <div class="callout danger">
+        <strong>Alerta metodológica importante:</strong> en esta corrida el campo <code>spectral_status</code> quedó como <code>not_found</code>.
+        Eso significa que el script no encontró el archivo espectral esperado dentro de <code>outputs/tables/</code>. Por tanto, la dimensión espectral
+        quedó neutralizada o proxy, y este reporte debe leerse como un scoring tabular-espacial-temático-temporal preliminar. Antes de cerrar la etapa 1.7,
+        conviene repetir la corrida con la tabla espectral de la etapa 1.6 correctamente ubicada y nombrada.
+      </div>
+    </section>
+
+    <nav class="toc">
+      <strong>Contenido</strong>
+      <ol>
+        <li><a href="#resumen">Lectura ejecutiva</a></li>
+        <li><a href="#auditoria">Resumen de auditoría</a></li>
+        <li><a href="#estados">Estados funcionales</a></li>
+        <li><a href="#escenarios">Escenarios de selección</a></li>
+        <li><a href="#fuentes">Ranking de fuentes</a></li>
+        <li><a href="#vacios">Vacíos país-clase</a></li>
+        <li><a href="#revision">Revisión prioritaria</a></li>
+        <li><a href="#decisiones">Decisiones metodológicas</a></li>
+        <li><a href="#siguientes">Siguientes pasos</a></li>
+      </ol>
+    </nav>
+
+    <section id="auditoria">
+      <h2>2. Resumen de auditoría del scoring</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Año objetivo</th>
+            <th>Ventana</th>
+            <th>Registros ventana</th>
+            <th>Grupos XY ventana</th>
+            <th>Fuentes</th>
+            <th>Países</th>
+            <th>Estado espectral</th>
+            <th>Llave espectral</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2020</td>
+            <td>2018–2022</td>
+            <td>1,195,911</td>
+            <td>1,111,850</td>
+            <td>22</td>
+            <td>8</td>
+            <td><span class="pill red">not_found</span></td>
+            <td>Sin llave detectada</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Qué sí quedó bien definido</h3>
+          <div class="kpi-line"><span>Ventana temporal aplicada</span><strong>2018–2022</strong></div>
+          <div class="kpi-line"><span>Unidad principal</span><strong>Grupo XY</strong></div>
+          <div class="kpi-line"><span>Cobertura de fuentes</span><strong>22 fuentes</strong></div>
+          <div class="kpi-line"><span>Cobertura territorial</span><strong>8 países</strong></div>
+        </div>
+        <div class="card">
+          <h3>Qué debe corregirse antes de cierre</h3>
+          <div class="kpi-line"><span>Archivo espectral detectado</span><strong>No encontrado</strong></div>
+          <div class="kpi-line"><span>Integración S2 efectiva</span><strong>Pendiente</strong></div>
+          <div class="kpi-line"><span>Score espectral</span><strong>Neutral/proxy</strong></div>
+          <div class="kpi-line"><span>Riesgo principal</span><strong>Sobreestimar aptitud</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="estados">
+      <h2>3. Estados funcionales obtenidos</h2>
+
+      <div class="bar-list">
+        <div class="bar-row">
+          <div class="bar-label">Entrenamiento alta prioridad</div>
+          <div class="bar-track"><div class="bar-fill green" style="width:98.70%"></div></div>
+          <div class="bar-value">98.70%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Entrenamiento condicionado</div>
+          <div class="bar-track"><div class="bar-fill amber" style="width:1.05%"></div></div>
+          <div class="bar-value">1.05%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Revisión prioritaria</div>
+          <div class="bar-track"><div class="bar-fill red" style="width:0.24%"></div></div>
+          <div class="bar-value">0.24%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Revisión temporal</div>
+          <div class="bar-track"><div class="bar-fill purple" style="width:0.01%"></div></div>
+          <div class="bar-value">0.01%</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Estado funcional</th>
+            <th>Grupos XY</th>
+            <th>Registros</th>
+            <th>Score promedio</th>
+            <th>Interpretación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="pill green">entrenamiento_alta_prioridad</span></td>
+            <td>1,097,441</td>
+            <td>1,175,714</td>
+            <td>91.140</td>
+            <td>Base candidata principal de la ventana. Debe ser balanceada por país, fuente y clase antes de formar conjuntos de entrenamiento.</td>
+          </tr>
+          <tr>
+            <td><span class="pill amber">entrenamiento_condicionado</span></td>
+            <td>11,630</td>
+            <td>12,782</td>
+            <td>75.811</td>
+            <td>Datos utilizables con restricciones. Conviene revisar causa del condicionamiento antes de incorporarlos.</td>
+          </tr>
+          <tr>
+            <td><span class="pill red">revision_prioritaria</span></td>
+            <td>2,684</td>
+            <td>6,940</td>
+            <td>62.719</td>
+            <td>Casos no aptos para entrenamiento directo. Deben pasar por revisión experta, fotointerpretación o regla de exclusión.</td>
+          </tr>
+          <tr>
+            <td><span class="pill purple">revision_temporal</span></td>
+            <td>95</td>
+            <td>475</td>
+            <td>64.688</td>
+            <td>Casos multianuales compatibles con cambio o inestabilidad temporal. Requieren análisis de trayectoria.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout good">
+        <strong>Lectura principal:</strong> la ventana 2018–2022 genera una base candidata muy amplia. Solo 2,779 grupos están en estados de revisión temática o temporal, lo cual permite separar el ruido conflictivo sin sacrificar volumen operativo.
+      </div>
+    </section>
+
+    <section id="escenarios">
+      <h2>4. Escenarios de selección</h2>
+      <p>
+        Los escenarios muestran cómo cambiaría el universo de trabajo según el nivel de restricción aplicado. El escenario <code>ventana_conservadora</code>
+        es el más útil como base operativa, mientras que <code>estricto_2020</code> es más conservador temporalmente pero depende solo de dos fuentes.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Escenario</th>
+            <th>Grupos XY</th>
+            <th>Registros representados</th>
+            <th>Fuentes</th>
+            <th>Score promedio</th>
+            <th>Uso recomendado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>estricto_2020</code></td>
+            <td>224,741</td>
+            <td>296,495</td>
+            <td>2</td>
+            <td>93.311</td>
+            <td>Núcleo temporal conservador. Útil, pero no suficiente como base regional por su baja diversidad de fuentes.</td>
+          </tr>
+          <tr>
+            <td><code>ventana_conservadora</code></td>
+            <td>1,109,071</td>
+            <td>1,188,496</td>
+            <td>22</td>
+            <td>90.979</td>
+            <td>Base operativa recomendada para selección inicial, siempre con balance país-clase-fuente.</td>
+          </tr>
+          <tr>
+            <td><code>nivel1_regional</code></td>
+            <td>1,109,041</td>
+            <td>1,188,466</td>
+            <td>22</td>
+            <td>90.980</td>
+            <td>Escenario más defendible para un primer modelo regional a Nivel_1.</td>
+          </tr>
+          <tr>
+            <td><code>revision_prioritaria</code></td>
+            <td>2,779</td>
+            <td>7,415</td>
+            <td>2</td>
+            <td>62.787</td>
+            <td>Agenda de revisión temática y temporal. No debe entrar a entrenamiento directo.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <strong>Decisión recomendada:</strong> usar <code>ventana_conservadora</code> como universo candidato principal y <code>nivel1_regional</code> como escenario de modelamiento inicial. Mantener <code>estricto_2020</code> como núcleo de referencia temporal, no como dataset regional completo.
+      </div>
+    </section>
+
+    <section id="fuentes">
+      <h2>5. Ranking de fuentes</h2>
+      <p>
+        El ranking clasificó 21 fuentes como <span class="pill green">fuente_prioritaria</span> y una fuente como <span class="pill amber">fuente_apta_condicionada</span>.
+        La mayoría de fuentes obtiene puntajes altos porque la ventana temporal, la consistencia temática y la calidad espacial son favorables. Sin embargo,
+        dos fuentes relevantes tienen conflicto activo y deben usarse con restricciones internas.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fuente</th>
+            <th>Grupos XY</th>
+            <th>Registros</th>
+            <th>Score fuente</th>
+            <th>Categoría</th>
+            <th>Notas de lectura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>MAGA - Cultivos - Mapa Guatemala</td><td>206,836</td><td>206,950</td><td>92.721</td><td><span class="pill green">prioritaria</span></td><td>Mayor puntaje. Muy fuerte temporalmente por 2020, pero requiere control de sesgo temático.</td></tr>
+          <tr><td>CENAT/PRIAS - Cultivos - Costa Rica</td><td>22,219</td><td>22,224</td><td>91.222</td><td><span class="pill green">prioritaria</span></td><td>Alta consistencia y sin conflictos activos reportados.</td></tr>
+          <tr><td>MIAMBIENTE - Cultivos Mapa Panamá</td><td>24,469</td><td>24,475</td><td>91.222</td><td><span class="pill green">prioritaria</span></td><td>Fuente útil, principalmente para clases agrícolas.</td></tr>
+          <tr><td>MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá</td><td>4,716</td><td>4,716</td><td>90.597</td><td><span class="pill green">prioritaria</span></td><td>Fuente forestal relevante para Panamá.</td></tr>
+          <tr><td>FOREST DEPARTMENT - Cultivos - Mapa Belize</td><td>11,585</td><td>11,585</td><td>90.475</td><td><span class="pill green">prioritaria</span></td><td>Buena aptitud agregada; revisar balance por clase.</td></tr>
+          <tr><td>FCPF - Malla MRV-REDD+ El Salvador</td><td>513,740</td><td>514,236</td><td>90.450</td><td><span class="pill green">prioritaria</span></td><td>Fuente dominante en volumen; requiere submuestreo y control de peso.</td></tr>
+          <tr><td>FCPF - Malla MRV-REDD+ Honduras</td><td>18,524</td><td>92,640</td><td>89.713</td><td><span class="pill green">prioritaria</span></td><td>Tiene 3.342% de conflicto activo; usar solo grupos no conflictivos para entrenamiento.</td></tr>
+          <tr><td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td><td>90,629</td><td>99,803</td><td>89.464</td><td><span class="pill green">prioritaria</span></td><td>Tiene 2.383% de conflicto activo; los conflictos internos deben aislarse.</td></tr>
+          <tr><td>CONAFOR -Inventario Forestal Estado Tabasco, México</td><td>63</td><td>63</td><td>84.484</td><td><span class="pill amber">condicionada</span></td><td>Baja representación. Fuente útil como apoyo o complemento, no como base fuerte.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <strong>Advertencia sobre el ranking:</strong> que una fuente sea prioritaria no significa que todos sus grupos sean aptos. El ranking de fuente es agregado; la selección debe hacerse por <code>xy_group_id</code> y excluir grupos con conflicto activo.
+      </div>
+    </section>
+
+    <section id="vacios">
+      <h2>6. Vacíos país-clase y complementación prioritaria</h2>
+      <p>
+        La tabla priorizada de vacíos muestra combinaciones país-clase con soporte crítico, bajo o moderado. Estas clases no deben inflar automáticamente el entrenamiento; deben orientar la complementación, la búsqueda de fuentes adicionales o la fotointerpretación dirigida.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>País</th>
+            <th>Clase Nivel_1</th>
+            <th>Registros 2018–2022</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Costa Rica</td><td>12 Otras tierras</td><td>9</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Costa Rica</td><td>21 Cuerpos de Agua</td><td>5</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>El Salvador</td><td>91 Otras</td><td>5</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Guatemala</td><td>42 Bosque de coníferas</td><td>5</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Honduras</td><td>44 Otros arbóreo en tierras no agrícola</td><td>24</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>México</td><td>43 Manglares</td><td>16</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Nicaragua</td><td>41 Bosque latifoliado y mixto</td><td>1</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Nicaragua</td><td>31 Cultivos intensivos No-Arbóreos</td><td>1</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Panamá</td><td>91 Otras</td><td>2</td><td><span class="pill red">crítico</span></td><td>90</td></tr>
+          <tr><td>Belice</td><td>12 Otras tierras</td><td>72</td><td><span class="pill amber">bajo</span></td><td>70</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout purple">
+        <strong>Lectura operativa:</strong> Nicaragua, México, Panamá y varias clases residuales o hidrológicas aparecen como focos de complementación. Para estas combinaciones, el objetivo no es seleccionar más de lo mismo, sino generar nueva evidencia o revisar fuentes adicionales.
+      </div>
+    </section>
+
+    <section id="revision">
+      <h2>7. Casos de revisión prioritaria</h2>
+      <p>
+        Los casos de revisión prioritaria se explican principalmente por grupos XY con <code>conflicto_tematico_subset</code>. En los ejemplos visibles, muchos corresponden a Honduras con fuente dominante FCPF - Malla MRV-REDD+ Honduras, cinco años de observación y conflictos entre clases agrícolas, pastizales, matorrales y bosque.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo de caso</th>
+            <th>Grupos</th>
+            <th>Registros</th>
+            <th>Interpretación</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>revision_prioritaria</code></td>
+            <td>2,684</td>
+            <td>6,940</td>
+            <td>Conflictos severos, principalmente no aptos para entrenamiento directo.</td>
+            <td>Fotointerpretación, revisión experta o exclusión controlada.</td>
+          </tr>
+          <tr>
+            <td><code>revision_temporal</code></td>
+            <td>95</td>
+            <td>475</td>
+            <td>Trayectorias multianuales que pueden representar cambio real o inestabilidad.</td>
+            <td>Análisis temporal y, cuando se corrija la integración, apoyo espectral Sentinel-2.</td>
+          </tr>
+          <tr>
+            <td><code>bosque_vs_no_bosque</code></td>
+            <td>Incluido en revisión</td>
+            <td>Incluido en revisión</td>
+            <td>Afecta la frontera temática más crítica para modelos forestales.</td>
+            <td>No usar como entrenamiento directo hasta resolver.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger">
+        <strong>Regla de uso:</strong> los grupos con conflicto activo no deben entrar al conjunto candidato de entrenamiento aunque tengan buen score temporal o buena cobertura de registros. El estado funcional debe prevalecer sobre el score numérico.
+      </div>
+    </section>
+
+    <section id="decisiones">
+      <h2>8. Decisiones metodológicas derivadas</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Decisión</th>
+            <th>Justificación</th>
+            <th>Implicación práctica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Usar grupos XY como unidad central</td>
+            <td>El scoring representa sitios, no solo filas.</td>
+            <td>Partición entrenamiento-validación-test por <code>xy_group_id</code>.</td>
+          </tr>
+          <tr>
+            <td>Adoptar ventana conservadora</td>
+            <td>Captura 1,188,496 registros representados y 22 fuentes con score promedio alto.</td>
+            <td>Base principal para selección inicial.</td>
+          </tr>
+          <tr>
+            <td>Priorizar Nivel_1 regional</td>
+            <td>Produce prácticamente el mismo volumen que la ventana conservadora, con enfoque temático más defendible.</td>
+            <td>Recomendado como primer escenario regional.</td>
+          </tr>
+          <tr>
+            <td>Separar revisión prioritaria</td>
+            <td>2,779 grupos concentran los casos conflictivos y tienen score promedio bajo.</td>
+            <td>No entran a entrenamiento directo.</td>
+          </tr>
+          <tr>
+            <td>Reejecutar con insumo espectral</td>
+            <td><code>spectral_status = not_found</code>.</td>
+            <td>Necesario antes de declarar definitivo el score espectral y el ranking final.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="siguientes">
+      <h2>9. Siguientes pasos recomendados</h2>
+
+      <div class="callout warn">
+        <strong>Paso inmediato:</strong> ubicar o renombrar el archivo espectral principal en <code>outputs/tables/</code> para que el script lo detecte. La opción preferida es <code>09_s2sr_spectral_class_audit_records.csv</code> o, alternativamente, <code>08_s2sr_original_records_join.csv</code> si contiene <code>source_rowid</code> o <code>lon</code>, <code>lat</code>, <code>anio</code>.
+      </div>
+
+      <pre><code>find outputs/tables -maxdepth 1 -type f \( \
+  -iname "*spectral*.csv" -o \
+  -iname "*s2sr*.csv" -o \
+  -iname "08*.csv" -o \
+  -iname "09*.csv" \
+\) -exec ls -lh {} \;</code></pre>
+
+      <p>
+        Después de corregir la integración espectral, se debe repetir la corrida de la etapa 1.7 y comparar:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Comparación</th>
+            <th>Qué revisar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Antes vs después de integrar espectral</td><td>Cambios en <code>entrenamiento_alta_prioridad</code>, <code>revision_espectral</code> y ranking de fuentes.</td></tr>
+          <tr><td>Fuentes con conflicto activo</td><td>Separar grupos aptos y grupos conflictivos dentro de la misma fuente.</td></tr>
+          <tr><td>Vacíos país-clase</td><td>Definir si se complementan por nuevas fuentes o fotointerpretación.</td></tr>
+          <tr><td>Nivel_1 vs Nivel_2 reducido</td><td>Determinar el primer escenario de modelamiento defendible.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout good">
+        <strong>Conclusión final:</strong> la corrida ya produce una estructura funcional sólida para la etapa 1.7. El resultado es útil como scoring preliminar, pero debe considerarse pendiente de cierre hasta incorporar correctamente la evidencia espectral de la etapa 1.6.
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Reporte HTML elaborado a partir de <code>10_scoring_multicriterio_aptitud.md</code>. Este documento resume e interpreta los resultados del scoring, con énfasis en decisiones operativas para selección, revisión y complementación.
+      </p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

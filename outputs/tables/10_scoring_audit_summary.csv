@@ -1,2 +1,2 @@
-﻿target_year,window_start,window_end,n_registros_ventana,n_grupos_xy_ventana,n_fuentes,n_paises,spectral_file,spectral_status,spectral_join_key
-2020,2018,2022,1195911,1111850,22,8,,not_found,
+﻿target_year,window_start,window_end,n_registros_ventana,n_grupos_xy_ventana,n_fuentes,n_paises,spectral_file,spectral_layer,spectral_status,spectral_join_key,n_spectral_units_loaded,n_spectral_xy_loaded,n_xy_groups_joined_spectral,n_xy_groups_missing_spectral,spectral_xy_coverage_pct,deduplication_rule
+2020,2018,2022,1195911,1111850,22,8,C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\s2_sr_spectral_class_audit\s2sr_spectral_class_audit_outputs.gpkg,audit_extract_units_s2sr_annual,loaded_gpkg_module_09_units,xy_group_id,1185946,1111850,1111850,0,100.0,Se usa audit_extract_units_s2sr_annual: una fila por extract_id. No elimina años distintos; elimina repeticiones exactas de la misma unidad de extracción espectral.

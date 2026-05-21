@@ -17,3 +17,6 @@
 [2026-05-20 18:12:59] Módulo 5B ejecutado correctamente. Año objetivo: 2020. Ventana: ±2. Total thematic_base: 2881123.
 [2026-05-20 18:17:30] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Inconsistencias jerárquicas: 0.
 [2026-05-20 18:52:05] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850
+[2026-05-20 23:14:53] Error durante la ejecución de la Etapa 1.7.
+[2026-05-20 23:52:24] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09; spectral_join_key=source_rowid
+[2026-05-21 11:38:42] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
