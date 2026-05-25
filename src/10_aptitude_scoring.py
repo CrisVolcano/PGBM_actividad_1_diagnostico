@@ -22,6 +22,9 @@ Decisiones metodológicas principales:
   automáticamente y sobrescribe los resultados.
 """
 
+
+# NOTA: aún debo revisar todo el pydocstring. 
+
 import argparse
 import sqlite3
 import traceback
