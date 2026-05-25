@@ -1,24 +1,23 @@
-﻿fuente,n_grupos_xy,n_registros_representados,score_temporal_fuente,score_tematico_fuente,score_espacial_fuente,score_espectral_fuente,score_representatividad_fuente,pct_conflicto_activo,pct_alerta_espectral_alta,pct_revision,score_trazabilidad_documental,score_compatibilidad_pipeline,score_aptitud_fuente,categoria_aptitud_fuente
-MAGA - Cultivos - Mapa Guatemala,206836,206950,100.0,99.997,99.99,95.765,99.989,0.0,0.965,0.965,70.0,85,94.111,fuente_prioritaria
-MIAMBIENTE - Cultivos Mapa Panamá,24469,24475,90.0,99.998,99.993,96.576,99.993,0.0,0.556,0.556,70.0,85,92.734,fuente_prioritaria
-CENAT/PRIAS - Cultivos - Costa Rica,22219,22224,90.0,99.998,99.993,96.231,99.993,0.0,1.674,1.674,70.0,85,92.682,fuente_prioritaria
-CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,111,111,90.0,98.829,100.0,96.532,97.838,0.0,0.0,0.0,70.0,85,92.171,fuente_prioritaria
-MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,4716,4716,90.0,98.84,100.0,94.876,97.357,0.0,1.59,1.59,70.0,85,91.853,fuente_prioritaria
-"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",90629,99803,90.0,98.484,95.295,94.339,99.985,2.383,0.946,2.891,70.0,70,90.64,fuente_prioritaria
-MARN-MAG/FCPF - Inventario Forestal El Salvador,318,318,85.0,100.0,100.0,85.094,100.0,0.0,0.629,0.629,70.0,85,90.264,fuente_prioritaria
-CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,246,246,90.0,95.341,100.0,96.809,89.451,0.0,0.407,0.407,70.0,85,90.257,fuente_prioritaria
-"CONAFOR -Inventario Forestal Estado Campeche, México",447,447,88.568,98.438,100.0,86.577,96.107,0.0,1.342,1.342,70.0,85,90.125,fuente_prioritaria
-"CONAFOR -Inventario Forestal Estado Quintana Roo, México",705,711,88.879,98.552,99.766,82.234,96.418,0.0,1.418,1.418,70.0,85,89.555,fuente_prioritaria
-"CONAFOR -Inventario Forestal Estado Yucatán, México",426,431,89.014,97.582,99.648,84.401,93.979,0.0,1.878,1.878,70.0,85,89.323,fuente_prioritaria
-FCPF - Malla MRV-REDD+ Honduras,18524,92640,100.0,98.465,86.993,77.401,99.974,3.342,19.618,19.845,70.0,50,87.348,fuente_prioritaria
-CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,65476,66020,85.0,99.862,99.952,70.842,99.95,0.0,5.769,5.769,70.0,70,87.334,fuente_prioritaria
-FCPF - Malla MRV-REDD+ El Salvador,513300,514009,85.0,99.915,99.971,70.376,99.963,0.0,7.147,7.147,70.0,70,87.28,fuente_prioritaria
-CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,2267,2271,85.276,97.546,100.0,64.989,95.545,0.0,0.706,0.706,70.0,85,86.131,fuente_prioritaria
-"CONAFOR -Inventario Forestal Estado Chiapas, , México",506,507,86.68,95.921,99.941,65.099,90.158,0.0,1.779,1.779,70.0,85,85.216,fuente_prioritaria
-"CONAFOR -Inventario Forestal Estado Tabasco, México",63,63,85.952,88.857,100.0,91.032,73.968,0.0,0.0,0.0,70.0,85,85.164,fuente_prioritaria
-FOREST DEPARTMENT - Cultivos - Mapa Belize,11585,11585,85.0,100.0,100.0,34.839,100.0,0.0,2.123,2.123,70.0,85,82.726,fuente_apta_condicionada
-ICF - Cultivos - Mapa Honduras,106397,106416,85.0,99.998,99.995,37.419,99.994,0.0,6.026,6.026,70.0,70,82.361,fuente_apta_condicionada
-ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,15567,15575,85.0,99.998,99.985,31.406,99.992,0.0,3.071,3.071,70.0,85,82.207,fuente_apta_condicionada
-FCPF - Malla MRV-REDD+ Belize,21731,21738,85.0,99.788,99.99,29.633,99.548,0.0,14.049,14.049,70.0,70,81.083,fuente_apta_condicionada
-CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,4655,4655,85.0,98.669,100.0,14.693,98.408,0.0,64.103,64.103,70.0,50,77.449,fuente_apta_condicionada
-,657,0,,69.0,100.0,76.393,70.0,0.0,4.414,4.414,70.0,85,,nan
+﻿fuente,n_grupos_xy,n_registros_representados,score_temporal_fuente,score_tematico_fuente,score_espacial_fuente,score_espectral_fuente,score_representatividad_fuente,pct_conflicto_activo,pct_alerta_espectral_alta,pct_no_uso_directo,pct_entrenamiento,pct_validacion,pct_prueba,score_trazabilidad_documental,score_compatibilidad_pipeline,score_aptitud_fuente,categoria_aptitud_fuente,categoria_uso_fuente_actividad_1_8
+MAGA - Cultivos - Mapa Guatemala,206836,206950,100.0,99.997,99.99,95.765,99.989,0.0,0.965,0.965,99.001,0.035,0.0,70.0,85,94.111,fuente_para_entrenamiento,entrenamiento
+MIAMBIENTE - Cultivos Mapa Panamá,24469,24475,90.0,99.998,99.993,96.576,99.993,0.0,0.556,0.556,99.42,0.025,0.0,70.0,85,92.734,fuente_para_entrenamiento,entrenamiento
+CENAT/PRIAS - Cultivos - Costa Rica,22219,22224,90.0,99.998,99.993,96.231,99.993,0.0,1.674,1.674,98.303,0.023,0.0,70.0,85,92.682,fuente_para_entrenamiento,entrenamiento
+CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto El Salvador,111,111,90.0,98.829,100.0,96.532,97.838,0.0,0.0,0.0,96.396,3.604,0.0,70.0,85,92.171,fuente_para_entrenamiento,entrenamiento
+MIAMBIENTE - Mapa de bosques y otras tierras boscosas de Panamá,4716,4716,90.0,98.84,100.0,94.876,97.357,0.0,1.59,1.59,94.826,3.584,0.0,70.0,85,91.853,fuente_para_entrenamiento,entrenamiento
+"SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica",90629,99803,90.0,98.484,95.295,94.339,99.985,2.383,0.946,2.891,90.539,6.57,0.0,70.0,70,90.64,fuente_para_entrenamiento,entrenamiento
+MARN-MAG/FCPF - Inventario Forestal El Salvador,318,318,85.0,100.0,100.0,85.094,100.0,0.0,0.629,0.629,96.226,3.145,0.0,70.0,85,90.264,fuente_para_entrenamiento,entrenamiento
+CCAD/GIZ-REDD+Landscape - Datos de Campo Piloto Guatemala,246,246,90.0,95.341,100.0,96.809,89.451,0.0,0.407,0.407,93.496,6.098,0.0,70.0,85,90.257,fuente_para_entrenamiento,entrenamiento
+"CONAFOR -Inventario Forestal Estado Campeche, México",447,447,88.568,98.438,100.0,86.577,96.107,0.0,1.342,1.342,88.367,10.291,0.0,70.0,85,90.125,fuente_para_entrenamiento,entrenamiento
+"CONAFOR -Inventario Forestal Estado Quintana Roo, México",705,711,88.879,98.552,99.766,82.234,96.418,0.0,1.418,1.418,83.121,15.461,0.0,70.0,85,89.555,fuente_para_entrenamiento,entrenamiento
+"CONAFOR -Inventario Forestal Estado Yucatán, México",426,431,89.014,97.582,99.648,84.401,93.979,0.0,1.878,1.878,83.099,14.085,0.939,70.0,85,89.323,fuente_para_entrenamiento,entrenamiento
+FCPF - Malla MRV-REDD+ Honduras,18524,92640,100.0,98.465,86.993,77.401,99.974,3.342,19.618,19.845,79.443,0.713,0.0,70.0,50,87.348,fuente_para_entrenamiento,entrenamiento
+CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador,65476,66020,85.0,99.862,99.952,70.842,99.95,0.0,5.769,5.769,51.396,42.836,0.0,70.0,70,87.334,fuente_para_entrenamiento,entrenamiento
+FCPF - Malla MRV-REDD+ El Salvador,513300,514009,85.0,99.915,99.971,70.376,99.963,0.0,7.147,7.147,74.458,18.389,0.006,70.0,70,87.28,fuente_para_entrenamiento,entrenamiento
+CCAD/GIZ-REDD+Landscape - Malla Piloto Guatemala,2267,2271,85.276,97.546,100.0,64.989,95.545,0.0,0.706,0.706,81.694,17.6,0.0,70.0,85,86.131,fuente_para_entrenamiento,entrenamiento
+"CONAFOR -Inventario Forestal Estado Chiapas, , México",506,507,86.68,95.921,99.941,65.099,90.158,0.0,1.779,1.779,59.289,38.933,0.0,70.0,85,85.216,fuente_para_entrenamiento,entrenamiento
+"CONAFOR -Inventario Forestal Estado Tabasco, México",63,63,85.952,88.857,100.0,91.032,73.968,0.0,0.0,0.0,69.841,30.159,0.0,70.0,85,85.164,fuente_para_entrenamiento,entrenamiento
+FOREST DEPARTMENT - Cultivos - Mapa Belize,11585,11585,85.0,100.0,100.0,34.839,100.0,0.0,2.123,2.123,44.281,53.595,0.0,70.0,85,82.726,fuente_para_validacion_o_prueba,validación / prueba
+ICF - Cultivos - Mapa Honduras,106397,106416,85.0,99.998,99.995,37.419,99.994,0.0,6.026,6.026,57.373,36.587,0.014,70.0,70,82.361,fuente_para_validacion_o_prueba,validación / prueba
+ICAFE - Poligono de zonasdel cultivo de café de Costa Rica,15567,15575,85.0,99.998,99.985,31.406,99.992,0.0,3.071,3.071,47.209,49.695,0.026,70.0,85,82.207,fuente_para_validacion_o_prueba,validación / prueba
+FCPF - Malla MRV-REDD+ Belize,21731,21738,85.0,99.788,99.99,29.633,99.548,0.0,14.049,14.049,32.019,53.932,0.0,70.0,70,81.083,fuente_para_validacion_o_prueba,validación / prueba
+CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica,4655,4655,85.0,98.669,100.0,14.693,98.408,0.0,64.103,64.103,24.211,11.686,0.0,70.0,50,77.449,fuente_para_validacion_o_prueba,validación / prueba

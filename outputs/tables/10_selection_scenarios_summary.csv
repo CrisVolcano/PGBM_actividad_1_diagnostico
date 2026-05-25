@@ -1,5 +1,8 @@
 ﻿escenario,n_grupos_xy,n_registros_representados,n_fuentes,score_promedio
-estricto_2020,198465,224697,2,95.382
+datos_para_entrenamiento,853806,919248,22,91.417
+datos_para_validacion,194770,196974,22,81.746
+datos_para_prueba,53,101,4,68.941
 ventana_conservadora,1049257,1116323,22,89.62
 nivel1_regional,1108172,1188041,22,88.53
-revision_prioritaria,62593,79588,20,68.773
+apoyo_o_referencia,62593,79588,20,68.773
+mascaras,628,0,0,
