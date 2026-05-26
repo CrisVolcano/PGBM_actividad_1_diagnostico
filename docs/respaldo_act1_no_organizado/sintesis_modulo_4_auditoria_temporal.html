@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Síntesis interpretativa - Módulo 4 | Auditoría temporal</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;line-height:1.62;margin:40px auto;max-width:1200px;color:#1f2933;background:#fff;}
+  h1,h2,h3{color:#174A7C;} h1{border-bottom:4px solid #174A7C;padding-bottom:12px;margin-bottom:8px;}
+  h2{border-bottom:1px solid #d0d7de;padding-bottom:6px;margin-top:36px;} h3{margin-top:24px;}
+  .subtitle{color:#52616b;font-size:1.05rem;margin-bottom:28px;}
+  .box{background:#f4f8fb;border-left:5px solid #174A7C;padding:14px 18px;margin:18px 0;}
+  .success{background:#ecfdf5;border-left:5px solid #0f766e;padding:14px 18px;margin:18px 0;}
+  .warning{background:#fff7ed;border-left:5px solid #ea580c;padding:14px 18px;margin:18px 0;}
+  .critical{background:#fef2f2;border-left:5px solid #dc2626;padding:14px 18px;margin:18px 0;}
+  .note{background:#f8fafc;border-left:5px solid #64748b;padding:14px 18px;margin:18px 0;}
+  code{font-family:Consolas,Monaco,"Courier New",monospace;background:#f3f4f6;padding:2px 5px;border-radius:4px;}
+  pre{background:#f3f4f6;border:1px solid #d0d7de;border-radius:6px;padding:14px;overflow-x:auto;font-size:.92rem;}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.93rem;}
+  th{background:#174A7C;color:white;text-align:left;padding:9px;}
+  td{border:1px solid #d0d7de;padding:8px;vertical-align:top;}
+  tr:nth-child(even){background:#f8fafc;}
+  .metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:22px 0;}
+  .metric-card{border:1px solid #d0d7de;border-radius:10px;padding:16px;background:#f8fafc;}
+  .metric-card .value{font-size:1.55rem;font-weight:bold;color:#174A7C;margin-bottom:5px;}
+  .metric-card .label{font-size:.95rem;color:#52616b;}
+  .footer{margin-top:50px;padding-top:18px;border-top:1px solid #d0d7de;font-size:.9rem;color:#52616b;}
+  .small{font-size:.9rem;color:#52616b;}
+  @media print{body{margin:20mm;max-width:none;} pre{white-space:pre-wrap;}}
+</style>
+</head>
+<body>
+<h1>Síntesis interpretativa - Módulo 4</h1>
+<p class="subtitle"><strong>Auditoría temporal del GeoPackage regional de puntos de control</strong><br>
+PGBM - Actividad 1: diagnóstico regional de aptitud de fuentes y vacíos de información</p>
+
+<div class="box">
+<p>Este informe sintetiza los resultados del <strong>Módulo 4: auditoría temporal</strong>, construido a partir del código <code>src/temporal_audit.py</code> y de las tablas generadas en <code>outputs/tables/04_*.csv</code>. El análisis evalúa la integridad del campo <code>Año</code>, su pertinencia frente al año objetivo 2020 y su relación con los grupos XY identificados en el Módulo 3B.</p>
+</div>
+
+<h2>1. Lectura ejecutiva</h2>
+<div class="success">
+<p>El campo <code>Año</code> está técnicamente limpio: no presenta valores nulos, vacíos ni fuera del rango plausible definido. La base cubre <strong>23 años</strong>, desde <strong>2000</strong> hasta <strong>2022</strong>.</p>
+</div>
+<div class="warning">
+<p>La integridad temporal no implica pertinencia temporal. Para una línea base 2020 estricta, solo <strong>225,478</strong> registros corresponden exactamente a 2020, equivalentes a <strong>7.83 %</strong> del total. Si se acepta la ventana 2018–2022, la disponibilidad sube a <strong>1,195,911</strong> registros, equivalentes a <strong>41.51 %</strong>.</p>
+</div>
+<div class="critical">
+<p>El <strong>58.49 %</strong> de los registros está antes de la ventana prioritaria 2018–2022. Por tanto, la base no debe usarse completa como línea base 2020 sin aplicar un criterio explícito de aptitud temporal.</p>
+</div>
+
+<h2>2. Indicadores principales</h2>
+<div class="metric-grid">
+  <div class="metric-card"><div class="value">2,881,123</div><div class="label">Total de registros evaluados</div></div>
+  <div class="metric-card"><div class="value">2000–2022</div><div class="label">Rango temporal observado</div></div>
+  <div class="metric-card"><div class="value">23</div><div class="label">Años distintos</div></div>
+  <div class="metric-card"><div class="value">0</div><div class="label">Años nulos, vacíos o fuera de rango</div></div>
+  <div class="metric-card"><div class="value">225,478</div><div class="label">Registros exactos 2020</div></div>
+  <div class="metric-card"><div class="value">1,195,911</div><div class="label">Registros en ventana 2018–2022</div></div>
+  <div class="metric-card"><div class="value">58.49 %</div><div class="label">Registros anteriores a 2018</div></div>
+  <div class="metric-card"><div class="value">26.44 %</div><div class="label">Peso del año 2018</div></div>
+</div>
+
+<h2>3. Calidad del campo <code>Año</code></h2>
+<p>La auditoría de calidad temporal confirma que el campo <code>Año</code> es completamente utilizable para análisis posteriores. No se identifican registros sin año, años vacíos ni valores fuera del rango plausible <strong>1980–2026</strong>.</p>
+<table class="">
+<thead><tr><th>Total registros</th><th>Años nulos</th><th>Años vacíos</th><th>Fuera de rango plausible</th><th>Año mínimo observado</th><th>Año máximo observado</th><th>Años distintos</th><th>% nulos</th><th>% vacíos</th><th>% fuera de rango</th><th>Mínimo plausible</th><th>Máximo plausible</th></tr></thead>
+<tbody>
+<tr><td>2,881,123</td><td>0</td><td>0</td><td>0</td><td>2,000</td><td>2,022</td><td>23</td><td>0</td><td>0</td><td>0</td><td>1,980</td><td>2,026</td></tr>
+</tbody></table>
+
+<div class="note">
+<p><strong>Inferencia:</strong> el problema temporal de la base no es de limpieza del atributo. Es un problema de <strong>selección y pertinencia temporal</strong>: hay que decidir qué años son aptos para representar una línea base 2020.</p>
+</div>
+
+<h2>4. Relevancia temporal respecto a 2020</h2>
+<table class="">
+<thead><tr><th>Categoría temporal</th><th>Registros</th><th>Porcentaje</th><th>Año objetivo</th><th>Ventana</th></tr></thead>
+<tbody>
+<tr><td>anterior_a_ventana_objetivo</td><td>1,685,212</td><td>58.49 %</td><td>2,020</td><td>2</td></tr>
+<tr><td>cercano_anio_objetivo</td><td>970,433</td><td>33.68 %</td><td>2,020</td><td>2</td></tr>
+<tr><td>anio_objetivo</td><td>225,478</td><td>7.83 %</td><td>2,020</td><td>2</td></tr>
+</tbody></table>
+<p>Con la configuración actual, <code>anio_objetivo</code> corresponde a 2020, mientras <code>cercano_anio_objetivo</code> corresponde a 2018, 2019, 2021 y 2022. Los años anteriores a 2018 se clasifican como <code>anterior_a_ventana_objetivo</code>.</p>
+
+<div class="box">
+<pre><code>Registros en ventana 2018–2022 = año 2020 + años cercanos
+Registros en ventana 2018–2022 = 225,478 + 970,433 = 1,195,911
+Porcentaje en ventana 2018–2022 = 41.51 %</code></pre>
+</div>
+
+<h2>5. Distribución anual</h2>
+<p>La distribución anual muestra una base fuertemente concentrada en pocos años. El año dominante es <strong>2018</strong>, seguido por <strong>2000</strong>. Ambos años concentran aproximadamente <strong>45.04 %</strong> del total.</p>
+<table class="">
+<thead><tr><th>Año</th><th>Registros</th><th>Porcentaje</th></tr></thead>
+<tbody>
+<tr><td>2,018</td><td>761,746</td><td>26.44 %</td></tr>
+<tr><td>2,000</td><td>535,974</td><td>18.60 %</td></tr>
+<tr><td>2,012</td><td>227,254</td><td>7.89 %</td></tr>
+<tr><td>2,020</td><td>225,478</td><td>7.83 %</td></tr>
+<tr><td>2,021</td><td>147,522</td><td>5.12 %</td></tr>
+<tr><td>2,005</td><td>146,014</td><td>5.07 %</td></tr>
+<tr><td>2,016</td><td>139,840</td><td>4.85 %</td></tr>
+<tr><td>2,017</td><td>104,646</td><td>3.63 %</td></tr>
+</tbody></table>
+
+<div class="warning">
+<p><strong>Inferencia:</strong> la base está influida por campañas o fuentes específicas que aportan grandes volúmenes en años particulares. Esto puede inducir sesgos temporales si se entrena un modelo sin ponderar o filtrar por año.</p>
+</div>
+
+<h2>6. Cobertura temporal por país</h2>
+<p>La cobertura temporal por país muestra que el volumen y el rango temporal no son homogéneos. Algunos países tienen grandes series históricas; otros tienen menor volumen pero datos más recientes.</p>
+<table class="">
+<thead><tr><th>País</th><th>Registros</th><th>Rango temporal</th><th>Años distintos</th><th>Lectura técnica</th><th>Acción recomendada</th></tr></thead>
+<tbody>
+<tr><td>El Salvador</td><td>1,215,773</td><td>2000–2022</td><td>22</td><td>Mayor volumen regional; amplia cobertura temporal pero dominada por fuentes históricas 2000–2018.</td><td>Requiere reglas por fuente y año; no usar todo como línea base 2020.</td></tr>
+<tr><td>Costa Rica</td><td>478,141</td><td>2001–2021</td><td>9</td><td>Volumen alto y cobertura menos extensa; fuerte presencia de 2021 y fuentes específicas.</td><td>Cruzar temporalidad con conflicto temático del Módulo 3B.</td></tr>
+<tr><td>Honduras</td><td>468,040</td><td>2000–2022</td><td>19</td><td>Cobertura amplia hasta 2022; combina series multitemporales con datos 2018.</td><td>Controlar peso de FCPF y cultivos 2018.</td></tr>
+<tr><td>Belice</td><td>426,926</td><td>2000–2020</td><td>20</td><td>Serie histórica amplia, pero con máximo 2020 y fuerte dominancia FCPF 2000–2018.</td><td>Filtrar con cuidado hacia 2020; muchos registros son históricos.</td></tr>
+<tr><td>Guatemala</td><td>240,339</td><td>2000–2020</td><td>21</td><td>Buen volumen con fuerte concentración en 2020 por MAGA.</td><td>Candidato fuerte para muestras 2020, sujeto a revisión temática.</td></tr>
+<tr><td>Panamá</td><td>39,847</td><td>2014–2021</td><td>7</td><td>Menor volumen, pero cobertura reciente 2014–2021.</td><td>Útil para ventana 2018–2022; revisar balance de clases.</td></tr>
+<tr><td>México</td><td>10,085</td><td>2000–2020</td><td>21</td><td>Bajo volumen aunque rango largo 2000–2020.</td><td>Tratar como país de baja representatividad regional.</td></tr>
+<tr><td>Nicaragua</td><td>1,972</td><td>2005–2022</td><td>18</td><td>Volumen muy bajo con cobertura 2005–2022.</td><td>Marcar como posible vacío crítico de datos.</td></tr>
+</tbody></table>
+
+<h2>7. Fuentes dominantes y alertas de trazabilidad</h2>
+<p>Las fuentes principales explican buena parte de la estructura temporal. En particular, las mallas FCPF y CCAD/GIZ aportan series históricas o multitemporales, mientras algunas fuentes nacionales aportan años específicos como 2020 o 2021.</p>
+<table class="">
+<thead><tr><th>País</th><th>Fuente</th><th>Registros</th><th>Rango</th><th>Años distintos</th><th>Alerta interpretativa</th></tr></thead>
+<tbody>
+<tr><td>El Salvador</td><td>FCPF - Malla MRV-REDD+ El Salvador</td><td>1,012,034</td><td>2000–2018</td><td>2</td><td>Coherente nominalmente</td></tr>
+<tr><td>Belice</td><td>FCPF - Malla MRV-REDD+ Belize </td><td>412,927</td><td>2000–2018</td><td>19</td><td>Coherente nominalmente</td></tr>
+<tr><td>Honduras</td><td>FCPF - Malla MRV-REDD+ Honduras</td><td>333,360</td><td>2005–2022</td><td>18</td><td>Coherente nominalmente</td></tr>
+<tr><td>Costa Rica</td><td>CCAD/GIZ-REDD+Landscape - Malla Piloto Costa Rica</td><td>316,785</td><td>2005–2018</td><td>5</td><td>Coherente nominalmente</td></tr>
+<tr><td>Guatemala</td><td>MAGA - Cultivos - Mapa Guatemala</td><td>206,856</td><td>2020–2020</td><td>1</td><td>Coherente nominalmente</td></tr>
+<tr><td>El Salvador</td><td>CCAD/GIZ-REDD+Landscape - Malla Piloto El Salvador</td><td>197,043</td><td>2001–2018</td><td>3</td><td>Coherente nominalmente</td></tr>
+<tr><td>Honduras</td><td>ICF - Cultivos - Mapa Honduras</td><td>106,393</td><td>2018–2018</td><td>1</td><td>Coherente nominalmente</td></tr>
+<tr><td>Costa Rica</td><td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td><td>99,756</td><td>2021–2021</td><td>1</td><td>Coherente nominalmente</td></tr>
+<tr><td>Costa Rica</td><td>ICAFE - Poligono de zonasdel cultivo de café de Costa Rica</td><td>31,172</td><td>2012–2018</td><td>2</td><td>Coherente nominalmente</td></tr>
+<tr><td>Panamá</td><td>MIAMBIENTE - Cultivos Mapa Panamá</td><td>24,469</td><td>2021–2021</td><td>1</td><td>Coherente nominalmente</td></tr>
+<tr><td>Guatemala</td><td>FCPF - Malla MRV-REDD+ Guatemala</td><td>22,728</td><td>2006–2016</td><td>2</td><td>Coherente nominalmente</td></tr>
+<tr><td>Costa Rica</td><td>CENAT/PRIAS - Cultivos - Costa Rica</td><td>22,219</td><td>2019–2019</td><td>1</td><td>Coherente nominalmente</td></tr>
+<tr><td>Honduras</td><td>FCPF - Malla MRV-REDD+ El Salvador</td><td>15,568</td><td>2000–2018</td><td>2</td><td>Revisar trazabilidad fuente-país</td></tr>
+<tr><td>Honduras</td><td>Muestras de Entrenamiento de Jimenez, 2020 - Honduras</td><td>12,497</td><td>2017–2017</td><td>1</td><td>Coherente nominalmente</td></tr>
+<tr><td>Belice</td><td>FOREST DEPARTMENT - Cultivos - Mapa Belize</td><td>11,585</td><td>2018–2018</td><td>1</td><td>Coherente nominalmente</td></tr>
+</tbody></table>
+
+<div class="warning">
+<p>Algunas fuentes cuyo nombre hace referencia a un país aparecen asociadas a registros de otro país. Esto no prueba por sí solo un error, pero sí indica la necesidad de una <strong>auditoría fuente-país</strong> para diferenciar casos de frontera, fuentes regionales, reutilización de insumos o inconsistencias de integración.</p>
+</div>
+
+<h2>8. Relación temporal de grupos XY con 2020</h2>
+<p>Esta lectura conecta el Módulo 4 con el Módulo 3B. La tabla usa <code>anio_min</code> y <code>anio_max</code> de cada grupo XY para evaluar si el rango del grupo está antes de 2020, incluye 2020 o es posterior a 2020.</p>
+<table class="">
+<thead><tr><th>Relación temporal del grupo</th><th>Grupos XY</th><th>Registros</th><th>% grupos</th><th>% registros</th></tr></thead>
+<tbody>
+<tr><td>Rango anterior a 2020</td><td>938,462</td><td>2,211,675</td><td>73.1097</td><td>76.7643</td></tr>
+<tr><td>Rango incluye 2020</td><td>225,360</td><td>540,454</td><td>17.5564</td><td>18.7584</td></tr>
+<tr><td>Rango posterior a 2020</td><td>119,814</td><td>128,994</td><td>9.334</td><td>4.4772</td></tr>
+</tbody></table>
+
+<div class="critical">
+<p>La mayoría de los registros a nivel de grupo XY está en rangos anteriores a 2020: <strong>76.76 %</strong> de los registros agrupados. Esto refuerza que la base es una fuente histórica amplia, pero no una base 2020 directa sin filtrado temporal.</p>
+</div>
+
+<h2>9. Relación por tipo de grupo XY</h2>
+<table class="">
+<thead><tr><th>Tipo de grupo XY</th><th>Relación con 2020</th><th>Grupos</th><th>Registros</th><th>Promedio años</th><th>Año mínimo</th><th>Año máximo</th></tr></thead>
+<tbody>
+<tr><td>coincidencia_fuentes_misma_clase</td><td>rango_anterior_anio_objetivo</td><td>1</td><td>2</td><td>1.00</td><td>2,019</td><td>2,019</td></tr>
+<tr><td>conflicto_tematico_xy</td><td>rango_anterior_anio_objetivo</td><td>216,849</td><td>580,350</td><td>2.67</td><td>2,000</td><td>2,018</td></tr>
+<tr><td>conflicto_tematico_xy</td><td>rango_incluye_anio_objetivo</td><td>2,333</td><td>41,994</td><td>18.00</td><td>2,005</td><td>2,022</td></tr>
+<tr><td>conflicto_tematico_xy</td><td>rango_posterior_anio_objetivo</td><td>2,160</td><td>4,320</td><td>1.00</td><td>2,021</td><td>2,021</td></tr>
+<tr><td>multitemporal_xy</td><td>rango_anterior_anio_objetivo</td><td>514,109</td><td>1,423,757</td><td>2.77</td><td>2,000</td><td>2,018</td></tr>
+<tr><td>multitemporal_xy</td><td>rango_incluye_anio_objetivo</td><td>16,191</td><td>291,510</td><td>18.00</td><td>2,005</td><td>2,022</td></tr>
+<tr><td>redundancia_misma_fuente_misma_clase</td><td>rango_posterior_anio_objetivo</td><td>7,020</td><td>14,040</td><td>1.00</td><td>2,021</td><td>2,021</td></tr>
+<tr><td>redundancia_misma_fuente_misma_clase</td><td>rango_incluye_anio_objetivo</td><td>72</td><td>186</td><td>1.00</td><td>2,020</td><td>2,020</td></tr>
+<tr><td>redundancia_misma_fuente_misma_clase</td><td>rango_anterior_anio_objetivo</td><td>62</td><td>125</td><td>1.00</td><td>2,002</td><td>2,019</td></tr>
+<tr><td>xy_unico</td><td>rango_anterior_anio_objetivo</td><td>207,441</td><td>207,441</td><td>1.00</td><td>2,001</td><td>2,019</td></tr>
+<tr><td>xy_unico</td><td>rango_incluye_anio_objetivo</td><td>206,764</td><td>206,764</td><td>1.00</td><td>2,020</td><td>2,020</td></tr>
+<tr><td>xy_unico</td><td>rango_posterior_anio_objetivo</td><td>110,634</td><td>110,634</td><td>1.00</td><td>2,021</td><td>2,021</td></tr>
+</tbody></table>
+
+<div class="note">
+<p><strong>Nota metodológica:</strong> cuando se indica que un rango temporal de grupo XY incluye 2020, significa que <code>anio_min ≤ 2020 ≤ anio_max</code>. No necesariamente garantiza que exista una observación exacta de 2020 dentro del grupo. Esa verificación exacta requeriría una tabla de detalle por <code>xy_group_id</code> y año.</p>
+</div>
+
+<h2>10. Interpretación integrada Módulos 3B + 4</h2>
+<table class="">
+<thead><tr><th>Tipo de grupo</th><th>Aptitud preliminar</th><th>Uso recomendado</th></tr></thead>
+<tbody>
+<tr><td>xy_unico + 2020</td><td>Alta</td><td>206,764 registros únicos XY de 2020: candidatos limpios espacial y temporalmente.</td></tr>
+<tr><td>multitemporal_xy con rango que incluye 2020</td><td>Alta condicionada</td><td>291,510 registros; confirmar presencia exacta/cercana a 2020 o estabilidad temporal.</td></tr>
+<tr><td>conflicto_tematico_xy con rango que incluye 2020</td><td>Revisión prioritaria</td><td>41,994 registros; no usar como etiqueta directa sin resolución.</td></tr>
+<tr><td>multitemporal_xy anterior a 2020</td><td>Uso auxiliar</td><td>1,423,757 registros; dominan la base histórica pero tienen baja pertinencia directa 2020.</td></tr>
+<tr><td>xy_unico posterior a 2020</td><td>Contraste posterior</td><td>110,634 registros; útiles para evaluación posterior, no línea base directa.</td></tr>
+</tbody></table>
+
+<h2>11. Scoring temporal preliminar sugerido</h2>
+<p>Este scoring no es una decisión definitiva; es una propuesta inicial para convertir los hallazgos temporales en una regla reproducible de aptitud.</p>
+<table class="">
+<thead><tr><th>Condición temporal</th><th>Score sugerido</th><th>Interpretación</th></tr></thead>
+<tbody>
+<tr><td>Año exacto 2020</td><td>1.00</td><td>Prioridad máxima para línea base 2020.</td></tr>
+<tr><td>Año 2019 o 2021</td><td>0.85</td><td>Alta utilidad si fuente y clase son confiables.</td></tr>
+<tr><td>Año 2018 o 2022</td><td>0.70</td><td>Útil dentro de ventana ±2; depende de estabilidad de clase.</td></tr>
+<tr><td>Año 2016–2017</td><td>0.45</td><td>Uso auxiliar o condicionado.</td></tr>
+<tr><td>Año 2012–2015</td><td>0.30</td><td>Baja aptitud para línea base 2020; útil como histórico.</td></tr>
+<tr><td>Año anterior a 2012</td><td>0.15</td><td>Solo uso auxiliar, referencia histórica o clases muy estables.</td></tr>
+<tr><td>Año nulo/fuera de rango</td><td>0.00</td><td>No aplica en este dataset, pero queda como regla de control.</td></tr>
+</tbody></table>
+
+<h2>12. Decisiones metodológicas recomendadas</h2>
+<ol>
+  <li>Usar <strong>2020</strong> como año objetivo operativo.</li>
+  <li>Usar <strong>2018–2022</strong> como ventana temporal prioritaria flexible.</li>
+  <li>No descartar automáticamente años anteriores a 2018, pero asignarles menor aptitud temporal.</li>
+  <li>Separar <strong>registros exactos 2020</strong> como subconjunto de alta prioridad.</li>
+  <li>Identificar <strong>grupos XY multitemporales cuyo rango incluye 2020</strong> y verificar si contienen observaciones exactas o cercanas a 2020.</li>
+  <li>Marcar <strong>conflictos temáticos con rango que incluye 2020</strong> como revisión prioritaria antes de usarlos como entrenamiento.</li>
+  <li>Crear una auditoría <strong>fuente-país</strong> para detectar inconsistencias nominales o mezclas de fuentes.</li>
+  <li>Combinar el score temporal con calidad espacial, tipo de grupo XY, fuente, clase temática y confiabilidad integrada.</li>
+</ol>
+
+<h2>13. Riesgos si no se controla la temporalidad</h2>
+<table>
+<thead><tr><th>Riesgo</th><th>Consecuencia</th><th>Mitigación</th></tr></thead>
+<tbody>
+<tr><td>Usar toda la base histórica sin filtrar</td><td>El modelo aprende patrones de años alejados de 2020.</td><td>Aplicar score temporal y ventana prioritaria.</td></tr>
+<tr><td>Mezclar 2000–2018 con 2020 sin ponderación</td><td>Sesgo hacia fuentes históricas dominantes.</td><td>Balancear por año, fuente y país.</td></tr>
+<tr><td>Usar grupos conflictivos que incluyen 2020 sin resolver</td><td>Ruido de etiqueta en entrenamiento.</td><td>Revisión temática o reglas de resolución.</td></tr>
+<tr><td>Separar registros del mismo grupo XY entre entrenamiento y validación</td><td>Fuga espacial-temporal de información.</td><td>Particionar siempre por <code>xy_group_id</code>.</td></tr>
+<tr><td>No revisar fuentes por país</td><td>Posibles inconsistencias de trazabilidad.</td><td>Auditoría fuente-país y cruce con límites nacionales.</td></tr>
+</tbody>
+</table>
+
+<h2>14. Conclusión</h2>
+<div class="box">
+<p>El Módulo 4 confirma que la base tiene un campo temporal íntegro y confiable, pero su estructura temporal es altamente heterogénea. El año dominante es 2018, no 2020; el año 2020 aporta solo <strong>225,478</strong> registros. La ventana 2018–2022 mejora la disponibilidad, pero todavía deja <strong>58.49 %</strong> de registros antes de la ventana prioritaria. Por tanto, la línea base 2020 debe construirse mediante una estrategia de selección temporal explícita, no mediante uso indiscriminado de todos los registros.</p>
+</div>
+
+<div class="critical">
+<p><strong>Regla operativa central:</strong></p>
+<pre><code>La aptitud temporal debe evaluarse antes de seleccionar muestras de entrenamiento, validación o prueba. 
+Para modelamiento, la partición debe respetar xy_group_id y la selección debe priorizar 2020 o la ventana 2018–2022.</code></pre>
+</div>
+
+<div class="footer">
+Informe HTML generado para PGBM - Actividad 1. Insumos usados: <code>04_temporal_quality_summary.csv</code>, <code>04_temporal_relevance_distribution.csv</code>, <code>04_temporal_audit_summary.csv</code>, <code>04_year_distribution.csv</code>, <code>04_temporal_coverage_by_country.csv</code>, <code>04_temporal_coverage_by_country_source.csv</code> y <code>04_xy_temporal_relevance_by_group_type.csv</code>.
+</div>
+</body>
+</html>

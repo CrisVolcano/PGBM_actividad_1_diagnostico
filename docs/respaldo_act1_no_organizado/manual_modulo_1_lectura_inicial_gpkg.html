@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Manual de replicación - Módulo 1 | Lectura inicial del GeoPackage</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+      margin: 40px auto;
+      max-width: 1100px;
+      color: #1f2933;
+      background-color: #ffffff;
+    }
+
+    h1, h2, h3 {
+      color: #174A7C;
+    }
+
+    h1 {
+      border-bottom: 4px solid #174A7C;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 6px;
+      margin-top: 36px;
+    }
+
+    h3 {
+      margin-top: 24px;
+    }
+
+    .subtitle {
+      color: #52616b;
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+    }
+
+    .box {
+      background-color: #f4f8fb;
+      border-left: 5px solid #174A7C;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .warning {
+      background-color: #fff7ed;
+      border-left: 5px solid #ea580c;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    .success {
+      background-color: #ecfdf5;
+      border-left: 5px solid #0f766e;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background-color: #f3f4f6;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background-color: #f3f4f6;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+    }
+
+    pre code {
+      background-color: transparent;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #174A7C;
+      color: white;
+      text-align: left;
+      padding: 9px;
+    }
+
+    td {
+      border: 1px solid #d0d7de;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding-top: 18px;
+      border-top: 1px solid #d0d7de;
+      font-size: 0.9rem;
+      color: #52616b;
+    }
+
+    .check {
+      color: #0f766e;
+      font-weight: bold;
+    }
+
+    @media print {
+      body {
+        margin: 20mm;
+        max-width: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Manual de replicación - Módulo 1</h1>
+  <p class="subtitle">
+    <strong>Lectura inicial del GeoPackage</strong><br>
+    PGBM - Actividad 1: Diagnóstico regional de aptitud de fuentes y vacíos de información
+  </p>
+
+  <div class="box">
+    <p>
+      Este manual documenta el procedimiento para ejecutar el <strong>Módulo 1</strong> del proyecto:
+      la lectura inicial del archivo GeoPackage regional. El objetivo es reconocer técnicamente el archivo
+      sin modificar, limpiar, depurar ni auditar profundamente los datos.
+    </p>
+    <p>
+      Este módulo permite confirmar que Python puede acceder al GeoPackage, identificar sus capas,
+      reconocer la capa principal, registrar el CRS, el tipo de geometría, el número de registros,
+      los campos disponibles y una muestra inicial de atributos.
+    </p>
+  </div>
+
+  <h2>1. Propósito del Módulo 1</h2>
+
+  <p>
+    El Módulo 1 tiene como objetivo realizar una lectura inicial, controlada y reproducible del GeoPackage
+    principal del proyecto. Esta etapa no busca evaluar calidad, eliminar registros ni aplicar reglas de
+    depuración. Su función es generar una primera caracterización técnica del archivo.
+  </p>
+
+  <p>El módulo responde preguntas como:</p>
+
+  <ul>
+    <li>¿El archivo GeoPackage existe en la ruta esperada?</li>
+    <li>¿Cuántas capas contiene?</li>
+    <li>¿Cuál es la capa principal sugerida?</li>
+    <li>¿Cuántos registros contiene la capa?</li>
+    <li>¿Cuál es el tipo de geometría?</li>
+    <li>¿Cuál es el sistema de referencia de coordenadas?</li>
+    <li>¿Cuántos campos atributivos existen?</li>
+    <li>¿Python puede leer correctamente una muestra del archivo?</li>
+  </ul>
+
+  <div class="warning">
+    <p>
+      <strong>Importante:</strong> en este módulo no se debe hacer limpieza, corrección, eliminación de duplicados,
+      reclasificación temática ni modificación de geometrías. Es únicamente una etapa de reconocimiento inicial.
+    </p>
+  </div>
+
+  <h2>2. Requisitos previos</h2>
+
+  <p>Antes de ejecutar este módulo, debe haberse completado el Módulo 0. Esto implica que ya existen:</p>
+
+  <ul>
+    <li>la carpeta principal del proyecto;</li>
+    <li>la estructura de carpetas;</li>
+    <li>el entorno Conda <code>pgbm_actividad1</code>;</li>
+    <li>el archivo <code>config/config.yaml</code>;</li>
+    <li>las carpetas <code>data/raw/</code>, <code>outputs/tables/</code> y <code>outputs/reports/</code>;</li>
+    <li>el repositorio Git inicializado.</li>
+  </ul>
+
+  <p>Ruta del proyecto:</p>
+
+  <pre><code>/media/estb/PGB_disco/PGBM_actividad_1_diagnostico</code></pre>
+
+  <p>Ruta esperada del GeoPackage:</p>
+
+  <pre><code>/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/GeoPackage_puntos_control_mesoamerica.gpkg</code></pre>
+
+  <h2>3. Activar entorno de trabajo</h2>
+
+  <p>Ejecutar en terminal:</p>
+
+  <pre><code>cd "/media/estb/PGB_disco/PGBM_actividad_1_diagnostico"
+conda activate pgbm_actividad1</code></pre>
+
+  <p>Verificar ruta actual:</p>
+
+  <pre><code>pwd</code></pre>
+
+  <p>La salida esperada es:</p>
+
+  <pre><code>/media/estb/PGB_disco/PGBM_actividad_1_diagnostico</code></pre>
+
+  <h2>4. Verificar ubicación del GeoPackage</h2>
+
+  <p>Ejecutar:</p>
+
+  <pre><code>ls -lh data/raw/</code></pre>
+
+  <p>Debe aparecer el archivo:</p>
+
+  <pre><code>GeoPackage_puntos_control_mesoamerica.gpkg</code></pre>
+
+  <p>Si el archivo no aparece, puede localizarse con:</p>
+
+  <pre><code>find "/media/estb/PGB_disco" -type f -iname "*.gpkg"</code></pre>
+
+  <p>
+    Una vez localizado, se puede copiar a <code>data/raw/</code> o crear un enlace simbólico.
+  </p>
+
+  <h3>Copiar el archivo</h3>
+
+  <pre><code>cp "/ruta/donde/esta/el/archivo.gpkg" "data/raw/GeoPackage_puntos_control_mesoamerica.gpkg"</code></pre>
+
+  <h3>Crear enlace simbólico</h3>
+
+  <pre><code>ln -s "/ruta/donde/esta/el/archivo.gpkg" "data/raw/GeoPackage_puntos_control_mesoamerica.gpkg"</code></pre>
+
+  <h2>5. Script principal del Módulo 1</h2>
+
+  <p>El script usado para este módulo se guarda en:</p>
+
+  <pre><code>src/gpkg_inspection.py</code></pre>
+
+  <p>Este script genera las siguientes salidas:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Ruta</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inventario de capas</td>
+        <td><code>outputs/tables/01_inventario_capas.csv</code></td>
+      </tr>
+      <tr>
+        <td>Resumen de capas</td>
+        <td><code>outputs/tables/01_resumen_capas.csv</code></td>
+      </tr>
+      <tr>
+        <td>Resumen de campos</td>
+        <td><code>outputs/tables/01_resumen_campos.csv</code></td>
+      </tr>
+      <tr>
+        <td>Capa principal sugerida</td>
+        <td><code>outputs/tables/01_capa_principal_sugerida.csv</code></td>
+      </tr>
+      <tr>
+        <td>Muestra de atributos</td>
+        <td><code>outputs/tables/01_muestra_atributos_capa_principal.csv</code></td>
+      </tr>
+      <tr>
+        <td>Reporte Markdown</td>
+        <td><code>outputs/reports/01_perfil_inicial_gpkg.md</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6. Verificar sintaxis del script</h2>
+
+  <p>Antes de ejecutar el script, se recomienda verificar que no existan errores de sintaxis:</p>
+
+  <pre><code>python -m py_compile src/gpkg_inspection.py</code></pre>
+
+  <p>
+    Si el comando no imprime ningún mensaje, el script está sintácticamente correcto.
+  </p>
+
+  <h2>7. Limpiar resultados previos del Módulo 1</h2>
+
+  <p>
+    Si se hicieron ejecuciones previas fallidas, conviene borrar salidas anteriores para no mezclar resultados.
+  </p>
+
+  <pre><code>rm -f outputs/tables/01_*.csv
+rm -f outputs/reports/01_perfil_inicial_gpkg.md</code></pre>
+
+  <h2>8. Ejecutar el Módulo 1</h2>
+
+  <p>Ejecutar:</p>
+
+  <pre><code>python src/gpkg_inspection.py</code></pre>
+
+  <p>Salida esperada:</p>
+
+  <pre><code>Módulo 1 ejecutado correctamente.
+GeoPackage: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/GeoPackage_puntos_control_mesoamerica.gpkg
+Tamaño: 1.43 GB
+Capa principal sugerida: Puntos_control_mesoamerica
+Salidas generadas en outputs/tables y outputs/reports.</code></pre>
+
+  <div class="warning">
+    <p>
+      <strong>Nota:</strong> no se debe ejecutar el script con <code>/usr/bin/python3</code>, porque ese corresponde
+      al Python del sistema. Debe usarse el comando <code>python</code> una vez activado el entorno Conda
+      <code>pgbm_actividad1</code>.
+    </p>
+  </div>
+
+  <h2>9. Revisar productos generados</h2>
+
+  <p>Listar tablas generadas:</p>
+
+  <pre><code>ls -lh outputs/tables/</code></pre>
+
+  <p>Listar reportes generados:</p>
+
+  <pre><code>ls -lh outputs/reports/</code></pre>
+
+  <p>Ver reporte Markdown en terminal:</p>
+
+  <pre><code>cat outputs/reports/01_perfil_inicial_gpkg.md</code></pre>
+
+  <p>Ver campos detectados:</p>
+
+  <pre><code>head -n 20 outputs/tables/01_resumen_campos.csv</code></pre>
+
+  <p>Ver muestra de atributos:</p>
+
+  <pre><code>head -n 5 outputs/tables/01_muestra_atributos_capa_principal.csv</code></pre>
+
+  <h2>10. Resultado obtenido en esta implementación</h2>
+
+  <div class="success">
+    <p>
+      La ejecución del Módulo 1 fue exitosa. El GeoPackage fue reconocido correctamente y se generó
+      un perfil inicial sin modificar los datos originales.
+    </p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Elemento</th>
+        <th>Resultado obtenido</th>
+        <th>Interpretación técnica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Tamaño del GeoPackage</td>
+        <td>1.43 GB</td>
+        <td>Archivo grande, requiere manejo eficiente en módulos posteriores.</td>
+      </tr>
+      <tr>
+        <td>Número de capas</td>
+        <td>1</td>
+        <td>El archivo contiene una sola capa operativa.</td>
+      </tr>
+      <tr>
+        <td>Capa principal sugerida</td>
+        <td><code>Puntos_control_mesoamerica</code></td>
+        <td>La capa principal queda claramente identificada.</td>
+      </tr>
+      <tr>
+        <td>Número de registros</td>
+        <td>2,881,123</td>
+        <td>Base regional de gran volumen, consistente con la escala del proyecto.</td>
+      </tr>
+      <tr>
+        <td>Tipo de geometría</td>
+        <td>Point</td>
+        <td>Coherente con una base de puntos de control.</td>
+      </tr>
+      <tr>
+        <td>CRS</td>
+        <td>EPSG:4326</td>
+        <td>Coordenadas geográficas WGS84, adecuadas para base regional.</td>
+      </tr>
+      <tr>
+        <td>Número de campos</td>
+        <td>41</td>
+        <td>La capa contiene una estructura atributiva amplia para auditoría posterior.</td>
+      </tr>
+      <tr>
+        <td>Error de lectura</td>
+        <td>Vacío</td>
+        <td>No se detectaron errores en la lectura inicial.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>11. Ajuste recomendado en config.yaml</h2>
+
+  <p>
+    Una vez identificada la capa principal, se recomienda fijarla explícitamente en el archivo:
+  </p>
+
+  <pre><code>config/config.yaml</code></pre>
+
+  <p>Cambiar:</p>
+
+  <pre><code>gpkg_layer: null</code></pre>
+
+  <p>por:</p>
+
+  <pre><code>gpkg_layer: "Puntos_control_mesoamerica"</code></pre>
+
+  <p>
+    Esto evita ambigüedades en módulos posteriores y permite que los scripts trabajen directamente
+    sobre la capa principal ya validada.
+  </p>
+
+  <h2>12. Registro en bitácora metodológica</h2>
+
+  <p>
+    Registrar la decisión metodológica en <code>logs/decisiones_metodologicas.csv</code>:
+  </p>
+
+  <pre><code>cat &gt;&gt; logs/decisiones_metodologicas.csv &lt;&lt;'EOF'
+2026-05-04,Equipo PGBM,Modulo 1,Lectura inicial,"Se identificó correctamente la capa principal del GeoPackage: Puntos_control_mesoamerica, con 2881123 registros, geometría Point, CRS EPSG:4326 y 41 campos","Reconocimiento inicial sin modificación de datos originales","GeoPackage regional",2881123,"outputs/reports/01_perfil_inicial_gpkg.md",NA
+EOF</code></pre>
+
+  <p>Verificar la última línea:</p>
+
+  <pre><code>tail -n 3 logs/decisiones_metodologicas.csv</code></pre>
+
+  <h2>13. Agregar resultados a Git</h2>
+
+  <p>
+    Como los productos generados son reportes y tablas ligeras, pueden versionarse.
+    No se debe versionar el GeoPackage original.
+  </p>
+
+  <pre><code>git add src/gpkg_inspection.py
+git add config/config.yaml
+git add outputs/tables/01_inventario_capas.csv
+git add outputs/tables/01_resumen_capas.csv
+git add outputs/tables/01_resumen_campos.csv
+git add outputs/tables/01_capa_principal_sugerida.csv
+git add outputs/tables/01_muestra_atributos_capa_principal.csv
+git add outputs/reports/01_perfil_inicial_gpkg.md
+git add logs/decisiones_metodologicas.csv
+git add logs/auditoria.log
+
+git commit -m "Completa lectura inicial del GeoPackage"
+git status</code></pre>
+
+  <h2>14. Criterio de cierre del Módulo 1</h2>
+
+  <p>El Módulo 1 se considera cerrado cuando se puede responder, con evidencia generada:</p>
+
+  <ul>
+    <li>¿Qué capas contiene el GeoPackage?</li>
+    <li>¿Cuál es la capa principal sugerida?</li>
+    <li>¿Cuántos registros tiene?</li>
+    <li>¿Cuál es su CRS?</li>
+    <li>¿Qué tipo de geometría contiene?</li>
+    <li>¿Cuántos campos tiene?</li>
+    <li>¿Python puede leer correctamente una muestra del archivo?</li>
+  </ul>
+
+  <h2>15. Lista de chequeo</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Elemento</th>
+        <th>Estado esperado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Entorno Conda activado</td><td class="check">Completado</td></tr>
+      <tr><td>GeoPackage ubicado en <code>data/raw/</code></td><td class="check">Completado</td></tr>
+      <tr><td>Script <code>src/gpkg_inspection.py</code> creado</td><td class="check">Completado</td></tr>
+      <tr><td>Script ejecutado sin errores</td><td class="check">Completado</td></tr>
+      <tr><td>Inventario de capas generado</td><td class="check">Completado</td></tr>
+      <tr><td>Resumen de capas generado</td><td class="check">Completado</td></tr>
+      <tr><td>Resumen de campos generado</td><td class="check">Completado</td></tr>
+      <tr><td>Capa principal sugerida identificada</td><td class="check">Completado</td></tr>
+      <tr><td>Muestra de atributos exportada</td><td class="check">Completado</td></tr>
+      <tr><td>Reporte inicial generado</td><td class="check">Completado</td></tr>
+      <tr><td>Bitácora metodológica actualizada</td><td class="check">Completado</td></tr>
+      <tr><td>Resultados ligeros agregados a Git</td><td class="check">Pendiente o completado según ejecución local</td></tr>
+    </tbody>
+  </table>
+
+  <h2>16. Próximo paso</h2>
+
+  <p>
+    Una vez cerrado el Módulo 1, el siguiente paso será iniciar el:
+  </p>
+
+  <h3>Módulo 2: Auditoría estructural y tabular</h3>
+
+  <p>En el Módulo 2 se evaluarán:</p>
+
+  <ul>
+    <li>campos críticos;</li>
+    <li>tipos de datos;</li>
+    <li>valores nulos;</li>
+    <li>dominios de valores;</li>
+    <li>identificadores;</li>
+    <li>duplicados exactos;</li>
+    <li>consistencia estructural;</li>
+    <li>exportación de una tabla auditada de atributos.</li>
+  </ul>
+
+  <div class="box">
+    <p>
+      El Módulo 2 ya entrará en una auditoría más profunda, pero manteniendo el principio de no modificar
+      los datos originales. Toda salida deberá guardarse en <code>outputs/tables/</code>, <code>data/interim/</code>
+      o <code>outputs/reports/</code>.
+    </p>
+  </div>
+
+  <div class="footer">
+    Manual técnico de replicación generado para el proyecto PGBM - Actividad 1.
+  </div>
+
+</body>
+</html>

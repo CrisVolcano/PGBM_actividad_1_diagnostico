@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Manual de replicación - Módulo 0 | PGBM Actividad 1</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+      margin: 40px auto;
+      max-width: 1050px;
+      color: #1f2933;
+      background-color: #ffffff;
+    }
+
+    h1, h2, h3 {
+      color: #174A7C;
+    }
+
+    h1 {
+      border-bottom: 4px solid #174A7C;
+      padding-bottom: 12px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 6px;
+      margin-top: 36px;
+    }
+
+    h3 {
+      margin-top: 24px;
+    }
+
+    .subtitle {
+      color: #52616b;
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+    }
+
+    .box {
+      background-color: #f4f8fb;
+      border-left: 5px solid #174A7C;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background-color: #f3f4f6;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    pre {
+      background-color: #f3f4f6;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+    }
+
+    pre code {
+      background-color: transparent;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background-color: #174A7C;
+      color: white;
+      text-align: left;
+      padding: 9px;
+    }
+
+    td {
+      border: 1px solid #d0d7de;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .footer {
+      margin-top: 50px;
+      padding-top: 18px;
+      border-top: 1px solid #d0d7de;
+      font-size: 0.9rem;
+      color: #52616b;
+    }
+
+    .check {
+      color: #0f766e;
+      font-weight: bold;
+    }
+
+    @media print {
+      body {
+        margin: 20mm;
+        max-width: none;
+      }
+
+      pre {
+        white-space: pre-wrap;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Manual de replicación - Módulo 0</h1>
+  <p class="subtitle">
+    <strong>Configuración inicial del proyecto PGBM Actividad 1</strong><br>
+    Diagnóstico regional de aptitud de fuentes y vacíos de información
+  </p>
+
+  <div class="box">
+    <p>
+      Este manual documenta cómo replicar la configuración inicial del proyecto
+      <strong>PGBM - Actividad 1</strong>. Su propósito es dejar preparada una arquitectura
+      reproducible para trabajar con datos geoespaciales en Python, usando Conda, Git,
+      GitHub y una estructura profesional de carpetas.
+    </p>
+    <p>
+      Este módulo no incluye todavía la lectura ni auditoría del GeoPackage. Su función es preparar
+      la base técnica antes de iniciar el análisis de datos.
+    </p>
+  </div>
+
+  <h2>1. Propósito del manual</h2>
+
+  <p>
+    El objetivo del Módulo 0 es crear una estructura de trabajo que permita organizar
+    datos crudos, datos intermedios, datos procesados, scripts, notebooks, reportes,
+    bitácoras y documentación técnica de forma clara y reproducible.
+  </p>
+
+  <p>
+    Al finalizar este módulo, cualquier integrante del equipo debería poder abrir el repositorio,
+    crear el entorno Conda, entender la estructura del proyecto y continuar con el Módulo 1.
+  </p>
+
+  <h2>2. Requisitos previos</h2>
+
+  <p>Antes de iniciar, se requiere:</p>
+
+  <ul>
+    <li>Sistema operativo Linux Mint o distribución Linux equivalente.</li>
+    <li>Disco duro externo montado correctamente.</li>
+    <li>Conda o Miniconda instalado.</li>
+    <li>Git instalado.</li>
+    <li>Acceso a terminal.</li>
+    <li>Editor de código recomendado: VS Code o VS Codium.</li>
+  </ul>
+
+  <p>Verificar que Conda está disponible:</p>
+
+  <pre><code>conda --version</code></pre>
+
+  <p>Verificar que Git está disponible:</p>
+
+  <pre><code>git --version</code></pre>
+
+  <h2>3. Ruta de trabajo</h2>
+
+  <p>En esta implementación, el disco externo fue renombrado como:</p>
+
+  <pre><code>PGB_disco</code></pre>
+
+  <p>La ruta base del disco es:</p>
+
+  <pre><code>/media/estb/PGB_disco</code></pre>
+
+  <p>La ruta del proyecto es:</p>
+
+  <pre><code>/media/estb/PGB_disco/PGBM_actividad_1_diagnostico</code></pre>
+
+  <h2>4. Crear carpeta principal del proyecto</h2>
+
+  <pre><code>BASE="/media/estb/PGB_disco"
+PROJECT="$BASE/PGBM_actividad_1_diagnostico"
+
+mkdir -p "$PROJECT"
+cd "$PROJECT"
+
+pwd</code></pre>
+
+  <p>La salida esperada es:</p>
+
+  <pre><code>/media/estb/PGB_disco/PGBM_actividad_1_diagnostico</code></pre>
+
+  <h2>5. Crear estructura de carpetas</h2>
+
+  <pre><code>mkdir -p config
+mkdir -p data/raw data/interim data/processed data/external
+mkdir -p notebooks
+mkdir -p src
+mkdir -p outputs/tables outputs/figures outputs/maps outputs/reports
+mkdir -p logs
+mkdir -p docs</code></pre>
+
+  <p>La estructura esperada es:</p>
+
+  <pre><code>PGBM_actividad_1_diagnostico/
+│
+├── config/
+├── data/
+│   ├── raw/
+│   ├── interim/
+│   ├── processed/
+│   └── external/
+├── notebooks/
+├── src/
+├── outputs/
+│   ├── tables/
+│   ├── figures/
+│   ├── maps/
+│   └── reports/
+├── logs/
+└── docs/</code></pre>
+
+  <h2>6. Crear archivos base</h2>
+
+  <pre><code>touch README.md
+touch environment.yml
+touch .gitignore
+touch pyproject.toml
+
+touch config/config.yaml
+touch config/scoring_aptitud.yaml
+touch config/campos_esperados.yaml
+touch config/clases_homologadas.yaml
+
+touch src/__init__.py
+touch src/io.py
+touch src/profiling.py
+touch src/spatial_qc.py
+touch src/temporal_qc.py
+touch src/thematic_qc.py
+touch src/scoring.py
+touch src/reports.py
+touch src/utils.py
+
+touch logs/auditoria.log
+touch logs/decisiones_metodologicas.csv
+
+touch docs/diccionario_datos.md
+touch docs/protocolo_auditoria.md
+touch docs/bitacora_metodologica.md
+touch docs/changelog.md</code></pre>
+
+  <h2>7. Mantener carpetas vacías en Git</h2>
+
+  <p>
+    Git no guarda carpetas vacías. Por eso se crean archivos <code>.gitkeep</code>.
+  </p>
+
+  <pre><code>touch data/raw/.gitkeep
+touch data/interim/.gitkeep
+touch data/processed/.gitkeep
+touch data/external/.gitkeep
+
+touch outputs/tables/.gitkeep
+touch outputs/figures/.gitkeep
+touch outputs/maps/.gitkeep
+touch outputs/reports/.gitkeep</code></pre>
+
+  <h2>8. Crear el entorno Conda</h2>
+
+  <p>
+    El archivo <code>environment.yml</code> define el entorno del proyecto. El entorno recomendado se llama:
+  </p>
+
+  <pre><code>pgbm_actividad1</code></pre>
+
+  <p>
+    Se usa Python 3.11 y se prioriza el canal <code>conda-forge</code>, especialmente para instalar
+    correctamente librerías geoespaciales como GDAL, GeoPandas, Pyogrio, Fiona, Rasterio,
+    Shapely y PyProj.
+  </p>
+
+  <p>Crear el entorno:</p>
+
+  <pre><code>conda env create -f environment.yml</code></pre>
+
+  <p>Activar el entorno:</p>
+
+  <pre><code>conda activate pgbm_actividad1</code></pre>
+
+  <p>Registrar el kernel para Jupyter:</p>
+
+  <pre><code>python -m ipykernel install --user --name pgbm_actividad1 --display-name "Python (PGBM Actividad 1)"</code></pre>
+
+  <p>Verificar que el entorno funciona:</p>
+
+  <pre><code>python - &lt;&lt;'EOF'
+import sys
+import geopandas as gpd
+import pandas as pd
+import pyogrio
+import duckdb
+import shapely
+
+print("Python:", sys.version)
+print("GeoPandas:", gpd.__version__)
+print("Pandas:", pd.__version__)
+print("Pyogrio:", pyogrio.__version__)
+print("DuckDB:", duckdb.__version__)
+print("Shapely:", shapely.__version__)
+print("Entorno PGBM Actividad 1 funcionando correctamente.")
+EOF</code></pre>
+
+  <h2>9. Archivos principales creados</h2>
+
+  <h3>9.1 README.md</h3>
+  <p>
+    Describe el propósito del repositorio, la ruta local, los principios de trabajo
+    y el estado de avance por módulos.
+  </p>
+
+  <h3>9.2 environment.yml</h3>
+  <p>
+    Define las librerías necesarias para reproducir el entorno de trabajo.
+  </p>
+
+  <h3>9.3 .gitignore</h3>
+  <p>
+    Evita subir al repositorio archivos pesados o sensibles, como GeoPackages,
+    shapefiles, rásteres, archivos Parquet grandes, carpetas de datos, salidas pesadas
+    y archivos temporales.
+  </p>
+
+  <h3>9.4 config/config.yaml</h3>
+  <p>
+    Define rutas del proyecto, campos esperados, nombres de variables y parámetros generales.
+  </p>
+
+  <h3>9.5 config/scoring_aptitud.yaml</h3>
+  <p>
+    Define criterios preliminares para el scoring multicriterio de aptitud.
+  </p>
+
+  <h3>9.6 config/campos_esperados.yaml</h3>
+  <p>
+    Lista los campos esperados en la geodatabase.
+  </p>
+
+  <h3>9.7 config/clases_homologadas.yaml</h3>
+  <p>
+    Contiene la clasificación temática homologada preliminar.
+  </p>
+
+  <h3>9.8 logs/decisiones_metodologicas.csv</h3>
+  <p>
+    Registra decisiones técnicas y metodológicas tomadas durante el proyecto.
+  </p>
+
+  <h3>9.9 docs/</h3>
+  <p>
+    Contiene documentación metodológica, protocolo de auditoría, diccionario de datos
+    y registro de cambios.
+  </p>
+
+  <h2>10. Inicializar Git</h2>
+
+  <p>Inicializar repositorio:</p>
+
+  <pre><code>git init
+git branch -M main</code></pre>
+
+  <p>Agregar archivos principales:</p>
+
+  <pre><code>git add README.md environment.yml .gitignore pyproject.toml
+git add config src docs logs
+git add outputs/tables/.gitkeep outputs/figures/.gitkeep outputs/reports/.gitkeep</code></pre>
+
+  <p>
+    Como las carpetas <code>data/</code> y <code>outputs/maps/</code> están ignoradas por
+    <code>.gitignore</code>, los archivos <code>.gitkeep</code> deben agregarse forzadamente:
+  </p>
+
+  <pre><code>git add -f data/raw/.gitkeep
+git add -f data/interim/.gitkeep
+git add -f data/processed/.gitkeep
+git add -f data/external/.gitkeep
+git add -f outputs/maps/.gitkeep</code></pre>
+
+  <p>Crear primer commit:</p>
+
+  <pre><code>git commit -m "Configura estructura inicial reproducible del proyecto PGBM Actividad 1"</code></pre>
+
+  <p>Verificar estado:</p>
+
+  <pre><code>git status</code></pre>
+
+  <p>La salida esperada es:</p>
+
+  <pre><code>On branch main
+nothing to commit, working tree clean</code></pre>
+
+  <h2>11. Ignorar archivos temporales adicionales</h2>
+
+  <p>Si aparece un archivo <code>.Rhistory</code>, debe ignorarse:</p>
+
+  <pre><code>echo ".Rhistory" &gt;&gt; .gitignore
+git add .gitignore
+git commit -m "Ignora historial temporal de R"</code></pre>
+
+  <h2>12. Qué debe versionarse</h2>
+
+  <p>Sí deben versionarse:</p>
+
+  <pre><code>README.md
+environment.yml
+.gitignore
+pyproject.toml
+config/
+src/
+docs/
+logs/decisiones_metodologicas.csv
+notebooks/
+outputs/tables/.gitkeep
+outputs/figures/.gitkeep
+outputs/maps/.gitkeep
+outputs/reports/.gitkeep</code></pre>
+
+  <h2>13. Qué no debe versionarse</h2>
+
+  <p>No deben versionarse:</p>
+
+  <pre><code>data/raw/
+data/interim/
+data/processed/
+data/external/
+*.gpkg
+*.shp
+*.tif
+*.parquet
+*.zip
+outputs/maps/
+outputs/figures/*.png
+outputs/figures/*.jpg
+outputs/figures/*.pdf</code></pre>
+
+  <p>
+    El repositorio debe respaldar principalmente el método, los scripts, notebooks,
+    configuraciones y documentación. Los datos pesados deben permanecer en disco externo,
+    servidor o almacenamiento institucional.
+  </p>
+
+  <h2>14. Verificación final del Módulo 0</h2>
+
+  <p>Ejecutar:</p>
+
+  <pre><code>cd "/media/estb/PGB_disco/PGBM_actividad_1_diagnostico"
+
+pwd
+git status
+conda info --envs | grep pgbm_actividad1</code></pre>
+
+  <p>Verificar estructura:</p>
+
+  <pre><code>find . -maxdepth 2 -type d | sort</code></pre>
+
+  <p>Verificar archivos principales:</p>
+
+  <pre><code>find . -maxdepth 2 -type f | sort</code></pre>
+
+  <h2>15. Resultado esperado</h2>
+
+  <p>Al finalizar este módulo, el proyecto debe contar con:</p>
+
+  <ul>
+    <li>carpeta principal en disco externo;</li>
+    <li>estructura profesional de carpetas;</li>
+    <li>entorno Conda funcional;</li>
+    <li>kernel de Jupyter registrado;</li>
+    <li>configuración base en <code>config/</code>;</li>
+    <li>scripts base en <code>src/</code>;</li>
+    <li>documentación inicial en <code>docs/</code>;</li>
+    <li>bitácora metodológica en <code>logs/</code>;</li>
+    <li>repositorio Git inicializado;</li>
+    <li>primer commit realizado;</li>
+    <li>reglas de exclusión de datos pesados mediante <code>.gitignore</code>.</li>
+  </ul>
+
+  <h2>16. Lista de chequeo</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Elemento</th>
+        <th>Estado esperado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Disco externo renombrado como <code>PGB_disco</code></td><td class="check">Completado</td></tr>
+      <tr><td>Carpeta del proyecto creada</td><td class="check">Completado</td></tr>
+      <tr><td>Estructura de carpetas creada</td><td class="check">Completado</td></tr>
+      <tr><td>Archivos base creados</td><td class="check">Completado</td></tr>
+      <tr><td><code>environment.yml</code> creado</td><td class="check">Completado</td></tr>
+      <tr><td>Entorno Conda creado</td><td class="check">Completado</td></tr>
+      <tr><td>Entorno activado</td><td class="check">Completado</td></tr>
+      <tr><td>Kernel Jupyter registrado</td><td class="check">Completado</td></tr>
+      <tr><td><code>.gitignore</code> creado</td><td class="check">Completado</td></tr>
+      <tr><td>README inicial creado</td><td class="check">Completado</td></tr>
+      <tr><td>Configuraciones iniciales creadas</td><td class="check">Completado</td></tr>
+      <tr><td>Bitácora metodológica creada</td><td class="check">Completado</td></tr>
+      <tr><td>Scripts base creados</td><td class="check">Completado</td></tr>
+      <tr><td>Git inicializado</td><td class="check">Completado</td></tr>
+      <tr><td>Primer commit realizado</td><td class="check">Completado</td></tr>
+      <tr><td>Archivos pesados excluidos de Git</td><td class="check">Completado</td></tr>
+    </tbody>
+  </table>
+
+  <h2>17. Próximo paso</h2>
+
+  <p>Una vez finalizado el Módulo 0, el siguiente paso será iniciar el:</p>
+
+  <h3>Módulo 1: Lectura inicial del GeoPackage</h3>
+
+  <p>En ese módulo se identificará:</p>
+
+  <ul>
+    <li>nombre del archivo GeoPackage;</li>
+    <li>capas disponibles;</li>
+    <li>sistema de referencia de coordenadas;</li>
+    <li>número de registros;</li>
+    <li>campos disponibles;</li>
+    <li>tipo de geometría;</li>
+    <li>tamaño aproximado;</li>
+    <li>estructura inicial de atributos.</li>
+  </ul>
+
+  <div class="box">
+    <p>
+      En el Módulo 1 no se realizará todavía limpieza, eliminación de duplicados ni auditoría profunda.
+      Primero se reconocerá la estructura general del archivo GeoPackage.
+    </p>
+  </div>
+
+  <div class="footer">
+    Manual técnico de replicación generado para el proyecto PGBM - Actividad 1.
+  </div>
+
+</body>
+</html>

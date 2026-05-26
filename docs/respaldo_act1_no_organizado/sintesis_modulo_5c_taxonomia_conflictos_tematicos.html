@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Síntesis Módulo 5C - Taxonomía y severidad de conflictos temáticos</title>
+  <style>
+    :root {
+      --blue:#174A7C;
+      --blue2:#0f365d;
+      --light:#f4f8fb;
+      --line:#d0d7de;
+      --muted:#52616b;
+      --text:#1f2933;
+      --green:#0f766e;
+      --orange:#ea580c;
+      --red:#dc2626;
+      --purple:#6d28d9;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.58;
+      margin: 38px auto;
+      max-width: 1220px;
+      color: var(--text);
+      background:#fff;
+    }
+    h1, h2, h3 { color: var(--blue); }
+    h1 { border-bottom: 4px solid var(--blue); padding-bottom: 12px; margin-bottom: 8px; }
+    h2 { border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-top: 36px; }
+    h3 { margin-top: 26px; }
+    .subtitle { color: var(--muted); font-size: 1.04rem; margin-bottom: 24px; }
+    .box, .success, .warning, .critical, .note { padding: 14px 18px; margin: 18px 0; border-left: 5px solid var(--blue); border-radius: 4px; }
+    .box { background: var(--light); }
+    .success { background:#ecfdf5; border-left-color:var(--green); }
+    .warning { background:#fff7ed; border-left-color:var(--orange); }
+    .critical { background:#fef2f2; border-left-color:var(--red); }
+    .note { background:#f8fafc; border-left-color:#64748b; }
+    .purple { background:#faf5ff; border-left-color:var(--purple); }
+    .muted { color: var(--muted); }
+    code { font-family: Consolas, Monaco, 'Courier New', monospace; background:#f3f4f6; padding: 2px 5px; border-radius:4px; }
+    pre { background:#f3f4f6; border:1px solid var(--line); border-radius:6px; padding:14px; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; margin:18px 0; font-size:0.92rem; }
+    th { background:var(--blue); color:white; text-align:left; padding:9px; vertical-align:bottom; }
+    td { border:1px solid var(--line); padding:8px; vertical-align:top; }
+    tr:nth-child(even) td { background:#f8fafc; }
+    .compact td, .compact th { font-size:0.88rem; }
+    .metric-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px; margin:22px 0; }
+    .metric-card { border:1px solid var(--line); border-radius:10px; padding:16px; background:#f8fafc; }
+    .metric-card .value { font-size:1.55rem; font-weight:bold; color:var(--blue); margin-bottom:5px; }
+    .metric-card .label { font-size:0.94rem; color:var(--muted); }
+    .two-col { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    .three-col { display:grid; grid-template-columns: repeat(3,1fr); gap:18px; }
+    .pill { display:inline-block; padding:3px 8px; border-radius:999px; background:#e5eef7; color:var(--blue); font-weight:bold; font-size:0.86rem; }
+    .pill-red { background:#fee2e2; color:#991b1b; }
+    .pill-orange { background:#ffedd5; color:#9a3412; }
+    .pill-green { background:#d1fae5; color:#065f46; }
+    .bar-list { margin: 18px 0; }
+    .bar-row { display:grid; grid-template-columns: 330px 1fr 90px; gap:10px; align-items:center; margin:10px 0; }
+    .bar-label { font-size:0.88rem; }
+    .bar-subtitle { display:block; color:var(--muted); font-size:0.78rem; }
+    .bar-track { height:18px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
+    .bar-fill { height:100%; background:linear-gradient(90deg, var(--blue), #4c8dc1); border-radius:999px; }
+    .bar-value { text-align:right; font-weight:bold; color:var(--blue2); }
+    .footer { margin-top:50px; padding-top:18px; border-top:1px solid var(--line); font-size:0.9rem; color:var(--muted); }
+    .small { font-size:0.88rem; }
+    .callout-title { font-weight:bold; color:var(--blue2); margin-bottom:6px; }
+    @media (max-width: 900px) {
+      body { margin:20px; }
+      .two-col, .three-col { grid-template-columns:1fr; }
+      .bar-row { grid-template-columns:1fr; }
+      .bar-value { text-align:left; }
+      table { display:block; overflow-x:auto; }
+    }
+    @media print {
+      body { margin:16mm; max-width:none; }
+      .bar-fill { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+      table { page-break-inside:auto; }
+      tr { page-break-inside:avoid; page-break-after:auto; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Síntesis interpretativa - Módulo 5C</h1>
+  <p class="subtitle">
+    <strong>Taxonomía y severidad de conflictos temáticos XY</strong><br>
+    PGBM - Actividad 1 | Diagnóstico regional de aptitud de fuentes y preparación de datos para modelamiento<br>
+    Documento generado: 2026-05-19 14:43:04
+  </p>
+
+  <div class="box">
+    <p>
+      Este informe interpreta los resultados del <strong>Módulo 5C</strong>, cuyo propósito fue clasificar los conflictos temáticos XY detectados dentro de la ventana operativa <strong>2018–2022</strong>. A diferencia del Módulo 5, que cuantificó conflictos temáticos en toda la base histórica, y del Módulo 5B, que restringió el diagnóstico a 2020 y la ventana ±2 años, este módulo diferencia el tipo de conflicto, su severidad y su prioridad de revisión.
+    </p>
+  </div>
+
+  <h2>1. Lectura ejecutiva</h2>
+  <div class="critical">
+    <p>
+      La conclusión principal es que los conflictos temáticos activos dentro de la ventana 2018–2022 son <strong>pocos en volumen relativo</strong>, pero <strong>altos en severidad</strong>. Representan apenas <strong>0,62 %</strong> de los registros de la ventana, pero <strong>96,6 %</strong> de los grupos conflictivos superan el umbral de revisión prioritaria.
+    </p>
+  </div>
+
+  <div class="success">
+    <p>
+      El resultado es operativamente favorable: el problema ya no es masivo ni difuso. Los conflictos se concentran en <strong>Costa Rica</strong> y <strong>Honduras</strong>, con mecanismos distintos. Costa Rica presenta conflictos simultáneos dentro de 2021 y una sola fuente. Honduras presenta conflictos multianuales dentro de una misma fuente entre 2018 y 2022.
+    </p>
+  </div>
+
+  
+<div class="metric-grid">
+  <div class="metric-card"><div class="value">2.779</div><div class="label">grupos XY conflictivos</div></div>
+  <div class="metric-card"><div class="value">7.415</div><div class="label">registros involucrados</div></div>
+  <div class="metric-card"><div class="value">0,62 %</div><div class="label">de los registros de la ventana 2018–2022</div></div>
+  <div class="metric-card"><div class="value">2.684</div><div class="label">casos de revisión prioritaria</div></div>
+  <div class="metric-card"><div class="value">96,6 %</div><div class="label">de los grupos conflictivos superan umbral de revisión</div></div>
+  <div class="metric-card"><div class="value">2.160</div><div class="label">conflictos en el mismo año</div></div>
+  <div class="metric-card"><div class="value">0</div><div class="label">conflictos multifuente en el mismo año</div></div>
+  <div class="metric-card"><div class="value">1.195.911</div><div class="label">registros totales en ventana 2018–2022</div></div>
+</div>
+
+
+  <h2>2. Conceptos clave: grupos y registros en este módulo</h2>
+  <p>
+    En este informe, un <strong>registro</strong> es una fila individual de la base. Un <strong>grupo XY</strong> es una coordenada única que puede contener uno o varios registros. Por eso, cuando se reportan <strong>2.779 grupos conflictivos</strong> y <strong>7.415 registros conflictivos</strong>, significa que hay 2.779 sitios o coordenadas con conflictos y 7.415 observaciones asociadas a esos sitios.
+  </p>
+  <div class="note">
+    <p>
+      La distinción es importante porque la carga de revisión territorial se aproxima mejor con <code>n_grupos</code>, mientras que el volumen de observaciones afectadas se aproxima mejor con <code>n_registros</code>. Para entrenamiento, validación y prueba, la unidad crítica debe ser el grupo XY, no la fila individual.
+    </p>
+  </div>
+
+  <h2>3. Magnitud del conflicto dentro de la ventana 2018–2022</h2>
+  <p>
+    En el Módulo 5B se había identificado que la ventana 2018–2022 contenía <strong>1.195.911</strong> registros. Dentro de esa ventana, el Módulo 5C clasificó <strong>7.415</strong> registros conflictivos, correspondientes a <strong>2.779</strong> grupos XY. Esto equivale a <strong>0,62 %</strong> de los registros de la ventana y a <strong>0,25 %</strong> de sus grupos XY.
+  </p>
+  <p>
+    Esto confirma una decisión importante: la base candidata de 2018–2022 puede avanzar hacia scoring y selección, siempre que los conflictos identificados se separen como subconjunto de revisión o exclusión temporal.
+  </p>
+
+  <h3>3.1 Severidad general</h3>
+  <table class="data-table compact">
+<thead><tr><th>Severidad</th><th>Grupos</th><th>Registros</th><th>% grupos</th><th>% registros</th></tr></thead>
+<tbody>
+<tr>
+<td>muy_alta</td>
+<td>1.940</td>
+<td>3.880</td>
+<td>69,81 %</td>
+<td>52,33 %</td>
+</tr>
+<tr>
+<td>alta</td>
+<td>744</td>
+<td>3.060</td>
+<td>26,77 %</td>
+<td>41,27 %</td>
+</tr>
+<tr>
+<td>media</td>
+<td>95</td>
+<td>475</td>
+<td>3,42 %</td>
+<td>6,41 %</td>
+</tr>
+</tbody></table>
+
+  <div class="warning">
+    <p>
+      Aunque el volumen total de conflictos es bajo, la severidad es alta: los conflictos de severidad <strong>muy alta</strong> y <strong>alta</strong> reúnen prácticamente todos los casos operativamente relevantes. Por eso no conviene ignorarlos, pero sí es viable aislarlos y tratarlos con reglas específicas.
+    </p>
+  </div>
+
+  <h2>4. Taxonomía de conflictos temáticos</h2>
+  <p>
+    La tabla siguiente resume los conflictos por tipo y severidad. La categoría más importante es <code>bosque_vs_no_bosque</code>, porque afecta directamente la frontera temática más crítica para una línea base forestal.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>Subconjunto</th><th>Tipo de conflicto</th><th>Severidad</th><th>Grupos</th><th>Registros</th><th>Score promedio</th><th>Score máximo</th></tr></thead>
+<tbody>
+<tr>
+<td>ventana_2018_2022</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>1.320</td>
+<td>2.640</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>517</td>
+<td>2.585</td>
+<td>84,070</td>
+<td>90</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>620</td>
+<td>1.240</td>
+<td>98,732</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>posible_cambio_temporal</td>
+<td>media</td>
+<td>95</td>
+<td>475</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>conflicto_mismo_anio</td>
+<td>alta</td>
+<td>220</td>
+<td>440</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>residual_otras</td>
+<td>alta</td>
+<td>7</td>
+<td>35</td>
+<td>78</td>
+<td>78</td>
+</tr>
+</tbody></table>
+
+  <h3>4.1 Distribución visual por tipo de conflicto</h3>
+  <div class="bar-list">
+
+        <div class="bar-row">
+          <div class="bar-label"><strong>bosque_vs_no_bosque (muy_alta)</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:100.00%"></div></div>
+          <div class="bar-value">2.640</div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><strong>bosque_vs_no_bosque (alta)</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:97.92%"></div></div>
+          <div class="bar-value">2.585</div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><strong>conflicto_mismo_anio (muy_alta)</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:46.97%"></div></div>
+          <div class="bar-value">1.240</div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><strong>posible_cambio_temporal (media)</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:17.99%"></div></div>
+          <div class="bar-value">475</div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><strong>conflicto_mismo_anio (alta)</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:16.67%"></div></div>
+          <div class="bar-value">440</div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label"><strong>residual_otras (alta)</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:1.33%"></div></div>
+          <div class="bar-value">35</div>
+        </div>
+</div>
+
+  <h2>5. Mecanismo del conflicto: simultáneo vs. multianual</h2>
+  <div class="purple box">
+    <p>
+      Una inferencia adicional importante es separar el <strong>tipo semántico</strong> del conflicto de su <strong>mecanismo temporal-operativo</strong>. En este módulo, los datos permiten distinguir dos mecanismos dominantes: <code>simultáneo_misma_fuente</code> para Costa Rica y <code>multianual_misma_fuente</code> para Honduras.
+    </p>
+  </div>
+
+  <table class="data-table compact">
+<thead><tr><th>Mecanismo</th><th>País</th><th>Grupos</th><th>Registros</th><th>Score promedio</th></tr></thead>
+<tbody>
+<tr>
+<td>simultáneo misma fuente</td>
+<td>Costa Rica</td>
+<td>2.160</td>
+<td>4.320</td>
+<td>97,500</td>
+</tr>
+<tr>
+<td>multianual misma fuente</td>
+<td>Honduras</td>
+<td>619</td>
+<td>3.095</td>
+<td>79,540</td>
+</tr>
+</tbody></table>
+
+  <h3>5.1 Tipo compuesto propuesto</h3>
+  <p>
+    Para mejorar la trazabilidad del pipeline, se recomienda incorporar en el script dos variables adicionales: <code>mecanismo_conflicto</code> y <code>tipo_conflicto_compuesto</code>. Esto permitiría distinguir, por ejemplo, <code>bosque_vs_no_bosque_simultaneo</code> de <code>bosque_vs_no_bosque_multianual</code>, que requieren decisiones distintas.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>Tipo compuesto</th><th>País</th><th>Grupos</th><th>Registros</th><th>Score promedio</th><th>Score máximo</th></tr></thead>
+<tbody>
+<tr>
+<td>bosque_vs_no_bosque / simultáneo misma fuente</td>
+<td>Costa Rica</td>
+<td>1.320</td>
+<td>2.640</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>bosque_vs_no_bosque / multianual misma fuente</td>
+<td>Honduras</td>
+<td>517</td>
+<td>2.585</td>
+<td>84,070</td>
+<td>90</td>
+</tr>
+<tr>
+<td>conflicto_mismo_anio / simultáneo misma fuente</td>
+<td>Costa Rica</td>
+<td>840</td>
+<td>1.680</td>
+<td>93,560</td>
+<td>100</td>
+</tr>
+<tr>
+<td>posible_cambio_temporal / multianual misma fuente</td>
+<td>Honduras</td>
+<td>95</td>
+<td>475</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>residual_otras / multianual misma fuente</td>
+<td>Honduras</td>
+<td>7</td>
+<td>35</td>
+<td>78</td>
+<td>78</td>
+</tr>
+</tbody></table>
+
+  <h2>6. Diagnóstico por país</h2>
+  <table class="data-table compact">
+<thead><tr><th>País</th><th>Grupos</th><th>Registros</th><th>Registros por grupo</th><th>Años por grupo</th><th>% grupos</th><th>% registros</th></tr></thead>
+<tbody>
+<tr>
+<td>Costa Rica</td>
+<td>2.160</td>
+<td>4.320</td>
+<td>2,00</td>
+<td>1,00</td>
+<td>77,73 %</td>
+<td>58,26 %</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>619</td>
+<td>3.095</td>
+<td>5,00</td>
+<td>5,00</td>
+<td>22,27 %</td>
+<td>41,74 %</td>
+</tr>
+</tbody></table>
+
+  <h3>6.1 Costa Rica: conflicto simultáneo, misma fuente, mismo año</h3>
+  <div class="critical">
+    <p>
+      Costa Rica concentra <strong>2.160 grupos</strong> y <strong>4.320 registros</strong> conflictivos. Todos corresponden a <strong>2021</strong> y a la fuente <strong>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</strong>. Esto no es un problema multifuente ni multianual; es una señal de inconsistencia simultánea dentro de una misma fuente o dentro del proceso de integración de esa fuente.
+    </p>
+  </div>
+  <p>
+    El patrón dominante en Costa Rica combina conflictos <code>bosque_vs_no_bosque</code> y conflictos de mismo año asociados a clases como <strong>Otras</strong>, <strong>Humedales</strong>, <strong>Pastizales</strong> y <strong>Bosque latifoliado y mixto</strong>. La recomendación es no usar estos grupos como entrenamiento directo hasta resolver la etiqueta por revisión experta, jerarquía interna de fuente o fotointerpretación.
+  </p>
+
+  <h3>6.2 Honduras: conflicto multianual, misma fuente, trayectoria 2018–2022</h3>
+  <div class="warning">
+    <p>
+      Honduras concentra <strong>619 grupos</strong> y <strong>3.095 registros</strong> conflictivos. Cada grupo tiene, en promedio, cinco registros, con años de <strong>2018 a 2022</strong>, todos provenientes de la fuente <strong>FCPF - Malla MRV-REDD+ Honduras</strong>. Esto sugiere trayectorias temporales de cambio o inestabilidad temática, no necesariamente errores simultáneos.
+    </p>
+  </div>
+  <p>
+    En Honduras, los conflictos deben tratarse como posibles cambios temporales o zonas de transición. La decisión recomendada no es eliminarlos automáticamente, sino excluirlos del entrenamiento estable y reservarlos para análisis temporal, revisión espectral paralela o fotointerpretación dirigida.
+  </p>
+
+  <h3>6.3 Tipo de conflicto por país</h3>
+  <table class="data-table compact">
+<thead><tr><th>Subconjunto</th><th>País</th><th>Tipo</th><th>Grupos</th><th>Registros</th><th>Score promedio</th><th>Score máximo</th></tr></thead>
+<tbody>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Costa Rica</td>
+<td>bosque_vs_no_bosque</td>
+<td>1.320</td>
+<td>2.640</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Costa Rica</td>
+<td>conflicto_mismo_anio</td>
+<td>840</td>
+<td>1.680</td>
+<td>93,564</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Honduras</td>
+<td>bosque_vs_no_bosque</td>
+<td>517</td>
+<td>2.585</td>
+<td>84,070</td>
+<td>90</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Honduras</td>
+<td>posible_cambio_temporal</td>
+<td>95</td>
+<td>475</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Honduras</td>
+<td>residual_otras</td>
+<td>7</td>
+<td>35</td>
+<td>78</td>
+<td>78</td>
+</tr>
+</tbody></table>
+
+  <h3>6.4 Severidad por país</h3>
+  <table class="data-table compact">
+<thead><tr><th>Subconjunto</th><th>País</th><th>Severidad</th><th>Grupos</th><th>Registros</th><th>Score promedio</th><th>Score máximo</th></tr></thead>
+<tbody>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Costa Rica</td>
+<td>muy_alta</td>
+<td>1.940</td>
+<td>3.880</td>
+<td>99,595</td>
+<td>100</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Costa Rica</td>
+<td>alta</td>
+<td>220</td>
+<td>440</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Honduras</td>
+<td>alta</td>
+<td>524</td>
+<td>2.620</td>
+<td>83,989</td>
+<td>90</td>
+</tr>
+<tr>
+<td>ventana_2018_2022</td>
+<td>Honduras</td>
+<td>media</td>
+<td>95</td>
+<td>475</td>
+<td>55</td>
+<td>55</td>
+</tr>
+</tbody></table>
+
+  <h2>7. Fuentes involucradas</h2>
+  <p>
+    Un resultado especialmente útil es que no existen conflictos multifuente dentro del mismo año. Los conflictos están concentrados en dos fuentes, una por país, y cada una expresa un mecanismo distinto.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>País</th><th>Fuente</th><th>Registros</th><th>Grupos</th><th>Año mín.</th><th>Año máx.</th></tr></thead>
+<tbody>
+<tr>
+<td>Costa Rica</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>4.320</td>
+<td>2.160</td>
+<td>2.021</td>
+<td>2.021</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>3.095</td>
+<td>619</td>
+<td>2.018</td>
+<td>2.022</td>
+</tr>
+</tbody></table>
+
+  <h3>7.1 Distribución temporal por país</h3>
+  <table class="data-table compact">
+<thead><tr><th>País</th><th>Año</th><th>Registros</th></tr></thead>
+<tbody>
+<tr>
+<td>Costa Rica</td>
+<td>2.021</td>
+<td>4.320</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>2.018</td>
+<td>619</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>2.019</td>
+<td>619</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>2.020</td>
+<td>619</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>2.021</td>
+<td>619</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>2.022</td>
+<td>619</td>
+</tr>
+</tbody></table>
+
+  <div class="success">
+    <p>
+      La ausencia de conflictos multifuente en el mismo año simplifica la toma de decisiones: no es necesario diseñar todavía una jerarquía compleja entre fuentes para estos conflictos de ventana. La prioridad es revisar la consistencia interna de SINAC 2021 en Costa Rica y la trayectoria temporal FCPF 2018–2022 en Honduras.
+    </p>
+  </div>
+
+  <h2>8. Principales pares conflictivos Nivel_1</h2>
+  <p>
+    A Nivel_1, el par más relevante para el objetivo forestal es la contradicción entre <strong>Cultivos extensivos, Pastizales y matorrales</strong> y <strong>Bosque latifoliado y mixto</strong>. Este par aparece tanto en Honduras como en Costa Rica, pero con mecanismos distintos: multianual en Honduras y simultáneo en Costa Rica.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>País</th><th>Clase A</th><th>Clase B</th><th>Tipo</th><th>Severidad</th><th>Grupos</th><th>Registros</th><th>Score promedio</th><th>Score máximo</th></tr></thead>
+<tbody>
+<tr>
+<td>Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>41 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>422</td>
+<td>2.110</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>41 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>963</td>
+<td>1.926</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>91 Otras</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>444</td>
+<td>888</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>41 Bosque latifoliado y mixto</td>
+<td>91 Otras</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>177</td>
+<td>354</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>22 Humedales</td>
+<td>41 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>149</td>
+<td>298</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>22 Humedales</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>131</td>
+<td>262</td>
+<td>94</td>
+<td>94</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>42 Bosque de coníferas</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>50</td>
+<td>250</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>41 Bosque latifoliado y mixto</td>
+<td>44 Otros arbóreo en tierras no agrícola</td>
+<td>conflicto_mismo_anio</td>
+<td>alta</td>
+<td>62</td>
+<td>124</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>32 Cultivos Arbóreos</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>posible_cambio_temporal</td>
+<td>media</td>
+<td>21</td>
+<td>105</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>22 Humedales</td>
+<td>91 Otras</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>45</td>
+<td>90</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>21 Cuerpos de Agua</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>posible_cambio_temporal</td>
+<td>media</td>
+<td>13</td>
+<td>65</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>44 Otros arbóreo en tierras no agrícola</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>31</td>
+<td>62</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>31 Cultivos intensivos No-Arbóreos</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>posible_cambio_temporal</td>
+<td>media</td>
+<td>9</td>
+<td>45</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>11 Urbano</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>residual_otras</td>
+<td>alta</td>
+<td>7</td>
+<td>35</td>
+<td>78</td>
+<td>78</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>32 Cultivos Arbóreos</td>
+<td>42 Bosque de coníferas</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>5</td>
+<td>25</td>
+<td>84</td>
+<td>84</td>
+</tr>
+</tbody></table>
+
+  <h2>9. Principales pares conflictivos Nivel_2</h2>
+  <p>
+    A Nivel_2, el par más crítico es <strong>Pastizales naturales y cultivados</strong> frente a <strong>Bosque latifoliado y mixto</strong>. También aparecen pares con <strong>Otras</strong>, <strong>Humedales</strong>, <strong>Matorrales</strong>, <strong>Granos básicos</strong> y varias subclases forestales.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>País</th><th>Clase A</th><th>Clase B</th><th>Tipo</th><th>Severidad</th><th>Grupos</th><th>Registros</th><th>Score promedio</th><th>Score máximo</th></tr></thead>
+<tbody>
+<tr>
+<td>Costa Rica</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>815</td>
+<td>1.630</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>247</td>
+<td>1.235</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>910 Otras</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>364</td>
+<td>728</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>333 Matorrales (barbecho o en descanso)</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>83</td>
+<td>415</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>910 Otras</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>177</td>
+<td>354</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>331 Granos básicos y hortalizas  y otros</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>conflicto_mismo_anio</td>
+<td>alta</td>
+<td>158</td>
+<td>316</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>220 Humedales</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>149</td>
+<td>298</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>331 Granos básicos y hortalizas  y otros</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>muy_alta</td>
+<td>148</td>
+<td>296</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>220 Humedales</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>122</td>
+<td>244</td>
+<td>94</td>
+<td>94</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>333 Matorrales (barbecho o en descanso)</td>
+<td>414 Bosque seco o deciduo</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>35</td>
+<td>175</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>331 Granos básicos y hortalizas  y otros</td>
+<td>910 Otras</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>80</td>
+<td>160</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>420 Bosque de coníferas</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>27</td>
+<td>135</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>442 Plantaciones forestales</td>
+<td>conflicto_mismo_anio</td>
+<td>alta</td>
+<td>62</td>
+<td>124</td>
+<td>79</td>
+<td>79</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>321 Café</td>
+<td>325 Otros sistemas agroforestales o silvopastoriles</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>22</td>
+<td>110</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>333 Matorrales (barbecho o en descanso)</td>
+<td>posible_cambio_temporal</td>
+<td>media</td>
+<td>22</td>
+<td>110</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>331 Granos básicos y hortalizas  y otros</td>
+<td>333 Matorrales (barbecho o en descanso)</td>
+<td>posible_cambio_temporal</td>
+<td>media</td>
+<td>19</td>
+<td>95</td>
+<td>55</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Costa Rica</td>
+<td>220 Humedales</td>
+<td>910 Otras</td>
+<td>conflicto_mismo_anio</td>
+<td>muy_alta</td>
+<td>45</td>
+<td>90</td>
+<td>100</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>333 Matorrales (barbecho o en descanso)</td>
+<td>420 Bosque de coníferas</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>18</td>
+<td>90</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>331 Granos básicos y hortalizas  y otros</td>
+<td>410 Bosque latifoliado y mixto</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>16</td>
+<td>80</td>
+<td>84</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Honduras</td>
+<td>332 Pastizales naturales y cultivados</td>
+<td>414 Bosque seco o deciduo</td>
+<td>bosque_vs_no_bosque</td>
+<td>alta</td>
+<td>16</td>
+<td>80</td>
+<td>84</td>
+<td>84</td>
+</tr>
+</tbody></table>
+
+  <div class="note">
+    <p>
+      Las tablas de pares deben interpretarse como herramientas de priorización, no como prueba causal definitiva. Un grupo XY puede contener más de dos clases; por tanto, el tipo de conflicto asignado al grupo puede reflejar la combinación completa, no necesariamente un único par aislado.
+    </p>
+  </div>
+
+  <h2>10. Conflictos en el mismo año</h2>
+  <p>
+    Se detectaron <strong>2.160</strong> grupos con conflicto en el mismo año. En la práctica, estos corresponden a Costa Rica 2021. La señal es metodológicamente fuerte: cuando una misma coordenada y un mismo año tienen dos clases distintas, el grupo no debe usarse como muestra confiable de entrenamiento sin resolución previa.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>Grupo XY</th><th>Año</th><th>Registros</th><th>Fuentes</th><th>Nivel_0 distintos</th><th>Nivel_1 distintos</th><th>Nivel_2 distintos</th><th>Fuente</th><th>Nivel_1</th><th>Nivel_2</th></tr></thead>
+<tbody>
+<tr>
+<td>XY_000000984734</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984746</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984747</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,91 Otras</td>
+<td>332 Pastizales naturales y cultivados,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984748</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984755</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984756</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984757</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984759</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984773</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984775</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984784</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984785</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984786</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984815</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,91 Otras</td>
+<td>332 Pastizales naturales y cultivados,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984826</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984827</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000984828</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>22 Humedales,91 Otras</td>
+<td>220 Humedales,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000985439</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,91 Otras</td>
+<td>332 Pastizales naturales y cultivados,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000985441</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>41 Bosque latifoliado y mixto,91 Otras</td>
+<td>410 Bosque latifoliado y mixto,910 Otras</td>
+</tr>
+<tr>
+<td>XY_000000985457</td>
+<td>2.021</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,91 Otras</td>
+<td>332 Pastizales naturales y cultivados,910 Otras</td>
+</tr>
+</tbody></table>
+
+  <h2>11. Posibles cambios temporales</h2>
+  <p>
+    Se identificaron <strong>95</strong> grupos clasificados como <code>posible_cambio_temporal</code>. Estos casos corresponden principalmente a Honduras y deben interpretarse como trayectorias temporales potenciales. No son aptos como puntos estables de entrenamiento, pero pueden ser muy útiles para revisión espectro-temporal, detección de cambio o priorización de fotointerpretación.
+  </p>
+  <table class="data-table compact">
+<thead><tr><th>Grupo XY</th><th>País</th><th>Registros</th><th>Año mín.</th><th>Año máx.</th><th>Fuente</th><th>Nivel_1</th><th>Nivel_2</th><th>Score</th></tr></thead>
+<tbody>
+<tr>
+<td>XY_000000496118</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>331 Granos básicos y hortalizas  y otros,332 Pastizales naturales y cultivados</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000607760</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>333 Matorrales (barbecho o en descanso),331 Granos básicos y hortalizas  y otros</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000632216</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos</td>
+<td>331 Granos básicos y hortalizas  y otros,321 Café</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000632218</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos</td>
+<td>333 Matorrales (barbecho o en descanso),321 Café</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000632230</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>331 Granos básicos y hortalizas  y otros,333 Matorrales (barbecho o en descanso)</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000660624</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>333 Matorrales (barbecho o en descanso),332 Pastizales naturales y cultivados</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000689497</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>332 Pastizales naturales y cultivados,331 Granos básicos y hortalizas  y otros</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000697609</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos</td>
+<td>333 Matorrales (barbecho o en descanso),321 Café</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000705087</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos</td>
+<td>333 Matorrales (barbecho o en descanso),321 Café</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000732582</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos</td>
+<td>333 Matorrales (barbecho o en descanso),321 Café</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000739053</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,32 Cultivos Arbóreos</td>
+<td>333 Matorrales (barbecho o en descanso),321 Café</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000765590</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>332 Pastizales naturales y cultivados,333 Matorrales (barbecho o en descanso)</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000803299</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua</td>
+<td>331 Granos básicos y hortalizas  y otros,210 Cuerpos de Agua</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000830292</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua</td>
+<td>331 Granos básicos y hortalizas  y otros,210 Cuerpos de Agua</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000836178</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>331 Granos básicos y hortalizas  y otros,333 Matorrales (barbecho o en descanso)</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000836227</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>333 Matorrales (barbecho o en descanso),331 Granos básicos y hortalizas  y otros</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000836237</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>331 Granos básicos y hortalizas  y otros,333 Matorrales (barbecho o en descanso)</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000866479</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>33 Cultivos extensivos, Pastizales y matorrales,21 Cuerpos de Agua</td>
+<td>333 Matorrales (barbecho o en descanso),331 Granos básicos y hortalizas  y otros,210 Cuerpos de Agua</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000872140</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>31 Cultivos intensivos No-Arbóreos,33 Cultivos extensivos, Pastizales y matorrales</td>
+<td>311 Palma aceitera,332 Pastizales naturales y cultivados</td>
+<td>55</td>
+</tr>
+<tr>
+<td>XY_000000872156</td>
+<td>Honduras</td>
+<td>5</td>
+<td>2.018</td>
+<td>2.022</td>
+<td>FCPF - Malla MRV-REDD+ Honduras</td>
+<td>21 Cuerpos de Agua,22 Humedales</td>
+<td>210 Cuerpos de Agua,220 Humedales</td>
+<td>55</td>
+</tr>
+</tbody></table>
+
+  <h2>12. Implicaciones para entrenamiento, validación y prueba</h2>
+  <table>
+    <thead>
+      <tr><th>Situación</th><th>Riesgo</th><th>Decisión recomendada</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Conflicto bosque vs no bosque simultáneo</td><td>Etiqueta contradictoria directa para el objetivo forestal.</td><td>Excluir del entrenamiento directo y enviar a revisión prioritaria.</td></tr>
+      <tr><td>Conflicto mismo año, misma fuente</td><td>Inconsistencia interna de fuente o integración.</td><td>Auditoría específica de fuente y resolución por fotointerpretación o regla documentada.</td></tr>
+      <tr><td>Conflicto multianual misma fuente</td><td>Puede mezclar cambio real con inestabilidad temática.</td><td>Tratar como trayectoria temporal; no usar como punto estable sin análisis adicional.</td></tr>
+      <tr><td>Conflicto con categoría Otras</td><td>Ambigüedad semántica o clase residual poco modelable.</td><td>Revisar semántica de la categoría antes de usarla como clase entrenable.</td></tr>
+      <tr><td>Ausencia de conflicto multifuente mismo año</td><td>Reduce complejidad de jerarquía de fuentes para la ventana.</td><td>Priorizar revisión interna por fuente, no conciliación entre fuentes.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>13. Reglas operativas recomendadas</h2>
+  <ol>
+    <li><strong>No incorporar los grupos conflictivos 2018–2022 al conjunto de entrenamiento directo.</strong></li>
+    <li><strong>Costa Rica 2021 / SINAC</strong>: tratar como revisión prioritaria de consistencia interna de fuente.</li>
+    <li><strong>Honduras 2018–2022 / FCPF</strong>: tratar como trayectoria temporal o posible cambio; conectar con revisión espectro-temporal paralela.</li>
+    <li>Separar explícitamente <code>bosque_vs_no_bosque_simultaneo</code> de <code>bosque_vs_no_bosque_multianual</code>.</li>
+    <li>Usar los grupos conflictivos como insumo de <strong>priorización de revisión</strong>, no como muestras confiables.</li>
+    <li>Conservar estos casos en la tabla maestra futura con estado funcional <code>revision_prioritaria</code>, <code>revision_temporal</code> o <code>exclusion_controlada</code>.</li>
+  </ol>
+
+  <h2>14. Ajuste sugerido al código del Módulo 5C</h2>
+  <p>
+    El Módulo 5C cumplió el objetivo. Sin embargo, para mejorar la trazabilidad del scoring posterior, se recomienda incorporar dos salidas adicionales:
+  </p>
+  <pre><code>05c_conflict_mechanism_summary.csv
+05c_conflict_composite_type_summary.csv</code></pre>
+  <p>
+    Estas tablas permitirían que el Módulo 8, de tabla maestra de aptitud por grupo XY, use no solo el tipo semántico del conflicto, sino también su mecanismo temporal-operativo.
+  </p>
+
+  <h2>15. Conexión con la subactividad 1.6 espectro-temporal</h2>
+  <p>
+    La revisión espectro-temporal que se está ejecutando en paralelo debe aprovechar estos resultados como lista de priorización. Los casos de Honduras son especialmente relevantes para análisis de series temporales, porque expresan transiciones entre clases durante 2018–2022. Los casos de Costa Rica requieren más bien verificación puntual de consistencia y etiqueta para 2021.
+  </p>
+  <table>
+    <thead><tr><th>País</th><th>Uso sugerido de evidencia espectro-temporal</th><th>Prioridad</th></tr></thead>
+    <tbody>
+      <tr><td>Costa Rica</td><td>Verificar si una coordenada 2021 corresponde a bosque, pastizal, humedal u Otras.</td><td>Alta</td></tr>
+      <tr><td>Honduras</td><td>Evaluar si la trayectoria 2018–2022 muestra cambio real, persistencia o error de interpretación.</td><td>Alta</td></tr>
+      <tr><td>Pares bosque/no bosque</td><td>Usar métricas temporales de vegetación, humedad y disturbio para separar estabilidad de cambio.</td><td>Muy alta</td></tr>
+    </tbody>
+  </table>
+
+  <h2>16. Conclusión técnica</h2>
+  <div class="critical">
+    <p>
+      El Módulo 5C confirma que los conflictos temáticos activos dentro de la ventana 2018–2022 son acotados, pero no menores. Se concentran en dos países y dos fuentes, con mecanismos muy distintos: Costa Rica presenta conflictos simultáneos de alta severidad en 2021, mientras Honduras presenta conflictos multianuales que pueden corresponder a cambio temporal o inestabilidad temática. La decisión metodológica es clara: estos grupos deben quedar fuera del entrenamiento directo y pasar a revisión prioritaria, análisis temporal/espectral o exclusión controlada según el caso.
+    </p>
+  </div>
+
+  <div class="box">
+    <div class="callout-title">Regla operativa central</div>
+    <pre><code>Base candidata para entrenamiento = ventana 2018–2022 sin conflicto temático activo.
+Conflictos 2018–2022 = revisión prioritaria, trayectoria temporal o exclusión controlada.</code></pre>
+  </div>
+
+  <div class="footer">
+    Informe generado con base en las salidas CSV del Módulo 5C: taxonomía, severidad, casos mismo año, cambios temporales potenciales, pares conflictivos Nivel_1 y Nivel_2, y registros conflictivos. Archivo de salida: <code>sintesis_modulo_5c_taxonomia_conflictos_tematicos.html</code>.
+  </div>
+</body>
+</html>
