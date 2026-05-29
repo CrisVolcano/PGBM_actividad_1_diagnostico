@@ -1,0 +1,97 @@
+﻿pais,clase,n_xy,n_registros,n_xy_regional,n_xy_pais_total,pct_clase_en_pais,estado_count,lectura_count,prioridad_count
+Nicaragua,31 Cultivos intensivos No-Arbóreos,0,0,329113,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,329113
+Belice,32 Cultivos Arbóreos,0,0,271085,33319,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,271085
+México,32 Cultivos Arbóreos,0,0,271085,2149,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,271085
+Nicaragua,41 Bosque latifoliado y mixto,0,0,241990,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,241990
+Nicaragua,11 Urbano,0,0,29275,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,29275
+Costa Rica,42 Bosque de coníferas,0,0,13442,133066,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,13442
+Nicaragua,42 Bosque de coníferas,0,0,13442,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,13442
+Panamá,42 Bosque de coníferas,0,0,13442,29187,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,13442
+Costa Rica,43 Manglares,0,0,11916,133066,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,11916
+Nicaragua,43 Manglares,0,0,11916,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,11916
+Nicaragua,44 Otros arbóreo en tierras no agrícola,0,0,7150,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,7150
+Belice,91 Otras,0,0,5181,33319,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5181
+Guatemala,91 Otras,0,0,5181,209825,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5181
+Honduras,91 Otras,0,0,5181,132683,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5181
+México,91 Otras,0,0,5181,2149,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5181
+Nicaragua,91 Otras,0,0,5181,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5181
+El Salvador,22 Humedales,0,0,5162,570957,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5162
+México,12 Otras tierras,0,0,5038,2149,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5038
+Nicaragua,12 Otras tierras,0,0,5038,7,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,5038
+México,21 Cuerpos de Agua,0,0,2488,2149,0.0,baja cantidad de puntos critica,baja cantidad de puntos: no hay grupos XY en el pais,2488
+Nicaragua,32 Cultivos Arbóreos,1,1,271085,7,14.286,baja cantidad de puntos critica,baja cantidad de puntos,199
+Nicaragua,22 Humedales,1,1,5162,7,14.286,baja cantidad de puntos critica,baja cantidad de puntos,199
+Nicaragua,"33 Cultivos extensivos, Pastizales y matorrales",2,6,189353,7,28.571,baja cantidad de puntos critica,baja cantidad de puntos,198
+Panamá,91 Otras,2,2,5181,29187,0.007,baja cantidad de puntos critica,baja cantidad de puntos,198
+Nicaragua,21 Cuerpos de Agua,3,15,2488,7,42.857,baja cantidad de puntos critica,baja cantidad de puntos,197
+El Salvador,91 Otras,4,4,5181,570957,0.001,baja cantidad de puntos critica,baja cantidad de puntos,196
+México,11 Urbano,5,6,29275,2149,0.233,baja cantidad de puntos critica,baja cantidad de puntos,195
+Guatemala,42 Bosque de coníferas,5,5,13442,209825,0.002,baja cantidad de puntos critica,baja cantidad de puntos,195
+Costa Rica,21 Cuerpos de Agua,5,5,2488,133066,0.004,baja cantidad de puntos critica,baja cantidad de puntos,195
+México,44 Otros arbóreo en tierras no agrícola,8,8,7150,2149,0.372,baja cantidad de puntos critica,baja cantidad de puntos,192
+Costa Rica,12 Otras tierras,9,9,5038,133066,0.007,baja cantidad de puntos critica,baja cantidad de puntos,191
+Panamá,32 Cultivos Arbóreos,14,14,271085,29187,0.048,baja cantidad de puntos critica,baja cantidad de puntos,186
+Panamá,12 Otras tierras,14,14,5038,29187,0.048,baja cantidad de puntos critica,baja cantidad de puntos,186
+México,43 Manglares,16,16,11916,2149,0.745,baja cantidad de puntos critica,baja cantidad de puntos,184
+Panamá,22 Humedales,16,16,5162,29187,0.055,baja cantidad de puntos critica,baja cantidad de puntos,184
+Guatemala,44 Otros arbóreo en tierras no agrícola,22,22,7150,209825,0.01,baja cantidad de puntos critica,baja cantidad de puntos,178
+Honduras,44 Otros arbóreo en tierras no agrícola,24,24,7150,132683,0.018,baja cantidad de puntos critica,baja cantidad de puntos,176
+México,22 Humedales,36,36,5162,2149,1.675,baja cantidad de puntos critica,baja cantidad de puntos,164
+México,42 Bosque de coníferas,44,44,13442,2149,2.047,baja cantidad de puntos critica,baja cantidad de puntos,156
+Guatemala,21 Cuerpos de Agua,52,60,2488,209825,0.025,baja cantidad de puntos,baja cantidad de puntos,148
+Panamá,44 Otros arbóreo en tierras no agrícola,63,63,7150,29187,0.216,baja cantidad de puntos,baja cantidad de puntos,137
+Belice,12 Otras tierras,72,72,5038,33319,0.216,baja cantidad de puntos,baja cantidad de puntos,128
+Panamá,21 Cuerpos de Agua,78,78,2488,29187,0.267,baja cantidad de puntos,baja cantidad de puntos,122
+Guatemala,43 Manglares,84,84,11916,209825,0.04,baja cantidad de puntos,baja cantidad de puntos,116
+Guatemala,22 Humedales,84,84,5162,209825,0.04,baja cantidad de puntos,baja cantidad de puntos,116
+Panamá,11 Urbano,93,93,29275,29187,0.319,baja cantidad de puntos,baja cantidad de puntos,107
+Panamá,43 Manglares,109,109,11916,29187,0.373,baja cantidad de puntos,baja cantidad de puntos,91
+México,31 Cultivos intensivos No-Arbóreos,114,114,329113,2149,5.305,baja cantidad de puntos,baja cantidad de puntos,86
+Guatemala,11 Urbano,125,125,29275,209825,0.06,baja cantidad de puntos,baja cantidad de puntos,75
+Honduras,12 Otras tierras,154,186,5038,132683,0.116,baja cantidad de puntos,baja cantidad de puntos,46
+Guatemala,12 Otras tierras,164,169,5038,209825,0.078,baja cantidad de puntos,baja cantidad de puntos,36
+Belice,21 Cuerpos de Agua,235,235,2488,33319,0.705,suficiente,suficiente,-35
+Belice,11 Urbano,245,245,29275,33319,0.735,suficiente,suficiente,-45
+Honduras,21 Cuerpos de Agua,283,947,2488,132683,0.213,suficiente,suficiente,-83
+Honduras,11 Urbano,310,1394,29275,132683,0.234,suficiente,suficiente,-110
+Costa Rica,11 Urbano,438,438,29275,133066,0.329,suficiente,suficiente,-238
+Honduras,22 Humedales,474,2370,5162,132683,0.357,suficiente,suficiente,-274
+México,"33 Cultivos extensivos, Pastizales y matorrales",481,483,189353,2149,22.383,suficiente,suficiente,-281
+Guatemala,41 Bosque latifoliado y mixto,526,658,241990,209825,0.251,suficiente,suficiente,-326
+Belice,43 Manglares,627,628,11916,33319,1.882,suficiente,suficiente,-427
+Belice,44 Otros arbóreo en tierras no agrícola,659,659,7150,33319,1.978,suficiente,suficiente,-459
+Belice,22 Humedales,1072,1072,5162,33319,3.217,suficiente,suficiente,-872
+Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",1174,1259,189353,209825,0.56,suficiente,suficiente,-974
+Honduras,43 Manglares,1209,1602,11916,132683,0.911,suficiente,suficiente,-1009
+México,41 Bosque latifoliado y mixto,1445,1454,241990,2149,67.241,suficiente,suficiente,-1245
+Panamá,"33 Cultivos extensivos, Pastizales y matorrales",1564,1564,189353,29187,5.359,suficiente,suficiente,-1364
+Belice,42 Bosque de coníferas,1661,1661,13442,33319,4.985,suficiente,suficiente,-1461
+El Salvador,21 Cuerpos de Agua,1832,1834,2488,570957,0.321,suficiente,suficiente,-1632
+Costa Rica,44 Otros arbóreo en tierras no agrícola,2179,2193,7150,133066,1.638,suficiente,suficiente,-1979
+Panamá,41 Bosque latifoliado y mixto,2723,2723,241990,29187,9.329,suficiente,suficiente,-2523
+Costa Rica,22 Humedales,3479,3654,5162,133066,2.614,suficiente,suficiente,-3279
+Belice,"33 Cultivos extensivos, Pastizales y matorrales",4116,4118,189353,33319,12.353,suficiente,suficiente,-3916
+El Salvador,44 Otros arbóreo en tierras no agrícola,4195,4203,7150,570957,0.735,suficiente,suficiente,-3995
+El Salvador,12 Otras tierras,4625,4634,5038,570957,0.81,suficiente,suficiente,-4425
+Costa Rica,91 Otras,5175,5479,5181,133066,3.889,suficiente,suficiente,-4975
+Honduras,42 Bosque de coníferas,5718,17708,13442,132683,4.31,suficiente,suficiente,-5518
+El Salvador,42 Bosque de coníferas,6014,6014,13442,570957,1.053,suficiente,suficiente,-5814
+Honduras,"33 Cultivos extensivos, Pastizales y matorrales",7461,32566,189353,132683,5.623,suficiente,suficiente,-7261
+Honduras,41 Bosque latifoliado y mixto,8131,36217,241990,132683,6.128,suficiente,suficiente,-7931
+El Salvador,43 Manglares,9871,9875,11916,570957,1.729,suficiente,suficiente,-9671
+Belice,41 Bosque latifoliado y mixto,11527,11531,241990,33319,34.596,suficiente,suficiente,-11327
+Belice,31 Cultivos intensivos No-Arbóreos,13105,13111,329113,33319,39.332,suficiente,suficiente,-12905
+Costa Rica,32 Cultivos Arbóreos,15715,15723,271085,133066,11.81,suficiente,suficiente,-15515
+Costa Rica,31 Cultivos intensivos No-Arbóreos,22225,22236,329113,133066,16.702,suficiente,suficiente,-22025
+Panamá,31 Cultivos intensivos No-Arbóreos,24511,24511,329113,29187,83.979,suficiente,suficiente,-24311
+El Salvador,11 Urbano,28059,28103,29275,570957,4.914,suficiente,suficiente,-27859
+Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales",29175,31804,189353,133066,21.925,suficiente,suficiente,-28975
+Honduras,31 Cultivos intensivos No-Arbóreos,41805,43455,329113,132683,31.507,suficiente,suficiente,-41605
+Costa Rica,41 Bosque latifoliado y mixto,54666,60718,241990,133066,41.082,suficiente,suficiente,-54466
+Honduras,32 Cultivos Arbóreos,67114,70609,271085,132683,50.582,suficiente,suficiente,-66914
+El Salvador,32 Cultivos Arbóreos,78959,79109,271085,570957,13.829,suficiente,suficiente,-78759
+Guatemala,31 Cultivos intensivos No-Arbóreos,98307,98390,329113,209825,46.852,suficiente,suficiente,-98107
+Guatemala,32 Cultivos Arbóreos,109282,109323,271085,209825,52.082,suficiente,suficiente,-109082
+El Salvador,31 Cultivos intensivos No-Arbóreos,129046,129251,329113,570957,22.602,suficiente,suficiente,-128846
+El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",145380,145504,189353,570957,25.463,suficiente,suficiente,-145180
+El Salvador,41 Bosque latifoliado y mixto,162972,163161,241990,570957,28.544,suficiente,suficiente,-162772

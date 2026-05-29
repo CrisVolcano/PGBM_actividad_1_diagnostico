@@ -1,0 +1,153 @@
+﻿pais,clase,n_xy,n_registros,score_medio,score_min,estado_score
+Costa Rica,"122 Suelo desnudo, arena, rocoso, lava, otros",9,9,65.0,65.0,score critico
+Costa Rica,210 Cuerpos de Agua,5,5,66.6,66.6,score critico
+Nicaragua,321 Café,1,1,68.85,68.85,score critico
+México,442 Plantaciones forestales,4,4,68.85,68.85,score critico
+Costa Rica,412 Latifoliado secundario húmedo,856,856,70.0,70.0,score bajo
+México,110 Urbano,5,6,71.16,60.0,score bajo
+Belice,"122 Suelo desnudo, arena, rocoso, lava, otros",21,21,71.457,60.0,score bajo
+Belice,121 Otros artificializado,51,51,72.075,69.3,score bajo
+Costa Rica,110 Urbano,438,438,72.692,60.0,score bajo
+Nicaragua,210 Cuerpos de Agua,3,15,73.717,60.0,score bajo
+Belice,212 Cuerpos de agua artificial,41,41,74.116,70.0,score bajo
+El Salvador,121 Otros artificializado,2780,2780,74.57,70.0,score bajo
+Costa Rica,910 Otras,5175,5479,74.571,60.0,score bajo
+El Salvador,"122 Suelo desnudo, arena, rocoso, lava, otros",1845,1854,74.607,70.0,score bajo
+Honduras,"122 Suelo desnudo, arena, rocoso, lava, otros",94,126,74.628,70.0,score bajo
+Honduras,121 Otros artificializado,60,60,74.667,70.0,score bajo
+Guatemala,"122 Suelo desnudo, arena, rocoso, lava, otros",164,169,74.773,70.0,score bajo
+Panamá,910 Otras,2,2,75.0,75.0,score bajo
+El Salvador,910 Otras,4,4,75.0,75.0,score bajo
+Panamá,"122 Suelo desnudo, arena, rocoso, lava, otros",4,4,75.0,75.0,score bajo
+Panamá,121 Otros artificializado,10,10,75.0,75.0,score bajo
+Costa Rica,411 Latifoliado maduro húmedo,548,548,75.96,70.0,score bajo
+Honduras,322 Cacao,3,15,77.333,70.0,score bajo
+Costa Rica,443  Árboles fuera de bosque y otras áreas naturales,1282,1282,77.781,70.0,score bajo
+Belice,110 Urbano,245,245,78.175,70.0,score bajo
+México,420 Bosque de coníferas,44,44,78.456,70.0,score bajo
+Belice,332 Pastizales naturales y cultivados,1363,1365,78.672,60.0,score bajo
+Belice,443  Árboles fuera de bosque y otras áreas naturales,107,107,78.759,60.0,score bajo
+Belice,331 Granos básicos y hortalizas  y otros,148,148,78.824,60.0,score bajo
+Guatemala,443  Árboles fuera de bosque y otras áreas naturales,20,20,79.1,74.1,score bajo
+Belice,315 Otros cultivos intensivos no arbóreos,3577,3577,79.231,60.0,score bajo
+Belice,444 Regeneración forestal,542,542,79.656,60.0,score bajo
+Guatemala,411 Latifoliado maduro húmedo,1,1,79.75,79.75,score bajo
+Guatemala,220 Humedales,84,84,79.893,70.0,score bajo
+Belice,333 Matorrales (barbecho o en descanso),2605,2605,79.896,60.0,score bajo
+Belice,210 Cuerpos de Agua,194,194,80.07,60.0,suficiente
+Belice,411 Latifoliado maduro húmedo,9027,9029,80.524,60.0,suficiente
+Honduras,220 Humedales,474,2370,80.911,55.65,suficiente
+Honduras,442 Plantaciones forestales,24,24,80.912,73.35,suficiente
+Guatemala,210 Cuerpos de Agua,15,23,81.16,73.15,suficiente
+Belice,442 Plantaciones forestales,10,10,81.625,70.0,suficiente
+Honduras,315 Otros cultivos intensivos no arbóreos,1050,1144,81.637,66.7,suficiente
+México,430 Manglares,16,16,81.662,78.6,suficiente
+Belice,412 Latifoliado secundario húmedo,2500,2502,81.681,60.0,suficiente
+Guatemala,430 Manglares,84,84,81.762,70.0,suficiente
+Guatemala,420 Bosque de coníferas,5,5,81.8,81.6,suficiente
+Nicaragua,332 Pastizales naturales y cultivados,2,6,81.85,81.1,suficiente
+Honduras,321 Café,66598,68185,81.859,54.95,suficiente
+Costa Rica,321 Café,15700,15708,81.908,60.0,suficiente
+Belice,420 Bosque de coníferas,200,200,82.309,60.0,suficiente
+Belice,220 Humedales,1072,1072,82.531,60.0,suficiente
+Guatemala,441 Masa arbórea ribereña,1,1,82.6,82.6,suficiente
+Guatemala,442 Plantaciones forestales,1,1,82.6,82.6,suficiente
+Nicaragua,220 Humedales,1,1,82.6,82.6,suficiente
+Panamá,323 Frutales,3,3,82.6,82.6,suficiente
+México,445 Bosque de Palmas,4,4,82.6,82.6,suficiente
+Panamá,325 Otros sistemas agroforestales o silvopastoriles,5,5,82.6,82.6,suficiente
+Panamá,321 Café,6,6,82.6,82.6,suficiente
+Panamá,220 Humedales,16,16,82.6,82.6,suficiente
+Honduras,323 Frutales,38,190,82.671,56.4,suficiente
+Guatemala,211 Cuerpos de agua natural,37,37,82.718,73.15,suficiente
+Honduras,311 Palma aceitera,32719,34275,82.85,54.15,suficiente
+Belice,313 Caña de azúcar,7602,7602,83.042,70.0,suficiente
+Honduras,314 Piña,594,594,83.126,70.0,suficiente
+México,220 Humedales,36,36,83.278,70.0,suficiente
+Belice,423 Sabanas de pino,1461,1461,83.292,60.0,suficiente
+Belice,312 Bananeras,1920,1920,83.317,60.0,suficiente
+Honduras,332 Pastizales naturales y cultivados,3277,13766,83.371,54.9,suficiente
+Honduras,312 Bananeras,1068,1068,83.711,70.0,suficiente
+El Salvador,333 Matorrales (barbecho o en descanso),49224,49227,84.041,70.0,suficiente
+Honduras,325 Otros sistemas agroforestales o silvopastoriles,475,2219,84.488,54.2,suficiente
+Honduras,333 Matorrales (barbecho o en descanso),3014,12950,84.608,54.9,suficiente
+Belice,311 Palma aceitera,6,12,84.7,84.7,suficiente
+Costa Rica,323 Frutales,15,15,85.0,85.0,suficiente
+Honduras,410 Bosque latifoliado y mixto,5597,23542,85.055,53.4,suficiente
+Belice,430 Manglares,627,628,85.274,60.0,suficiente
+El Salvador,443  Árboles fuera de bosque y otras áreas naturales,1608,1613,85.318,70.0,suficiente
+Honduras,110 Urbano,271,1355,85.359,53.4,suficiente
+Panamá,110 Urbano,93,93,85.416,83.9,suficiente
+Guatemala,111 Urbano continuo,42,42,85.626,70.0,suficiente
+El Salvador,441 Masa arbórea ribereña,338,338,85.667,70.0,suficiente
+El Salvador,331 Granos básicos y hortalizas  y otros,12700,12745,85.854,70.0,suficiente
+El Salvador,315 Otros cultivos intensivos no arbóreos,96746,96851,85.955,70.0,suficiente
+Guatemala,112 Urbano discontinuo,83,83,85.972,77.05,suficiente
+Honduras,420 Bosque de coníferas,5718,17708,86.187,54.9,suficiente
+Panamá,442 Plantaciones forestales,53,53,86.277,78.65,suficiente
+El Salvador,112 Urbano discontinuo,17126,17142,86.47,70.0,suficiente
+Guatemala,410 Bosque latifoliado y mixto,521,653,86.564,73.45,suficiente
+Honduras,313 Caña de azúcar,6374,6374,86.595,70.0,suficiente
+México,315 Otros cultivos intensivos no arbóreos,114,114,86.775,70.0,suficiente
+México,333 Matorrales (barbecho o en descanso),325,327,86.87,70.0,suficiente
+Panamá,445 Bosque de Palmas,10,10,86.9,86.9,suficiente
+Panamá,210 Cuerpos de Agua,78,78,86.9,86.9,suficiente
+El Salvador,332 Pastizales naturales y cultivados,83456,83532,86.949,70.0,suficiente
+El Salvador,212 Cuerpos de agua artificial,28,28,87.196,84.25,suficiente
+Honduras,210 Cuerpos de Agua,283,947,87.248,55.65,suficiente
+Honduras,331 Granos básicos y hortalizas  y otros,1170,5850,87.484,54.9,suficiente
+Guatemala,331 Granos básicos y hortalizas  y otros,112,112,87.681,79.75,suficiente
+El Salvador,323 Frutales,6450,6450,87.78,70.0,suficiente
+Honduras,112 Urbano discontinuo,39,39,87.827,79.75,suficiente
+Guatemala,333 Matorrales (barbecho o en descanso),357,381,87.937,69.7,suficiente
+El Salvador,111 Urbano continuo,10933,10961,88.144,70.0,suficiente
+Guatemala,332 Pastizales naturales y cultivados,705,766,88.172,69.7,suficiente
+El Salvador,410 Bosque latifoliado y mixto,162826,163015,88.189,70.0,suficiente
+México,332 Pastizales naturales y cultivados,156,156,88.353,77.05,suficiente
+Guatemala,323 Frutales,12,15,88.488,73.45,suficiente
+México,414 Bosque seco o deciduo,112,112,88.522,70.0,suficiente
+El Salvador,313 Caña de azúcar,32300,32400,88.734,70.0,suficiente
+El Salvador,412 Latifoliado secundario húmedo,117,117,88.801,70.0,suficiente
+El Salvador,210 Cuerpos de Agua,1804,1806,88.874,70.0,suficiente
+El Salvador,325 Otros sistemas agroforestales o silvopastoriles,22546,22546,88.984,70.0,suficiente
+México,412 Latifoliado secundario húmedo,79,79,89.199,79.75,suficiente
+Honduras,414 Bosque seco o deciduo,1666,8335,89.306,55.65,suficiente
+Guatemala,325 Otros sistemas agroforestales o silvopastoriles,149,149,89.352,85.0,suficiente
+Honduras,413 Bosque Mixto (Lat-Coniferas),868,4340,89.415,54.9,suficiente
+El Salvador,420 Bosque de coníferas,6014,6014,89.536,70.0,suficiente
+El Salvador,442 Plantaciones forestales,2249,2252,89.681,70.0,suficiente
+El Salvador,414 Bosque seco o deciduo,14,14,89.821,85.0,suficiente
+México,413 Bosque Mixto (Lat-Coniferas),79,79,90.028,79.75,suficiente
+México,410 Bosque latifoliado y mixto,1175,1184,90.258,60.0,suficiente
+Panamá,430 Manglares,109,109,90.306,70.0,suficiente
+Costa Rica,442 Plantaciones forestales,897,911,90.313,70.0,suficiente
+Guatemala,413 Bosque Mixto (Lat-Coniferas),4,4,90.625,85.0,suficiente
+El Salvador,321 Café,49963,50113,90.829,70.0,suficiente
+Costa Rica,331 Granos básicos y hortalizas  y otros,7797,8475,91.114,52.3,suficiente
+Costa Rica,410 Bosque latifoliado y mixto,53262,59314,91.143,49.3,suficiente
+Costa Rica,332 Pastizales naturales y cultivados,21378,23329,91.305,49.3,suficiente
+Costa Rica,220 Humedales,3479,3654,91.457,52.3,suficiente
+El Salvador,411 Latifoliado maduro húmedo,15,15,91.5,85.0,suficiente
+Honduras,430 Manglares,1209,1602,91.677,60.0,suficiente
+Panamá,411 Latifoliado maduro húmedo,1764,1764,91.833,60.0,suficiente
+El Salvador,430 Manglares,9871,9875,91.956,70.0,suficiente
+Costa Rica,314 Piña,10375,10375,92.424,70.0,suficiente
+Panamá,313 Caña de azúcar,5622,5622,92.786,70.0,suficiente
+Panamá,311 Palma aceitera,3488,3488,92.864,70.0,suficiente
+Panamá,412 Latifoliado secundario húmedo,951,951,92.944,70.0,suficiente
+Panamá,312 Bananeras,2042,2042,92.948,70.0,suficiente
+Panamá,315 Otros cultivos intensivos no arbóreos,12945,12945,92.984,70.0,suficiente
+Panamá,332 Pastizales naturales y cultivados,1163,1163,93.011,70.0,suficiente
+Costa Rica,311 Palma aceitera,11850,11861,93.011,70.0,suficiente
+Panamá,331 Granos básicos y hortalizas  y otros,96,96,93.062,90.5,suficiente
+Panamá,333 Matorrales (barbecho o en descanso),305,305,93.07,60.0,suficiente
+Panamá,314 Piña,414,414,93.23,70.0,suficiente
+Panamá,410 Bosque latifoliado y mixto,8,8,93.5,93.5,suficiente
+Guatemala,313 Caña de azúcar,52193,52195,94.585,68.95,suficiente
+Guatemala,311 Palma aceitera,29397,29423,94.588,70.0,suficiente
+Guatemala,324 Hule,22488,22488,94.697,70.0,suficiente
+Guatemala,312 Bananeras,12263,12273,94.748,70.0,suficiente
+Guatemala,314 Piña,2070,2070,94.766,70.0,suficiente
+Guatemala,321 Café,86075,86113,94.807,66.7,suficiente
+Guatemala,315 Otros cultivos intensivos no arbóreos,2384,2429,94.899,70.0,suficiente
+Guatemala,322 Cacao,558,558,95.07,70.0,suficiente

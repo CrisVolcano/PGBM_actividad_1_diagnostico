@@ -1,0 +1,77 @@
+﻿pais,clase,n_xy,n_registros,score_medio,score_min,estado_score
+Costa Rica,12 Otras tierras,9,9,65.0,65.0,score critico
+Costa Rica,21 Cuerpos de Agua,5,5,66.6,66.6,score critico
+Nicaragua,32 Cultivos Arbóreos,1,1,68.85,68.85,score critico
+México,11 Urbano,5,6,71.16,60.0,score bajo
+Belice,12 Otras tierras,72,72,71.895,60.0,score bajo
+Costa Rica,11 Urbano,438,438,72.692,60.0,score bajo
+Nicaragua,21 Cuerpos de Agua,3,15,73.717,60.0,score bajo
+Costa Rica,91 Otras,5175,5479,74.571,60.0,score bajo
+El Salvador,12 Otras tierras,4625,4634,74.585,70.0,score bajo
+Honduras,12 Otras tierras,154,186,74.643,70.0,score bajo
+Guatemala,12 Otras tierras,164,169,74.773,70.0,score bajo
+Panamá,91 Otras,2,2,75.0,75.0,score bajo
+El Salvador,91 Otras,4,4,75.0,75.0,score bajo
+Panamá,12 Otras tierras,14,14,75.0,75.0,score bajo
+México,44 Otros arbóreo en tierras no agrícola,8,8,75.725,68.85,score bajo
+Belice,11 Urbano,245,245,78.175,70.0,score bajo
+México,42 Bosque de coníferas,44,44,78.456,70.0,score bajo
+Belice,21 Cuerpos de Agua,235,235,79.031,60.0,score bajo
+Guatemala,44 Otros arbóreo en tierras no agrícola,22,22,79.418,74.1,score bajo
+Belice,"33 Cultivos extensivos, Pastizales y matorrales",4116,4118,79.452,60.0,score bajo
+Belice,44 Otros arbóreo en tierras no agrícola,659,659,79.54,60.0,score bajo
+Guatemala,22 Humedales,84,84,79.893,70.0,score bajo
+Belice,41 Bosque latifoliado y mixto,11527,11531,80.775,60.0,suficiente
+Honduras,22 Humedales,474,2370,80.911,55.65,suficiente
+Honduras,44 Otros arbóreo en tierras no agrícola,24,24,80.912,73.35,suficiente
+México,43 Manglares,16,16,81.662,78.6,suficiente
+Guatemala,43 Manglares,84,84,81.762,70.0,suficiente
+Guatemala,42 Bosque de coníferas,5,5,81.8,81.6,suficiente
+Nicaragua,"33 Cultivos extensivos, Pastizales y matorrales",2,6,81.85,81.1,suficiente
+Honduras,32 Cultivos Arbóreos,67114,70609,81.878,54.2,suficiente
+Costa Rica,32 Cultivos Arbóreos,15715,15723,81.911,60.0,suficiente
+Belice,31 Cultivos intensivos No-Arbóreos,13105,13111,82.043,60.0,suficiente
+Guatemala,21 Cuerpos de Agua,52,60,82.268,73.15,suficiente
+Belice,22 Humedales,1072,1072,82.531,60.0,suficiente
+Nicaragua,22 Humedales,1,1,82.6,82.6,suficiente
+Panamá,32 Cultivos Arbóreos,14,14,82.6,82.6,suficiente
+Panamá,22 Humedales,16,16,82.6,82.6,suficiente
+Costa Rica,44 Otros arbóreo en tierras no agrícola,2179,2193,82.94,70.0,suficiente
+Belice,42 Bosque de coníferas,1661,1661,83.174,60.0,suficiente
+México,22 Humedales,36,36,83.278,70.0,suficiente
+Honduras,31 Cultivos intensivos No-Arbóreos,41805,43455,83.417,54.15,suficiente
+Honduras,"33 Cultivos extensivos, Pastizales y matorrales",7461,32566,84.516,54.9,suficiente
+Belice,43 Manglares,627,628,85.274,60.0,suficiente
+Panamá,11 Urbano,93,93,85.416,83.9,suficiente
+Honduras,11 Urbano,310,1394,85.67,53.4,suficiente
+Guatemala,11 Urbano,125,125,85.856,70.0,suficiente
+El Salvador,"33 Cultivos extensivos, Pastizales y matorrales",145380,145504,85.868,70.0,suficiente
+Honduras,42 Bosque de coníferas,5718,17708,86.187,54.9,suficiente
+Panamá,44 Otros arbóreo en tierras no agrícola,63,63,86.376,78.65,suficiente
+Honduras,41 Bosque latifoliado y mixto,8131,36217,86.391,53.4,suficiente
+Guatemala,41 Bosque latifoliado y mixto,526,658,86.582,73.45,suficiente
+El Salvador,31 Cultivos intensivos No-Arbóreos,129046,129251,86.651,70.0,suficiente
+México,31 Cultivos intensivos No-Arbóreos,114,114,86.775,70.0,suficiente
+Panamá,21 Cuerpos de Agua,78,78,86.9,86.9,suficiente
+El Salvador,11 Urbano,28059,28103,87.122,70.0,suficiente
+Honduras,21 Cuerpos de Agua,283,947,87.248,55.65,suficiente
+México,"33 Cultivos extensivos, Pastizales y matorrales",481,483,87.351,70.0,suficiente
+El Salvador,44 Otros arbóreo en tierras no agrícola,4195,4203,87.685,70.0,suficiente
+Guatemala,"33 Cultivos extensivos, Pastizales y matorrales",1174,1259,88.054,69.7,suficiente
+El Salvador,41 Bosque latifoliado y mixto,162972,163161,88.19,70.0,suficiente
+El Salvador,21 Cuerpos de Agua,1832,1834,88.848,70.0,suficiente
+El Salvador,42 Bosque de coníferas,6014,6014,89.536,70.0,suficiente
+México,41 Bosque latifoliado y mixto,1445,1454,90.053,60.0,suficiente
+El Salvador,32 Cultivos Arbóreos,78959,79109,90.053,70.0,suficiente
+Panamá,43 Manglares,109,109,90.306,70.0,suficiente
+Costa Rica,41 Bosque latifoliado y mixto,54666,60718,90.66,49.3,suficiente
+Costa Rica,"33 Cultivos extensivos, Pastizales y matorrales",29175,31804,91.254,49.3,suficiente
+Costa Rica,22 Humedales,3479,3654,91.457,52.3,suficiente
+Honduras,43 Manglares,1209,1602,91.677,60.0,suficiente
+El Salvador,43 Manglares,9871,9875,91.956,70.0,suficiente
+Panamá,41 Bosque latifoliado y mixto,2723,2723,92.226,60.0,suficiente
+Costa Rica,31 Cultivos intensivos No-Arbóreos,22225,22236,92.737,70.0,suficiente
+Panamá,31 Cultivos intensivos No-Arbóreos,24511,24511,92.923,70.0,suficiente
+Panamá,"33 Cultivos extensivos, Pastizales y matorrales",1564,1564,93.026,60.0,suficiente
+Guatemala,31 Cultivos intensivos No-Arbóreos,98307,98390,94.618,68.95,suficiente
+Guatemala,32 Cultivos Arbóreos,109282,109323,94.778,66.7,suficiente
