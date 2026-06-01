@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="ChatGPT" pages="3">
   <diagram id="01_modelo_conceptual" name="01_modelo_conceptual">
-    <mxGraphModel dx="4342" dy="2858" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="3767" dy="2521" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -11,7 +11,7 @@
           <mxGeometry height="80" width="720" x="-380" y="-750" as="geometry" />
         </mxCell>
         <mxCell id="tbl_4" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_point" vertex="1">
-          <mxGeometry height="120" width="452" x="80" y="-290" as="geometry" />
+          <mxGeometry height="120" width="452" x="-60" y="-350" as="geometry" />
         </mxCell>
         <mxCell id="row_5" parent="tbl_4" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="30" width="452" y="30" as="geometry" />
@@ -488,7 +488,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="tbl_117" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#CC0000;fontSize=15;" value="campo_mapeo" vertex="1">
-          <mxGeometry height="90" width="452" x="-380" y="-630" as="geometry" />
+          <mxGeometry height="90" width="452" x="-372" y="-630" as="geometry" />
         </mxCell>
         <mxCell id="row_118" parent="tbl_117" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="30" width="452" y="30" as="geometry" />
@@ -533,15 +533,15 @@
     </mxGraphModel>
   </diagram>
   <diagram id="02_modelo_logico_relacional" name="02_modelo_logico_relacional">
-    <mxGraphModel dx="8580" dy="6100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
+    <mxGraphModel dx="6063" dy="4703" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title_2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#46495D;" value="Actividad 2.1 — Modelo lógico relacional" vertex="1">
-          <mxGeometry height="80" width="480" x="-1370" y="-600" as="geometry" />
+          <mxGeometry height="80" width="480" x="-690" y="-760" as="geometry" />
         </mxCell>
         <mxCell id="note_3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;align=left;spacing=8;fontSize=20;" value="PK natural: xy_group_id. Cada CSV repite xy_group_id como PK/FK para permitir joins temáticos con la capa espacial xy_point." vertex="1">
-          <mxGeometry height="78" width="780" x="-1370" y="-520" as="geometry" />
+          <mxGeometry height="78" width="780" x="-690" y="-610" as="geometry" />
         </mxCell>
         <mxCell id="tbl_4" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_point" vertex="1">
           <mxGeometry height="192" width="501" x="-140" y="-500" as="geometry" />
