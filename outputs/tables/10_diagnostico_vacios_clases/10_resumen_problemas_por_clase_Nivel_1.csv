@@ -1,0 +1,13 @@
+﻿clase,n_paises,paises_sin_puntos,paises_baja_cantidad,paises_score_bajo,paises_con_problema,n_xy_total,n_xy_regional,score_medio_regional,pct_paises_con_problema
+91 Otras,8,5,7,3,8,5181,5181,74.857,100.0
+12 Otras tierras,8,2,7,6,8,5038,5038,72.649,100.0
+11 Urbano,8,1,4,3,6,29275,29275,80.87,75.0
+44 Otros arbóreo en tierras no agrícola,8,1,5,3,6,7150,7150,81.799,75.0
+21 Cuerpos de Agua,8,1,5,3,6,2488,2488,80.659,75.0
+42 Bosque de coníferas,8,3,5,1,5,13442,13442,83.831,62.5
+43 Manglares,8,2,5,0,5,11916,11916,87.106,62.5
+22 Humedales,8,1,5,1,5,5162,5162,83.324,62.5
+32 Cultivos Arbóreos,8,2,4,1,4,271085,271085,83.345,50.0
+31 Cultivos intensivos No-Arbóreos,8,1,2,0,2,329113,329113,88.452,25.0
+"33 Cultivos extensivos, Pastizales y matorrales",8,0,1,1,2,189353,189353,86.421,25.0
+41 Bosque latifoliado y mixto,8,1,1,0,1,241990,241990,87.84,12.5

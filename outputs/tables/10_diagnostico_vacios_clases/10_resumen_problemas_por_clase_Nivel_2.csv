@@ -1,0 +1,37 @@
+﻿clase,n_paises,paises_sin_puntos,paises_baja_cantidad,paises_score_bajo,paises_con_problema,n_xy_total,n_xy_regional,score_medio_regional,pct_paises_con_problema
+444 Regeneración forestal,8,7,7,1,8,542,542,79.656,100.0
+211 Cuerpos de agua natural,8,7,8,0,8,37,37,82.718,100.0
+212 Cuerpos de agua artificial,8,6,8,1,8,69,69,80.656,100.0
+445 Bosque de Palmas,8,6,8,0,8,14,14,84.75,100.0
+910 Otras,8,5,7,3,8,5181,5181,74.857,100.0
+121 Otros artificializado,8,4,7,4,8,2901,2901,74.078,100.0
+"122 Suelo desnudo, arena, rocoso, lava, otros",8,2,7,6,8,2137,2137,72.578,100.0
+324 Hule,8,7,7,0,7,22488,22488,94.697,87.5
+423 Sabanas de pino,8,7,7,0,7,1461,1461,83.292,87.5
+322 Cacao,8,6,7,1,7,561,561,86.202,87.5
+111 Urbano continuo,8,6,7,0,7,10975,10975,86.885,87.5
+441 Masa arbórea ribereña,8,6,7,0,7,339,339,84.134,87.5
+112 Urbano discontinuo,8,5,7,0,7,17248,17248,86.756,87.5
+414 Bosque seco o deciduo,8,5,7,0,7,1792,1792,89.216,87.5
+413 Bosque Mixto (Lat-Coniferas),8,5,7,0,7,951,951,90.023,87.5
+443  Árboles fuera de bosque y otras áreas naturales,8,4,6,3,7,3017,3017,80.239,87.5
+110 Urbano,8,3,5,3,7,1052,1052,78.56,87.5
+323 Frutales,8,3,7,0,7,6518,6518,85.308,87.5
+325 Otros sistemas agroforestales o silvopastoriles,8,4,6,0,6,23175,23175,86.356,75.0
+411 Latifoliado maduro húmedo,8,3,5,2,6,11355,11355,83.913,75.0
+412 Latifoliado secundario húmedo,8,3,5,1,6,4503,4503,84.525,75.0
+210 Cuerpos de Agua,8,1,6,2,6,2382,2382,80.653,75.0
+442 Plantaciones forestales,8,1,6,1,6,3238,3238,82.894,75.0
+420 Bosque de coníferas,8,3,5,1,5,11981,11981,83.658,62.5
+331 Granos básicos y hortalizas  y otros,8,2,5,1,5,22023,22023,87.336,62.5
+430 Manglares,8,2,5,0,5,11916,11916,87.106,62.5
+220 Humedales,8,1,5,1,5,5162,5162,83.324,62.5
+312 Bananeras,8,4,4,0,4,17293,17293,88.681,50.0
+314 Piña,8,4,4,0,4,13453,13453,90.887,50.0
+311 Palma aceitera,8,3,4,0,4,77460,77460,89.603,50.0
+321 Café,8,2,4,1,4,218343,218343,83.476,50.0
+315 Otros cultivos intensivos no arbóreos,8,2,3,1,4,116816,116816,86.914,50.0
+313 Caña de azúcar,8,3,3,0,3,104091,104091,89.148,37.5
+333 Matorrales (barbecho o en descanso),8,2,2,1,3,55830,55830,86.07,37.5
+410 Bosque latifoliado y mixto,8,2,3,0,3,223389,223389,89.118,37.5
+332 Pastizales naturales y cultivados,8,0,2,1,3,111500,111500,86.46,37.5
