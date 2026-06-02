@@ -1,0 +1,4 @@
+2026-06-02 11:29:42,546 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\src
+2026-06-02 11:29:42,546 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
+2026-06-02 11:29:42,546 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\src\logs\a2_1_modelo_datos.log
+2026-06-02 11:29:42,546 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\src\data\processed\a2_1_modelo_datos
