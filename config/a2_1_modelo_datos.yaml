@@ -1,7 +1,7 @@
 activity: a2_1_modelo_datos
 input:
-  gpkg: data/raw/test.gpkg
-  layer: 10_scoring_aptitud_outputs__xy_group_aptitude_master
+  gpkg: data/processed/scoring_aptitud/10_scoring_aptitud_outputs.gpkg
+  layer: xy_group_aptitude_master
 output:
   processed_dir: data/processed/a2_1_modelo_datos
   reports_dir: outputs/reports

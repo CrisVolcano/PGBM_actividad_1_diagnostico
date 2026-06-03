@@ -1,11 +1,11 @@
 Actividad 2.1 — Reporte de implementación del modelo de datos
 ========================================================================
-Fecha de proceso: 2026-06-02T14:35:26
+Fecha de proceso: 2026-06-03T13:48:50
 ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
 CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
-Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\raw\test.gpkg
-Capa de entrada: 10_scoring_aptitud_outputs__xy_group_aptitude_master
-Filas: 5
+Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
+Capa de entrada: xy_group_aptitude_master
+Filas: 1111850
 CRS: EPSG:4326
 
 Validación de campos
@@ -29,19 +29,19 @@ Los labels de clase quedan solo en tablas de referencia de origen:
 - clase_origen_nivel_0
 - clase_origen_nivel_1
 - clase_origen_nivel_2
-Filas-nivel con diferencia dominante vs valores: 0
+Filas-nivel con diferencia dominante vs valores: 7782
 
 Salidas
 ------------------------------------------------------------------------
 GPKG espacial + tablas: data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
 Tablas temáticas dentro del GPKG: True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_core.csv | filas=5 | campos=9 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_temporal.csv | filas=5 | campos=7 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv | filas=5 | campos=7 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_spectral.csv | filas=5 | campos=23 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_score.csv | filas=5 | campos=17 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv | filas=5 | campos=5 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_accion.csv | filas=5 | campos=6 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_core.csv | filas=1111850 | campos=9 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_temporal.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_spectral.csv | filas=1111850 | campos=23 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_score.csv | filas=1111850 | campos=17 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv | filas=1111850 | campos=5 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_accion.csv | filas=1111850 | campos=6 | cardinalidad=1:1 | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_1.csv | filas=12 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_2.csv | filas=40 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
@@ -53,4 +53,4 @@ Metadata: data\processed\a2_1_modelo_datos\metadata\validacion_dominante_vs_valo
 
 Advertencias
 ------------------------------------------------------------------------
-Sin advertencias.
+Validación dominante vs valores: 7782 filas-nivel no coinciden. Revise metadata/validacion_dominante_vs_valores.csv.

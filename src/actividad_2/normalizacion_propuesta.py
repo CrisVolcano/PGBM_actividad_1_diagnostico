@@ -58,11 +58,11 @@ OUT = ROOT / "outputs" / "tables"
 REP = ROOT / "outputs" / "reports"
 LOG = ROOT / "logs"
 
-PROCESSED = ROOT / "data"
-PROCESSED_SCORING = PROCESSED / "raw"
-PROCESSED_A2_1 = PROCESSED / "a2_1_modelo_datos"
+# PROCESSED = ROOT / "data"
+# PROCESSED_SCORING = PROCESSED / "scoring_aptitud"
+# PROCESSED_A2_1 = PROCESSED / "a2_1_modelo_datos_implemented"
 
-SCORING_GPKG = PROCESSED_SCORING / "test.gpkg"
+# SCORING_GPKG = PROCESSED_SCORING / "10_scoring_aptitud_outputs.gpkg"
 
 
 

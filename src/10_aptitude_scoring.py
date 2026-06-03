@@ -99,7 +99,7 @@ STRICT_SPECTRAL_COVERAGE_DEFAULT = True
 # También puede cambiarse desde la terminal con:
 #   --recreate-outputs true
 #   --recreate-outputs false
-RECREATE_OUTPUTS_DEFAULT = False
+RECREATE_OUTPUTS_DEFAULT = True
 CLEAN_OUTPUTS_BEFORE_RECREATE_DEFAULT = True
 
 MASTER_CSV = OUT / "10_xy_group_aptitude_master.csv"
@@ -432,30 +432,86 @@ def read_xy(conn: sqlite3.Connection, cfg: dict[str, Any]) -> pd.DataFrame:
 
 def attach_xy_group_id(records: pd.DataFrame, xy: pd.DataFrame) -> pd.DataFrame:
     """
-    Asocia cada registro de thematic_base a xy_group_id usando lon/lat redondeados.
-    Esto evita fallos por diferencias pequeñas de precisión.
+    Asocia cada registro de thematic_base a xy_group_id.
+
+    IMPORTANTE:
+    No se usa join por coordenadas redondeadas. `xy_subset_agg` fue construido
+    desde `grupos_xy` + `thematic_base` con igualdad exacta de lon/lat, por lo
+    que aquí debe conservarse la misma llave exacta. Redondear puede colapsar
+    dos grupos XY muy próximos en una sola llave y dejar el segundo grupo sin
+    atributos temáticos agregados.
     """
-    rec = normalize_xy_join_fields(records, "lon", "lat")
-    xyj = normalize_xy_join_fields(xy, "lon", "lat")
+    rec = records.copy()
+    xy_keep_cols = ["xy_group_id", "lon", "lat"]
 
-    xy_keep = (
-        xyj[["xy_group_id", "_lon_join", "_lat_join"]]
-        .drop_duplicates(["_lon_join", "_lat_join"])
-        .copy()
+    if "n_registros_subset" in xy.columns:
+        xy_keep_cols.append("n_registros_subset")
+
+    xy_keep = xy[xy_keep_cols].drop_duplicates().copy()
+
+    for col in ["lon", "lat"]:
+        rec[col] = pd.to_numeric(rec[col], errors="coerce")
+        xy_keep[col] = pd.to_numeric(xy_keep[col], errors="coerce")
+
+    # Debe existir una correspondencia 1:1 entre coordenada exacta y xy_group_id.
+    coord_to_xy = (
+        xy_keep
+        .groupby(["lon", "lat"], dropna=False)["xy_group_id"]
+        .nunique(dropna=True)
+        .reset_index(name="n_xy_group_id")
     )
+    duplicated_coords = coord_to_xy[coord_to_xy["n_xy_group_id"].gt(1)]
 
-    out = rec.merge(xy_keep, on=["_lon_join", "_lat_join"], how="left")
-    out = out.drop(columns=["_lon_join", "_lat_join"], errors="ignore")
+    if not duplicated_coords.empty:
+        sample = duplicated_coords.head(10).to_dict("records")
+        raise ValueError(
+            "xy_subset_agg contiene coordenadas exactas asociadas a más de un "
+            f"xy_group_id. Ejemplos: {sample}"
+        )
+
+    out = rec.merge(
+        xy_keep[["xy_group_id", "lon", "lat"]].drop_duplicates(["lon", "lat"]),
+        on=["lon", "lat"],
+        how="left",
+    )
 
     missing = int(out["xy_group_id"].isna().sum())
 
     if missing:
+        sample = (
+            out.loc[out["xy_group_id"].isna(), ["source_rowid", "lon", "lat"]]
+            .head(10)
+            .to_dict("records")
+        )
         raise ValueError(
             f"{missing:,} registros no pudieron asociarse a xy_group_id "
-            "mediante lon/lat. Revise precisión de coordenadas entre thematic_base y xy_subset_agg."
+            "mediante lon/lat exactos. Esto indica una inconsistencia entre "
+            f"thematic_base y xy_subset_agg. Ejemplos: {sample}"
         )
 
     out["xy_group_id"] = out["xy_group_id"].astype("string")
+
+    # Control crítico: la cantidad de registros asignados por grupo debe
+    # coincidir con n_registros_subset calculado en el Módulo 5B.
+    if "n_registros_subset" in xy_keep.columns:
+        expected = (
+            xy_keep[["xy_group_id", "n_registros_subset"]]
+            .drop_duplicates("xy_group_id")
+            .assign(n_registros_subset=lambda d: pd.to_numeric(d["n_registros_subset"], errors="coerce"))
+            .set_index("xy_group_id")
+        )
+        observed = out.groupby("xy_group_id", dropna=False).size().rename("n_registros_asignados")
+        audit = expected.join(observed, how="left")
+        audit["n_registros_asignados"] = audit["n_registros_asignados"].fillna(0).astype(int)
+        bad = audit[audit["n_registros_asignados"].ne(audit["n_registros_subset"])]
+
+        if not bad.empty:
+            sample = bad.head(10).reset_index().to_dict("records")
+            raise ValueError(
+                "Inconsistencia al asignar registros a xy_group_id: "
+                "n_registros_asignados no coincide con n_registros_subset. "
+                f"Grupos afectados: {len(bad):,}. Ejemplos: {sample}"
+            )
 
     return out
 

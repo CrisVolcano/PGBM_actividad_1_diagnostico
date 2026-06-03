@@ -1,26 +1,26 @@
-2026-06-02 14:35:26,320 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
-2026-06-02 14:35:26,320 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
-2026-06-02 14:35:26,320 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\logs\a2_1_modelo_datos.log
-2026-06-02 14:35:26,320 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos
-2026-06-02 14:35:26,326 | WARNING | Cannot find header.dxf (GDAL_DATA is not defined)
-2026-06-02 14:35:26,333 | INFO | Leyendo GeoPackage: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\raw\test.gpkg
-2026-06-02 14:35:26,333 | INFO | Capa seleccionada: 10_scoring_aptitud_outputs__xy_group_aptitude_master
-2026-06-02 14:35:26,389 | INFO | Escribiendo capa espacial: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
-2026-06-02 14:35:26,399 | INFO | Created 5 records
-2026-06-02 14:35:26,409 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_core.csv
-2026-06-02 14:35:26,420 | INFO | Tabla no espacial añadida al GPKG: xy_core
-2026-06-02 14:35:26,429 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_temporal.csv
-2026-06-02 14:35:26,437 | INFO | Tabla no espacial añadida al GPKG: xy_temporal
-2026-06-02 14:35:26,448 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv
-2026-06-02 14:35:26,464 | INFO | Tabla no espacial añadida al GPKG: xy_clase_resumen
-2026-06-02 14:35:26,469 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_spectral.csv
-2026-06-02 14:35:26,481 | INFO | Tabla no espacial añadida al GPKG: xy_spectral
-2026-06-02 14:35:26,481 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_score.csv
-2026-06-02 14:35:26,500 | INFO | Tabla no espacial añadida al GPKG: xy_score
-2026-06-02 14:35:26,513 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv
-2026-06-02 14:35:26,533 | INFO | Tabla no espacial añadida al GPKG: xy_conflicto
-2026-06-02 14:35:26,537 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_accion.csv
-2026-06-02 14:35:26,553 | INFO | Tabla no espacial añadida al GPKG: xy_accion
-2026-06-02 14:35:26,794 | INFO | Tablas de metadata añadidas al GPKG.
-2026-06-02 14:35:26,794 | INFO | Reporte creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\a2_1_modelo_datos_reporte_implementacion.txt
-2026-06-02 14:35:26,794 | INFO | Proceso finalizado correctamente.
+2026-06-03 13:46:14,704 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
+2026-06-03 13:46:14,704 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
+2026-06-03 13:46:14,704 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\logs\a2_1_modelo_datos.log
+2026-06-03 13:46:14,704 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos
+2026-06-03 13:46:14,828 | WARNING | Cannot find header.dxf (GDAL_DATA is not defined)
+2026-06-03 13:46:14,846 | INFO | Leyendo GeoPackage: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
+2026-06-03 13:46:14,846 | INFO | Capa seleccionada: xy_group_aptitude_master
+2026-06-03 13:47:40,991 | INFO | Escribiendo capa espacial: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
+2026-06-03 13:47:45,528 | INFO | Created 1,111,850 records
+2026-06-03 13:47:50,596 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_core.csv
+2026-06-03 13:47:53,600 | INFO | Tabla no espacial añadida al GPKG: xy_core
+2026-06-03 13:47:56,280 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_temporal.csv
+2026-06-03 13:47:58,011 | INFO | Tabla no espacial añadida al GPKG: xy_temporal
+2026-06-03 13:48:00,296 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv
+2026-06-03 13:48:02,330 | INFO | Tabla no espacial añadida al GPKG: xy_clase_resumen
+2026-06-03 13:48:11,191 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_spectral.csv
+2026-06-03 13:48:14,957 | INFO | Tabla no espacial añadida al GPKG: xy_spectral
+2026-06-03 13:48:21,043 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_score.csv
+2026-06-03 13:48:23,877 | INFO | Tabla no espacial añadida al GPKG: xy_score
+2026-06-03 13:48:26,501 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv
+2026-06-03 13:48:28,678 | INFO | Tabla no espacial añadida al GPKG: xy_conflicto
+2026-06-03 13:48:33,926 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_accion.csv
+2026-06-03 13:48:37,173 | INFO | Tabla no espacial añadida al GPKG: xy_accion
+2026-06-03 13:48:50,016 | INFO | Tablas de metadata añadidas al GPKG.
+2026-06-03 13:48:50,018 | INFO | Reporte creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\a2_1_modelo_datos_reporte_implementacion.txt
+2026-06-03 13:48:50,018 | INFO | Proceso finalizado correctamente.
