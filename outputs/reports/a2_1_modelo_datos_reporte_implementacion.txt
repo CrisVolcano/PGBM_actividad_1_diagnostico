@@ -1,6 +1,6 @@
 Actividad 2.1 — Reporte de implementación del modelo de datos
 ========================================================================
-Fecha de proceso: 2026-06-03T13:48:50
+Fecha de proceso: 2026-06-04T18:32:34
 ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
 CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
 Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
@@ -24,11 +24,21 @@ xy_group_id duplicados: 0
 
 Normalización de clases
 ------------------------------------------------------------------------
-xy_point guarda FKs directas: id_0, id_1, id_2.
-Los labels de clase quedan solo en tablas de referencia de origen:
+xy_point guarda únicamente las FKs de origen: id_0, id_1, id_2.
+id_0_propuesta no se almacena en xy_point.
+Los labels de origen quedan solo en sus tablas de referencia:
 - clase_origen_nivel_0
 - clase_origen_nivel_1
 - clase_origen_nivel_2
+Homologación propuesta de nivel 0 (N:1):
+- id_0 10 -> id_0_propuesta 0 (No Bosque)
+- id_0 20 -> id_0_propuesta 0 (No Bosque)
+- id_0 30 -> id_0_propuesta 0 (No Bosque)
+- id_0 40 -> id_0_propuesta 1 (Bosque/Tierras forestales)
+- id_0 90 -> id_0_propuesta 0 (No Bosque)
+- tabla de homologación: homologacion_nivel_0_origen_propuesta
+- catálogo propuesto: clase_propuesta_nivel_0
+Conteos de puntos por id_0_propuesta, calculados solo para auditoría: {'0': 837265, '1': 274585, 'sin_id_0_o_sin_homologacion': 0}
 Filas-nivel con diferencia dominante vs valores: 7782
 
 Salidas
@@ -45,6 +55,8 @@ CSV: data\processed\a2_1_modelo_datos\tables\xy_accion.csv | filas=1111850 | cam
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_1.csv | filas=12 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_2.csv | filas=40 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_0.csv | filas=2 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_0_origen_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
 Metadata: data\processed\a2_1_modelo_datos\metadata\campo_mapeo.csv
 Metadata: data\processed\a2_1_modelo_datos\metadata\field_audit.csv
 Metadata: data\processed\a2_1_modelo_datos\metadata\table_summary.csv

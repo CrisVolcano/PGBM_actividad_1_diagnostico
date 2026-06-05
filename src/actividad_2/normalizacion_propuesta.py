@@ -7,8 +7,9 @@ Actividad 2.1 — Implementación del modelo de datos
 Ordena la salida de Actividad 1 en una estructura relacional pragmática:
 
 - una capa espacial principal: xy_point
-- FKs de clase directamente en xy_point: id_0, id_1, id_2
+- FKs de clase de origen directamente en xy_point: id_0, id_1, id_2
 - tablas de referencia de clases de origen en 3NF
+- catálogo propuesto de nivel 0 y tabla de homologación N:1
 - CSVs temáticos enlazables por xy_group_id
 - validación dominante vs valores
 - metadatos de auditoría
@@ -17,8 +18,11 @@ Ordena la salida de Actividad 1 en una estructura relacional pragmática:
 Criterios:
 - No se exportan los campos compuestos nivel_*_dominante ni valores_nivel_*.
 - Esos campos se usan solo como insumos para calcular FKs y validar consistencia.
-- Los labels de clase solo viven en las tablas de referencia:
-  clase_origen_nivel_0, clase_origen_nivel_1, clase_origen_nivel_2.
+- xy_point no almacena id_0_propuesta, porque depende de id_0.
+- La homologación se consulta mediante:
+  clase_origen_nivel_0 -> homologacion_nivel_0_origen_propuesta
+  -> clase_propuesta_nivel_0.
+- Los labels de clase solo viven en sus tablas de referencia.
 """
 
 from __future__ import annotations
@@ -198,6 +202,11 @@ def pk_field(cfg: dict[str, Any]) -> str:
 
 def class_fk_sources(cfg: dict[str, Any]) -> dict[str, Any]:
     return cfg.get("normalization", {}).get("class_fk_sources", {})
+
+
+def proposed_homologation_config(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Return the level-0 source-to-proposal homologation configuration."""
+    return cfg.get("proposed_class_homologation", {})
 
 
 def fields_by_type(cfg: dict[str, Any], dtype: str) -> set[str]:
@@ -420,6 +429,164 @@ def source_catalog_tables(cfg: dict[str, Any]) -> dict[str, pd.DataFrame]:
     }
 
 
+
+def proposed_homologation_tables(cfg: dict[str, Any]) -> dict[str, pd.DataFrame]:
+    """Build and validate the proposed level-0 catalog and N:1 mapping table.
+
+    The mapping is one-to-one from the perspective of each source class
+    (one id_0 has one target), while several source classes may share the same
+    id_0_propuesta. Therefore, id_0 is unique in the mapping table and
+    id_0_propuesta is intentionally allowed to repeat.
+    """
+    hom = proposed_homologation_config(cfg)
+
+    required_keys = {
+        "source_level",
+        "source_id_field",
+        "target_id_field",
+        "target_label_field",
+        "target_table",
+        "mapping_table",
+        "classes",
+        "mapping",
+    }
+    missing_keys = sorted(required_keys - set(hom))
+
+    if missing_keys:
+        raise ValueError(
+            "Faltan claves en proposed_class_homologation: "
+            f"{missing_keys}"
+        )
+
+    if int(hom["source_level"]) != 0:
+        raise ValueError(
+            "La homologación implementada en esta versión debe corresponder "
+            "exclusivamente al nivel 0."
+        )
+
+    source_field = hom["source_id_field"]
+    target_field = hom["target_id_field"]
+    label_field = hom["target_label_field"]
+
+    if source_field != "id_0":
+        raise ValueError(
+            "La homologación de nivel 0 debe usar id_0 como llave de origen."
+        )
+
+    classes_df = pd.DataFrame(hom["classes"])
+    mapping_df = pd.DataFrame(hom["mapping"])
+
+    class_fields = [target_field, label_field]
+    mapping_fields = [source_field, target_field]
+
+    if not set(class_fields).issubset(classes_df.columns):
+        raise ValueError(
+            "La tabla de clases propuestas debe contener: "
+            f"{class_fields}"
+        )
+
+    if not set(mapping_fields).issubset(mapping_df.columns):
+        raise ValueError(
+            "La tabla de homologación debe contener: "
+            f"{mapping_fields}"
+        )
+
+    classes_df = classes_df[class_fields].copy()
+    mapping_df = mapping_df[mapping_fields].copy()
+
+    classes_df[target_field] = pd.to_numeric(
+        classes_df[target_field], errors="raise"
+    ).astype("Int64")
+    classes_df[label_field] = classes_df[label_field].astype("string")
+    mapping_df[source_field] = pd.to_numeric(
+        mapping_df[source_field], errors="raise"
+    ).astype("Int64")
+    mapping_df[target_field] = pd.to_numeric(
+        mapping_df[target_field], errors="raise"
+    ).astype("Int64")
+
+    if classes_df[class_fields].isna().any().any():
+        raise ValueError(
+            "La tabla clase_propuesta_nivel_0 no admite valores nulos."
+        )
+
+    if mapping_df[mapping_fields].isna().any().any():
+        raise ValueError(
+            "La tabla homologacion_nivel_0_origen_propuesta no admite valores nulos."
+        )
+
+    if classes_df[target_field].duplicated().any():
+        duplicated = sorted(
+            set(
+                int(x)
+                for x in classes_df.loc[
+                    classes_df[target_field].duplicated(keep=False),
+                    target_field,
+                ].tolist()
+            )
+        )
+        raise ValueError(
+            "La clasificación propuesta repite id_0_propuesta: "
+            f"{duplicated}"
+        )
+
+    if mapping_df[source_field].duplicated().any():
+        duplicated = sorted(
+            set(
+                int(x)
+                for x in mapping_df.loc[
+                    mapping_df[source_field].duplicated(keep=False),
+                    source_field,
+                ].tolist()
+            )
+        )
+        raise ValueError(
+            "Una clase de origen no puede tener varias homologaciones. "
+            f"id_0 repetidos: {duplicated}"
+        )
+
+    valid_target_ids = set(
+        int(x) for x in classes_df[target_field].dropna().unique()
+    )
+    mapped_target_ids = set(
+        int(x) for x in mapping_df[target_field].dropna().unique()
+    )
+    unknown_target_ids = sorted(mapped_target_ids - valid_target_ids)
+
+    if unknown_target_ids:
+        raise ValueError(
+            "La homologación usa id_0_propuesta inexistentes: "
+            f"{unknown_target_ids}"
+        )
+
+    source_level0_ids = class_lookup(cfg, 0)
+    mapped_source_ids = set(
+        int(x) for x in mapping_df[source_field].dropna().unique()
+    )
+    missing_source_ids = sorted(source_level0_ids - mapped_source_ids)
+    extra_source_ids = sorted(mapped_source_ids - source_level0_ids)
+
+    require_complete = bool(hom.get("require_complete_source_mapping", True))
+    if missing_source_ids and require_complete:
+        raise ValueError(
+            "Hay clases de origen de nivel 0 sin homologación: "
+            f"{missing_source_ids}"
+        )
+
+    if extra_source_ids:
+        raise ValueError(
+            "La homologación contiene id_0 inexistentes en el catálogo de origen: "
+            f"{extra_source_ids}"
+        )
+
+    classes_df = classes_df.sort_values(target_field).reset_index(drop=True)
+    mapping_df = mapping_df.sort_values(source_field).reset_index(drop=True)
+
+    return {
+        hom["target_table"]: classes_df,
+        hom["mapping_table"]: mapping_df,
+    }
+
 def class_lookup(cfg: dict[str, Any], level: int) -> set[int]:
     raw = source_catalog_raw_df(cfg)
     field = f"id_{level}"
@@ -495,6 +662,59 @@ def derive_class_fks(
 
     return out
 
+
+
+def validate_observed_level0_homologation(
+    gdf: gpd.GeoDataFrame,
+    cfg: dict[str, Any],
+    warnings: list[str],
+) -> dict[str, int]:
+    """Validate point-level coverage of the mapping without storing the target FK.
+
+    The proposed identifier is computed only in memory for validation and
+    reporting. It is not added to xy_point, because it is functionally
+    dependent on id_0 and must be obtained through the mapping table.
+    """
+    hom = proposed_homologation_config(cfg)
+    source_field = hom["source_id_field"]
+    target_field = hom["target_id_field"]
+    mapping_table = proposed_homologation_tables(cfg)[hom["mapping_table"]]
+    target_table = proposed_homologation_tables(cfg)[hom["target_table"]]
+
+    if source_field not in gdf.columns:
+        raise ValueError(
+            f"No existe {source_field} para validar la homologación de nivel 0."
+        )
+
+    mapping = dict(
+        zip(
+            mapping_table[source_field].astype(int),
+            mapping_table[target_field].astype(int),
+        )
+    )
+
+    observed_source_ids = set(
+        int(x) for x in gdf[source_field].dropna().unique()
+    )
+    unmapped_source_ids = sorted(observed_source_ids - set(mapping))
+
+    if unmapped_source_ids:
+        msg = (
+            "Clases observadas de nivel 0 sin homologación propuesta: "
+            f"{unmapped_source_ids}"
+        )
+        if cfg["validation"].get("fail_on_unmapped_proposed_level0", True):
+            raise ValueError(msg)
+        warnings.append(msg)
+
+    mapped_values = gdf[source_field].map(mapping).astype("Int64")
+    counts: dict[str, int] = {}
+
+    for target_id in target_table[target_field].astype(int).tolist():
+        counts[str(target_id)] = int((mapped_values == target_id).sum())
+
+    counts["sin_id_0_o_sin_homologacion"] = int(mapped_values.isna().sum())
+    return counts
 
 def validate_dominante_vs_valores(
     gdf: gpd.GeoDataFrame,
@@ -661,6 +881,168 @@ def write_source_class_catalog_outputs(
     return summaries
 
 
+
+def sql_identifier(name: str) -> str:
+    """Quote an SQLite identifier safely."""
+    return '"' + str(name).replace('"', '""') + '"'
+
+
+def write_proposed_homologation_to_gpkg(
+    cfg: dict[str, Any],
+    gpkg_path: Path,
+    tables: dict[str, pd.DataFrame],
+) -> None:
+    """Write the proposed catalog and mapping with actual PK/FK constraints."""
+    hom = proposed_homologation_config(cfg)
+    source_table = cfg["source_class_catalog"]["tables"]["nivel_0"]
+    target_table = hom["target_table"]
+    mapping_table = hom["mapping_table"]
+    source_field = hom["source_id_field"]
+    target_field = hom["target_id_field"]
+    label_field = hom["target_label_field"]
+
+    target_df = tables[target_table]
+    mapping_df = tables[mapping_table]
+
+    q_source_table = sql_identifier(source_table)
+    q_target_table = sql_identifier(target_table)
+    q_mapping_table = sql_identifier(mapping_table)
+    q_source_field = sql_identifier(source_field)
+    q_target_field = sql_identifier(target_field)
+    q_label_field = sql_identifier(label_field)
+
+    with sqlite3.connect(gpkg_path) as conn:
+        conn.execute("PRAGMA foreign_keys = ON")
+
+        # Drop child before parent when replacing a previous run.
+        conn.execute(f"DROP TABLE IF EXISTS {q_mapping_table}")
+        conn.execute(f"DROP TABLE IF EXISTS {q_target_table}")
+        conn.execute(
+            "DELETE FROM gpkg_contents WHERE table_name IN (?, ?)",
+            (mapping_table, target_table),
+        )
+
+        # The parent key in the source reference table must be unique so it can
+        # be referenced by a real SQLite foreign key.
+        source_unique_index = sql_identifier(
+            f"uq_{source_table}_{source_field}"
+        )
+        conn.execute(
+            f"CREATE UNIQUE INDEX IF NOT EXISTS {source_unique_index} "
+            f"ON {q_source_table} ({q_source_field})"
+        )
+
+        conn.execute(
+            f"CREATE TABLE {q_target_table} ("
+            f"{q_target_field} INTEGER PRIMARY KEY NOT NULL, "
+            f"{q_label_field} TEXT NOT NULL"
+            ")"
+        )
+        conn.executemany(
+            f"INSERT INTO {q_target_table} "
+            f"({q_target_field}, {q_label_field}) VALUES (?, ?)",
+            [
+                (int(row[target_field]), str(row[label_field]))
+                for _, row in target_df.iterrows()
+            ],
+        )
+
+        conn.execute(
+            f"CREATE TABLE {q_mapping_table} ("
+            f"{q_source_field} INTEGER PRIMARY KEY NOT NULL, "
+            f"{q_target_field} INTEGER NOT NULL, "
+            f"FOREIGN KEY ({q_source_field}) "
+            f"REFERENCES {q_source_table} ({q_source_field}), "
+            f"FOREIGN KEY ({q_target_field}) "
+            f"REFERENCES {q_target_table} ({q_target_field})"
+            ")"
+        )
+        conn.executemany(
+            f"INSERT INTO {q_mapping_table} "
+            f"({q_source_field}, {q_target_field}) VALUES (?, ?)",
+            [
+                (int(row[source_field]), int(row[target_field]))
+                for _, row in mapping_df.iterrows()
+            ],
+        )
+
+        target_index = sql_identifier(
+            f"idx_{mapping_table}_{target_field}"
+        )
+        conn.execute(
+            f"CREATE INDEX IF NOT EXISTS {target_index} "
+            f"ON {q_mapping_table} ({q_target_field})"
+        )
+
+        register_attribute_table_in_gpkg(
+            conn,
+            table_name=target_table,
+            description="Catálogo de nivel 0 de la clasificación propuesta.",
+        )
+        register_attribute_table_in_gpkg(
+            conn,
+            table_name=mapping_table,
+            description=(
+                "Homologación N:1 entre id_0 de origen e id_0_propuesta."
+            ),
+        )
+
+        violations = conn.execute(
+            f"PRAGMA foreign_key_check({q_mapping_table})"
+        ).fetchall()
+        if violations:
+            raise ValueError(
+                "Se detectaron violaciones de FK en la tabla de homologación: "
+                f"{violations[:20]}"
+            )
+
+        conn.commit()
+
+
+def write_proposed_homologation_outputs(
+    cfg: dict[str, Any],
+    tables_dir: Path,
+    gpkg_path: Path,
+) -> list[dict[str, Any]]:
+    """Write the level-0 proposed catalog and N:1 homologation table."""
+    summaries: list[dict[str, Any]] = []
+    hom = proposed_homologation_config(cfg)
+    tables = proposed_homologation_tables(cfg)
+
+    for table_name, df in tables.items():
+        df = coerce_types(df, cfg, table_name, warnings=[])
+        tables[table_name] = df
+
+        out_csv = tables_dir / f"{table_name}.csv"
+        write_csv_with_csvt(df, out_csv, cfg)
+
+        if table_name == hom["target_table"]:
+            cardinality = "referencia_3nf"
+        else:
+            cardinality = "N:1_origen_a_propuesta"
+
+        summaries.append(
+            {
+                "tabla": table_name,
+                "filas": len(df),
+                "campos_incluyendo_pk": len(df.columns),
+                "cardinalidad": cardinality,
+                "ruta_csv": str(out_csv.relative_to(ROOT)),
+                "en_gpkg": bool(
+                    cfg["output"].get("write_tables_to_gpkg", True)
+                ),
+            }
+        )
+
+    if cfg["output"].get("write_tables_to_gpkg", True):
+        write_proposed_homologation_to_gpkg(
+            cfg=cfg,
+            gpkg_path=gpkg_path,
+            tables=tables,
+        )
+
+    return summaries
+
 def write_metadata_to_gpkg(metadata_dir: Path, gpkg_path: Path) -> None:
     metadata_tables = {
         "campo_mapeo": metadata_dir / "campo_mapeo.csv",
@@ -788,6 +1170,48 @@ def build_campo_mapeo(
                 }
             )
 
+    hom = proposed_homologation_config(cfg)
+    proposed_tables = proposed_homologation_tables(cfg)
+
+    for table_name, df in proposed_tables.items():
+        is_mapping = table_name == hom["mapping_table"]
+
+        for field in df.columns:
+            if is_mapping and field == hom["source_id_field"]:
+                action = "pk_fk_clase_origen_nivel_0"
+                observation = (
+                    "PK de la tabla de homologación y FK hacia "
+                    "clase_origen_nivel_0.id_0. Garantiza una sola "
+                    "homologación por clase de origen."
+                )
+            elif is_mapping:
+                action = "fk_clase_propuesta_nivel_0"
+                observation = (
+                    "FK hacia clase_propuesta_nivel_0.id_0_propuesta. "
+                    "Puede repetirse para permitir la relación N:1."
+                )
+            elif field == hom["target_id_field"]:
+                action = "pk_clase_propuesta_nivel_0"
+                observation = (
+                    "PK del catálogo de nivel 0 de la clasificación propuesta."
+                )
+            else:
+                action = "label_clase_propuesta_nivel_0"
+                observation = (
+                    "Etiqueta almacenada únicamente en el catálogo propuesto."
+                )
+
+            rows.append(
+                {
+                    "campo_original": "Propuesta de clasificación llave",
+                    "campo_normalizado": field,
+                    "tabla_destino": table_name,
+                    "tipo_dato_propuesto": infer_field_type(field, cfg),
+                    "accion": action,
+                    "observacion": observation,
+                }
+            )
+
     return pd.DataFrame(rows)
 
 
@@ -833,6 +1257,23 @@ def build_field_audit(cfg: dict[str, Any], input_fields: list[str]) -> pd.DataFr
 def write_readme(out_dir: Path, cfg: dict[str, Any]) -> None:
     pk = pk_field(cfg)
     table_names = cfg["source_class_catalog"]["tables"]
+    hom = proposed_homologation_config(cfg)
+    proposed_tables = proposed_homologation_tables(cfg)
+    mapping_df = proposed_tables[hom["mapping_table"]]
+    target_df = proposed_tables[hom["target_table"]]
+
+    labels = dict(
+        zip(
+            target_df[hom["target_id_field"]].astype(int),
+            target_df[hom["target_label_field"]].astype(str),
+        )
+    )
+    mapping_lines = "\n".join(
+        f"- `{int(row[hom['source_id_field']])}` -> "
+        f"`{int(row[hom['target_id_field']])}` "
+        f"({labels[int(row[hom['target_id_field']])]})"
+        for _, row in mapping_df.iterrows()
+    )
 
     readme = f"""# Actividad 2.1 — Modelo de datos implementado
 
@@ -845,19 +1286,44 @@ Los campos se separan por dominio temático para facilitar joins selectivos.
 
 `{pk}`
 
-## Clases
+## Clases de origen en `xy_point`
 
-`xy_point` conserva directamente las FKs de clase dominante:
+`xy_point` conserva directamente únicamente las FKs de la clasificación de
+origen:
 
 - `id_0`
 - `id_1`
 - `id_2`
 
-Los labels no se guardan en `xy_point`. Se consultan con joins directos:
+`id_0_propuesta` no se almacena en `xy_point`, porque se obtiene
+funcionalmente desde `id_0`. Guardar ambos campos en la capa espacial
+introduciría redundancia.
+
+Los labels de origen se consultan con joins directos:
 
 - `xy_point.id_0` -> `{table_names["nivel_0"]}.id_0`
 - `xy_point.id_1` -> `{table_names["nivel_1"]}.id_1`
 - `xy_point.id_2` -> `{table_names["nivel_2"]}.id_2`
+
+## Homologación de nivel 0
+
+La clasificación propuesta se consulta mediante la ruta normalizada:
+
+`xy_point.id_0`
+-> `{hom["mapping_table"]}.{hom["source_id_field"]}`
+-> `{hom["mapping_table"]}.{hom["target_id_field"]}`
+-> `{hom["target_table"]}.{hom["target_id_field"]}`
+
+La relación desde las clases de origen hacia la clase propuesta es N:1:
+
+{mapping_lines}
+
+Tablas:
+
+- `{hom["mapping_table"]}`: `{hom["source_id_field"]}`, `{hom["target_id_field"]}`
+- `{hom["target_table"]}`: `{hom["target_id_field"]}`, `{hom["target_label_field"]}`
+
+No se implementan todavía homologaciones propuestas de nivel 1 ni nivel 2.
 
 ## Validación
 
@@ -865,9 +1331,10 @@ Los campos fuente `nivel_*_dominante` y `valores_nivel_*` no se exportan.
 Se usan para:
 
 1. calcular `id_0`, `id_1`, `id_2`;
-2. validar que dominante y valores sean equivalentes.
+2. validar que dominante y valores sean equivalentes;
+3. comprobar que cada `id_0` observado tenga una homologación válida.
 
-La validación queda en:
+La validación dominante/valores queda en:
 
 `metadata/validacion_dominante_vs_valores.csv`
 
@@ -884,7 +1351,7 @@ La validación queda en:
   - tablas no espaciales para joins y referencias
 
 - `tables/*.csv`
-  - tablas temáticas y tablas de referencia
+  - tablas temáticas, catálogos y homologación
 
 - `metadata/*.csv`
   - auditorías y trazabilidad del modelo
@@ -979,11 +1446,20 @@ def run() -> None:
             "La cardinalidad 1:1 con tablas temáticas no es válida."
         )
 
-    # Validar catálogo antes de procesar.
+    # Validate all reference and homologation tables before processing.
     source_catalog_tables(cfg)
+    proposed_homologation_tables(cfg)
 
-    # Derivar FKs de clase directamente para xy_point.
+    # Derive only the source class FKs stored in xy_point.
     gdf = derive_class_fks(gdf, cfg, warnings)
+
+    # Validate the level-0 proposal mapping without adding id_0_propuesta
+    # to the spatial table.
+    proposed_usage_counts = validate_observed_level0_homologation(
+        gdf=gdf,
+        cfg=cfg,
+        warnings=warnings,
+    )
 
     # Validar duplicidad dominante/valores.
     validation_df = validate_dominante_vs_valores(gdf, cfg)
@@ -1077,7 +1553,17 @@ def run() -> None:
     table_summary.extend(catalog_summaries)
 
     # --------------------------------------------------------
-    # 4. Metadata
+    # 4. Catálogo propuesto y homologación de nivel 0
+    # --------------------------------------------------------
+    proposed_summaries = write_proposed_homologation_outputs(
+        cfg=cfg,
+        tables_dir=tables_dir,
+        gpkg_path=out_gpkg,
+    )
+    table_summary.extend(proposed_summaries)
+
+    # --------------------------------------------------------
+    # 5. Metadata
     # --------------------------------------------------------
     campo_mapeo = build_campo_mapeo(cfg, original_mapping)
     campo_mapeo.to_csv(
@@ -1118,7 +1604,7 @@ def run() -> None:
     write_readme(processed_dir, cfg)
 
     # --------------------------------------------------------
-    # 5. Reporte
+    # 6. Reporte
     # --------------------------------------------------------
     report_lines: list[str] = []
 
@@ -1154,10 +1640,36 @@ def run() -> None:
     report_lines.append("")
     report_lines.append("Normalización de clases")
     report_lines.append("-" * 72)
-    report_lines.append("xy_point guarda FKs directas: id_0, id_1, id_2.")
-    report_lines.append("Los labels de clase quedan solo en tablas de referencia de origen:")
+    report_lines.append("xy_point guarda únicamente las FKs de origen: id_0, id_1, id_2.")
+    report_lines.append("id_0_propuesta no se almacena en xy_point.")
+    report_lines.append("Los labels de origen quedan solo en sus tablas de referencia:")
     for table_name in cfg["source_class_catalog"]["tables"].values():
         report_lines.append(f"- {table_name}")
+
+    hom = proposed_homologation_config(cfg)
+    mapping_df = proposed_homologation_tables(cfg)[hom["mapping_table"]]
+    target_df = proposed_homologation_tables(cfg)[hom["target_table"]]
+    labels = dict(
+        zip(
+            target_df[hom["target_id_field"]].astype(int),
+            target_df[hom["target_label_field"]].astype(str),
+        )
+    )
+
+    report_lines.append("Homologación propuesta de nivel 0 (N:1):")
+    for _, row in mapping_df.iterrows():
+        source_id = int(row[hom["source_id_field"]])
+        target_id = int(row[hom["target_id_field"]])
+        report_lines.append(
+            f"- id_0 {source_id} -> id_0_propuesta {target_id} "
+            f"({labels[target_id]})"
+        )
+    report_lines.append(f"- tabla de homologación: {hom['mapping_table']}")
+    report_lines.append(f"- catálogo propuesto: {hom['target_table']}")
+    report_lines.append(
+        f"Conteos de puntos por id_0_propuesta, calculados solo para auditoría: "
+        f"{proposed_usage_counts}"
+    )
     report_lines.append(f"Filas-nivel con diferencia dominante vs valores: {mismatches}")
     report_lines.append("")
     report_lines.append("Salidas")
