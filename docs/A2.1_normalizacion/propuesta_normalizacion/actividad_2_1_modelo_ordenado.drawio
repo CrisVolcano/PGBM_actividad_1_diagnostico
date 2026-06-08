@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="ChatGPT" pages="3">
   <diagram id="01_modelo_conceptual" name="01_modelo_conceptual">
-    <mxGraphModel dx="4700" dy="2403" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="1664" dy="1035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -546,7 +546,9 @@
           <mxGeometry height="130" width="1620" x="670" y="1510" as="geometry" />
         </mxCell>
         <mxCell id="h1Ww_v_g7L-tDliKQcU8-126" edge="1" parent="1" source="h1Ww_v_g7L-tDliKQcU8-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#222222;strokeWidth=2.5;fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" target="h1Ww_v_g7L-tDliKQcU8-46" value="1:n">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" x="-0.1902" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="h1Ww_v_g7L-tDliKQcU8-127" edge="1" parent="1" source="h1Ww_v_g7L-tDliKQcU8-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#222222;strokeWidth=2.5;fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;" target="h1Ww_v_g7L-tDliKQcU8-56" value="1:n">
           <mxGeometry relative="1" as="geometry" />
@@ -558,7 +560,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="02_modelo_logico_relacional" name="02_modelo_logico_relacional">
-    <mxGraphModel dx="3290" dy="1682" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
+    <mxGraphModel dx="1664" dy="1035" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
