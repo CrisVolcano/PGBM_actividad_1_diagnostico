@@ -1,7 +1,7 @@
 activity: a2_1_modelo_datos
 input:
-  gpkg: data/raw/test.gpkg
-  layer: 10_scoring_aptitud_outputs__xy_group_aptitude_master
+  gpkg: data/processed/scoring_aptitud/10_scoring_aptitud_outputs.gpkg
+  layer: xy_group_aptitude_master
 output:
   processed_dir: data/processed/a2_1_modelo_datos
   reports_dir: outputs/reports
@@ -22,6 +22,7 @@ validation:
   fail_on_unknown_class_code: false
   validate_dominante_vs_valores: true
   fail_on_dominante_valores_mismatch: false
+  fail_on_unmapped_proposed_level0: true
 normalization:
   code_regex: ^\s*(?P<cod>\d{2,3})\b.*$
   split_regex: \s*(?:\||;)\s*
@@ -436,6 +437,7 @@ schema:
     - valores_nivel_1
     - valores_nivel_2
     - nivel_0
+    - nivel_0_propuesta
     - nivel_1
     - nivel_2
     - estado_pais_clase
@@ -450,6 +452,7 @@ schema:
     - razon_categoria_aptitud
     integer:
     - id_0
+    - id_0_propuesta
     - id_1
     - id_2
     - n_registros_original
@@ -509,3 +512,28 @@ schema:
     - incluye_2018_2022
     - flag_conflicto_activo
     - flag_clase_residual
+proposed_class_homologation:
+  description: Homologación N:1 entre las clases de origen de nivel 0 y la clasificación propuesta de nivel 0.
+  source_level: 0
+  source_id_field: id_0
+  target_id_field: id_0_propuesta
+  target_label_field: nivel_0_propuesta
+  target_table: clase_propuesta_nivel_0
+  mapping_table: homologacion_nivel_0_origen_propuesta
+  require_complete_source_mapping: true
+  classes:
+  - id_0_propuesta: 0
+    nivel_0_propuesta: No Bosque
+  - id_0_propuesta: 1
+    nivel_0_propuesta: Bosque/Tierras forestales
+  mapping:
+  - id_0: 10
+    id_0_propuesta: 0
+  - id_0: 20
+    id_0_propuesta: 0
+  - id_0: 30
+    id_0_propuesta: 0
+  - id_0: 40
+    id_0_propuesta: 1
+  - id_0: 90
+    id_0_propuesta: 0
