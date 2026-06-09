@@ -1,0 +1,92 @@
+project:
+  name: inegi_serie_vii_sampling
+  description: "Extracción simple de puntos desde el continuo nacional de Uso del Suelo y Vegetación Serie VII."
+  source_name: "INEGI_USV_SERIE_VII_CONTINUO_NACIONAL"
+  base_year: 2018
+
+inputs:
+  states:
+    path: "data/raw/estados_mexico/dest_2010gw.shp"
+    layer: null
+    fields:
+      state_code: "NUM_EDO"
+      state_name: "ENTIDAD"
+      geographic_feature: "RASGO_GEOG"
+
+  # Única capa temática del pipeline.
+  land_cover:
+    # Ajusta solo esta ruta si el continuo nacional está en otra carpeta.
+    path: "data/raw/INEGI_otros/conjunto_de_datos/cdv_usuev250sVII_cnal.shp"
+    layer: null
+    fields:
+      # Puede dejarse null si el archivo solo trae CLAVE y DESCRIPCIO.
+      # El pipeline generará source_objectid y source_uid.
+      object_id: null
+      key: "CLAVE"
+      description: "DESCRIPCIO"
+
+aoi:
+  state_codes:
+    - "04"  # Campeche
+    - "07"  # Chiapas
+    - "23"  # Quintana Roo
+    - "27"  # Tabasco
+
+  exclude_geographic_features:
+    enabled: true
+    values:
+      - "ISLA"
+
+crs:
+  # Procesamiento de áreas y distancias en metros.
+  processing_crs: "EPSG:6372"
+
+  # Exportación de capas espaciales.
+  output_crs: "EPSG:4326"
+
+geometry:
+  repair_invalid: true
+
+  # No excluye fragmentos por área en la exploración inicial.
+  minimum_area_ha: 0.0
+
+sampling:
+  # Un punto interior por fragmento después de intersectar con el estado.
+  representative_point_method: "point_on_surface"
+
+  # Separación mínima global entre puntos, en metros.
+  thinning_distances_m:
+    - 500
+    - 1000
+    - 2000
+    - 3000
+    - 5000
+
+  # Conserva primero candidatos procedentes de polígonos más grandes.
+  selection_order:
+    - "area_desc"
+    - "objectid_asc"
+
+outputs:
+  root: "data/processed/inegi_serie_vii_sampling"
+  gpkg_name: "inegi_serie_vii_sampling.gpkg"
+  log_name: "inegi_serie_vii_sampling.log"
+
+  layers:
+    aoi_states: "aoi_estados"
+    aoi_union: "aoi_union"
+    land_cover_clipped: "serie_vii_recortada"
+    candidate_points: "puntos_candidatos"
+    thinned_prefix: "puntos_d"
+
+    field_audit: "field_audit"
+    class_catalog: "catalogo_clases"
+    distance_summary: "resumen_distancias"
+    state_summary: "resumen_estados"
+    domain_summary: "resumen_dominios"
+    class_summary: "resumen_clases"
+    polygon_summary: "resumen_poligonos"
+    selection_audit: "seleccion_auditoria"
+    run_metadata: "run_metadata"
+
+  export_csv: true
