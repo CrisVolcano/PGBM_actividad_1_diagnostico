@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 # ============================================================
-# A2.3 - Grid de balance por id_0_propuesta
+# A2.3 - Grid de balance por id_0_propuesta_2_1
 # ============================================================
 # Objetivo:
 # Crear una malla regular de 20 km x 20 km ajustada a la
 # extensión actual de la capa de puntos normalizados y calcular,
-# por celda, el balance espacial entre las clases binarias 0 y 1
-# de id_0_propuesta, derivado desde id_0 mediante la homologación A2.1.
+# por celda, el balance espacial entre las clases binarias 2 y 1.
+# La clase 2 equivale a la clase 0 original de id_0_propuesta
+# ("otras tierras"); la clase 1 se conserva igual.
 #
 # Flujo:
 # 1. Leer puntos en EPSG:4326.
 # 2. Leer homologación id_0 -> id_0_propuesta.
-# 3. Derivar y validar el campo binario id_0_propuesta.
+# 3. Derivar id_0_propuesta y remapear 0 -> 2 para el campo de balance.
 # 4. Reproyectar temporalmente a CRS métrico/equal-area.
 # 5. Crear grid de 20 km en metros.
 # 6. Asignar puntos a celdas mediante coordenadas.
-# 7. Contar puntos totales, clase 0, clase 1, otros y nulos.
+# 7. Contar puntos totales, clase 2, clase 1, otros y nulos.
 # 8. Calcular porcentajes, diferencia absoluta, clase dominante
 #    e índice continuo de dominancia entre -1 y 1.
 # 9. Conservar celdas sin puntos.
@@ -26,13 +27,13 @@
 # layer: xy_point
 #
 # Campo derivado:
-# id_0_propuesta
+# id_0_propuesta_2_1
 #
 # Salidas:
-# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta/gpkg/grid_balance_nivel_0_origen_propuesta.gpkg
-# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta/tables/resumen_balance_nivel_0_origen_propuesta.csv
-# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta/tables/resumen_global_balance_nivel_0_origen_propuesta.csv
-# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta/figures/grid_balance_nivel_0_origen_propuesta.png
+# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta_clase_2/gpkg/grid_balance_nivel_0_origen_propuesta_clase_2.gpkg
+# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta_clase_2/tables/resumen_balance_nivel_0_origen_propuesta_clase_2.csv
+# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta_clase_2/tables/resumen_global_balance_nivel_0_origen_propuesta_clase_2.csv
+# data/processed/a2_3_grid_balance_nivel_0_origen_propuesta_clase_2/figures/grid_balance_nivel_0_origen_propuesta_clase_2.png
 # ============================================================
 
 from pathlib import Path
@@ -75,33 +76,34 @@ POINTS_GPKG = (
 POINTS_LAYER = "xy_point"
 
 # Campo binario que se evaluará dentro de cada celda. No vive en xy_point:
-# se deriva mediante la tabla de homologación creada en A2.1.
+# se deriva mediante la tabla de homologación creada en A2.1 y se remapea.
 SOURCE_CLASS_FIELD = "id_0"
-CLASS_FIELD = "id_0_propuesta"
+CLASS_FIELD = "id_0_propuesta_2_1"
 HOMOLOGATION_TABLE = "homologacion_nivel_0_origen_propuesta"
 HOMOLOGATION_SOURCE_FIELD = "id_0"
 HOMOLOGATION_TARGET_FIELD = "id_0_propuesta"
 
 # Valores esperados del campo binario.
-CLASS_0_VALUE = 0
+ORIGINAL_OTHER_LANDS_VALUE = 0
+CLASS_2_VALUE = 2
 CLASS_1_VALUE = 1
-EXPECTED_CLASS_VALUES = {CLASS_0_VALUE, CLASS_1_VALUE}
+EXPECTED_CLASS_VALUES = {CLASS_2_VALUE, CLASS_1_VALUE}
 
 OUT_DIR = (
     PROJECT_ROOT
     / "data"
     / "processed"
-    / "a2_3_grid_balance_nivel_0_origen_propuesta"
+    / "a2_3_grid_balance_nivel_0_origen_propuesta_clase_2"
 )
 
 OUT_GPKG_DIR = OUT_DIR / "gpkg"
 OUT_TABLE_DIR = OUT_DIR / "tables"
 OUT_FIG_DIR = OUT_DIR / "figures"
 
-OUT_GPKG = OUT_GPKG_DIR / "grid_balance_nivel_0_origen_propuesta.gpkg"
-OUT_SUMMARY_CSV = OUT_TABLE_DIR / "resumen_balance_nivel_0_origen_propuesta.csv"
-OUT_GLOBAL_CSV = OUT_TABLE_DIR / "resumen_global_balance_nivel_0_origen_propuesta.csv"
-OUT_FIG = OUT_FIG_DIR / "grid_balance_nivel_0_origen_propuesta.png"
+OUT_GPKG = OUT_GPKG_DIR / "grid_balance_nivel_0_origen_propuesta_clase_2.gpkg"
+OUT_SUMMARY_CSV = OUT_TABLE_DIR / "resumen_balance_nivel_0_origen_propuesta_clase_2.csv"
+OUT_GLOBAL_CSV = OUT_TABLE_DIR / "resumen_global_balance_nivel_0_origen_propuesta_clase_2.csv"
+OUT_FIG = OUT_FIG_DIR / "grid_balance_nivel_0_origen_propuesta_clase_2.png"
 
 # Entrada esperada.
 INPUT_CRS_EXPECTED = "EPSG:4326"
@@ -128,7 +130,7 @@ EXTENT_BUFFER_M = 0
 BALANCE_TOLERANCE = 0.10
 
 # Umbral a partir del cual se considera dominancia fuerte.
-# Ejemplo: <= -0.50 domina clase 0; >= 0.50 domina clase 1.
+# Ejemplo: <= -0.50 domina clase 2; >= 0.50 domina clase 1.
 DOMINANCE_STRONG_THRESHOLD = 0.50
 
 
@@ -236,10 +238,10 @@ def attach_proposed_level0_class(
     gpkg: Path,
 ) -> gpd.GeoDataFrame:
     """
-    Añade id_0_propuesta a los puntos mediante:
+    Añade id_0_propuesta_2_1 a los puntos mediante:
 
     xy_point.id_0 -> homologacion_nivel_0_origen_propuesta.id_0
-    -> homologacion_nivel_0_origen_propuesta.id_0_propuesta.
+    -> homologacion_nivel_0_origen_propuesta.id_0_propuesta -> remapeo 0 a 2.
 
     Esta derivación es intencional: A2.1 no almacena id_0_propuesta en xy_point
     para evitar redundancia.
@@ -250,7 +252,9 @@ def attach_proposed_level0_class(
             "No se puede derivar la clase propuesta de nivel 0."
         )
 
-    homologation = read_homologation_table(gpkg)
+    homologation = read_homologation_table(gpkg).rename(
+        columns={HOMOLOGATION_TARGET_FIELD: "_id_0_propuesta_homologacion"}
+    )
 
     out = points.copy()
     out[SOURCE_CLASS_FIELD] = pd.to_numeric(
@@ -269,11 +273,19 @@ def attach_proposed_level0_class(
     if f"{HOMOLOGATION_SOURCE_FIELD}_homologacion" in out.columns:
         out = out.drop(columns=f"{HOMOLOGATION_SOURCE_FIELD}_homologacion")
 
+    proposed_original = pd.to_numeric(
+        out["_id_0_propuesta_homologacion"],
+        errors="coerce",
+    ).astype("Int64")
+    out[CLASS_FIELD] = proposed_original.replace(
+        {ORIGINAL_OTHER_LANDS_VALUE: CLASS_2_VALUE}
+    )
+
     n_source_na = int(out[SOURCE_CLASS_FIELD].isna().sum())
     n_target_na = int(out[CLASS_FIELD].isna().sum())
     observed_unmapped = (
         out.loc[
-            out[SOURCE_CLASS_FIELD].notna() & out[CLASS_FIELD].isna(),
+            out[SOURCE_CLASS_FIELD].notna() & proposed_original.isna(),
             SOURCE_CLASS_FIELD,
         ]
         .dropna()
@@ -286,7 +298,9 @@ def attach_proposed_level0_class(
     print("Homologación de clase propuesta:")
     print(f"  Tabla: {HOMOLOGATION_TABLE}")
     print(f"  Campo origen: {SOURCE_CLASS_FIELD}")
+    print(f"  Campo homologado original: {HOMOLOGATION_TARGET_FIELD}")
     print(f"  Campo derivado: {CLASS_FIELD}")
+    print(f"  Remapeo aplicado: {ORIGINAL_OTHER_LANDS_VALUE} -> {CLASS_2_VALUE}")
     print(f"  Puntos sin {SOURCE_CLASS_FIELD}: {n_source_na:,}")
     print(f"  Puntos sin {CLASS_FIELD}: {n_target_na:,}")
 
@@ -360,7 +374,7 @@ def validate_class_field(
     Valida y normaliza el campo binario de clase.
 
     Crea una columna temporal _class_bin:
-    - 0.0 para clase 0,
+    - 2.0 para la clase equivalente a "otras tierras",
     - 1.0 para clase 1,
     - otros valores numéricos se conservan para advertencia,
     - valores no convertibles quedan como NaN.
@@ -396,25 +410,25 @@ def validate_class_field(
 
     if unexpected_values:
         print(
-            "ADVERTENCIA: se encontraron valores fuera de {0, 1} en "
+            "ADVERTENCIA: se encontraron valores fuera de {2, 1} en "
             f"{class_field}: {unexpected_values}. "
             "No se usarán en la fórmula de dominancia, pero se contarán "
             "en n_other."
         )
 
-    n_class_0 = int((class_num == CLASS_0_VALUE).sum())
+    n_class_2 = int((class_num == CLASS_2_VALUE).sum())
     n_class_1 = int((class_num == CLASS_1_VALUE).sum())
-    n_expected = n_class_0 + n_class_1
+    n_expected = n_class_2 + n_class_1
 
     if n_expected == 0:
         raise ValueError(
-            f"El campo {class_field} no contiene valores válidos 0/1. "
+            f"El campo {class_field} no contiene valores válidos 2/1. "
             "No es posible calcular el balance binario."
         )
 
     print("Validación del campo binario:")
     print(f"  Campo: {class_field}")
-    print(f"  Clase 0: {n_class_0:,}")
+    print(f"  Clase 2: {n_class_2:,}")
     print(f"  Clase 1: {n_class_1:,}")
     print(f"  Valores observados no nulos: {observed_values}")
 
@@ -497,7 +511,7 @@ def assign_points_to_grid_balance(
     cell_size_m: int,
 ) -> pd.DataFrame:
     """
-    Asigna cada punto a una celda usando coordenadas y resume clases 0/1.
+    Asigna cada punto a una celda usando coordenadas y resume clases 2/1.
 
     Este método evita un spatial join y mantiene el mismo enfoque eficiente
     del script de densidad para más de un millón de puntos.
@@ -530,12 +544,12 @@ def assign_points_to_grid_balance(
         }
     )
 
-    tmp["is_c0"] = (tmp["_class_bin"] == CLASS_0_VALUE).astype(int)
+    tmp["is_c2"] = (tmp["_class_bin"] == CLASS_2_VALUE).astype(int)
     tmp["is_c1"] = (tmp["_class_bin"] == CLASS_1_VALUE).astype(int)
     tmp["is_na"] = tmp["_class_bin"].isna().astype(int)
     tmp["is_other"] = (
         tmp["_class_bin"].notna()
-        & ~tmp["_class_bin"].isin([CLASS_0_VALUE, CLASS_1_VALUE])
+        & ~tmp["_class_bin"].isin([CLASS_2_VALUE, CLASS_1_VALUE])
     ).astype(int)
 
     counts = (
@@ -543,7 +557,7 @@ def assign_points_to_grid_balance(
         .groupby(["ix", "iy"])
         .agg(
             n_points=("_class_bin", "size"),
-            n_c0=("is_c0", "sum"),
+            n_c2=("is_c2", "sum"),
             n_c1=("is_c1", "sum"),
             n_other=("is_other", "sum"),
             n_na=("is_na", "sum"),
@@ -558,11 +572,11 @@ def add_balance_metrics(grid_balance: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """
     Calcula métricas de balance binario para cada celda.
 
-    dominancia_01 = (n_c1 - n_c0) / (n_c1 + n_c0)
+    dominancia_01 = (n_c1 - n_c2) / (n_c1 + n_c2)
 
     Interpretación:
-    - -1 = domina completamente clase 0.
-    -  0 = equilibrio entre clase 0 y clase 1.
+    - -1 = domina completamente clase 2.
+    -  0 = equilibrio entre clase 2 y clase 1.
     -  1 = domina completamente clase 1.
     """
     grid = grid_balance.copy()
@@ -579,16 +593,16 @@ def add_balance_metrics(grid_balance: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     grid["area_km2"] = grid.geometry.area / 1_000_000
     grid["points_km2"] = grid["n_points"] / grid["area_km2"]
 
-    grid["n_bin"] = grid["n_c0"] + grid["n_c1"]
+    grid["n_bin"] = grid["n_c2"] + grid["n_c1"]
 
     # Porcentajes sobre registros binarios válidos.
-    grid["pct_c0"] = np.nan
+    grid["pct_c2"] = np.nan
     grid["pct_c1"] = np.nan
 
     mask_bin = grid["n_bin"] > 0
 
-    grid.loc[mask_bin, "pct_c0"] = (
-        grid.loc[mask_bin, "n_c0"]
+    grid.loc[mask_bin, "pct_c2"] = (
+        grid.loc[mask_bin, "n_c2"]
         / grid.loc[mask_bin, "n_bin"]
         * 100
     )
@@ -601,13 +615,13 @@ def add_balance_metrics(grid_balance: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
     # Porcentajes sobre el total de puntos de la celda.
     # Estos sirven para auditar si hay valores nulos u otros.
-    grid["pct_c0_total"] = np.nan
+    grid["pct_c2_total"] = np.nan
     grid["pct_c1_total"] = np.nan
 
     mask_points = grid["n_points"] > 0
 
-    grid.loc[mask_points, "pct_c0_total"] = (
-        grid.loc[mask_points, "n_c0"]
+    grid.loc[mask_points, "pct_c2_total"] = (
+        grid.loc[mask_points, "n_c2"]
         / grid.loc[mask_points, "n_points"]
         * 100
     )
@@ -618,24 +632,24 @@ def add_balance_metrics(grid_balance: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         * 100
     )
 
-    grid["dif_abs"] = (grid["n_c1"] - grid["n_c0"]).abs()
-    grid["dif_signed"] = grid["n_c1"] - grid["n_c0"]
+    grid["dif_abs"] = (grid["n_c1"] - grid["n_c2"]).abs()
+    grid["dif_signed"] = grid["n_c1"] - grid["n_c2"]
 
     grid["dominancia_01"] = np.nan
 
     grid.loc[mask_bin, "dominancia_01"] = (
         (
             grid.loc[mask_bin, "n_c1"]
-            - grid.loc[mask_bin, "n_c0"]
+            - grid.loc[mask_bin, "n_c2"]
         )
         / grid.loc[mask_bin, "n_bin"]
     )
 
     grid["clase_dominante"] = "sin puntos"
-    grid.loc[(grid["n_points"] > 0) & (grid["n_bin"] == 0), "clase_dominante"] = "sin clase 0/1"
-    grid.loc[(grid["n_bin"] > 0) & (grid["n_c0"] > grid["n_c1"]), "clase_dominante"] = "0"
-    grid.loc[(grid["n_bin"] > 0) & (grid["n_c1"] > grid["n_c0"]), "clase_dominante"] = "1"
-    grid.loc[(grid["n_bin"] > 0) & (grid["n_c0"] == grid["n_c1"]), "clase_dominante"] = "equilibrio"
+    grid.loc[(grid["n_points"] > 0) & (grid["n_bin"] == 0), "clase_dominante"] = "sin clase 2/1"
+    grid.loc[(grid["n_bin"] > 0) & (grid["n_c2"] > grid["n_c1"]), "clase_dominante"] = "2"
+    grid.loc[(grid["n_bin"] > 0) & (grid["n_c1"] > grid["n_c2"]), "clase_dominante"] = "1"
+    grid.loc[(grid["n_bin"] > 0) & (grid["n_c2"] == grid["n_c1"]), "clase_dominante"] = "equilibrio"
 
     grid["categoria_dom"] = grid.apply(classify_dominance_category, axis=1)
 
@@ -646,9 +660,9 @@ def add_balance_metrics(grid_balance: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     round_cols = [
         "area_km2",
         "points_km2",
-        "pct_c0",
+        "pct_c2",
         "pct_c1",
-        "pct_c0_total",
+        "pct_c2_total",
         "pct_c1_total",
         "dominancia_01",
     ]
@@ -667,21 +681,21 @@ def classify_dominance_category(row: pd.Series) -> str:
         return "sin puntos"
 
     if row["n_bin"] == 0:
-        return "sin clase 0/1"
+        return "sin clase 2/1"
 
     value = row["dominancia_01"]
 
     if pd.isna(value):
-        return "sin clase 0/1"
+        return "sin clase 2/1"
 
     if abs(value) <= BALANCE_TOLERANCE:
         return "equilibrio"
 
     if value <= -DOMINANCE_STRONG_THRESHOLD:
-        return "domina clase 0"
+        return "domina clase 2"
 
     if value < -BALANCE_TOLERANCE:
-        return "leve predominio clase 0"
+        return "leve predominio clase 2"
 
     if value >= DOMINANCE_STRONG_THRESHOLD:
         return "domina clase 1"
@@ -705,7 +719,7 @@ def make_balance_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
             area_km2=("area_km2", "sum"),
             puntos_total=("n_points", "sum"),
             puntos_binarios=("n_bin", "sum"),
-            puntos_clase_0=("n_c0", "sum"),
+            puntos_clase_2=("n_c2", "sum"),
             puntos_clase_1=("n_c1", "sum"),
             puntos_otros=("n_other", "sum"),
             puntos_nulos=("n_na", "sum"),
@@ -723,9 +737,9 @@ def make_balance_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
 
     orden = {
         "sin puntos": 0,
-        "sin clase 0/1": 1,
-        "domina clase 0": 2,
-        "leve predominio clase 0": 3,
+        "sin clase 2/1": 1,
+        "domina clase 2": 2,
+        "leve predominio clase 2": 3,
         "equilibrio": 4,
         "leve predominio clase 1": 5,
         "domina clase 1": 6,
@@ -773,19 +787,19 @@ def make_global_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
     Crea una tabla global de auditoría del balance binario.
     """
     n_points = int(grid_balance["n_points"].sum())
-    n_c0 = int(grid_balance["n_c0"].sum())
+    n_c2 = int(grid_balance["n_c2"].sum())
     n_c1 = int(grid_balance["n_c1"].sum())
-    n_bin = n_c0 + n_c1
+    n_bin = n_c2 + n_c1
     n_other = int(grid_balance["n_other"].sum())
     n_na = int(grid_balance["n_na"].sum())
 
     if n_bin > 0:
-        dominancia_global = (n_c1 - n_c0) / n_bin
-        pct_c0 = n_c0 / n_bin * 100
+        dominancia_global = (n_c1 - n_c2) / n_bin
+        pct_c2 = n_c2 / n_bin * 100
         pct_c1 = n_c1 / n_bin * 100
     else:
         dominancia_global = np.nan
-        pct_c0 = np.nan
+        pct_c2 = np.nan
         pct_c1 = np.nan
 
     rows = [
@@ -795,14 +809,14 @@ def make_global_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
             "descripcion": "Total de puntos asignados al grid.",
         },
         {
-            "metrica": "n_clase_0",
-            "valor": n_c0,
-            "descripcion": "Total de puntos con id_0_propuesta = 0.",
+            "metrica": "n_clase_2",
+            "valor": n_c2,
+            "descripcion": "Total de puntos con id_0_propuesta_2_1 = 2.",
         },
         {
             "metrica": "n_clase_1",
             "valor": n_c1,
-            "descripcion": "Total de puntos con id_0_propuesta = 1.",
+            "descripcion": "Total de puntos con id_0_propuesta_2_1 = 1.",
         },
         {
             "metrica": "n_binarios_validos",
@@ -812,7 +826,7 @@ def make_global_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
         {
             "metrica": "n_otros",
             "valor": n_other,
-            "descripcion": "Total de puntos con valores numéricos distintos de 0 y 1.",
+            "descripcion": "Total de puntos con valores numéricos distintos de 2 y 1.",
         },
         {
             "metrica": "n_nulos_o_no_numericos",
@@ -820,9 +834,9 @@ def make_global_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
             "descripcion": "Total de puntos con valores nulos o no convertibles a número.",
         },
         {
-            "metrica": "pct_clase_0_sobre_binarios",
-            "valor": round(pct_c0, 6) if pd.notna(pct_c0) else np.nan,
-            "descripcion": "Porcentaje de clase 0 usando solo registros binarios válidos.",
+            "metrica": "pct_clase_2_sobre_binarios",
+            "valor": round(pct_c2, 6) if pd.notna(pct_c2) else np.nan,
+            "descripcion": "Porcentaje de clase 2 usando solo registros binarios válidos.",
         },
         {
             "metrica": "pct_clase_1_sobre_binarios",
@@ -832,7 +846,7 @@ def make_global_summary(grid_balance: gpd.GeoDataFrame) -> pd.DataFrame:
         {
             "metrica": "dominancia_01_global",
             "valor": round(dominancia_global, 6) if pd.notna(dominancia_global) else np.nan,
-            "descripcion": "(n_clase_1 - n_clase_0) / (n_clase_1 + n_clase_0).",
+            "descripcion": "(n_clase_1 - n_clase_2) / (n_clase_1 + n_clase_2).",
         },
         {
             "metrica": "n_celdas_total",
@@ -876,7 +890,7 @@ def export_outputs(grid_balance: gpd.GeoDataFrame) -> None:
 
     grid_out.to_file(
         OUT_GPKG,
-        layer="grid_balance_nivel_0_origen_propuesta",
+        layer="grid_balance_nivel_0_origen_propuesta_clase_2",
         driver="GPKG",
     )
 
@@ -907,7 +921,7 @@ def export_figure(grid_balance: gpd.GeoDataFrame) -> None:
     )
 
     ax.set_title(
-        f"Balance id_0_propuesta por celda "
+        f"Balance id_0_propuesta_2_1 por celda "
         f"({GRID_SIZE_M / 1000:.0f} x {GRID_SIZE_M / 1000:.0f} km)"
     )
 
@@ -926,7 +940,7 @@ def main() -> None:
     ensure_dirs()
 
     print("============================================================")
-    print("A2.3 - Grid de balance id_0_propuesta")
+    print("A2.3 - Grid de balance id_0_propuesta_2_1")
     print("============================================================")
     print(f"Proyecto: {PROJECT_ROOT}")
     print(f"Entrada:  {POINTS_GPKG}")
@@ -938,8 +952,8 @@ def main() -> None:
     print(f"CRS trabajo: {WORK_CRS}")
     print(f"CRS salida:  {OUTPUT_CRS if EXPORT_TO_OUTPUT_CRS else WORK_CRS}")
     print(
-        "Dominancia: (n_clase_1 - n_clase_0) / "
-        "(n_clase_1 + n_clase_0)"
+        "Dominancia: (n_clase_1 - n_clase_2) / "
+        "(n_clase_1 + n_clase_2)"
     )
     print("============================================================\n")
 
@@ -1022,7 +1036,7 @@ def main() -> None:
 
     count_cols = [
         "n_points",
-        "n_c0",
+        "n_c2",
         "n_c1",
         "n_other",
         "n_na",
@@ -1085,7 +1099,7 @@ def main() -> None:
     n_celdas_sin_puntos = int((grid_balance["n_points"] == 0).sum())
 
     n_total_puntos = int(grid_balance["n_points"].sum())
-    n_c0 = int(grid_balance["n_c0"].sum())
+    n_c2 = int(grid_balance["n_c2"].sum())
     n_c1 = int(grid_balance["n_c1"].sum())
     n_other = int(grid_balance["n_other"].sum())
     n_na = int(grid_balance["n_na"].sum())
@@ -1094,7 +1108,7 @@ def main() -> None:
     print("Proceso finalizado.")
     print("============================================================")
     print(f"Total de puntos: {n_total_puntos:,}")
-    print(f"Total clase 0:   {n_c0:,}")
+    print(f"Total clase 2:   {n_c2:,}")
     print(f"Total clase 1:   {n_c1:,}")
     print(f"Otros valores:   {n_other:,}")
     print(f"Nulos/no num.:   {n_na:,}")
@@ -1104,7 +1118,7 @@ def main() -> None:
     print("")
     print("Salidas:")
     print(f"  GPKG: {OUT_GPKG}")
-    print("    - layer: grid_balance_nivel_0_origen_propuesta")
+    print("    - layer: grid_balance_nivel_0_origen_propuesta_clase_2")
     print(f"  CSV resumen por categoría: {OUT_SUMMARY_CSV}")
     print(f"  CSV resumen global:        {OUT_GLOBAL_CSV}")
     print(f"  PNG:                       {OUT_FIG}")
