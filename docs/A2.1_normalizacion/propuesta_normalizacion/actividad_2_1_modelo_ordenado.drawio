@@ -649,7 +649,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="02_modelo_logico_relacional" name="02_modelo_logico_relacional">
-    <mxGraphModel dx="1828" dy="934" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
+    <mxGraphModel dx="2522" dy="1444" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -2454,7 +2454,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="i3FswyB2ktIC6otY60Ym-11" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="clase_propuesta_nivel_0" vertex="1">
-          <mxGeometry height="86" width="501" x="2060" y="2070" as="geometry" />
+          <mxGeometry height="86" width="501" x="2040" y="2070" as="geometry" />
         </mxCell>
         <mxCell id="i3FswyB2ktIC6otY60Ym-12" parent="i3FswyB2ktIC6otY60Ym-11" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="28" width="501" y="30" as="geometry" />
