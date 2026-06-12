@@ -1,9 +1,9 @@
 Actividad 2.1 — Reporte de implementación del modelo de datos
 ========================================================================
-Fecha de proceso: 2026-06-08T11:59:40
-ROOT: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico
-CONFIG: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/config/a2_1_modelo_datos.yaml
-Archivo de entrada: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/processed/scoring_aptitud/10_scoring_aptitud_outputs.gpkg
+Fecha de proceso: 2026-06-12T13:07:53
+ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
+CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
+Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
 Capa de entrada: xy_group_aptitude_master
 Filas: 1111850
 CRS: EPSG:4326
@@ -25,44 +25,78 @@ xy_group_id duplicados: 0
 Normalización de clases
 ------------------------------------------------------------------------
 xy_point guarda únicamente las FKs de origen: id_0, id_1, id_2.
-id_0_propuesta no se almacena en xy_point.
+id_0_propuesta e id_1_propuesta no se almacenan en xy_point; se resuelven mediante reglas N:1.
 Los labels de origen quedan solo en sus tablas de referencia:
 - clase_origen_nivel_0
 - clase_origen_nivel_1
 - clase_origen_nivel_2
-Homologación propuesta de nivel 0 (N:1):
-- id_0 10 -> id_0_propuesta 0 (No Bosque)
-- id_0 20 -> id_0_propuesta 0 (No Bosque)
-- id_0 30 -> id_0_propuesta 0 (No Bosque)
-- id_0 40 -> id_0_propuesta 1 (Bosque/Tierras forestales)
-- id_0 90 -> id_0_propuesta 0 (No Bosque)
+Homologación general de nivel 0 desde id_0 (N:1):
+- id_0 10 -> id_0_propuesta 2 (No Bosques)
+- id_0 20 -> id_0_propuesta 2 (No Bosques)
+- id_0 30 -> id_0_propuesta 2 (No Bosques)
+- id_0 40 -> id_0_propuesta 1 (Bosques/Tierras forestales)
+- id_0 90 -> id_0_propuesta 2 (No Bosques)
 - tabla de homologación: homologacion_nivel_0_origen_propuesta
 - catálogo propuesto: clase_propuesta_nivel_0
-Conteos de puntos por id_0_propuesta, calculados solo para auditoría: {'0': 836695, '1': 274498, 'sin_id_0_o_sin_homologacion': 657}
-Filas-nivel con diferencia dominante vs valores: 10307
+- clases de origen sin homologación: []
+- conteos de auditoría: {'1': 274585, '2': 837265, 'registros_sin_id_0_o_sin_regla': 0, 'clases_observadas_sin_regla': 0}
+Homologación general de nivel 1 desde id_1 (N:1):
+- id_1 11 -> id_1_propuesta 23 (Construido)
+- id_1 12 -> id_1_propuesta 23 (Construido)
+- id_1 21 -> id_1_propuesta 24 (Cuerpos de agua)
+- id_1 22 -> id_1_propuesta 25 (Otras tierras)
+- id_1 31 -> id_1_propuesta 22 (Zonas agrícolas no arbóreas)
+- id_1 32 -> id_1_propuesta 21 (Cultivos arbóreos)
+- id_1 33 -> id_1_propuesta 22 (Zonas agrícolas no arbóreas)
+- id_1 41 -> id_1_propuesta 11 (Bosques latifoliados y mixtos)
+- id_1 42 -> id_1_propuesta 12 (Bosques de coníferas)
+- id_1 43 -> id_1_propuesta 13 (Bosques de mangle)
+- id_1 44 -> id_1_propuesta 11 (Bosques latifoliados y mixtos)
+- id_1 91 -> id_1_propuesta 25 (Otras tierras)
+- tabla de homologación: homologacion_nivel_1_origen_propuesta
+- catálogo propuesto: clase_propuesta_nivel_1
+- clases de origen sin homologación: []
+- conteos de auditoría: {'11': 249223, '12': 13442, '13': 11920, '14': 0, '15': 0, '21': 271280, '22': 518785, '23': 34365, '24': 2491, '25': 10344, 'registros_sin_id_1_o_sin_regla': 0, 'clases_observadas_sin_regla': 0}
+Homologación override de nivel 1 desde id_2 (N:1):
+- id_2 122 -> id_1_propuesta 25 (Otras tierras)
+- id_2 311 -> id_1_propuesta 21 (Cultivos arbóreos)
+- id_2 414 -> id_1_propuesta 14 (Bosques secos)
+- id_2 442 -> id_1_propuesta 15 (Plantaciones forestales)
+- tabla de homologación: homologacion_nivel_2_excepcion_nivel_1_propuesta
+- catálogo propuesto: clase_propuesta_nivel_1
+- clases con excepción explícita: [122, 311, 414, 442]
+- las demás clases utilizan la regla general de nivel 1
+- conteos de auditoría: {'11': 0, '12': 0, '13': 0, '14': 1792, '15': 3238, '21': 77460, '22': 0, '23': 0, '24': 0, '25': 2146, 'registros_con_excepcion': 84636, 'registros_sin_excepcion_usan_regla_general': 1027214, 'clases_observadas_con_excepcion': 4}
+Asignación propuesta final (nivel_1_final; excepción > general): {'11': 244193, '12': 13442, '13': 11920, '14': 1792, '15': 3238, '21': 348740, '22': 441325, '23': 32219, '24': 2491, '25': 12490, 'registros_resueltos_por_excepcion': 84636, 'registros_resueltos_por_regla_general': 1027214, 'registros_sin_homologacion_final': 0}
+Filas-nivel con diferencia dominante vs valores: 7782
+Tabla final para QGIS: xy_homologacion_final | join 1:1 por xy_group_id | incluye id_0_propuesta, nivel_0_propuesta, id_1_propuesta y nivel_1_propuesta.
 
 Salidas
 ------------------------------------------------------------------------
-GPKG espacial + tablas: data/processed/a2_1_modelo_datos/gpkg/a2_1_xy_point.gpkg
+GPKG espacial + tablas: data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
 Tablas temáticas dentro del GPKG: True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_core.csv | filas=1111850 | campos=9 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_temporal.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_clase_resumen.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_spectral.csv | filas=1111850 | campos=23 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_score.csv | filas=1111850 | campos=17 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_conflicto.csv | filas=1111850 | campos=5 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/xy_accion.csv | filas=1111850 | campos=6 | cardinalidad=1:1 | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/clase_origen_nivel_1.csv | filas=12 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/clase_origen_nivel_2.csv | filas=40 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/clase_propuesta_nivel_0.csv | filas=2 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
-CSV: data/processed/a2_1_modelo_datos/tables/homologacion_nivel_0_origen_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
-Metadata: data/processed/a2_1_modelo_datos/metadata/campo_mapeo.csv
-Metadata: data/processed/a2_1_modelo_datos/metadata/field_audit.csv
-Metadata: data/processed/a2_1_modelo_datos/metadata/table_summary.csv
-Metadata: data/processed/a2_1_modelo_datos/metadata/column_name_normalization.csv
-Metadata: data/processed/a2_1_modelo_datos/metadata/validacion_dominante_vs_valores.csv
+CSV: data\processed\a2_1_modelo_datos\tables\xy_core.csv | filas=1111850 | campos=9 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_temporal.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_spectral.csv | filas=1111850 | campos=23 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_score.csv | filas=1111850 | campos=17 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv | filas=1111850 | campos=5 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_accion.csv | filas=1111850 | campos=6 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_1.csv | filas=12 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_2.csv | filas=40 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_0.csv | filas=2 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_1.csv | filas=10 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_0_origen_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_1_origen_propuesta.csv | filas=12 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_2_excepcion_nivel_1_propuesta.csv | filas=4 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_homologacion_final.csv | filas=1111850 | campos=5 | cardinalidad=1:1_revision_qgis | en_gpkg=True
+Metadata: data\processed\a2_1_modelo_datos\metadata\campo_mapeo.csv
+Metadata: data\processed\a2_1_modelo_datos\metadata\field_audit.csv
+Metadata: data\processed\a2_1_modelo_datos\metadata\table_summary.csv
+Metadata: data\processed\a2_1_modelo_datos\metadata\column_name_normalization.csv
+Metadata: data\processed\a2_1_modelo_datos\metadata\validacion_dominante_vs_valores.csv
 
 Advertencias
 ------------------------------------------------------------------------
-Validación dominante vs valores: 10307 filas-nivel no coinciden. Revise metadata/validacion_dominante_vs_valores.csv.
+Validación dominante vs valores: 7782 filas-nivel no coinciden. Revise metadata/validacion_dominante_vs_valores.csv.

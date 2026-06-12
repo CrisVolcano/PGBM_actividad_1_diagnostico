@@ -11,6 +11,8 @@ output:
   metadata_dir: metadata
   spatial_gpkg: a2_1_xy_point.gpkg
   spatial_layer: xy_point
+  homologation_final_table: xy_homologacion_final
+  write_homologation_final_csv: true
   write_tables_to_gpkg: true
   create_join_indexes: true
   overwrite: true
@@ -22,7 +24,7 @@ validation:
   fail_on_unknown_class_code: false
   validate_dominante_vs_valores: true
   fail_on_dominante_valores_mismatch: false
-  fail_on_unmapped_proposed_level0: true
+  require_complete_final_homologation: true
 normalization:
   code_regex: ^\s*(?P<cod>\d{2,3})\b.*$
   split_regex: \s*(?:\||;)\s*
@@ -438,6 +440,7 @@ schema:
     - valores_nivel_2
     - nivel_0
     - nivel_0_propuesta
+    - nivel_1_propuesta
     - nivel_1
     - nivel_2
     - estado_pais_clase
@@ -453,6 +456,7 @@ schema:
     integer:
     - id_0
     - id_0_propuesta
+    - id_1_propuesta
     - id_1
     - id_2
     - n_registros_original
@@ -512,28 +516,133 @@ schema:
     - incluye_2018_2022
     - flag_conflicto_activo
     - flag_clase_residual
-proposed_class_homologation:
-  description: Homologación N:1 entre las clases de origen de nivel 0 y la clasificación propuesta de nivel 0.
-  source_level: 0
-  source_id_field: id_0
-  target_id_field: id_0_propuesta
-  target_label_field: nivel_0_propuesta
-  target_table: clase_propuesta_nivel_0
-  mapping_table: homologacion_nivel_0_origen_propuesta
-  require_complete_source_mapping: true
-  classes:
-  - id_0_propuesta: 0
-    nivel_0_propuesta: No Bosque
-  - id_0_propuesta: 1
-    nivel_0_propuesta: Bosque/Tierras forestales
-  mapping:
-  - id_0: 10
-    id_0_propuesta: 0
-  - id_0: 20
-    id_0_propuesta: 0
-  - id_0: 30
-    id_0_propuesta: 0
-  - id_0: 40
-    id_0_propuesta: 1
-  - id_0: 90
-    id_0_propuesta: 0
+proposed_class_homologations:
+  nivel_0:
+    description: Homologación general N:1 entre las clases de origen de nivel 0 y la clasificación propuesta de nivel 0.
+    role: general
+    source_level: 0
+    source_id_field: id_0
+    target_level: 0
+    target_id_field: id_0_propuesta
+    target_label_field: nivel_0_propuesta
+    target_table: clase_propuesta_nivel_0
+    mapping_table: homologacion_nivel_0_origen_propuesta
+    require_complete_source_mapping: true
+    fail_on_unmapped_observed: true
+    cardinality: N:1
+    classes:
+    - id_0_propuesta: 1
+      nivel_0_propuesta: Bosques/Tierras forestales
+    - id_0_propuesta: 2
+      nivel_0_propuesta: No Bosques
+    mapping:
+    - id_0: 10
+      id_0_propuesta: 2
+    - id_0: 20
+      id_0_propuesta: 2
+    - id_0: 30
+      id_0_propuesta: 2
+    - id_0: 40
+      id_0_propuesta: 1
+    - id_0: 90
+      id_0_propuesta: 2
+  nivel_1_general:
+    description: Regla general N:1 desde id_1 de origen hacia id_1_propuesta. Se aplica cuando no existe una excepción específica
+      por id_2.
+    role: general
+    source_level: 1
+    source_id_field: id_1
+    target_level: 1
+    target_id_field: id_1_propuesta
+    target_label_field: nivel_1_propuesta
+    parent_target_id_field: id_0_propuesta
+    parent_target_table: clase_propuesta_nivel_0
+    target_table: clase_propuesta_nivel_1
+    mapping_table: homologacion_nivel_1_origen_propuesta
+    require_complete_source_mapping: true
+    fail_on_unmapped_observed: true
+    cardinality: N:1
+    classes:
+    - id_1_propuesta: 11
+      nivel_1_propuesta: Bosques latifoliados y mixtos
+      id_0_propuesta: 1
+    - id_1_propuesta: 12
+      nivel_1_propuesta: Bosques de coníferas
+      id_0_propuesta: 1
+    - id_1_propuesta: 13
+      nivel_1_propuesta: Bosques de mangle
+      id_0_propuesta: 1
+    - id_1_propuesta: 14
+      nivel_1_propuesta: Bosques secos
+      id_0_propuesta: 1
+    - id_1_propuesta: 15
+      nivel_1_propuesta: Plantaciones forestales
+      id_0_propuesta: 1
+    - id_1_propuesta: 21
+      nivel_1_propuesta: Cultivos arbóreos
+      id_0_propuesta: 2
+    - id_1_propuesta: 22
+      nivel_1_propuesta: Zonas agrícolas no arbóreas
+      id_0_propuesta: 2
+    - id_1_propuesta: 23
+      nivel_1_propuesta: Construido
+      id_0_propuesta: 2
+    - id_1_propuesta: 24
+      nivel_1_propuesta: Cuerpos de agua
+      id_0_propuesta: 2
+    - id_1_propuesta: 25
+      nivel_1_propuesta: Otras tierras
+      id_0_propuesta: 2
+    mapping:
+    - id_1: 11
+      id_1_propuesta: 23
+    - id_1: 12
+      id_1_propuesta: 23
+    - id_1: 21
+      id_1_propuesta: 24
+    - id_1: 22
+      id_1_propuesta: 25
+    - id_1: 31
+      id_1_propuesta: 22
+    - id_1: 32
+      id_1_propuesta: 21
+    - id_1: 33
+      id_1_propuesta: 22
+    - id_1: 41
+      id_1_propuesta: 11
+    - id_1: 42
+      id_1_propuesta: 12
+    - id_1: 43
+      id_1_propuesta: 13
+    - id_1: 44
+      id_1_propuesta: 11
+    - id_1: 91
+      id_1_propuesta: 25
+  nivel_1_excepciones:
+    description: Excepciones N:1 definidas por id_2. Tienen prioridad sobre la regla general de nivel 1 y permiten resolver
+      clases cuyo detalle de nivel 2 cambia el destino propuesto.
+    role: override
+    fallback_homologation: nivel_1_general
+    final_assignment_name: nivel_1_final
+    source_level: 2
+    source_id_field: id_2
+    target_level: 1
+    target_id_field: id_1_propuesta
+    target_label_field: nivel_1_propuesta
+    parent_target_id_field: id_0_propuesta
+    parent_target_table: clase_propuesta_nivel_0
+    target_table: clase_propuesta_nivel_1
+    catalog_ref: nivel_1_general
+    mapping_table: homologacion_nivel_2_excepcion_nivel_1_propuesta
+    require_complete_source_mapping: false
+    fail_on_unmapped_observed: false
+    cardinality: N:1
+    mapping:
+    - id_2: 122
+      id_1_propuesta: 25
+    - id_2: 311
+      id_1_propuesta: 21
+    - id_2: 414
+      id_1_propuesta: 14
+    - id_2: 442
+      id_1_propuesta: 15
