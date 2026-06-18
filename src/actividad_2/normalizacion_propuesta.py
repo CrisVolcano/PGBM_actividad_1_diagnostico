@@ -1,5 +1,3 @@
-
-
 # -*- coding: utf-8 -*-
 """
 Actividad 2.1 — Implementación del modelo de datos
@@ -16,6 +14,8 @@ Ordena la salida de Actividad 1 en una estructura relacional pragmática:
 - tabla final de homologación por xy_group_id lista para un único join en QGIS
 - CSVs temáticos enlazables por xy_group_id
 - validación dominante vs valores
+- xy_score conserva solo los scores finales reales del Módulo 10
+- exclusión explícita de subcriterios e insumos internos del scoring para evitar redundancia
 - metadatos de auditoría
 - reporte de validación
 
@@ -209,6 +209,155 @@ def pk_field(cfg: dict[str, Any]) -> str:
 
 def class_fk_sources(cfg: dict[str, Any]) -> dict[str, Any]:
     return cfg.get("normalization", {}).get("class_fk_sources", {})
+
+
+# Campos derivados por el Módulo 10 que se conservan en sus salidas de
+# auditoría/scoring, pero no forman parte del modelo relacional 3NF de A2.1.
+# No se exportan a xy_point ni a las tablas temáticas para evitar redundancia:
+# - score_fuente ya resume los componentes fuente;
+# - score_confiabilidad ya resume la confiabilidad por XY;
+# - listas tipo ids_fuente_presentes/fuentes_presentes no son 1NF;
+# - campos *_dominante de fuente son descriptores agregados, no llaves normalizadas.
+# Campos que pueden venir desde el Módulo 10, pero que NO forman parte
+# del modelo normalizado depurado. Se documentan en metadata/field_audit.csv
+# y no generan advertencia de esquema.
+#
+# Regla actual del modelo A2.1:
+# - conservar únicamente scores finales reales por criterio;
+# - excluir subcriterios o insumos usados para calcular esos scores;
+# - excluir listas agregadas y campos descriptivos de fuente cuando no son
+#   necesarios para el uso final del modelo normalizado.
+DEFAULT_AUDIT_ONLY_FIELDS: set[str] = {
+    # Fuente: descripción, listas o subcriterios del score_fuente.
+    "id_fuente_dominante",
+    "tipo_fuente_dominante",
+    "detalle_tipo_fuente_dominante",
+    "ids_fuente_presentes",
+    "fuentes_presentes",
+    "tipos_fuente_presentes",
+    "score_directitud_fuente_promedio",
+    "score_trazabilidad_fuente_promedio",
+    "score_temporal_metadata_fuente_promedio",
+    "score_fuente_promedio",
+    "score_fuente_minimo",
+    "score_fuente_maximo",
+    "n_fuentes_anio_inconsistente",
+    "n_fuentes_pais_inconsistente",
+    # Confiabilidad: insumos o trazabilidad interna del score_confiabilidad.
+    "conf_integrada_promedio_observada",
+    "n_conf_integrada_observada",
+    "pct_conf_integrada_observada",
+    "flag_confianza_imputada",
+    "score_confiabilidad_base",
+    "origen_score_confiabilidad",
+    # Temático: subcriterios internos que alimentan score_tematico.
+    "score_prioridad_revision",
+    "score_consistencia_clase",
+    "score_viabilidad_clase",
+    "score_claridad_semantica",
+    "score_nivel_leyenda",
+    # Aptitud: campos previos/intermedios. El modelo conserva score_aptitud_total.
+    "score_aptitud_raw",
+    "score_cap",
+    "cap_reason",
+}
+
+FINAL_XY_SCORE_FIELDS: list[str] = [
+    "xy_group_id",
+    "score_temporal",
+    "score_espacial",
+    "score_tematico",
+    "score_espectral",
+    "score_confiabilidad",
+    "score_representatividad",
+    "score_fuente",
+    "score_aptitud_total",
+]
+
+
+def apply_score_final_policy(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Ajusta el esquema para conservar solo scores finales en xy_score.
+
+    El YAML puede definir explícitamente:
+
+    normalization:
+      keep_only_final_scores: true
+      final_score_table: xy_score
+      final_score_fields:
+        - xy_group_id
+        - score_temporal
+        ...
+
+    Por defecto esta política está activa, porque A2.1 no debe almacenar
+    insumos internos del cálculo multicriterio.
+    """
+    normalization = cfg.setdefault("normalization", {})
+    keep_only = bool(normalization.get("keep_only_final_scores", True))
+    if not keep_only:
+        return cfg
+
+    score_table = str(normalization.get("final_score_table", "xy_score"))
+    score_fields = normalization.get("final_score_fields", FINAL_XY_SCORE_FIELDS)
+    if not isinstance(score_fields, list) or not score_fields:
+        raise ValueError("normalization.final_score_fields debe ser una lista no vacía.")
+
+    pk = pk_field(cfg)
+    normalized_score_fields: list[str] = []
+    for field in score_fields:
+        normalized = normalize_name(field)
+        if normalized not in normalized_score_fields:
+            normalized_score_fields.append(normalized)
+
+    if pk not in normalized_score_fields:
+        normalized_score_fields.insert(0, pk)
+
+    tables = schema_tables(cfg)
+    if score_table not in tables:
+        raise ValueError(
+            f"normalization.final_score_table='{score_table}' no existe en schema.tables."
+        )
+
+    tables[score_table]["fields"] = normalized_score_fields
+
+    # Asegurar tipos float para los scores finales, sin obligar a guardar
+    # subcriterios en el modelo.
+    field_types = cfg.setdefault("schema", {}).setdefault("field_types", {})
+    float_fields = field_types.setdefault("float", [])
+    for field in normalized_score_fields:
+        if field != pk and field not in float_fields:
+            float_fields.append(field)
+
+    # Los campos excluidos pueden declararse también desde YAML, pero el script
+    # mantiene una lista base para no convertir subcriterios en advertencias.
+    audit_fields = normalization.get("audit_only_fields", []) or []
+    audit_set = {normalize_name(field) for field in audit_fields}
+    audit_set.update(DEFAULT_AUDIT_ONLY_FIELDS)
+    normalization["audit_only_fields"] = sorted(audit_set)
+
+    return cfg
+
+
+def audit_only_fields(cfg: dict[str, Any]) -> set[str]:
+    """Campos aceptados como insumos de auditoría, pero excluidos del modelo.
+
+    Se pueden ampliar desde YAML:
+
+    normalization:
+      audit_only_fields:
+        - campo_extra_derivado
+    """
+    configured = cfg.get("normalization", {}).get("audit_only_fields", [])
+    if configured is None:
+        configured = []
+    return DEFAULT_AUDIT_ONLY_FIELDS | {normalize_name(field) for field in configured}
+
+
+def extra_field_policy(field: str, cfg: dict[str, Any]) -> str:
+    """Clasifica campos no asignados directamente a tablas del modelo."""
+    if field in audit_only_fields(cfg):
+        return "excluido_por_diseno_auditoria_scoring"
+    return "extra_no_asignado"
+
 
 
 def proposed_homologations_config(cfg: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -597,14 +746,22 @@ def proposed_homologation_tables(cfg: dict[str, Any]) -> dict[str, pd.DataFrame]
         target_table = hom["target_table"]
         mapping_table = hom["mapping_table"]
 
-        mapping_df = pd.DataFrame(hom["mapping"])
         mapping_fields = [source_field, target_field]
-        if not set(mapping_fields).issubset(mapping_df.columns):
-            raise ValueError(
-                f"{hom_name}: la tabla de homologación debe contener "
-                f"{mapping_fields}."
-            )
-        mapping_df = mapping_df[mapping_fields].copy()
+        mapping_rows = hom.get("mapping", [])
+        allow_empty_mapping = bool(hom.get("allow_empty_mapping", False))
+
+        if not mapping_rows and allow_empty_mapping:
+            # Permite tablas de excepción sin reglas activas. Esto evita inventar
+            # excepciones cuando la homologación final usa solo la regla general.
+            mapping_df = pd.DataFrame(columns=mapping_fields)
+        else:
+            mapping_df = pd.DataFrame(mapping_rows)
+            if not set(mapping_fields).issubset(mapping_df.columns):
+                raise ValueError(
+                    f"{hom_name}: la tabla de homologación debe contener "
+                    f"{mapping_fields}."
+                )
+            mapping_df = mapping_df[mapping_fields].copy()
         mapping_df[source_field] = pd.to_numeric(
             mapping_df[source_field], errors="raise"
         ).astype("Int64")
@@ -1006,15 +1163,33 @@ def validate_dominante_vs_valores(
 
             dominant_code_int = int(dominant_code) if pd.notna(dominant_code) else pd.NA
 
+            dominant_present = pd.notna(dominant_code)
+            dominant_in_values = (
+                dominant_present
+                and dominant_code_int in unique_values_codes
+            )
             same = (
-                pd.notna(dominant_code)
+                dominant_present
                 and len(unique_values_codes) == 1
                 and unique_values_codes[0] == dominant_code_int
             )
 
+            if same:
+                difference_type = "equivalente_unico"
+            elif dominant_in_values and len(unique_values_codes) > 1:
+                difference_type = "dominante_entre_multiples_valores"
+            elif dominant_present and not unique_values_codes:
+                difference_type = "dominante_sin_valores"
+            elif dominant_present and not dominant_in_values:
+                difference_type = "dominante_fuera_de_valores"
+            elif not dominant_present and unique_values_codes:
+                difference_type = "sin_dominante_con_valores"
+            else:
+                difference_type = "sin_dominante_sin_valores"
+
             unknown_codes = sorted(
                 {
-                    code for code in ([dominant_code_int] if pd.notna(dominant_code) else []) + unique_values_codes
+                    code for code in ([dominant_code_int] if dominant_present else []) + unique_values_codes
                     if pd.notna(code) and code not in valid_codes
                 }
             )
@@ -1030,6 +1205,8 @@ def validate_dominante_vs_valores(
                     "codigos_valores": "|".join(str(code) for code in unique_values_codes),
                     "n_codigos_valores": len(unique_values_codes),
                     "dominante_igual_a_valores": bool(same),
+                    "dominante_en_valores": bool(dominant_in_values),
+                    "tipo_diferencia": difference_type,
                     "codigos_fuera_catalogo": "|".join(str(code) for code in unknown_codes),
                 }
             )
@@ -1776,6 +1953,7 @@ def build_field_audit(cfg: dict[str, Any], input_fields: list[str]) -> pd.DataFr
     model_fields = set(expected_fields(cfg))
     required_sources = set(source_fields_required(cfg))
     source_only = source_only_fields(cfg)
+    audit_only = audit_only_fields(cfg)
 
     rows: list[dict[str, Any]] = []
 
@@ -1796,6 +1974,15 @@ def build_field_audit(cfg: dict[str, Any], input_fields: list[str]) -> pd.DataFr
             if field == info.get("valores"):
                 used_to_build.append(f"validacion_dominante_vs_valores.{id_field}")
 
+        if field in model_fields:
+            decision_modelo = "exportado_modelo"
+        elif field in source_only:
+            decision_modelo = "insumo_para_fk_o_validacion_no_exportado"
+        elif field in audit_only:
+            decision_modelo = "excluido_por_diseno_auditoria_scoring"
+        else:
+            decision_modelo = "extra_no_asignado"
+
         rows.append(
             {
                 "campo": field,
@@ -1804,6 +1991,7 @@ def build_field_audit(cfg: dict[str, Any], input_fields: list[str]) -> pd.DataFr
                 "requerido": field in required_sources,
                 "tablas_asignadas": ";".join(assigned_tables),
                 "tablas_derivadas": ";".join(used_to_build),
+                "decision_modelo": decision_modelo,
                 "tipo_dato_propuesto": infer_field_type(field, cfg) if field in model_fields else "",
             }
         )
@@ -1858,6 +2046,11 @@ Rol: **{role}**. Cardinalidad: **N:1**.
 La salida de Actividad 1 se reorganiza sin crear atributos analíticos nuevos.
 Los identificadores propuestos no se almacenan en `xy_point`; se resuelven
 mediante tablas normalizadas de homologación.
+
+Los campos derivados del scoring, de confiabilidad y de auditoría de fuente
+que ya están resumidos por otros scores no se duplican en el modelo relacional.
+Se documentan en metadata/field_audit.csv como
+`excluido_por_diseno_auditoria_scoring`.
 
 ## Llave central
 
@@ -1918,6 +2111,7 @@ En QGIS solo se requiere:
 
 def run() -> None:
     cfg = read_yaml(CONFIG)
+    cfg = apply_score_final_policy(cfg)
 
     activity = cfg.get("activity", "a2_1_modelo_datos")
     log_dir = as_project_path(cfg["output"].get("logs_dir", LOG))
@@ -1965,9 +2159,19 @@ def run() -> None:
     source_only = source_only_fields(cfg)
 
     missing = [field for field in required_source_fields if field not in input_fields_raw]
-    extra = [
+    all_extra_fields = [
         field for field in input_fields_raw
-        if field not in required_source_fields and field not in model_fields and field not in source_only
+        if field not in required_source_fields
+        and field not in model_fields
+        and field not in source_only
+    ]
+    audit_only_extra = [
+        field for field in all_extra_fields
+        if extra_field_policy(field, cfg) == "excluido_por_diseno_auditoria_scoring"
+    ]
+    extra = [
+        field for field in all_extra_fields
+        if extra_field_policy(field, cfg) == "extra_no_asignado"
     ]
 
     strict_schema = bool(cfg["validation"].get("strict_schema", True))
@@ -1981,6 +2185,12 @@ def run() -> None:
 
     if extra and warn_extra_fields:
         warnings.append(f"Campos extra no asignados al modelo: {extra}")
+
+    if audit_only_extra:
+        logging.info(
+            "Campos derivados de auditoría/scoring excluidos por diseño del modelo 3NF: %s",
+            audit_only_extra,
+        )
 
     if pk not in gdf.columns:
         raise ValueError(f"No existe la llave principal esperada: {pk}")
@@ -2015,16 +2225,43 @@ def run() -> None:
     # Validar duplicidad dominante/valores.
     validation_df = validate_dominante_vs_valores(gdf, cfg)
 
-    mismatches = int((~validation_df["dominante_igual_a_valores"]).sum()) if not validation_df.empty else 0
+    if not validation_df.empty:
+        mismatches = int((~validation_df["dominante_igual_a_valores"]).sum())
+        dominant_between_multiple = int(
+            (validation_df["tipo_diferencia"] == "dominante_entre_multiples_valores").sum()
+        )
+        critical_dominant_mismatches = int(
+            validation_df["tipo_diferencia"].isin(
+                [
+                    "dominante_fuera_de_valores",
+                    "dominante_sin_valores",
+                    "sin_dominante_con_valores",
+                ]
+            ).sum()
+        )
+    else:
+        mismatches = 0
+        dominant_between_multiple = 0
+        critical_dominant_mismatches = 0
 
-    if mismatches > 0:
+    if critical_dominant_mismatches > 0:
         msg = (
-            f"Validación dominante vs valores: {mismatches} filas-nivel no coinciden. "
+            f"Validación dominante vs valores: {critical_dominant_mismatches} "
+            "filas-nivel tienen una diferencia crítica "
+            "(dominante fuera de valores, dominante sin valores o valores sin dominante). "
             "Revise metadata/validacion_dominante_vs_valores.csv."
         )
         if cfg["validation"].get("fail_on_dominante_valores_mismatch", False):
             raise ValueError(msg)
         warnings.append(msg)
+    elif mismatches > 0:
+        logging.info(
+            "Validación dominante vs valores: %s filas-nivel no son equivalencia estricta; "
+            "%s corresponden a dominante incluido dentro de múltiples valores del grupo XY. "
+            "Se documentan en metadata/validacion_dominante_vs_valores.csv sin tratarse como error.",
+            mismatches,
+            dominant_between_multiple,
+        )
 
     input_fields = [field for field in gdf.columns if field != "geometry"]
     gdf = coerce_types(gdf, cfg, "input", warnings)
@@ -2192,11 +2429,20 @@ def run() -> None:
     report_lines.append(f"Campos de salida generados/encontrados: {len([f for f in model_fields if f in input_fields])}")
     report_lines.append(f"Campos faltantes: {len(missing)}")
     report_lines.append(f"Campos extra no asignados: {len(extra)}")
+    report_lines.append(
+        "Campos derivados de auditoría/scoring excluidos por diseño: "
+        f"{len(audit_only_extra)}"
+    )
 
     if missing:
         report_lines.append(f"Lista de faltantes: {missing}")
     if extra:
-        report_lines.append(f"Lista de extra: {extra}")
+        report_lines.append(f"Lista de extra no asignados: {extra}")
+    if audit_only_extra:
+        report_lines.append(
+            "Lista de campos excluidos por diseño: "
+            f"{audit_only_extra}"
+        )
 
     report_lines.append("")
     report_lines.append("Validación de llave")
@@ -2272,7 +2518,15 @@ def run() -> None:
         )
 
     report_lines.append(
-        f"Filas-nivel con diferencia dominante vs valores: {mismatches}"
+        f"Filas-nivel sin equivalencia estricta dominante vs valores: {mismatches}"
+    )
+    report_lines.append(
+        "Filas-nivel donde el dominante está incluido dentro de múltiples valores: "
+        f"{dominant_between_multiple}"
+    )
+    report_lines.append(
+        "Filas-nivel con diferencia crítica dominante/valores: "
+        f"{critical_dominant_mismatches}"
     )
     report_lines.append(
         "Tabla final para QGIS: "

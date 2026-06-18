@@ -1,8 +1,8 @@
 ﻿escenario,n_grupos_xy,n_registros_representados,n_fuentes,score_promedio
-datos_para_entrenamiento,854233,919260,22,91.418
-datos_para_validacion,194971,196957,22,81.751
-datos_para_prueba,53,101,4,68.941
-ventana_conservadora,1049257,1116318,22,89.621
-nivel1_regional,1109041,1188466,22,88.53
-apoyo_o_referencia,62593,79593,20,68.774
-mascaras,0,0,0,0.0
+datos_para_entrenamiento,921902,987332,22,93.155
+datos_para_validacion,126710,127630,22,81.797
+datos_para_prueba,0,0,0,0.0
+ventana_conservadora,1049257,1116318,22,91.751
+nivel1_regional,1109041,1188466,22,90.543
+apoyo_o_referencia,62593,79593,20,68.808
+mascaras,645,1356,10,40.0

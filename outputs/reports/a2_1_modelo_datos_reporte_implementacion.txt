@@ -1,6 +1,6 @@
 Actividad 2.1 — Reporte de implementación del modelo de datos
 ========================================================================
-Fecha de proceso: 2026-06-12T13:07:53
+Fecha de proceso: 2026-06-18T13:43:04
 ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
 CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
 Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
@@ -10,12 +10,14 @@ CRS: EPSG:4326
 
 Validación de campos
 ------------------------------------------------------------------------
-Campos fuente requeridos desde Actividad 1: 77
-Campos de salida esperados, incluyendo xy_group_id: 74
-Campos analíticos de salida, excluyendo xy_group_id: 73
-Campos de salida generados/encontrados: 74
+Campos fuente requeridos desde Actividad 1: 68
+Campos de salida esperados, incluyendo xy_group_id: 65
+Campos analíticos de salida, excluyendo xy_group_id: 64
+Campos de salida generados/encontrados: 65
 Campos faltantes: 0
 Campos extra no asignados: 0
+Campos derivados de auditoría/scoring excluidos por diseño: 29
+Lista de campos excluidos por diseño: ['id_fuente_dominante', 'tipo_fuente_dominante', 'detalle_tipo_fuente_dominante', 'conf_integrada_promedio_observada', 'n_conf_integrada_observada', 'ids_fuente_presentes', 'fuentes_presentes', 'tipos_fuente_presentes', 'score_directitud_fuente_promedio', 'score_trazabilidad_fuente_promedio', 'score_temporal_metadata_fuente_promedio', 'score_fuente_promedio', 'score_fuente_minimo', 'score_fuente_maximo', 'n_fuentes_anio_inconsistente', 'n_fuentes_pais_inconsistente', 'pct_conf_integrada_observada', 'flag_confianza_imputada', 'score_confiabilidad_base', 'origen_score_confiabilidad', 'conf_integrada_promedio', 'score_prioridad_revision', 'score_consistencia_clase', 'score_viabilidad_clase', 'score_claridad_semantica', 'score_nivel_leyenda', 'score_aptitud_raw', 'score_cap', 'cap_reason']
 
 Validación de llave
 ------------------------------------------------------------------------
@@ -68,7 +70,9 @@ Homologación override de nivel 1 desde id_2 (N:1):
 - las demás clases utilizan la regla general de nivel 1
 - conteos de auditoría: {'11': 0, '12': 0, '13': 0, '14': 1792, '15': 3238, '21': 77460, '22': 0, '23': 0, '24': 0, '25': 2146, 'registros_con_excepcion': 84636, 'registros_sin_excepcion_usan_regla_general': 1027214, 'clases_observadas_con_excepcion': 4}
 Asignación propuesta final (nivel_1_final; excepción > general): {'11': 244193, '12': 13442, '13': 11920, '14': 1792, '15': 3238, '21': 348740, '22': 441325, '23': 32219, '24': 2491, '25': 12490, 'registros_resueltos_por_excepcion': 84636, 'registros_resueltos_por_regla_general': 1027214, 'registros_sin_homologacion_final': 0}
-Filas-nivel con diferencia dominante vs valores: 7782
+Filas-nivel sin equivalencia estricta dominante vs valores: 7782
+Filas-nivel donde el dominante está incluido dentro de múltiples valores: 7782
+Filas-nivel con diferencia crítica dominante/valores: 0
 Tabla final para QGIS: xy_homologacion_final | join 1:1 por xy_group_id | incluye id_0_propuesta, nivel_0_propuesta, id_1_propuesta y nivel_1_propuesta.
 
 Salidas
@@ -77,9 +81,9 @@ GPKG espacial + tablas: data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
 Tablas temáticas dentro del GPKG: True
 CSV: data\processed\a2_1_modelo_datos\tables\xy_core.csv | filas=1111850 | campos=9 | cardinalidad=1:1 | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\xy_temporal.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv | filas=1111850 | campos=7 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv | filas=1111850 | campos=6 | cardinalidad=1:1 | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\xy_spectral.csv | filas=1111850 | campos=23 | cardinalidad=1:1 | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\xy_score.csv | filas=1111850 | campos=17 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\xy_score.csv | filas=1111850 | campos=9 | cardinalidad=1:1 | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv | filas=1111850 | campos=5 | cardinalidad=1:1 | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\xy_accion.csv | filas=1111850 | campos=6 | cardinalidad=1:1 | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
@@ -99,4 +103,4 @@ Metadata: data\processed\a2_1_modelo_datos\metadata\validacion_dominante_vs_valo
 
 Advertencias
 ------------------------------------------------------------------------
-Validación dominante vs valores: 7782 filas-nivel no coinciden. Revise metadata/validacion_dominante_vs_valores.csv.
+Sin advertencias.

@@ -30,3 +30,18 @@
 [2026-05-24 13:59:33] Módulo 10 reutilizó salidas existentes compatibles y regeneró reporte. Reporte=C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\10_scoring_multicriterio_aptitud.md
 [2026-06-03 12:31:03] Módulo 10 reutilizó salidas existentes compatibles y regeneró reporte. Reporte=C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\10_scoring_multicriterio_aptitud.md
 [2026-06-03 13:33:31] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
+[2026-06-16 15:14:54] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Inconsistencias jerárquicas: 0.
+[2026-06-16 15:16:34] Módulo 5B ejecutado correctamente. Año objetivo: 2020. Ventana: ±2. Total thematic_base: 2881123.
+[2026-06-16 16:44:47] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
+[2026-06-16 18:27:55] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
+[2026-06-16 19:04:57] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Confianza numérica: 2881123/2881123 (100.000%). Inconsistencias jerárquicas: 0.
+[2026-06-16 19:54:21] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
+[2026-06-16 22:23:42] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Confianza numérica: 2881123/2881123 (100.000%). Inconsistencias jerárquicas: 0.
+[2026-06-17 12:06:28] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0
+[2026-06-17 19:39:00] Módulo 5B ejecutado correctamente. Año objetivo: 2020. Ventana: ±2. Total thematic_base: 2881123.
+[2026-06-17 19:39:13] Módulo 5C ejecutado correctamente. Subsets: ['ventana_2018_2022']. Grupos conflictivos: 2779. Casos prioritarios: 2684.
+[2026-06-17 19:47:38] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Confianza numérica: 2881123/2881123 (100.000%). Inconsistencias jerárquicas: 0.
+[2026-06-17 19:50:10] Módulo 5C ejecutado correctamente. Subsets: ['ventana_2018_2022']. Grupos conflictivos: 2779. Casos prioritarios: 2684.
+[2026-06-17 19:51:06] Módulo 5B ejecutado correctamente. Año objetivo: 2020. Ventana: ±2. Total thematic_base: 2881123.
+[2026-06-17 19:54:07] Módulo 5 ejecutado correctamente. Registros evaluados: 2881123. Clases Nivel_1: 12. Clases Nivel_2: 40. Confianza numérica: 2881123/2881123 (100.000%). Inconsistencias jerárquicas: 0.
+[2026-06-17 21:39:18] Etapa 1.7 ejecutada correctamente. Registros=1195911; grupos=1111850; spectral_status=loaded_gpkg_module_09_units; spectral_layer=audit_extract_units_s2sr_annual; spectral_xy_coverage_pct=100.0

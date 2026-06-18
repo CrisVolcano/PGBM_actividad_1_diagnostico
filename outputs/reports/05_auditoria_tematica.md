@@ -2,36 +2,37 @@
 
 ## Módulo 5
 
-Fecha de ejecución: 2026-05-20 18:17:30
+Fecha de ejecución: 2026-06-17 19:54:07
 
 ## Resumen ejecutivo
 
 | Concepto | Valor |
 |---|---:|
 | Total de registros evaluados | 2881123 |
-| Campos temáticos evaluados | 8 |
+| Campos temáticos evaluados | 9 |
 | Inconsistencias jerárquicas detectadas | 0 |
 | Grupos XY con conflicto temático | 221342 |
 | Registros en grupos con conflicto temático | 626664 |
 
 ## Calidad de campos temáticos
 
-| campo         | descripcion     |   n_total |   n_null_o_vacio |   pct_null_o_vacio |   n_valores_distintos |
-|:--------------|:----------------|----------:|-----------------:|-------------------:|----------------------:|
-| uso_origen    | Uso original    |   2881123 |                0 |                  0 |                   170 |
-| subuso_origen | Subuso original |   2881123 |                0 |                  0 |                   387 |
-| id_nivel_0    | Código Nivel_0  |   2881123 |                0 |                  0 |                     5 |
-| nivel_0       | Nivel_0         |   2881123 |                0 |                  0 |                     5 |
-| id_nivel_1    | Código Nivel_1  |   2881123 |                0 |                  0 |                    12 |
-| nivel_1       | Nivel_1         |   2881123 |                0 |                  0 |                    12 |
-| id_nivel_2    | Código Nivel_2  |   2881123 |                0 |                  0 |                    40 |
-| nivel_2       | Nivel_2         |   2881123 |                0 |                  0 |                    40 |
+| campo          | descripcion             |   n_total |   n_null_o_vacio |   pct_null_o_vacio |   n_valores_distintos |
+|:---------------|:------------------------|----------:|-----------------:|-------------------:|----------------------:|
+| uso_origen     | Uso original            |   2881123 |                0 |                  0 |                   170 |
+| subuso_origen  | Subuso original         |   2881123 |                0 |                  0 |                   387 |
+| id_nivel_0     | Código Nivel_0          |   2881123 |                0 |                  0 |                     5 |
+| nivel_0        | Nivel_0                 |   2881123 |                0 |                  0 |                     5 |
+| id_nivel_1     | Código Nivel_1          |   2881123 |                0 |                  0 |                    12 |
+| nivel_1        | Nivel_1                 |   2881123 |                0 |                  0 |                    12 |
+| id_nivel_2     | Código Nivel_2          |   2881123 |                0 |                  0 |                    40 |
+| nivel_2        | Nivel_2                 |   2881123 |                0 |                  0 |                    40 |
+| conf_integrada | Confiabilidad integrada |   2881123 |                0 |                  0 |               1405623 |
 
 ## Resumen de calidad temática
 
 |   total_registros |   n_campos_tematicos_evaluados |   campos_con_null_o_vacio |   max_pct_null_o_vacio | campo_con_mayor_null_o_vacio   |
 |------------------:|-------------------------------:|--------------------------:|-----------------------:|:-------------------------------|
-|           2881123 |                              8 |                         0 |                      0 | uso_origen                     |
+|           2881123 |                              9 |                         0 |                      0 | uso_origen                     |
 
 ## Distribución por Nivel_0
 

@@ -99,21 +99,27 @@
     .chart { max-height: 210mm; }
   }
 </style>
+<style>
+  .criteria-table { width:100%; border-collapse:collapse; margin:18px 0 26px 0; font-size:0.9rem; }
+  .criteria-table th { background:#174A7C; color:#fff; text-align:left; padding:8px; }
+  .criteria-table td { border:1px solid #d0d7de; padding:7px; vertical-align:top; }
+  .criteria-table tr:nth-child(even) { background:#f8fafc; }
+  .criteria-note { background:#f8fafc; border-left:5px solid #64748b; padding:14px 18px; margin:18px 0; border-radius:6px; }
+</style>
 </head>
 <body>
 
 <h1>Informe detallado - Módulo 5</h1>
 <p class="subtitle">
   <strong>Auditoría temática y consistencia de clases</strong><br>
-  Proyecto PGBM · Actividad 1 · Fecha de generación del informe HTML: 2026-05-18<br>
-  Insumos usados: <code>05_auditoria_tematica.md</code>, <code>05_class_by_country_nivel1.csv</code>, 
-  <code>05_class_by_country_nivel2.csv</code>, <code>05_class_by_source_nivel1.csv</code>,
-  <code>05_source_country_matrix.csv</code> y <code>05_thematic_conflicts_xy_details_top.csv</code>.
+  Proyecto PGBM · Actividad 1 · Fecha de ejecución: 2026-06-17 19:54:07<br>
+  Insumo principal: <code>05_auditoria_tematica.md</code> y tablas auxiliares del Módulo 5.
 </p>
 
 <div class="toc">
   <strong>Contenido</strong>
   <ol>
+    <li><a href="#criterios-lectura">Criterios de lectura</a></li>
     <li><a href="#lectura-ejecutiva">Lectura ejecutiva</a></li>
     <li><a href="#calidad">Calidad temática estructural</a></li>
     <li><a href="#balance">Balance global de clases</a></li>
@@ -124,6 +130,22 @@
     <li><a href="#acciones">Acciones recomendadas</a></li>
   </ol>
 </div>
+
+
+<section id="criterios-lectura">
+<h2>Criterios de lectura del Módulo 5</h2>
+<p>La interpretación temática se organiza con los criterios resumidos en la <strong>Tabla C1</strong>. Estos criterios separan calidad estructural, balance de clases, cobertura territorial, dependencia de fuentes y conflicto temático por coordenada XY.</p>
+<table class="criteria-table compact">
+<thead><tr><th>Criterio</th><th>Indicador utilizado</th><th>Lectura operativa</th><th>Uso posterior</th></tr></thead>
+<tbody>
+<tr><td>Cobertura de campos temáticos</td><td>Nulos o vacíos en campos de origen, leyenda homologada y <code>conf_integrada</code></td><td>Permite saber si el problema está en la estructura de atributos o en la distribución de los datos.</td><td>Control de entrada para scoring y normalización.</td></tr>
+<tr><td>Consistencia jerárquica</td><td>Relación <code>Nivel_0 → Nivel_1 → Nivel_2</code></td><td>Detecta clases hijas asociadas a padres incompatibles.</td><td>Define si la leyenda puede usarse en varios niveles.</td></tr>
+<tr><td>Balance temático regional</td><td>Porcentaje y acumulado por clase</td><td>Identifica clases dominantes, medias, bajas y críticas.</td><td>Reglas de balance, fusión temática o complementación.</td></tr>
+<tr><td>Cobertura país-clase</td><td>Presencia, ausencia y baja representación por país</td><td>Señala vacíos territoriales y clases con soporte insuficiente.</td><td>Diseño de muestreo y lectura de representatividad regional.</td></tr>
+<tr><td>Dependencia de fuente</td><td>Fuente dominante por país y composición temática de fuentes</td><td>Evalúa si el volumen de un país o clase está controlado por una sola fuente.</td><td>Particiones por fuente, balance y control de sesgo.</td></tr>
+<tr><td>Conflicto temático XY</td><td>Grupos XY con más de una asignación temática</td><td>Distingue registros estructuralmente válidos de grupos espacialmente ambiguos.</td><td>Reglas de exclusión, revisión o degradación de aptitud.</td></tr>
+</tbody></table>
+</section>
 
 <section id="lectura-ejecutiva">
 <h2>1. Lectura ejecutiva</h2>
@@ -145,12 +167,13 @@
 
 <div class="metric-grid">
   <div class="metric-card"><div class="value">2,881,123</div><div class="label">Registros evaluados</div></div>
-  <div class="metric-card"><div class="value">8</div><div class="label">Campos temáticos auditados</div></div>
+  <div class="metric-card"><div class="value">9</div><div class="label">Campos temáticos auditados</div></div>
   <div class="metric-card"><div class="value">0</div><div class="label">Campos temáticos con nulos/vacíos</div></div>
   <div class="metric-card"><div class="value">0</div><div class="label">Inconsistencias jerárquicas</div></div>
   <div class="metric-card"><div class="value">5</div><div class="label">Clases Nivel_0</div></div>
   <div class="metric-card"><div class="value">12</div><div class="label">Clases Nivel_1</div></div>
   <div class="metric-card"><div class="value">40</div><div class="label">Clases Nivel_2</div></div>
+  <div class="metric-card"><div class="value">221,342</div><div class="label">Grupos XY con conflicto temático</div></div>
   <div class="metric-card"><div class="value">626,664</div><div class="label">Registros en grupos XY con conflicto temático</div></div>
 </div>
 
@@ -165,9 +188,7 @@
 <h2>2. Calidad temática estructural</h2>
 
 <p>
-  Se evaluaron campos de origen y de leyenda homologada: <code>Uso_Origen</code>, <code>Subuso_Origen</code>, 
-  <code>id_0</code>, <code>Nivel_0</code>, <code>id_cob_niv1</code>, <code>Nivel_1</code>, <code>id_cob_niv2</code>
-  y <code>Nivel_2</code>. Todos los campos tienen cobertura completa.
+  Se evaluaron campos de origen, de leyenda homologada y confiabilidad integrada: <code>Uso_Origen</code>, <code>Subuso_Origen</code>, <code>id_0</code>, <code>Nivel_0</code>, <code>id_cob_niv1</code>, <code>Nivel_1</code>, <code>id_cob_niv2</code>, <code>Nivel_2</code> y <code>conf_integrada</code>. Todos los campos tienen cobertura completa.
 </p>
 
 <div class="success">
@@ -178,6 +199,21 @@
   </p>
 </div>
 
+
+<div class="table-caption">Tabla 1A. Cobertura de campos temáticos evaluados.</div>
+<table class="data-table compact">
+<thead><tr><th>Campo</th><th>Descripción</th><th>N total</th><th>Nulos o vacíos</th><th>% nulos o vacíos</th><th>Valores distintos</th></tr></thead>
+<tbody>
+<tr><td><code>uso_origen</code></td><td>Uso original</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>170</td></tr>
+<tr><td><code>subuso_origen</code></td><td>Subuso original</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>387</td></tr>
+<tr><td><code>id_nivel_0</code></td><td>Código Nivel_0</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>5</td></tr>
+<tr><td><code>nivel_0</code></td><td>Nivel_0</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>5</td></tr>
+<tr><td><code>id_nivel_1</code></td><td>Código Nivel_1</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>12</td></tr>
+<tr><td><code>nivel_1</code></td><td>Nivel_1</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>12</td></tr>
+<tr><td><code>id_nivel_2</code></td><td>Código Nivel_2</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>40</td></tr>
+<tr><td><code>nivel_2</code></td><td>Nivel_2</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>40</td></tr>
+<tr><td><code>conf_integrada</code></td><td>Confiabilidad integrada</td><td>2,881,123</td><td>0</td><td>0.00%</td><td>1,405,623</td></tr>
+</tbody></table>
 <h3>2.1 Consistencia jerárquica</h3>
 <p>
   No se detectaron casos donde una clase hija esté asociada a múltiples padres incompatibles. Esto implica que las relaciones

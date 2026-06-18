@@ -30,11 +30,34 @@
   .footer { margin-top:50px; padding-top:18px; border-top:1px solid var(--border); font-size:0.9rem; color:#52616b; }
   @media print { body { max-width:none; margin: 20mm; } table { page-break-inside: avoid; } }
 </style>
+<style>
+  .criteria-table { width:100%; border-collapse:collapse; margin:18px 0 26px 0; font-size:0.9rem; }
+  .criteria-table th { background:#174A7C; color:#fff; text-align:left; padding:8px; }
+  .criteria-table td { border:1px solid #d0d7de; padding:7px; vertical-align:top; }
+  .criteria-table tr:nth-child(even) { background:#f8fafc; }
+  .criteria-note { background:#f8fafc; border-left:5px solid #64748b; padding:14px 18px; margin:18px 0; border-radius:6px; }
+</style>
 
 </head><body>
 <h1>Síntesis interpretativa - Módulo 5B</h1>
-<p class="subtitle"><strong>Auditoría temática focalizada en 2020 y ventana 2018–2022</strong><br>PGBM - Actividad 1: diagnóstico regional de aptitud de fuentes y muestras de control</p>
+<p class="subtitle"><strong>Auditoría temática focalizada en 2020 y ventana 2018–2022</strong><br>PGBM - Actividad 1: diagnóstico regional de aptitud de fuentes y muestras de control<br>Fecha de ejecución: 2026-06-17 19:51:06</p>
 <div class="box"><p>Este informe consolida los resultados del Módulo 5B. Su objetivo es contrastar el diagnóstico temático general contra dos subconjuntos operativos: <code>exacto_2020</code>, que representa el núcleo temporal estricto, y <code>ventana_2018_2022</code>, que representa la ventana flexible definida para la línea base 2020. La lectura se enfoca en representatividad temática, cobertura país-clase, sesgo por fuente, estructura XY y conflictos temáticos aún activos dentro de la ventana.</p></div>
+
+<section id="criterios-lectura">
+<h2>Criterios de lectura del Módulo 5B</h2>
+<p>La comparación entre <code>exacto_2020</code> y <code>ventana_2018_2022</code> se interpreta con los criterios resumidos en la <strong>Tabla C1</strong>. El objetivo es decidir qué subconjunto tiene capacidad regional para alimentar entrenamiento, validación y revisión.</p>
+<table class="criteria-table compact">
+<thead><tr><th>Criterio</th><th>Indicador utilizado</th><th>Interpretación</th><th>Implicación operativa</th></tr></thead>
+<tbody>
+<tr><td>Núcleo temporal estricto</td><td>Registros exactamente 2020</td><td>Alta precisión temporal, pero posible sesgo territorial y por fuente.</td><td>Uso como núcleo conservador cuando existe cobertura suficiente.</td></tr>
+<tr><td>Ventana temporal flexible</td><td>Registros entre 2018 y 2022</td><td>Mayor cobertura regional, de fuentes y de clases.</td><td>Base candidata principal para scoring multicriterio.</td></tr>
+<tr><td>Dominancia temática</td><td>Peso acumulado de clases principales</td><td>Identifica clases que pueden dominar el aprendizaje del modelo.</td><td>Balance o muestreo estratificado.</td></tr>
+<tr><td>Dependencia de fuente única</td><td>Número de fuentes por país-clase</td><td>Distingue abundancia real de abundancia dependiente de una sola procedencia.</td><td>Control de particiones y prevención de sesgo por fuente.</td></tr>
+<tr><td>Limitación territorial</td><td>Número de países por clase y volumen país-clase</td><td>Evalúa si una clase tiene soporte regional o local.</td><td>Definir si se modela regionalmente o por país/subregión.</td></tr>
+<tr><td>Conflictos activos en ventana</td><td>Grupos y registros conflictivos dentro de 2018–2022</td><td>Señala casos que no deben pasar automáticamente a entrenamiento.</td><td>Entrada directa para la taxonomía del Módulo 5C.</td></tr>
+</tbody></table>
+</section>
+
 <h2>1. Lectura ejecutiva</h2>
 <div class="good"><p><strong>Resultado central:</strong> la ventana 2018–2022 es metodológicamente mucho más útil que 2020 estricto. Pasa de 225,478 registros (7.83% de la base) a 1,195,911 registros (41.51%), aumenta la cobertura de fuentes de 2 a 22, incorpora los 8 países y amplía la diversidad temática de 10 a 12 clases en Nivel_1.</p></div>
 <div class="warn"><p><strong>Pero el subconjunto exacto 2020 no debe descartarse:</strong> es un núcleo conservador muy limpio desde el punto de vista XY, con 225,284 registros únicos en el subconjunto. Su problema no es la calidad espacial-temática, sino el sesgo extremo hacia Guatemala, MAGA y clases agrícolas.</p></div>

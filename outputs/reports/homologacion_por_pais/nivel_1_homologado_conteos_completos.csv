@@ -1,0 +1,91 @@
+﻿pais,id_1_propuesta,nivel_1_propuesta,n_registros,presente
+Belice,11,Bosques latifoliados y mixtos,12175,True
+Belice,12,Bosques de coníferas,1661,True
+Belice,13,Bosques de mangle,627,True
+Belice,14,Bosques secos,0,False
+Belice,15,Plantaciones forestales,10,True
+Belice,21,Cultivos arbóreos,0,False
+Belice,22,Zonas agrícolas no arbóreas,17214,True
+Belice,23,Construido,296,True
+Belice,24,Cuerpos de agua,235,True
+Belice,25,Otras tierras,1093,True
+Costa Rica,11,Bosques latifoliados y mixtos,55933,True
+Costa Rica,12,Bosques de coníferas,0,False
+Costa Rica,13,Bosques de mangle,0,False
+Costa Rica,14,Bosques secos,0,False
+Costa Rica,15,Plantaciones forestales,897,True
+Costa Rica,21,Cultivos arbóreos,27550,True
+Costa Rica,22,Zonas agrícolas no arbóreas,39533,True
+Costa Rica,23,Construido,438,True
+Costa Rica,24,Cuerpos de agua,5,True
+Costa Rica,25,Otras tierras,8658,True
+El Salvador,11,Bosques latifoliados y mixtos,164907,True
+El Salvador,12,Bosques de coníferas,6014,True
+El Salvador,13,Bosques de mangle,9875,True
+El Salvador,14,Bosques secos,14,True
+El Salvador,15,Plantaciones forestales,2249,True
+El Salvador,21,Cultivos arbóreos,79154,True
+El Salvador,22,Zonas agrícolas no arbóreas,274741,True
+El Salvador,23,Construido,30882,True
+El Salvador,24,Cuerpos de agua,1833,True
+El Salvador,25,Otras tierras,1859,True
+Guatemala,11,Bosques latifoliados y mixtos,415,True
+Guatemala,12,Bosques de coníferas,5,True
+Guatemala,13,Bosques de mangle,84,True
+Guatemala,14,Bosques secos,0,False
+Guatemala,15,Plantaciones forestales,1,True
+Guatemala,21,Cultivos arbóreos,138624,True
+Guatemala,22,Zonas agrícolas no arbóreas,69979,True
+Guatemala,23,Construido,125,True
+Guatemala,24,Cuerpos de agua,44,True
+Guatemala,25,Otras tierras,244,True
+Honduras,11,Bosques latifoliados y mixtos,6416,True
+Honduras,12,Bosques de coníferas,5672,True
+Honduras,13,Bosques de mangle,1208,True
+Honduras,14,Bosques secos,1665,True
+Honduras,15,Plantaciones forestales,24,True
+Honduras,21,Cultivos arbóreos,99826,True
+Honduras,22,Zonas agrícolas no arbóreas,16368,True
+Honduras,23,Construido,370,True
+Honduras,24,Cuerpos de agua,267,True
+Honduras,25,Otras tierras,568,True
+México,11,Bosques latifoliados y mixtos,1337,True
+México,12,Bosques de coníferas,44,True
+México,13,Bosques de mangle,16,True
+México,14,Bosques secos,112,True
+México,15,Plantaciones forestales,4,True
+México,21,Cultivos arbóreos,0,False
+México,22,Zonas agrícolas no arbóreas,595,True
+México,23,Construido,5,True
+México,24,Cuerpos de agua,0,False
+México,25,Otras tierras,36,True
+Nicaragua,11,Bosques latifoliados y mixtos,0,False
+Nicaragua,12,Bosques de coníferas,0,False
+Nicaragua,13,Bosques de mangle,0,False
+Nicaragua,14,Bosques secos,0,False
+Nicaragua,15,Plantaciones forestales,0,False
+Nicaragua,21,Cultivos arbóreos,1,True
+Nicaragua,22,Zonas agrícolas no arbóreas,2,True
+Nicaragua,23,Construido,0,False
+Nicaragua,24,Cuerpos de agua,3,True
+Nicaragua,25,Otras tierras,1,True
+Panamá,11,Bosques latifoliados y mixtos,2733,True
+Panamá,12,Bosques de coníferas,0,False
+Panamá,13,Bosques de mangle,109,True
+Panamá,14,Bosques secos,0,False
+Panamá,15,Plantaciones forestales,53,True
+Panamá,21,Cultivos arbóreos,3502,True
+Panamá,22,Zonas agrícolas no arbóreas,22587,True
+Panamá,23,Construido,103,True
+Panamá,24,Cuerpos de agua,78,True
+Panamá,25,Otras tierras,22,True
+multipais_o_inconsistente,11,Bosques latifoliados y mixtos,277,True
+multipais_o_inconsistente,12,Bosques de coníferas,46,True
+multipais_o_inconsistente,13,Bosques de mangle,1,True
+multipais_o_inconsistente,14,Bosques secos,1,True
+multipais_o_inconsistente,15,Plantaciones forestales,0,False
+multipais_o_inconsistente,21,Cultivos arbóreos,83,True
+multipais_o_inconsistente,22,Zonas agrícolas no arbóreas,306,True
+multipais_o_inconsistente,23,Construido,0,False
+multipais_o_inconsistente,24,Cuerpos de agua,26,True
+multipais_o_inconsistente,25,Otras tierras,9,True

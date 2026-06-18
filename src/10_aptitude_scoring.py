@@ -26,8 +26,10 @@ Decisiones metodológicas principales:
 # NOTA: aún debo revisar todo el pydocstring. 
 
 import argparse
+import re
 import sqlite3
 import traceback
+import unicodedata
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -64,6 +66,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 
 CONFIG = ROOT / "config" / "scoring_aptitud.yaml"
+DEFAULT_SOURCE_CATALOG = ROOT / "config" / "source_catalog.csv"
 
 DB = ROOT / "data" / "interim" / "05_thematic_audit.sqlite"
 SCORING_DB = ROOT / "data" / "interim" / "10_scoring_aptitud.sqlite"
@@ -110,6 +113,16 @@ REVIEW_CASES_CSV = OUT / "10_review_priority_cases.csv"
 SCENARIOS_CSV = OUT / "10_selection_scenarios_summary.csv"
 AUDIT_SUMMARY_CSV = OUT / "10_scoring_audit_summary.csv"
 REPORT_MD = REP / "10_scoring_multicriterio_aptitud.md"
+
+# Versión de trazabilidad del componente de confiabilidad. Se guarda en la
+# auditoría para impedir que resultados antiguos, sin distinción entre valores
+# observados e imputados, se reutilicen como si fueran actuales.
+CONFIDENCE_PIPELINE_VERSION = "2.0-observed-vs-imputed"
+DEFAULT_CONFIDENCE_NEUTRAL_SCORE = 70.0
+
+# El score de fuente se calcula antes del score XY desde un catálogo documental
+# y nunca se sustituye silenciosamente por un valor neutral.
+SOURCE_PIPELINE_VERSION = "1.0-documented-catalog-unique-source-per-xy"
 
 
 # =============================================================================
@@ -175,6 +188,614 @@ def map_score(x: Any, mapping: dict[str, Any], default: float = 70.0) -> float:
             return float(v)
 
     return default
+
+
+def confidence_settings(cfg: dict[str, Any]) -> dict[str, Any]:
+    section = cfg.get("confidence", {}) or {}
+    neutral = float(section.get("neutral_score", DEFAULT_CONFIDENCE_NEUTRAL_SCORE))
+    if not 0 <= neutral <= 100:
+        raise ValueError(
+            f"confidence.neutral_score debe estar entre 0 y 100; recibido={neutral}"
+        )
+
+    input_scale = str(section.get("input_scale", "auto")).strip().lower()
+    aliases = {
+        "auto": "auto",
+        "0_1": "0_1",
+        "0-1": "0_1",
+        "01": "0_1",
+        "0_100": "0_100",
+        "0-100": "0_100",
+        "0100": "0_100",
+    }
+    if input_scale not in aliases:
+        raise ValueError(
+            "confidence.input_scale debe ser auto, 0_1 o 0_100; "
+            f"recibido={input_scale!r}"
+        )
+
+    max_imputed_xy_pct = float(section.get("max_imputed_xy_pct", 100.0))
+    if not 0 <= max_imputed_xy_pct <= 100:
+        raise ValueError(
+            "confidence.max_imputed_xy_pct debe estar entre 0 y 100; "
+            f"recibido={max_imputed_xy_pct}"
+        )
+
+    return {
+        "neutral_score": neutral,
+        "input_scale": aliases[input_scale],
+        "max_imputed_xy_pct": max_imputed_xy_pct,
+    }
+
+
+def prepare_confidence_records(
+    records: pd.DataFrame,
+    cfg: dict[str, Any],
+    *,
+    allow_missing: bool,
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Normaliza conf_integrada y conserva trazabilidad observada/imputada."""
+    rec = records.copy()
+    settings = confidence_settings(cfg)
+
+    if "conf_integrada" not in rec.columns:
+        if not allow_missing:
+            raise ValueError(
+                "thematic_base no contiene conf_integrada. Ejecute primero "
+                "thematic_audit.py; la ejecución se detiene para evitar que "
+                "todos los grupos reciban 70 silenciosamente."
+            )
+        rec["conf_integrada"] = np.nan
+
+    raw = rec["conf_integrada"]
+    raw_non_empty = raw.notna() & raw.astype("string").str.strip().ne("")
+    numeric = pd.to_numeric(raw, errors="coerce")
+    invalid = raw_non_empty & numeric.isna()
+
+    if invalid.any():
+        examples = raw.loc[invalid].astype(str).drop_duplicates().head(10).tolist()
+        raise ValueError(
+            f"conf_integrada contiene {int(invalid.sum())} valores no numéricos. "
+            f"Ejemplos: {examples}"
+        )
+
+    observed = numeric.dropna()
+    n_observed = int(observed.size)
+
+    if n_observed == 0 and not allow_missing:
+        raise ValueError(
+            "No existe ningún valor observado de conf_integrada en la ventana. "
+            "La ejecución se detiene para evitar imputar 70 a todos los grupos. "
+            "Use --allow-missing-confidence solo si la ausencia es intencional."
+        )
+
+    detected_scale = "sin_datos"
+    normalized = numeric.astype(float)
+
+    if n_observed:
+        min_value = float(observed.min())
+        max_value = float(observed.max())
+        requested_scale = settings["input_scale"]
+
+        if min_value < 0 or max_value > 100:
+            raise ValueError(
+                "conf_integrada está fuera del rango permitido: "
+                f"min={min_value}, max={max_value}. Se acepta 0-1 o 0-100."
+            )
+
+        if requested_scale == "auto":
+            detected_scale = "0_1" if max_value <= 1.0 + 1e-9 else "0_100"
+        else:
+            detected_scale = requested_scale
+
+        if detected_scale == "0_1":
+            if max_value > 1.0 + 1e-9:
+                raise ValueError(
+                    "confidence.input_scale=0_1, pero conf_integrada contiene "
+                    f"valores mayores que 1 (max={max_value})."
+                )
+            normalized = numeric * 100.0
+        else:
+            if max_value > 100:
+                raise ValueError(
+                    "confidence.input_scale=0_100, pero existen valores mayores "
+                    f"que 100 (max={max_value})."
+                )
+            normalized = numeric.astype(float)
+
+    normalized = normalized.clip(0, 100)
+    rec["conf_integrada_score_observado"] = normalized
+    rec["conf_integrada_observada"] = normalized.notna().astype("int8")
+
+    meta = {
+        "confidence_pipeline_version": CONFIDENCE_PIPELINE_VERSION,
+        "confidence_input_scale_config": settings["input_scale"],
+        "confidence_scale_detected": detected_scale,
+        "confidence_neutral_score": settings["neutral_score"],
+        "n_records_confidence_observed": n_observed,
+        "n_records_confidence_missing": int(len(rec) - n_observed),
+        "pct_records_confidence_observed": round(
+            100.0 * n_observed / len(rec) if len(rec) else 0.0,
+            6,
+        ),
+        "n_confidence_distinct_observed": int(normalized.dropna().nunique()),
+        "confidence_observed_min": (
+            round(float(normalized.dropna().min()), 6) if n_observed else np.nan
+        ),
+        "confidence_observed_max": (
+            round(float(normalized.dropna().max()), 6) if n_observed else np.nan
+        ),
+    }
+
+    print(
+        "Confiabilidad observada:",
+        f"registros={n_observed:,}/{len(rec):,};",
+        f"cobertura={meta['pct_records_confidence_observed']:.3f}%;",
+        f"escala={detected_scale};",
+        f"valores_distintos={meta['n_confidence_distinct_observed']}",
+    )
+
+    return rec, meta
+
+
+def validate_confidence_master(
+    master: pd.DataFrame,
+    cfg: dict[str, Any],
+    *,
+    allow_missing: bool,
+) -> dict[str, Any]:
+    required = [
+        "n_conf_integrada_observada",
+        "pct_conf_integrada_observada",
+        "conf_integrada_promedio_observada",
+        "score_confiabilidad_base",
+        "flag_confianza_imputada",
+        "origen_score_confiabilidad",
+    ]
+    missing = [c for c in required if c not in master.columns]
+    if missing:
+        raise ValueError(
+            f"Faltan columnas de trazabilidad de confiabilidad en master: {missing}"
+        )
+
+    base_score = pd.to_numeric(master["score_confiabilidad_base"], errors="coerce")
+    if base_score.isna().any():
+        n = int(base_score.isna().sum())
+        raise ValueError(
+            f"Hay {n} grupos XY sin score_confiabilidad_base después de la unión. "
+            "Esto indica grupos sin registros asociados o una agregación incompleta."
+        )
+
+    imputed = pd.to_numeric(
+        master["flag_confianza_imputada"], errors="coerce"
+    ).fillna(1).eq(1)
+    n_total = int(len(master))
+    n_imputed = int(imputed.sum())
+    n_observed = n_total - n_imputed
+
+    pct_imputed = 100.0 * n_imputed / n_total if n_total else 0.0
+    settings = confidence_settings(cfg)
+
+    if n_observed == 0 and not allow_missing:
+        raise ValueError(
+            "Todos los grupos XY quedaron con confiabilidad neutral imputada. "
+            "La ejecución se detiene para evitar publicar un score constante como "
+            "si fuera confiabilidad observada."
+        )
+
+    if (
+        pct_imputed > settings["max_imputed_xy_pct"]
+        and not allow_missing
+    ):
+        raise ValueError(
+            "La imputación de confiabilidad supera el máximo permitido: "
+            f"{pct_imputed:.3f}% > "
+            f"{settings['max_imputed_xy_pct']:.3f}%. "
+            "Ajuste confidence.max_imputed_xy_pct solo si este nivel de ausencia "
+            "es metodológicamente aceptable."
+        )
+
+    return {
+        "n_xy_confidence_observed": n_observed,
+        "n_xy_confidence_imputed": n_imputed,
+        "pct_xy_confidence_observed": round(
+            100.0 * n_observed / n_total if n_total else 0.0, 6
+        ),
+        "pct_xy_confidence_imputed": round(pct_imputed, 6),
+        "max_imputed_xy_pct_allowed": settings["max_imputed_xy_pct"],
+    }
+
+
+def _normalize_text_key(value: Any) -> str:
+    """Normaliza texto para controles de correspondencia, no para reemplazar el original."""
+    if pd.isna(value):
+        return ""
+    text = unicodedata.normalize("NFKD", str(value))
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = text.casefold().strip()
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"\s*[-–—]\s*", "-", text)
+    return text
+
+
+def _normalize_source_id(value: Any) -> str:
+    if pd.isna(value):
+        return ""
+    text = str(value).strip()
+    if not text:
+        return ""
+    try:
+        number = float(text)
+        if number.is_integer():
+            return str(int(number))
+    except (TypeError, ValueError):
+        pass
+    return text
+
+
+def _parse_allowed_years(value: Any) -> set[int]:
+    if pd.isna(value):
+        return set()
+    years: set[int] = set()
+    for token in re.split(r"[|,;\s]+", str(value).strip()):
+        if not token:
+            continue
+        try:
+            years.add(int(float(token)))
+        except ValueError as exc:
+            raise ValueError(
+                f"Año inválido en source_catalog.csv: {token!r} dentro de {value!r}"
+            ) from exc
+    return years
+
+
+def source_quality_settings(cfg: dict[str, Any]) -> dict[str, Any]:
+    section = cfg.get("source_quality", {}) or {}
+    catalog_value = section.get("catalog_file", "config/source_catalog.csv")
+    catalog_path = Path(str(catalog_value))
+    if not catalog_path.is_absolute():
+        catalog_path = ROOT / catalog_path
+
+    weights = {
+        "directness": 0.50,
+        "traceability": 0.25,
+        "temporal_metadata": 0.25,
+        **(section.get("weights", {}) or {}),
+    }
+    weights = {k: float(v) for k, v in weights.items()}
+    required_weight_keys = {"directness", "traceability", "temporal_metadata"}
+    missing = sorted(required_weight_keys - set(weights))
+    if missing:
+        raise ValueError(f"Faltan pesos de source_quality: {missing}")
+    total = sum(weights[k] for k in required_weight_keys)
+    if not np.isclose(total, 1.0, atol=1e-9):
+        raise ValueError(
+            "Los pesos de source_quality deben sumar 1.0; "
+            f"recibido={total:.12f}"
+        )
+    if any(weights[k] < 0 for k in required_weight_keys):
+        raise ValueError("Los pesos de source_quality no pueden ser negativos.")
+
+    return {
+        "catalog_path": catalog_path,
+        "weights": weights,
+        "fail_on_type_mismatch": bool(section.get("fail_on_type_mismatch", True)),
+        "fail_on_uncatalogued_source": bool(
+            section.get("fail_on_uncatalogued_source", True)
+        ),
+        "min_distinct_xy_scores": int(section.get("min_distinct_xy_scores", 2)),
+    }
+
+
+def load_source_catalog(cfg: dict[str, Any]) -> tuple[pd.DataFrame, dict[str, Any]]:
+    settings = source_quality_settings(cfg)
+    path: Path = settings["catalog_path"]
+    if not path.exists():
+        raise FileNotFoundError(
+            f"No existe el catálogo de fuentes requerido: {path}. "
+            "Copie source_catalog.csv dentro de config/."
+        )
+
+    catalog = pd.read_csv(path, dtype="string", encoding="utf-8-sig")
+    catalog = clean_columns(catalog)
+    required = [
+        "id_fuente",
+        "fuente_reporte",
+        "medio_obtencion",
+        "tipo_documentado",
+        "restriccion_uso",
+        "anios_documentados",
+        "anios_permitidos",
+        "pais_documentado",
+        "observaciones",
+        "clase_trazabilidad",
+        "score_directitud",
+        "score_trazabilidad",
+    ]
+    missing = [c for c in required if c not in catalog.columns]
+    if missing:
+        raise ValueError(f"source_catalog.csv no contiene columnas requeridas: {missing}")
+
+    catalog["id_fuente"] = catalog["id_fuente"].map(_normalize_source_id)
+    if catalog["id_fuente"].eq("").any():
+        raise ValueError("source_catalog.csv contiene id_fuente vacío.")
+    duplicated = catalog[catalog["id_fuente"].duplicated(keep=False)]
+    if not duplicated.empty:
+        raise ValueError(
+            "source_catalog.csv contiene id_fuente duplicados: "
+            + ", ".join(sorted(duplicated["id_fuente"].unique().tolist()))
+        )
+
+    for col in ["score_directitud", "score_trazabilidad"]:
+        catalog[col] = pd.to_numeric(catalog[col], errors="coerce")
+        if catalog[col].isna().any():
+            bad = catalog.loc[catalog[col].isna(), "id_fuente"].tolist()
+            raise ValueError(f"{col} no numérico para id_fuente={bad}")
+        if (~catalog[col].between(0, 100)).any():
+            bad = catalog.loc[~catalog[col].between(0, 100), ["id_fuente", col]]
+            raise ValueError(f"{col} fuera de 0-100: {bad.to_dict('records')}")
+
+    catalog["_allowed_years"] = catalog["anios_permitidos"].map(_parse_allowed_years)
+    if catalog["_allowed_years"].map(len).eq(0).any():
+        bad = catalog.loc[catalog["_allowed_years"].map(len).eq(0), "id_fuente"].tolist()
+        raise ValueError(f"Fuentes sin años documentados utilizables: {bad}")
+
+    catalog["_fuente_key"] = catalog["fuente_reporte"].map(_normalize_text_key)
+    catalog["_tipo_key"] = catalog["tipo_documentado"].map(_normalize_text_key)
+    catalog["_pais_key"] = catalog["pais_documentado"].map(_normalize_text_key)
+
+    meta = {
+        "source_pipeline_version": SOURCE_PIPELINE_VERSION,
+        "source_catalog_file": str(path.resolve()),
+        "source_catalog_rows": int(len(catalog)),
+        "source_catalog_unique_ids": int(catalog["id_fuente"].nunique()),
+        "source_weight_directness": settings["weights"]["directness"],
+        "source_weight_traceability": settings["weights"]["traceability"],
+        "source_weight_temporal_metadata": settings["weights"]["temporal_metadata"],
+    }
+    return catalog, meta
+
+
+def prepare_source_records(
+    records: pd.DataFrame,
+    cfg: dict[str, Any],
+) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
+    """Une el catálogo y calcula un score previo por fuente sin circularidad."""
+    required = [
+        "id_fuente",
+        "fuente",
+        "tipo_fuente",
+        "detalle_tipo_fuente",
+        "id_origen",
+        "anio",
+        "pais",
+    ]
+    missing = [c for c in required if c not in records.columns]
+    if missing:
+        raise ValueError(
+            "thematic_base no conserva todos los campos de fuente requeridos: "
+            f"{missing}. Ejecute thematic_audit.py con la versión corregida."
+        )
+
+    settings = source_quality_settings(cfg)
+    catalog, catalog_meta = load_source_catalog(cfg)
+    rec = records.copy()
+    rec["id_fuente"] = rec["id_fuente"].map(_normalize_source_id)
+    if rec["id_fuente"].eq("").any():
+        raise ValueError(
+            f"Hay {int(rec['id_fuente'].eq('').sum())} registros sin id_fuente."
+        )
+
+    observed_ids = set(rec["id_fuente"].unique())
+    catalog_ids = set(catalog["id_fuente"].unique())
+    uncatalogued = sorted(observed_ids - catalog_ids)
+    if uncatalogued and settings["fail_on_uncatalogued_source"]:
+        raise ValueError(
+            "Hay id_fuente sin documentar en source_catalog.csv: "
+            + ", ".join(uncatalogued)
+        )
+
+    merge_cols = [
+        "id_fuente",
+        "fuente_reporte",
+        "medio_obtencion",
+        "tipo_documentado",
+        "restriccion_uso",
+        "anios_documentados",
+        "anios_permitidos",
+        "pais_documentado",
+        "observaciones",
+        "clase_trazabilidad",
+        "score_directitud",
+        "score_trazabilidad",
+        "_allowed_years",
+        "_fuente_key",
+        "_tipo_key",
+        "_pais_key",
+    ]
+    rec = rec.merge(
+        catalog[merge_cols],
+        on="id_fuente",
+        how="left",
+        validate="many_to_one",
+    )
+
+    if rec["score_directitud"].isna().any():
+        missing_ids = sorted(rec.loc[rec["score_directitud"].isna(), "id_fuente"].unique())
+        raise ValueError(f"Registros sin score de catálogo para id_fuente={missing_ids}")
+
+    rec["_fuente_registro_key"] = rec["fuente"].map(_normalize_text_key)
+    rec["_tipo_registro_key"] = rec["tipo_fuente"].map(_normalize_text_key)
+    rec["_pais_registro_key"] = rec["pais"].map(_normalize_text_key)
+    rec["flag_nombre_fuente_inconsistente"] = (
+        rec["_fuente_registro_key"].ne(rec["_fuente_key"])
+    ).astype("int8")
+    rec["flag_tipo_fuente_inconsistente"] = (
+        rec["_tipo_registro_key"].ne(rec["_tipo_key"])
+    ).astype("int8")
+    rec["flag_pais_fuente_inconsistente"] = (
+        rec["_pais_registro_key"].ne(rec["_pais_key"])
+    ).astype("int8")
+
+    n_type_mismatch = int(rec["flag_tipo_fuente_inconsistente"].sum())
+    if n_type_mismatch and settings["fail_on_type_mismatch"]:
+        examples = (
+            rec.loc[
+                rec["flag_tipo_fuente_inconsistente"].eq(1),
+                ["id_fuente", "tipo_fuente", "tipo_documentado"],
+            ]
+            .drop_duplicates()
+            .head(20)
+            .to_dict("records")
+        )
+        raise ValueError(
+            f"Hay {n_type_mismatch:,} registros cuyo Tipo no coincide con el catálogo. "
+            f"Ejemplos: {examples}"
+        )
+
+    rec["anio"] = pd.to_numeric(rec["anio"], errors="coerce").astype("Int64")
+    rec["flag_anio_fuente_informado"] = rec["anio"].notna().astype("int8")
+    rec["flag_anio_fuente_consistente"] = [
+        int(pd.notna(year) and int(year) in allowed)
+        for year, allowed in zip(rec["anio"], rec["_allowed_years"])
+    ]
+
+    temporal = (
+        rec.groupby("id_fuente", dropna=False)
+        .agg(
+            n_registros_fuente=("source_rowid", "count"),
+            n_anio_informado=("flag_anio_fuente_informado", "sum"),
+            n_anio_consistente=("flag_anio_fuente_consistente", "sum"),
+            n_nombre_inconsistente=("flag_nombre_fuente_inconsistente", "sum"),
+            n_tipo_inconsistente=("flag_tipo_fuente_inconsistente", "sum"),
+            n_pais_inconsistente=("flag_pais_fuente_inconsistente", "sum"),
+        )
+        .reset_index()
+    )
+    temporal["pct_anio_informado"] = (
+        100.0 * temporal["n_anio_informado"] / temporal["n_registros_fuente"]
+    ).round(6)
+    temporal["pct_anio_consistente"] = np.where(
+        temporal["n_anio_informado"].gt(0),
+        100.0 * temporal["n_anio_consistente"] / temporal["n_anio_informado"],
+        0.0,
+    ).round(6)
+    temporal["score_consistencia_temporal_fuente"] = (
+        0.5 * temporal["pct_anio_informado"]
+        + 0.5 * temporal["pct_anio_consistente"]
+    ).round(3)
+
+    source_profile = catalog.merge(temporal, on="id_fuente", how="inner", validate="one_to_one")
+    w = settings["weights"]
+    source_profile["score_fuente_base"] = (
+        w["directness"] * source_profile["score_directitud"]
+        + w["traceability"] * source_profile["score_trazabilidad"]
+        + w["temporal_metadata"]
+        * source_profile["score_consistencia_temporal_fuente"]
+    ).round(3)
+    source_profile["flag_fuente_anio_inconsistente"] = (
+        source_profile["pct_anio_informado"].lt(100)
+        | source_profile["pct_anio_consistente"].lt(100)
+    ).astype("int8")
+    source_profile["flag_fuente_pais_inconsistente"] = (
+        source_profile["n_pais_inconsistente"].gt(0)
+    ).astype("int8")
+
+    profile_cols = [
+        "id_fuente",
+        "score_consistencia_temporal_fuente",
+        "pct_anio_informado",
+        "pct_anio_consistente",
+        "score_fuente_base",
+        "flag_fuente_anio_inconsistente",
+        "flag_fuente_pais_inconsistente",
+    ]
+    rec = rec.merge(
+        source_profile[profile_cols],
+        on="id_fuente",
+        how="left",
+        validate="many_to_one",
+    )
+    if rec["score_fuente_base"].isna().any():
+        raise ValueError("La unión del score de fuente dejó registros sin score_fuente_base.")
+
+    meta = {
+        **catalog_meta,
+        "n_source_ids_observed": int(len(observed_ids)),
+        "n_source_ids_uncatalogued": int(len(uncatalogued)),
+        "source_ids_uncatalogued": "|".join(uncatalogued),
+        "n_source_records_name_mismatch": int(rec["flag_nombre_fuente_inconsistente"].sum()),
+        "n_source_records_type_mismatch": n_type_mismatch,
+        "n_source_records_country_mismatch": int(rec["flag_pais_fuente_inconsistente"].sum()),
+        "n_source_records_year_missing": int(rec["flag_anio_fuente_informado"].eq(0).sum()),
+        "n_source_records_year_inconsistent": int((
+            rec["flag_anio_fuente_informado"].eq(1)
+            & rec["flag_anio_fuente_consistente"].eq(0)
+        ).sum()),
+        "n_source_scores_distinct": int(source_profile["score_fuente_base"].nunique()),
+        "source_score_min": round(float(source_profile["score_fuente_base"].min()), 3),
+        "source_score_max": round(float(source_profile["score_fuente_base"].max()), 3),
+    }
+
+    print(
+        "Score de fuente previo:",
+        f"fuentes={len(source_profile):,};",
+        f"scores_distintos={meta['n_source_scores_distinct']:,};",
+        f"rango={meta['source_score_min']}-{meta['source_score_max']};",
+        f"años_inconsistentes={meta['n_source_records_year_inconsistent']:,}",
+    )
+    return rec, source_profile, meta
+
+
+def validate_source_master(master: pd.DataFrame, cfg: dict[str, Any]) -> dict[str, Any]:
+    required = [
+        "n_fuentes",
+        "ids_fuente_presentes",
+        "fuentes_presentes",
+        "score_fuente_promedio",
+        "score_fuente_minimo",
+        "score_fuente_maximo",
+    ]
+    missing = [c for c in required if c not in master.columns]
+    if missing:
+        raise ValueError(f"Faltan columnas del componente fuente en master: {missing}")
+
+    score = pd.to_numeric(master["score_fuente_promedio"], errors="coerce")
+    if score.isna().any():
+        raise ValueError(
+            f"Hay {int(score.isna().sum())} grupos XY sin score_fuente_promedio."
+        )
+    if (~score.between(0, 100)).any():
+        raise ValueError("score_fuente_promedio contiene valores fuera de 0-100.")
+
+    settings = source_quality_settings(cfg)
+    n_active_sources = int(
+        master["ids_fuente_presentes"]
+        .astype(str)
+        .str.split("|")
+        .explode()
+        .replace("", np.nan)
+        .dropna()
+        .nunique()
+    )
+    n_distinct_scores = int(score.round(6).nunique())
+    if (
+        n_active_sources > 1
+        and n_distinct_scores < settings["min_distinct_xy_scores"]
+    ):
+        raise ValueError(
+            "El score de fuente volvió a quedar constante o casi constante: "
+            f"fuentes_activas={n_active_sources}, scores_xy_distintos={n_distinct_scores}."
+        )
+
+    return {
+        "n_xy_source_scored": int(score.notna().sum()),
+        "pct_xy_source_scored": round(100.0 * score.notna().mean(), 6),
+        "n_xy_source_scores_distinct": n_distinct_scores,
+        "xy_source_score_min": round(float(score.min()), 3),
+        "xy_source_score_max": round(float(score.max()), 3),
+        "n_active_source_ids_in_xy": n_active_sources,
+    }
 
 
 def sev_order(x: Any) -> int:
@@ -367,10 +988,15 @@ def read_base(conn: sqlite3.Connection, cfg: dict[str, Any]) -> pd.DataFrame:
         "lat",
         "anio",
         "pais",
+        "id_fuente",
         "fuente",
+        "tipo_fuente",
+        "detalle_tipo_fuente",
+        "id_origen",
         "nivel_0",
         "nivel_1",
         "nivel_2",
+        "conf_integrada",
     ]
 
     available = cols(conn, "thematic_base")
@@ -381,7 +1007,7 @@ def read_base(conn: sqlite3.Connection, cfg: dict[str, Any]) -> pd.DataFrame:
 
     optional = [
         c
-        for c in ["conf_integrada", "conf_ndvi", "conf_cobertura", "conf_altura"]
+        for c in ["conf_ndvi", "conf_cobertura", "conf_altura"]
         if c in available
     ]
 
@@ -812,19 +1438,16 @@ def aggregate_records_to_xy(records: pd.DataFrame, cfg: dict[str, Any]) -> pd.Da
         .astype(float)
     )
 
-    if "conf_integrada" in rec.columns:
-        conf = pd.to_numeric(rec["conf_integrada"], errors="coerce")
-
-        rec["conf_integrada_score"] = (
-            conf * 100
-            if len(conf.dropna()) and conf.dropna().quantile(0.95) <= 1.5
-            else conf
+    required_conf_cols = [
+        "conf_integrada_score_observado",
+        "conf_integrada_observada",
+    ]
+    missing_conf_cols = [c for c in required_conf_cols if c not in rec.columns]
+    if missing_conf_cols:
+        raise ValueError(
+            "Los registros no fueron preparados mediante prepare_confidence_records. "
+            f"Faltan: {missing_conf_cols}"
         )
-
-        rec["conf_integrada_score"] = rec["conf_integrada_score"].clip(0, 100)
-
-    else:
-        rec["conf_integrada_score"] = 70.0
 
     def concat(s: pd.Series) -> str:
         return "|".join(
@@ -843,7 +1466,7 @@ def aggregate_records_to_xy(records: pd.DataFrame, cfg: dict[str, Any]) -> pd.Da
         rec.groupby("xy_group_id")
         .agg(
             n_registros=("source_rowid", "count"),
-            n_fuentes=("fuente", "nunique"),
+            n_fuentes_registros=("id_fuente", "nunique"),
             n_anios=("anio", "nunique"),
             anio_min=("anio", "min"),
             anio_max=("anio", "max"),
@@ -863,7 +1486,10 @@ def aggregate_records_to_xy(records: pd.DataFrame, cfg: dict[str, Any]) -> pd.Da
             ),
             score_temporal=("score_temporal_record", "max"),
             pais_dominante=("pais", mode),
+            id_fuente_dominante=("id_fuente", mode),
             fuente_dominante=("fuente", mode),
+            tipo_fuente_dominante=("tipo_fuente", mode),
+            detalle_tipo_fuente_dominante=("detalle_tipo_fuente", mode),
             nivel_0_dominante=("nivel_0", mode),
             nivel_1_dominante=("nivel_1", mode),
             nivel_2_dominante=("nivel_2", mode),
@@ -873,11 +1499,118 @@ def aggregate_records_to_xy(records: pd.DataFrame, cfg: dict[str, Any]) -> pd.Da
             n_nivel0=("nivel_0", "nunique"),
             n_nivel1=("nivel_1", "nunique"),
             n_nivel2=("nivel_2", "nunique"),
-            conf_integrada_promedio=("conf_integrada_score", "mean"),
+            conf_integrada_promedio_observada=(
+                "conf_integrada_score_observado",
+                "mean",
+            ),
+            n_conf_integrada_observada=(
+                "conf_integrada_score_observado",
+                "count",
+            ),
         )
         .reset_index()
     )
 
+    required_source_cols = [
+        "id_fuente",
+        "fuente",
+        "tipo_fuente",
+        "score_directitud",
+        "score_trazabilidad",
+        "score_consistencia_temporal_fuente",
+        "score_fuente_base",
+        "flag_fuente_anio_inconsistente",
+        "flag_fuente_pais_inconsistente",
+    ]
+    missing_source_cols = [c for c in required_source_cols if c not in rec.columns]
+    if missing_source_cols:
+        raise ValueError(
+            "Los registros no fueron preparados mediante prepare_source_records. "
+            f"Faltan: {missing_source_cols}"
+        )
+
+    source_units = rec[
+        ["xy_group_id"] + required_source_cols
+    ].drop_duplicates(["xy_group_id", "id_fuente"]).copy()
+
+    source_consistency = (
+        source_units.groupby(["xy_group_id", "id_fuente"], dropna=False)
+        .agg(n_score_fuente=("score_fuente_base", "nunique"))
+        .reset_index()
+    )
+    bad_source_units = source_consistency[source_consistency["n_score_fuente"].ne(1)]
+    if not bad_source_units.empty:
+        raise ValueError(
+            "Un mismo xy_group_id + id_fuente tiene más de un score_fuente_base. "
+            f"Ejemplos: {bad_source_units.head(10).to_dict('records')}"
+        )
+
+    source_xy = (
+        source_units.groupby("xy_group_id", dropna=False)
+        .agg(
+            n_fuentes=("id_fuente", "nunique"),
+            ids_fuente_presentes=("id_fuente", concat),
+            fuentes_presentes=("fuente", concat),
+            tipos_fuente_presentes=("tipo_fuente", concat),
+            score_directitud_fuente_promedio=("score_directitud", "mean"),
+            score_trazabilidad_fuente_promedio=("score_trazabilidad", "mean"),
+            score_temporal_metadata_fuente_promedio=(
+                "score_consistencia_temporal_fuente",
+                "mean",
+            ),
+            score_fuente_promedio=("score_fuente_base", "mean"),
+            score_fuente_minimo=("score_fuente_base", "min"),
+            score_fuente_maximo=("score_fuente_base", "max"),
+            n_fuentes_anio_inconsistente=(
+                "flag_fuente_anio_inconsistente",
+                "sum",
+            ),
+            n_fuentes_pais_inconsistente=(
+                "flag_fuente_pais_inconsistente",
+                "sum",
+            ),
+        )
+        .reset_index()
+    )
+    for col in [
+        "score_directitud_fuente_promedio",
+        "score_trazabilidad_fuente_promedio",
+        "score_temporal_metadata_fuente_promedio",
+        "score_fuente_promedio",
+        "score_fuente_minimo",
+        "score_fuente_maximo",
+    ]:
+        source_xy[col] = pd.to_numeric(source_xy[col], errors="coerce").round(3)
+
+    g = g.merge(source_xy, on="xy_group_id", how="left", validate="one_to_one")
+    if not g["n_fuentes"].equals(g["n_fuentes_registros"]):
+        bad = g.loc[
+            g["n_fuentes"].ne(g["n_fuentes_registros"]),
+            ["xy_group_id", "n_fuentes", "n_fuentes_registros"],
+        ]
+        raise ValueError(
+            "La agregación de fuentes únicas no coincide con los registros. "
+            f"Ejemplos: {bad.head(10).to_dict('records')}"
+        )
+    g = g.drop(columns=["n_fuentes_registros"])
+
+    settings = confidence_settings(cfg)
+    g["pct_conf_integrada_observada"] = (
+        100.0 * g["n_conf_integrada_observada"] / g["n_registros"]
+    ).round(6)
+    g["flag_confianza_imputada"] = g["n_conf_integrada_observada"].eq(0).astype(int)
+    g["score_confiabilidad_base"] = (
+        pd.to_numeric(g["conf_integrada_promedio_observada"], errors="coerce")
+        .fillna(settings["neutral_score"])
+        .clip(0, 100)
+    )
+    g["origen_score_confiabilidad"] = np.where(
+        g["flag_confianza_imputada"].eq(1),
+        "neutral_imputado",
+        "observado",
+    )
+    # Alias compatible, pero conserva NaN cuando no hubo dato observado.
+    g["conf_integrada_promedio"] = g["conf_integrada_promedio_observada"]
     g["incluye_2018_2022"] = 1
 
     return g
@@ -1015,17 +1748,39 @@ def compute_scores(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
         + 0.1 * df["score_nivel_leyenda"]
     ).round(3)
 
-    df["score_confiabilidad"] = (
-        pd.to_numeric(df.get("conf_integrada_promedio", 70), errors="coerce")
-        .fillna(70)
-        .clip(0, 100)
+    if "score_confiabilidad_base" not in df.columns:
+        raise ValueError(
+            "Falta score_confiabilidad_base. La confiabilidad debe prepararse y "
+            "auditarse antes de calcular el score multicriterio."
+        )
+
+    confidence_score = pd.to_numeric(
+        df["score_confiabilidad_base"],
+        errors="coerce",
     )
+    if confidence_score.isna().any():
+        raise ValueError(
+            f"Hay {int(confidence_score.isna().sum())} grupos sin score de "
+            "confiabilidad después de la preparación."
+        )
+
+    df["score_confiabilidad"] = confidence_score.clip(0, 100)
 
     df["score_representatividad"] = df["estado_pais_clase"].map(
         lambda x: map_score(x, cfg["representativity_scores"], 70)
     )
 
-    df["score_fuente"] = 70.0
+    if "score_fuente_promedio" not in df.columns:
+        raise ValueError(
+            "Falta score_fuente_promedio. El componente fuente debe calcularse "
+            "desde source_catalog.csv antes del score multicriterio."
+        )
+    source_score = pd.to_numeric(df["score_fuente_promedio"], errors="coerce")
+    if source_score.isna().any():
+        raise ValueError(
+            f"Hay {int(source_score.isna().sum())} grupos sin score de fuente."
+        )
+    df["score_fuente"] = source_score.clip(0, 100)
 
     # score_espectral viene de audit_extract_units_s2sr_annual agregado por xy_group_id.
     if "score_espectral" not in df.columns:
@@ -1071,6 +1826,13 @@ def compute_scores(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
         df["flag_clase_residual"].eq(1),
         float(caps.get("residual_class", 75)),
         "clase_residual",
+    )
+
+    pais_grupo = df["pais_grupo"].astype(str).str.lower()
+    cap(
+        pais_grupo.eq("multipais_o_inconsistente"),
+        float(caps.get("multipais_inconsistent", 40)),
+        "multipais_o_inconsistente",
     )
 
     df["score_aptitud_total"] = np.minimum(
@@ -1161,7 +1923,11 @@ def assign_states(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
     return out
 
 
-def source_ranking(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
+def source_ranking(
+    master: pd.DataFrame,
+    cfg: dict[str, Any],
+    source_profile: pd.DataFrame,
+) -> pd.DataFrame:
     master = master.copy()
 
     master = master[
@@ -1171,12 +1937,14 @@ def source_ranking(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
 
     rows = []
 
-    for fuente, g in master.groupby("fuente_dominante", dropna=False):
+    for id_fuente, g in master.groupby("id_fuente_dominante", dropna=False):
+        fuente = mode(g["fuente_dominante"])
         def pct_mask(mask: pd.Series) -> float:
             return round(float(mask.mean() * 100), 3) if len(mask) else 0
 
         rows.append(
             {
+                "id_fuente": _normalize_source_id(id_fuente),
                 "fuente": fuente,
                 "n_grupos_xy": len(g),
                 "n_registros_representados": int(g["n_registros"].sum()),
@@ -1206,7 +1974,34 @@ def source_ranking(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
     if out.empty:
         return out
 
-    out["score_trazabilidad_documental"] = 70.0
+    profile_keep = [
+        "id_fuente",
+        "fuente_reporte",
+        "tipo_documentado",
+        "medio_obtencion",
+        "anios_documentados",
+        "pais_documentado",
+        "score_directitud",
+        "score_trazabilidad",
+        "score_consistencia_temporal_fuente",
+        "score_fuente_base",
+        "pct_anio_informado",
+        "pct_anio_consistente",
+        "n_nombre_inconsistente",
+        "n_tipo_inconsistente",
+        "n_pais_inconsistente",
+        "flag_fuente_anio_inconsistente",
+        "flag_fuente_pais_inconsistente",
+    ]
+    out["id_fuente"] = out["id_fuente"].map(_normalize_source_id)
+    out = source_profile[profile_keep].merge(
+        out,
+        on="id_fuente",
+        how="left",
+        validate="one_to_one",
+    )
+    out["fuente"] = out["fuente"].fillna(out["fuente_reporte"])
+    out["score_trazabilidad_documental"] = out["score_trazabilidad"]
 
     out["score_compatibilidad_pipeline"] = np.select(
         [
@@ -1222,7 +2017,7 @@ def source_ranking(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
 
     w = cfg["weights_source"]
 
-    out["score_aptitud_fuente"] = (
+    out["score_desempeno_fuente"] = (
         w["traceability"] * out["score_trazabilidad_documental"]
         + w["temporal"] * out["score_temporal_fuente"]
         + w["thematic"] * out["score_tematico_fuente"]
@@ -1232,8 +2027,11 @@ def source_ranking(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
         + w["pipeline_compatibility"] * out["score_compatibilidad_pipeline"]
     ).round(3)
 
+    # Alias compatible: este ranking es posterior y NO alimenta score_fuente XY.
+    out["score_aptitud_fuente"] = out["score_desempeno_fuente"]
+
     out["categoria_aptitud_fuente"] = pd.cut(
-        out["score_aptitud_fuente"],
+        out["score_desempeno_fuente"],
         [-np.inf, 40, 55, 70, 85, np.inf],
         labels=[
             "fuente_para_mascara_o_exclusion",
@@ -1390,6 +2188,45 @@ def validate_existing_outputs(master: pd.DataFrame, audit: dict[str, Any]) -> tu
 
     if "estado_funcional_preliminar" in master.columns:
         problems.append("salida antigua contiene estado_funcional_preliminar; se requiere renombrado directo")
+
+    confidence_version = str(audit.get("confidence_pipeline_version", ""))
+    if confidence_version != CONFIDENCE_PIPELINE_VERSION:
+        problems.append(
+            f"confidence_pipeline_version={confidence_version!r}; "
+            f"esperado={CONFIDENCE_PIPELINE_VERSION!r}"
+        )
+
+    source_version = str(audit.get("source_pipeline_version", ""))
+    if source_version != SOURCE_PIPELINE_VERSION:
+        problems.append(
+            f"source_pipeline_version={source_version!r}; "
+            f"esperado={SOURCE_PIPELINE_VERSION!r}"
+        )
+
+    source_columns = [
+        "id_fuente_dominante",
+        "ids_fuente_presentes",
+        "fuentes_presentes",
+        "score_fuente_promedio",
+        "score_fuente_minimo",
+        "score_fuente_maximo",
+        "score_fuente",
+    ]
+    for col in source_columns:
+        if col not in master.columns:
+            problems.append(f"falta columna de trazabilidad de fuente: {col}")
+
+    confidence_columns = [
+        "n_conf_integrada_observada",
+        "pct_conf_integrada_observada",
+        "conf_integrada_promedio_observada",
+        "score_confiabilidad_base",
+        "flag_confianza_imputada",
+        "origen_score_confiabilidad",
+    ]
+    for col in confidence_columns:
+        if col not in master.columns:
+            problems.append(f"falta columna de trazabilidad de confiabilidad: {col}")
 
     valid_categories = set(usage_category_definitions()["categoria_aptitud_preliminar"])
     if "categoria_aptitud_preliminar" in master.columns:
@@ -1627,6 +2464,70 @@ def score_distribution_table(master: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def confidence_summary_table(
+    master: pd.DataFrame,
+    audit: dict[str, Any],
+) -> pd.DataFrame:
+    """Tabla explícita para no confundir valores observados con imputados."""
+    imputed = (
+        pd.to_numeric(master.get("flag_confianza_imputada", pd.Series(dtype=float)), errors="coerce")
+        .fillna(1)
+        .eq(1)
+    )
+    observed_scores = pd.to_numeric(
+        master.loc[~imputed, "score_confiabilidad"]
+        if "score_confiabilidad" in master.columns and len(imputed) == len(master)
+        else pd.Series(dtype=float),
+        errors="coerce",
+    )
+
+    rows = [
+        {"indicador": "Versión del control", "valor": audit.get("confidence_pipeline_version", "")},
+        {"indicador": "Escala configurada", "valor": audit.get("confidence_input_scale_config", "")},
+        {"indicador": "Escala detectada", "valor": audit.get("confidence_scale_detected", "")},
+        {"indicador": "Valor neutral", "valor": audit.get("confidence_neutral_score", "")},
+        {"indicador": "Registros con confianza observada", "valor": audit.get("n_records_confidence_observed", 0)},
+        {"indicador": "% registros con confianza observada", "valor": audit.get("pct_records_confidence_observed", 0)},
+        {"indicador": "Grupos XY con confianza observada", "valor": audit.get("n_xy_confidence_observed", 0)},
+        {"indicador": "Grupos XY con confianza imputada", "valor": audit.get("n_xy_confidence_imputed", 0)},
+        {"indicador": "% grupos XY con confianza imputada", "valor": audit.get("pct_xy_confidence_imputed", 0)},
+        {"indicador": "Máximo de imputación permitido (%)", "valor": audit.get("max_imputed_xy_pct_allowed", 100)},
+        {"indicador": "Valores observados distintos", "valor": audit.get("n_confidence_distinct_observed", 0)},
+        {"indicador": "Media de confiabilidad observada", "valor": round(float(observed_scores.mean()), 3) if len(observed_scores) else ""},
+    ]
+    return pd.DataFrame(rows)
+
+
+def source_summary_table(
+    master: pd.DataFrame,
+    audit: dict[str, Any],
+) -> pd.DataFrame:
+    """Resume el origen y los controles del score de fuente previo al score XY."""
+    source_score = pd.to_numeric(
+        master.get("score_fuente", pd.Series(dtype=float)),
+        errors="coerce",
+    )
+    rows = [
+        {"indicador": "Versión del control", "valor": audit.get("source_pipeline_version", "")},
+        {"indicador": "Catálogo utilizado", "valor": audit.get("source_catalog_file", "")},
+        {"indicador": "Fuentes documentadas en catálogo", "valor": audit.get("source_catalog_unique_ids", 0)},
+        {"indicador": "Fuentes observadas en la ventana", "valor": audit.get("n_source_ids_observed", 0)},
+        {"indicador": "Fuentes no catalogadas", "valor": audit.get("n_source_ids_uncatalogued", 0)},
+        {"indicador": "Peso de directitud", "valor": audit.get("source_weight_directness", "")},
+        {"indicador": "Peso de trazabilidad", "valor": audit.get("source_weight_traceability", "")},
+        {"indicador": "Peso de metadatos temporales", "valor": audit.get("source_weight_temporal_metadata", "")},
+        {"indicador": "Registros con nombre de fuente inconsistente", "valor": audit.get("n_source_records_name_mismatch", 0)},
+        {"indicador": "Registros con tipo de fuente inconsistente", "valor": audit.get("n_source_records_type_mismatch", 0)},
+        {"indicador": "Registros con país distinto al documentado", "valor": audit.get("n_source_records_country_mismatch", 0)},
+        {"indicador": "Registros con año ausente", "valor": audit.get("n_source_records_year_missing", 0)},
+        {"indicador": "Registros con año fuera de lo documentado", "valor": audit.get("n_source_records_year_inconsistent", 0)},
+        {"indicador": "Scores de fuente distintos por XY", "valor": audit.get("n_xy_source_scores_distinct", 0)},
+        {"indicador": "Score de fuente mínimo por XY", "valor": round(float(source_score.min()), 3) if len(source_score) else ""},
+        {"indicador": "Score de fuente máximo por XY", "valor": round(float(source_score.max()), 3) if len(source_score) else ""},
+    ]
+    return pd.DataFrame(rows)
+
+
 def criteria_overall_table(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
     weights = cfg.get("weights_xy", {})
 
@@ -1650,18 +2551,27 @@ def criteria_overall_table(master: pd.DataFrame, cfg: dict[str, Any]) -> pd.Data
 
         s = pd.to_numeric(master[campo], errors="coerce")
 
-        data.append(
-            {
-                "criterio": criterio,
-                "campo": campo,
-                "peso_configurado": peso,
-                "media": round(float(s.mean()), 3),
-                "mediana": round(float(s.median()), 3),
-                "min": round(float(s.min()), 3),
-                "max": round(float(s.max()), 3),
-                "n_validos": int(s.notna().sum()),
-            }
-        )
+        row = {
+            "criterio": criterio,
+            "campo": campo,
+            "peso_configurado": peso,
+            "media": round(float(s.mean()), 3),
+            "mediana": round(float(s.median()), 3),
+            "min": round(float(s.min()), 3),
+            "max": round(float(s.max()), 3),
+            "n_validos_score": int(s.notna().sum()),
+            "n_observados_origen": "",
+            "n_imputados_neutral": "",
+        }
+
+        if criterio == "Confiabilidad" and "flag_confianza_imputada" in master.columns:
+            imputed = pd.to_numeric(
+                master["flag_confianza_imputada"], errors="coerce"
+            ).fillna(1).eq(1)
+            row["n_observados_origen"] = int((~imputed).sum())
+            row["n_imputados_neutral"] = int(imputed.sum())
+
+        data.append(row)
 
     return pd.DataFrame(data)
 
@@ -1700,9 +2610,9 @@ def criteria_description_table() -> pd.DataFrame:
             {
                 "criterio": "Confiabilidad",
                 "campo_score": "score_confiabilidad",
-                "valores_o_campos_usados": "conf_integrada_promedio cuando existe; valor neutral si no existe",
+                "valores_o_campos_usados": "conf_integrada observada; promedio por XY; valor neutral solo en grupos sin observación",
                 "qué_evalúa": "Confianza documental o temática integrada en los registros originales.",
-                "cómo_se_interpreta": "Valores altos indican mayor confianza. En esta versión, si no hay confianza específica, se usa un valor neutral.",
+                "cómo_se_interpreta": "El reporte distingue valores observados de valores neutrales imputados. La ejecución falla si todos los grupos quedan imputados, salvo autorización explícita.",
             },
             {
                 "criterio": "Representatividad",
@@ -1714,9 +2624,9 @@ def criteria_description_table() -> pd.DataFrame:
             {
                 "criterio": "Fuente",
                 "campo_score": "score_fuente",
-                "valores_o_campos_usados": "valor neutral a nivel de grupo XY; ranking específico por fuente",
-                "qué_evalúa": "Contribución de la fuente dentro del score de grupo XY.",
-                "cómo_se_interpreta": "En el score XY entra como valor neutral; la aptitud de cada fuente se evalúa de forma separada en el ranking de fuentes.",
+                "valores_o_campos_usados": "id_fuente; Tipo; catálogo documental; medio de obtención; consistencia entre Año y años documentados; promedio de fuentes únicas por XY",
+                "qué_evalúa": "Directitud del dato, trazabilidad de obtención y calidad temporal de los metadatos de la fuente.",
+                "cómo_se_interpreta": "Se calcula antes de la clasificación final. Cada fuente cuenta una sola vez dentro de cada grupo XY; no se pondera por filas repetidas ni reutiliza scores temáticos, espaciales, espectrales o de confiabilidad.",
             },
         ]
     )
@@ -1760,6 +2670,12 @@ def caps_table(cfg: dict[str, Any]) -> pd.DataFrame:
                 "condición": "flag_clase_residual == 1",
                 "tope_aplicado": caps_cfg.get("residual_class", ""),
                 "cap_reason": "clase_residual",
+            },
+            {
+                "regla": "Pais multiple o inconsistente",
+                "condición": "pais_grupo == multipais_o_inconsistente",
+                "tope_aplicado": caps_cfg.get("multipais_inconsistent", ""),
+                "cap_reason": "multipais_o_inconsistente",
             },
         ]
     )
@@ -1953,6 +2869,8 @@ def write_report(
     # -------------------------------------------------------------------------
     state = state_by_criteria_table(master)
     criteria_overall = criteria_overall_table(master, cfg)
+    confidence_summary = confidence_summary_table(master, audit)
+    source_summary = source_summary_table(master, audit)
     score_dist = score_distribution_table(master)
     cap_summary = cap_summary_table(master)
     spectral_summary = spectral_summary_table(master)
@@ -2233,6 +3151,8 @@ def write_report(
         "",
         "El componente espectral es importante, pero no decide por sí solo. Funciona como una dimensión adicional de calidad y, cuando presenta alertas fuertes, puede activar categorías de apoyo interpretativo o aplicar topes al score final.",
         "",
+        "El componente de fuente se calcula antes de las categorías finales mediante un catálogo documental. Evalúa directitud, trazabilidad y consistencia temporal, y cada fuente cuenta una sola vez dentro de cada grupo XY.",
+        "",
         "## Fórmula del score",
         "",
         md(score_formula_df),
@@ -2252,6 +3172,18 @@ def write_report(
         "## Pesos configurados para el score por grupo XY",
         "",
         md(weights_table(cfg)),
+        "",
+        "## Auditoría del componente de confiabilidad",
+        "",
+        "Esta tabla separa la confianza realmente observada de los grupos que recibieron el valor neutral por ausencia de información.",
+        "",
+        md(confidence_summary),
+        "",
+        "## Auditoría del componente de fuente",
+        "",
+        "El score de fuente no usa oficialidad institucional, restricción de uso, confiabilidad integrada ni el resultado posterior de entrenamiento/validación. Tampoco se pondera por el número de filas repetidas de una fuente multitemporal.",
+        "",
+        md(source_summary),
         "",
         "## Resumen estadístico por criterio",
         "",
@@ -2387,10 +3319,26 @@ def export_outputs(
         "lat",
         "anio",
         "pais",
+        "id_fuente",
         "fuente",
+        "tipo_fuente",
+        "detalle_tipo_fuente",
+        "id_origen",
+        "score_directitud",
+        "score_trazabilidad",
+        "score_consistencia_temporal_fuente",
+        "score_fuente_base",
+        "flag_anio_fuente_informado",
+        "flag_anio_fuente_consistente",
+        "flag_nombre_fuente_inconsistente",
+        "flag_tipo_fuente_inconsistente",
+        "flag_pais_fuente_inconsistente",
         "nivel_0",
         "nivel_1",
         "nivel_2",
+        "conf_integrada",
+        "conf_integrada_score_observado",
+        "conf_integrada_observada",
         "score_temporal_registro",
         "estado_registro_scoring",
     ]
@@ -2518,6 +3466,15 @@ def main() -> None:
             "Por defecto el proceso falla si falta cobertura espectral."
         ),
     )
+    parser.add_argument(
+        "--allow-missing-confidence",
+        action="store_true",
+        help=(
+            "Permite continuar sin ninguna confianza observada e imputar el valor "
+            "neutral. Por defecto la ejecución falla para evitar un 70 constante "
+            "publicado como si fuera información observada."
+        ),
+    )
     args = parser.parse_args()
 
     mkdirs()
@@ -2633,6 +3590,16 @@ def main() -> None:
         records = attach_xy_group_id(base, xy)
         records = add_record_scores(records, cfg)
 
+        print("Validando catálogo y calculando score previo de fuente...")
+        records, source_profile, source_meta = prepare_source_records(records, cfg)
+
+        print("Validando y normalizando confiabilidad...")
+        records, confidence_meta = prepare_confidence_records(
+            records,
+            cfg,
+            allow_missing=args.allow_missing_confidence,
+        )
+
         print("Agregando registros por xy_group_id...")
         group = aggregate_records_to_xy(records, cfg)
 
@@ -2701,11 +3668,18 @@ def main() -> None:
                 else:
                     master[col] = master[col].fillna(default)
 
+        confidence_xy_meta = validate_confidence_master(
+            master,
+            cfg,
+            allow_missing=args.allow_missing_confidence,
+        )
+        source_xy_meta = validate_source_master(master, cfg)
+
         master = add_country_class(master, records)
         master = merge_conflicts(master)
         master = assign_states(compute_scores(master, cfg), cfg)
 
-        ranking = source_ranking(master, cfg)
+        ranking = source_ranking(master, cfg, source_profile)
         gap = gap_priority(records)
 
         review = master[
@@ -2728,6 +3702,10 @@ def main() -> None:
             "n_grupos_xy_ventana": int(master["xy_group_id"].nunique()),
             "n_fuentes": int(records["fuente"].nunique()),
             "n_paises": int(records["pais"].nunique()),
+            **confidence_meta,
+            **confidence_xy_meta,
+            **source_meta,
+            **source_xy_meta,
             "spectral_file": spectral_meta.get("spectral_file", ""),
             "spectral_layer": spectral_meta.get("spectral_layer", ""),
             "spectral_status": spectral_meta.get("spectral_status", ""),

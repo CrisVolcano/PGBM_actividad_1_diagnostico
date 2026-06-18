@@ -1,27 +1,29 @@
-2026-06-12 13:00:12,548 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
-2026-06-12 13:00:12,548 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
-2026-06-12 13:00:12,548 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\logs\a2_1_modelo_datos.log
-2026-06-12 13:00:12,548 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos
-2026-06-12 13:00:13,015 | WARNING | Cannot find header.dxf (GDAL_DATA is not defined)
-2026-06-12 13:00:13,048 | INFO | Leyendo GeoPackage: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
-2026-06-12 13:00:13,048 | INFO | Capa seleccionada: xy_group_aptitude_master
-2026-06-12 13:04:22,361 | INFO | Escribiendo capa espacial: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
-2026-06-12 13:04:39,655 | INFO | Created 1,111,850 records
-2026-06-12 13:04:52,103 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_core.csv
-2026-06-12 13:04:59,185 | INFO | Tabla no espacial añadida al GPKG: xy_core
-2026-06-12 13:05:07,085 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_temporal.csv
-2026-06-12 13:05:12,081 | INFO | Tabla no espacial añadida al GPKG: xy_temporal
-2026-06-12 13:05:15,971 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv
-2026-06-12 13:05:18,970 | INFO | Tabla no espacial añadida al GPKG: xy_clase_resumen
-2026-06-12 13:05:48,125 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_spectral.csv
-2026-06-12 13:05:57,766 | INFO | Tabla no espacial añadida al GPKG: xy_spectral
-2026-06-12 13:06:15,557 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_score.csv
-2026-06-12 13:06:23,022 | INFO | Tabla no espacial añadida al GPKG: xy_score
-2026-06-12 13:06:29,754 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv
-2026-06-12 13:06:34,482 | INFO | Tabla no espacial añadida al GPKG: xy_conflicto
-2026-06-12 13:06:54,007 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_accion.csv
-2026-06-12 13:07:00,797 | INFO | Tabla no espacial añadida al GPKG: xy_accion
-2026-06-12 13:07:11,951 | INFO | Tabla final de homologación creada: xy_homologacion_final
-2026-06-12 13:07:53,552 | INFO | Tablas de metadata añadidas al GPKG.
-2026-06-12 13:07:53,670 | INFO | Reporte creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\a2_1_modelo_datos_reporte_implementacion.txt
-2026-06-12 13:07:53,670 | INFO | Proceso finalizado correctamente.
+2026-06-18 13:38:13,344 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
+2026-06-18 13:38:13,344 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
+2026-06-18 13:38:13,345 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\logs\a2_1_modelo_datos.log
+2026-06-18 13:38:13,345 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos
+2026-06-18 13:38:13,351 | WARNING | Cannot find header.dxf (GDAL_DATA is not defined)
+2026-06-18 13:38:13,365 | INFO | Leyendo GeoPackage: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
+2026-06-18 13:38:13,365 | INFO | Capa seleccionada: xy_group_aptitude_master
+2026-06-18 13:39:27,764 | INFO | Campos derivados de auditoría/scoring excluidos por diseño del modelo 3NF: ['id_fuente_dominante', 'tipo_fuente_dominante', 'detalle_tipo_fuente_dominante', 'conf_integrada_promedio_observada', 'n_conf_integrada_observada', 'ids_fuente_presentes', 'fuentes_presentes', 'tipos_fuente_presentes', 'score_directitud_fuente_promedio', 'score_trazabilidad_fuente_promedio', 'score_temporal_metadata_fuente_promedio', 'score_fuente_promedio', 'score_fuente_minimo', 'score_fuente_maximo', 'n_fuentes_anio_inconsistente', 'n_fuentes_pais_inconsistente', 'pct_conf_integrada_observada', 'flag_confianza_imputada', 'score_confiabilidad_base', 'origen_score_confiabilidad', 'conf_integrada_promedio', 'score_prioridad_revision', 'score_consistencia_clase', 'score_viabilidad_clase', 'score_claridad_semantica', 'score_nivel_leyenda', 'score_aptitud_raw', 'score_cap', 'cap_reason']
+2026-06-18 13:41:21,478 | INFO | Validación dominante vs valores: 7782 filas-nivel no son equivalencia estricta; 7782 corresponden a dominante incluido dentro de múltiples valores del grupo XY. Se documentan en metadata/validacion_dominante_vs_valores.csv sin tratarse como error.
+2026-06-18 13:41:34,133 | INFO | Escribiendo capa espacial: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\gpkg\a2_1_xy_point.gpkg
+2026-06-18 13:41:41,095 | INFO | Created 1,111,850 records
+2026-06-18 13:41:47,287 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_core.csv
+2026-06-18 13:41:50,946 | INFO | Tabla no espacial añadida al GPKG: xy_core
+2026-06-18 13:41:54,328 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_temporal.csv
+2026-06-18 13:41:56,441 | INFO | Tabla no espacial añadida al GPKG: xy_temporal
+2026-06-18 13:41:58,322 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_clase_resumen.csv
+2026-06-18 13:42:00,405 | INFO | Tabla no espacial añadida al GPKG: xy_clase_resumen
+2026-06-18 13:42:10,648 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_spectral.csv
+2026-06-18 13:42:14,677 | INFO | Tabla no espacial añadida al GPKG: xy_spectral
+2026-06-18 13:42:21,053 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_score.csv
+2026-06-18 13:42:23,730 | INFO | Tabla no espacial añadida al GPKG: xy_score
+2026-06-18 13:42:27,095 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_conflicto.csv
+2026-06-18 13:42:29,207 | INFO | Tabla no espacial añadida al GPKG: xy_conflicto
+2026-06-18 13:42:36,855 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\a2_1_modelo_datos\tables\xy_accion.csv
+2026-06-18 13:42:41,026 | INFO | Tabla no espacial añadida al GPKG: xy_accion
+2026-06-18 13:42:45,898 | INFO | Tabla final de homologación creada: xy_homologacion_final
+2026-06-18 13:43:04,435 | INFO | Tablas de metadata añadidas al GPKG.
+2026-06-18 13:43:04,494 | INFO | Reporte creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\a2_1_modelo_datos_reporte_implementacion.txt
+2026-06-18 13:43:04,494 | INFO | Proceso finalizado correctamente.

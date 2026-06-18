@@ -25,6 +25,7 @@ from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
 import argparse
+import re
 import sqlite3
 import traceback
 
@@ -48,6 +49,15 @@ LOGS_DIR = PROJECT_ROOT / "logs"
 
 INTERIM_DB_PATH = DATA_INTERIM_DIR / "05_thematic_audit.sqlite"
 XY_GROUPS_DB = DATA_INTERIM_DIR / "03b_multirregistros_xy.sqlite"
+
+# Versión explícita de la tabla intermedia. Si cambia el esquema o la lógica
+# de trazabilidad, una thematic_base antigua se reconstruye automáticamente.
+THEMATIC_BASE_SCHEMA_VERSION = "3.0-confidence-source-traceability"
+THEMATIC_BASE_METADATA_TABLE = "thematic_base_metadata"
+
+_NUMERIC_RE = re.compile(
+    r"^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$"
+)
 
 
 # ============================================================
@@ -89,10 +99,21 @@ def dataframe_a_markdown(df: pd.DataFrame) -> str:
         return "```text\n" + df.to_string(index=False) + "\n```"
 
 
+def _es_real_valido(value: object) -> int:
+    """Valida números almacenados como texto sin aceptar CAST silencioso a cero."""
+    if value is None:
+        return 0
+    text = str(value).strip()
+    if not text:
+        return 0
+    return int(bool(_NUMERIC_RE.fullmatch(text)))
+
+
 def abrir_conexion_intermedia() -> sqlite3.Connection:
     conn = sqlite3.connect(INTERIM_DB_PATH, uri=True)
     conn.execute("PRAGMA temp_store = MEMORY;")
     conn.execute("PRAGMA cache_size = -200000;")
+    conn.create_function("is_valid_real", 1, _es_real_valido)
     return conn
 
 
@@ -135,6 +156,238 @@ def validar_campos_requeridos(schema: pd.DataFrame, fields: list[str]) -> None:
         raise ValueError(f"Campos requeridos ausentes en el GeoPackage: {faltantes}")
 
 
+def resolver_campo_configurado(
+    schema: pd.DataFrame,
+    configured_name: str,
+    logical_name: str,
+    *,
+    required: bool = True,
+) -> str:
+    """Resuelve el nombre real del campo, tolerando solo diferencias de mayúsculas."""
+    configured = str(configured_name or "").strip()
+    available = [str(x) for x in schema["field_name"].tolist()]
+
+    if configured in available:
+        return configured
+
+    matches = [x for x in available if x.casefold() == configured.casefold()]
+    if len(matches) == 1:
+        print(
+            f"Aviso: {logical_name} configurado como {configured!r}; "
+            f"se usará el campo real {matches[0]!r}."
+        )
+        return matches[0]
+
+    if required:
+        raise ValueError(
+            f"No se encontró el campo requerido para {logical_name}: {configured!r}. "
+            f"Revise config/config.yaml. Campos disponibles: {available}"
+        )
+
+    return ""
+
+
+def estadisticas_confiabilidad(
+    conn: sqlite3.Connection,
+    table_ref: str,
+    field_name: str,
+) -> dict:
+    """Resume cobertura, validez numérica y rango de la confiabilidad."""
+    field = quote_ident(field_name)
+    sql = f"""
+    SELECT
+        COUNT(*) AS n_total,
+        SUM(CASE
+            WHEN {field} IS NOT NULL
+             AND TRIM(CAST({field} AS TEXT)) <> ''
+            THEN 1 ELSE 0 END
+        ) AS n_informados,
+        SUM(CASE
+            WHEN {field} IS NOT NULL
+             AND TRIM(CAST({field} AS TEXT)) <> ''
+             AND is_valid_real({field}) = 0
+            THEN 1 ELSE 0 END
+        ) AS n_no_numericos,
+        SUM(CASE WHEN is_valid_real({field}) = 1 THEN 1 ELSE 0 END) AS n_numericos,
+        MIN(CASE WHEN is_valid_real({field}) = 1 THEN CAST({field} AS REAL) END) AS min_valor,
+        MAX(CASE WHEN is_valid_real({field}) = 1 THEN CAST({field} AS REAL) END) AS max_valor,
+        COUNT(DISTINCT CASE
+            WHEN is_valid_real({field}) = 1 THEN CAST({field} AS REAL) END
+        ) AS n_valores_distintos
+    FROM {table_ref};
+    """
+    row = pd.read_sql_query(sql, conn).iloc[0].to_dict()
+
+    n_total = int(row.get("n_total") or 0)
+    n_numericos = int(row.get("n_numericos") or 0)
+    row["n_total"] = n_total
+    row["n_informados"] = int(row.get("n_informados") or 0)
+    row["n_no_numericos"] = int(row.get("n_no_numericos") or 0)
+    row["n_numericos"] = n_numericos
+    row["n_valores_distintos"] = int(row.get("n_valores_distintos") or 0)
+    row["pct_cobertura_numerica"] = round(
+        100.0 * n_numericos / n_total if n_total else 0.0,
+        6,
+    )
+    row["escala_detectada"] = (
+        "sin_datos"
+        if n_numericos == 0
+        else "0_1"
+        if float(row["max_valor"]) <= 1.5
+        else "0_100"
+    )
+    return row
+
+
+def validar_estadisticas_confiabilidad(
+    stats: dict,
+    context: str,
+    *,
+    allow_missing: bool,
+    min_coverage_pct: float = 0.0,
+) -> None:
+    if int(stats.get("n_no_numericos", 0)) > 0:
+        raise ValueError(
+            f"{context}: se detectaron {stats['n_no_numericos']} valores no numéricos "
+            "en conf_integrada. Corrija el campo original antes de continuar."
+        )
+
+    n_numeric = int(stats.get("n_numericos", 0))
+    if n_numeric == 0 and not allow_missing:
+        raise ValueError(
+            f"{context}: conf_integrada no contiene ningún valor numérico. "
+            "La ejecución se detiene para evitar imputar 70 a todos los registros. "
+            "Use --allow-missing-confidence únicamente si esa ausencia es intencional."
+        )
+
+    coverage = float(stats.get("pct_cobertura_numerica", 0.0))
+    if coverage < min_coverage_pct and not allow_missing:
+        raise ValueError(
+            f"{context}: la cobertura numérica de conf_integrada es "
+            f"{coverage:.3f}%, menor al mínimo configurado de "
+            f"{min_coverage_pct:.3f}%."
+        )
+
+    if n_numeric:
+        min_value = float(stats["min_valor"])
+        max_value = float(stats["max_valor"])
+        if min_value < 0 or max_value > 100:
+            raise ValueError(
+                f"{context}: conf_integrada está fuera del rango permitido. "
+                f"min={min_value}, max={max_value}; se acepta escala 0-1 o 0-100."
+            )
+
+
+def metadata_base_esperada(
+    gpkg_path: Path,
+    table_name: str,
+    total_source: int,
+    confidence_field: str,
+    source_id_field: str,
+    source_type_field: str,
+    source_detail_field: str,
+    source_record_id_field: str,
+) -> dict[str, str]:
+    stat = gpkg_path.stat()
+    return {
+        "schema_version": THEMATIC_BASE_SCHEMA_VERSION,
+        "source_path": str(gpkg_path.resolve()),
+        "source_layer": str(table_name),
+        "source_size_bytes": str(stat.st_size),
+        "source_mtime_ns": str(stat.st_mtime_ns),
+        "source_row_count": str(total_source),
+        "confidence_source_field": str(confidence_field),
+        "source_id_field": str(source_id_field),
+        "source_type_field": str(source_type_field),
+        "source_detail_field": str(source_detail_field),
+        "source_record_id_field": str(source_record_id_field),
+    }
+
+
+def leer_metadata_base(conn: sqlite3.Connection) -> dict[str, str]:
+    if not tabla_existe(conn, THEMATIC_BASE_METADATA_TABLE):
+        return {}
+    rows = conn.execute(
+        f"SELECT metadata_key, metadata_value FROM {quote_ident(THEMATIC_BASE_METADATA_TABLE)}"
+    ).fetchall()
+    return {str(k): str(v) for k, v in rows}
+
+
+def guardar_metadata_base(
+    conn: sqlite3.Connection,
+    metadata: dict[str, str],
+    confidence_stats: dict,
+) -> None:
+    conn.execute(f"DROP TABLE IF EXISTS {quote_ident(THEMATIC_BASE_METADATA_TABLE)}")
+    conn.execute(
+        f"CREATE TABLE {quote_ident(THEMATIC_BASE_METADATA_TABLE)} "
+        "(metadata_key TEXT PRIMARY KEY, metadata_value TEXT NOT NULL)"
+    )
+
+    merged = dict(metadata)
+    merged.update(
+        {
+            "confidence_numeric_count": str(confidence_stats.get("n_numericos", 0)),
+            "confidence_coverage_pct": str(confidence_stats.get("pct_cobertura_numerica", 0)),
+            "confidence_distinct_values": str(confidence_stats.get("n_valores_distintos", 0)),
+            "confidence_detected_scale": str(confidence_stats.get("escala_detectada", "")),
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+        }
+    )
+    conn.executemany(
+        f"INSERT INTO {quote_ident(THEMATIC_BASE_METADATA_TABLE)} "
+        "(metadata_key, metadata_value) VALUES (?, ?)",
+        sorted(merged.items()),
+    )
+    conn.commit()
+
+
+def motivos_reconstruccion_base(
+    conn: sqlite3.Connection,
+    expected_metadata: dict[str, str],
+) -> list[str]:
+    reasons: list[str] = []
+
+    if not tabla_existe(conn, "thematic_base"):
+        return ["thematic_base no existe"]
+
+    base_cols = set(obtener_schema(conn, "thematic_base", db_alias="main")["field_name"])
+    required_base_cols = {
+        "conf_integrada",
+        "id_fuente",
+        "fuente",
+        "tipo_fuente",
+        "detalle_tipo_fuente",
+        "id_origen",
+    }
+    missing_base_cols = sorted(required_base_cols - base_cols)
+    if missing_base_cols:
+        reasons.append(
+            "thematic_base no contiene campos de confianza/fuente requeridos: "
+            + ", ".join(missing_base_cols)
+        )
+
+    current_metadata = leer_metadata_base(conn)
+    if not current_metadata:
+        reasons.append("thematic_base no tiene metadatos de versión y procedencia")
+    else:
+        for key, expected in expected_metadata.items():
+            if current_metadata.get(key) != str(expected):
+                reasons.append(
+                    f"metadato {key} cambió: "
+                    f"actual={current_metadata.get(key)!r}, esperado={expected!r}"
+                )
+
+    current_count = obtener_total_base_tematica(conn)
+    expected_count = int(expected_metadata["source_row_count"])
+    if current_count != expected_count:
+        reasons.append(
+            f"cantidad de filas cambió: thematic_base={current_count}, fuente={expected_count}"
+        )
+
+    return reasons
+
+
 def obtener_total_registros(conn: sqlite3.Connection, table_name: str) -> int:
     sql = f"SELECT COUNT(*) AS n FROM src.{quote_ident(table_name)};"
     return int(pd.read_sql_query(sql, conn)["n"].iloc[0])
@@ -156,6 +409,64 @@ def expr_campo_entero(schema: pd.DataFrame, field_name: str, alias: str) -> str:
     if field_name and campo_existe(schema, field_name):
         return f"CAST(CAST(NULLIF(TRIM(CAST({quote_ident(field_name)} AS TEXT)), '') AS REAL) AS INTEGER) AS {quote_ident(alias)}"
     return f"NULL AS {quote_ident(alias)}"
+
+
+def estadisticas_campos_fuente(
+    conn: sqlite3.Connection,
+    table_ref: str,
+    *,
+    id_field: str,
+    name_field: str,
+    type_field: str,
+) -> dict[str, int | float]:
+    """Comprueba que cada registro conserve identificador, nombre y tipo de fuente."""
+    def nonempty(field_name: str) -> str:
+        field = quote_ident(field_name)
+        return (
+            f"CASE WHEN {field} IS NOT NULL "
+            f"AND TRIM(CAST({field} AS TEXT)) <> '' THEN 1 ELSE 0 END"
+        )
+
+    sql = f"""
+    SELECT
+        COUNT(*) AS n_total,
+        SUM({nonempty(id_field)}) AS n_id_fuente,
+        SUM({nonempty(name_field)}) AS n_fuente,
+        SUM({nonempty(type_field)}) AS n_tipo_fuente,
+        COUNT(DISTINCT NULLIF(TRIM(CAST({quote_ident(id_field)} AS TEXT)), '')) AS n_ids_fuente,
+        COUNT(DISTINCT NULLIF(TRIM(CAST({quote_ident(name_field)} AS TEXT)), '')) AS n_nombres_fuente,
+        COUNT(DISTINCT NULLIF(TRIM(CAST({quote_ident(type_field)} AS TEXT)), '')) AS n_tipos_fuente
+    FROM {table_ref};
+    """
+    row = pd.read_sql_query(sql, conn).iloc[0].to_dict()
+    out: dict[str, int | float] = {}
+    for key, value in row.items():
+        out[key] = int(value or 0)
+    total = int(out["n_total"])
+    for key in ["n_id_fuente", "n_fuente", "n_tipo_fuente"]:
+        out[f"pct_{key[2:]}"] = round(
+            100.0 * int(out[key]) / total if total else 0.0,
+            6,
+        )
+    return out
+
+
+def validar_campos_fuente(stats: dict[str, int | float], context: str) -> None:
+    total = int(stats.get("n_total", 0))
+    if total == 0:
+        raise ValueError(f"{context}: no contiene registros.")
+
+    missing = {
+        "id_fuente": total - int(stats.get("n_id_fuente", 0)),
+        "fuente": total - int(stats.get("n_fuente", 0)),
+        "tipo_fuente": total - int(stats.get("n_tipo_fuente", 0)),
+    }
+    missing = {k: v for k, v in missing.items() if v > 0}
+    if missing:
+        raise ValueError(
+            f"{context}: existen registros sin trazabilidad de fuente: {missing}. "
+            "El scoring de fuente no permite valores neutrales silenciosos."
+        )
 
 
 # ============================================================
@@ -186,7 +497,11 @@ def crear_base_tematica(
         expr_campo_real(schema, fields["lat"], "lat"),
         expr_campo_entero(schema, fields["year"], "anio"),
         expr_campo_texto(schema, fields["country"], "pais"),
+        expr_campo_texto(schema, fields["source_id"], "id_fuente"),
         expr_campo_texto(schema, fields["source"], "fuente"),
+        expr_campo_texto(schema, fields["source_type"], "tipo_fuente"),
+        expr_campo_texto(schema, fields["source_detail"], "detalle_tipo_fuente"),
+        expr_campo_texto(schema, fields["source_record_id"], "id_origen"),
         expr_campo_texto(schema, fields["source_use"], "uso_origen"),
         expr_campo_texto(schema, fields["source_subuse"], "subuso_origen"),
         expr_campo_texto(schema, fields["id_level_0"], "id_nivel_0"),
@@ -195,6 +510,7 @@ def crear_base_tematica(
         expr_campo_texto(schema, fields["level_1"], "nivel_1"),
         expr_campo_texto(schema, fields["id_level_2"], "id_nivel_2"),
         expr_campo_texto(schema, fields["level_2"], "nivel_2"),
+        expr_campo_real(schema, fields.get("conf_integrada", "conf_integrada"), "conf_integrada"),  # cambio
     ]
 
     sql = f"""
@@ -208,12 +524,16 @@ def crear_base_tematica(
 
     conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_lon_lat ON thematic_base(lon, lat);")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_pais ON thematic_base(pais);")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_id_fuente ON thematic_base(id_fuente);")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_fuente ON thematic_base(fuente);")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_tipo_fuente ON thematic_base(tipo_fuente);")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_id_origen ON thematic_base(id_origen);")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_anio ON thematic_base(anio);")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_nivel1 ON thematic_base(nivel_1);")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_thematic_base_nivel2 ON thematic_base(nivel_2);")
 
     conn.commit()
+    conn.execute("DETACH DATABASE src;")
 
 
 def obtener_total_base_tematica(conn: sqlite3.Connection) -> int:
@@ -234,6 +554,7 @@ def calidad_campos_tematicos(conn: sqlite3.Connection, total: int) -> pd.DataFra
         ("nivel_1", "Nivel_1"),
         ("id_nivel_2", "Código Nivel_2"),
         ("nivel_2", "Nivel_2"),
+        ("conf_integrada", "Confiabilidad integrada"),
     ]
 
     rows = []
@@ -787,6 +1108,15 @@ def main() -> None:
         action="store_true",
         help="Reconstruye thematic_base desde el GeoPackage.",
     )
+    parser.add_argument(
+        "--allow-missing-confidence",
+        action="store_true",
+        help=(
+            "Permite crear thematic_base sin valores observados de conf_integrada. "
+            "No se recomienda; por defecto la ejecución se detiene para evitar "
+            "una imputación neutral silenciosa en el Módulo 10."
+        ),
+    )
     args = parser.parse_args()
 
     crear_carpetas_salida()
@@ -806,13 +1136,18 @@ def main() -> None:
 
     fields_cfg = config.get("fields", {})
     thematic_cfg = config.get("thematic", {})
+    quality_cfg = config.get("quality_fields", {})  # cambio
 
     fields = {
         "lon": fields_cfg.get("longitude", "Longitud"),
         "lat": fields_cfg.get("latitude", "Latitud"),
         "year": fields_cfg.get("year", "Año"),
         "country": fields_cfg.get("country", "Pais_es"),
+        "source_id": fields_cfg.get("source_id", "id_fuente"),
         "source": fields_cfg.get("source", "Fuente"),
+        "source_type": fields_cfg.get("source_type", "Tipo"),
+        "source_detail": fields_cfg.get("source_detail", "Detalle_Tipo"),
+        "source_record_id": fields_cfg.get("source_record_id", "Id_Origen"),
         "source_use": thematic_cfg.get("source_use", "Uso_Origen"),
         "source_subuse": thematic_cfg.get("source_subuse", "Subuso_Origen"),
         "id_level_0": thematic_cfg.get("id_level_0", "id_0"),
@@ -821,10 +1156,18 @@ def main() -> None:
         "level_1": thematic_cfg.get("level_1", fields_cfg.get("level_1", "Nivel_1")),
         "id_level_2": thematic_cfg.get("id_level_2", "id_cob_niv2"),
         "level_2": thematic_cfg.get("level_2", fields_cfg.get("level_2", "Nivel_2")),
+        "conf_integrada": quality_cfg.get("conf_integrated", "conf_integrada"),  # cambio
     }
 
     min_low = int(thematic_cfg.get("min_records_low_class", 100))
     min_critical = int(thematic_cfg.get("min_records_critical_class", 30))
+    min_confidence_coverage_pct = float(
+        quality_cfg.get("min_conf_integrated_coverage_pct", 0.0)
+    )
+    if not 0 <= min_confidence_coverage_pct <= 100:
+        raise ValueError(
+            "quality_fields.min_conf_integrated_coverage_pct debe estar entre 0 y 100."
+        )
 
     conn = abrir_conexion_intermedia()
 
@@ -834,24 +1177,111 @@ def main() -> None:
         conn.execute("ATTACH DATABASE ? AS src;", (source_uri,))
         schema = obtener_schema(conn, table_name, db_alias="src")
 
-        validar_campos_requeridos(
+        # Resolver nombres reales. Los campos fundamentales, incluida la
+        # confiabilidad, son obligatorios salvo autorización explícita.
+        required_keys = [
+            "lon",
+            "lat",
+            "year",
+            "country",
+            "source_id",
+            "source",
+            "source_type",
+            "source_detail",
+            "source_record_id",
+            "level_0",
+            "level_1",
+            "level_2",
+        ]
+        for key in required_keys:
+            fields[key] = resolver_campo_configurado(
+                schema,
+                fields[key],
+                key,
+                required=True,
+            )
+
+        fields["conf_integrada"] = resolver_campo_configurado(
             schema,
-            [
-                fields["lon"],
-                fields["lat"],
-                fields["year"],
-                fields["country"],
-                fields["source"],
-                fields["level_0"],
-                fields["level_1"],
-                fields["level_2"],
-            ],
+            fields["conf_integrada"],
+            "conf_integrada",
+            required=not args.allow_missing_confidence,
         )
 
+        validar_campos_requeridos(schema, [fields[key] for key in required_keys])
+
         total_source = obtener_total_registros(conn, table_name)
+
+        source_origin_stats = estadisticas_campos_fuente(
+            conn,
+            f"src.{quote_ident(table_name)}",
+            id_field=fields["source_id"],
+            name_field=fields["source"],
+            type_field=fields["source_type"],
+        )
+        validar_campos_fuente(source_origin_stats, "GeoPackage original")
+        print(
+            "Trazabilidad de fuente en origen:",
+            f"ids={source_origin_stats['n_ids_fuente']:,};",
+            f"nombres={source_origin_stats['n_nombres_fuente']:,};",
+            f"tipos={source_origin_stats['n_tipos_fuente']:,};",
+            "cobertura=100%",
+        )
+
+        if fields["conf_integrada"]:
+            source_conf_stats = estadisticas_confiabilidad(
+                conn,
+                f"src.{quote_ident(table_name)}",
+                fields["conf_integrada"],
+            )
+            validar_estadisticas_confiabilidad(
+                source_conf_stats,
+                "GeoPackage original",
+                allow_missing=args.allow_missing_confidence,
+                min_coverage_pct=min_confidence_coverage_pct,
+            )
+        else:
+            source_conf_stats = {
+                "n_total": total_source,
+                "n_informados": 0,
+                "n_no_numericos": 0,
+                "n_numericos": 0,
+                "min_valor": None,
+                "max_valor": None,
+                "n_valores_distintos": 0,
+                "pct_cobertura_numerica": 0.0,
+                "escala_detectada": "sin_datos",
+            }
+
+        print(
+            "Confiabilidad en fuente:",
+            f"campo={fields['conf_integrada'] or '<ausente>'};",
+            f"numéricos={source_conf_stats['n_numericos']:,};",
+            f"cobertura={source_conf_stats['pct_cobertura_numerica']:.3f}%;",
+            f"escala={source_conf_stats['escala_detectada']}",
+        )
+
         conn.execute("DETACH DATABASE src;")
 
-        if args.rebuild_base or not tabla_existe(conn, "thematic_base"):
+        expected_metadata = metadata_base_esperada(
+            gpkg_path=gpkg_path,
+            table_name=table_name,
+            total_source=total_source,
+            confidence_field=fields["conf_integrada"],
+            source_id_field=fields["source_id"],
+            source_type_field=fields["source_type"],
+            source_detail_field=fields["source_detail"],
+            source_record_id_field=fields["source_record_id"],
+        )
+        rebuild_reasons = motivos_reconstruccion_base(conn, expected_metadata)
+
+        if args.rebuild_base or rebuild_reasons:
+            if args.rebuild_base:
+                print("Reconstrucción solicitada mediante --rebuild-base.")
+            if rebuild_reasons:
+                print("thematic_base se reconstruirá automáticamente por:")
+                for reason in rebuild_reasons:
+                    print(" -", reason)
             print("Creando thematic_base desde el GeoPackage. Esto puede tardar varios minutos...")
             crear_base_tematica(
                 conn=conn,
@@ -860,8 +1290,54 @@ def main() -> None:
                 schema=schema,
                 fields=fields,
             )
+            base_source_stats = estadisticas_campos_fuente(
+                conn,
+                quote_ident("thematic_base"),
+                id_field="id_fuente",
+                name_field="fuente",
+                type_field="tipo_fuente",
+            )
+            validar_campos_fuente(base_source_stats, "thematic_base recién creada")
+            base_conf_stats = estadisticas_confiabilidad(
+                conn,
+                quote_ident("thematic_base"),
+                "conf_integrada",
+            )
+            validar_estadisticas_confiabilidad(
+                base_conf_stats,
+                "thematic_base recién creada",
+                allow_missing=args.allow_missing_confidence,
+                min_coverage_pct=min_confidence_coverage_pct,
+            )
+            guardar_metadata_base(conn, expected_metadata, base_conf_stats)
         else:
-            print("Usando thematic_base existente. No se reconstruirá la base intermedia.")
+            print("Usando thematic_base existente y validada contra la fuente actual.")
+            base_source_stats = estadisticas_campos_fuente(
+                conn,
+                quote_ident("thematic_base"),
+                id_field="id_fuente",
+                name_field="fuente",
+                type_field="tipo_fuente",
+            )
+            validar_campos_fuente(base_source_stats, "thematic_base existente")
+            base_conf_stats = estadisticas_confiabilidad(
+                conn,
+                quote_ident("thematic_base"),
+                "conf_integrada",
+            )
+            validar_estadisticas_confiabilidad(
+                base_conf_stats,
+                "thematic_base existente",
+                allow_missing=args.allow_missing_confidence,
+                min_coverage_pct=min_confidence_coverage_pct,
+            )
+
+        if source_conf_stats["n_numericos"] != base_conf_stats["n_numericos"]:
+            raise ValueError(
+                "La cantidad de valores de confiabilidad numéricos cambió entre la "
+                f"fuente ({source_conf_stats['n_numericos']}) y thematic_base "
+                f"({base_conf_stats['n_numericos']})."
+            )
 
         total = obtener_total_base_tematica(conn)
 
@@ -919,6 +1395,25 @@ def main() -> None:
                     "n_clases_nivel0": len(dist_nivel0),
                     "n_clases_nivel1": len(dist_nivel1),
                     "n_clases_nivel2": len(dist_nivel2),
+                    "thematic_base_schema_version": THEMATIC_BASE_SCHEMA_VERSION,
+                    "confidence_source_field": fields["conf_integrada"],
+                    "source_id_field": fields["source_id"],
+                    "source_type_field": fields["source_type"],
+                    "source_detail_field": fields["source_detail"],
+                    "source_record_id_field": fields["source_record_id"],
+                    "n_source_ids": base_source_stats["n_ids_fuente"],
+                    "n_source_names": base_source_stats["n_nombres_fuente"],
+                    "n_source_types": base_source_stats["n_tipos_fuente"],
+                    "pct_source_id_coverage": base_source_stats["pct_id_fuente"],
+                    "pct_source_name_coverage": base_source_stats["pct_fuente"],
+                    "pct_source_type_coverage": base_source_stats["pct_tipo_fuente"],
+                    "n_confidence_numeric_source": source_conf_stats["n_numericos"],
+                    "n_confidence_numeric_base": base_conf_stats["n_numericos"],
+                    "pct_confidence_numeric_base": base_conf_stats["pct_cobertura_numerica"],
+                    "confidence_scale_detected": base_conf_stats["escala_detectada"],
+                    "n_confidence_distinct_values": base_conf_stats["n_valores_distintos"],
+                    "min_confidence_coverage_pct_required": min_confidence_coverage_pct,
+                    "thematic_base_rebuilt": int(args.rebuild_base or bool(rebuild_reasons)),
                     "n_inconsistencias_jerarquicas": len(hierarchy_inconsistencies),
                     "n_grupos_conflicto_xy": (
                         int(conflicts_summary["n_grupos_conflicto"].iloc[0])
@@ -987,6 +1482,8 @@ def main() -> None:
             f"Registros evaluados: {total}. "
             f"Clases Nivel_1: {len(dist_nivel1)}. "
             f"Clases Nivel_2: {len(dist_nivel2)}. "
+            f"Confianza numérica: {base_conf_stats['n_numericos']}/{total} "
+            f"({base_conf_stats['pct_cobertura_numerica']:.3f}%). "
             f"Inconsistencias jerárquicas: {len(hierarchy_inconsistencies)}."
         )
 
@@ -995,6 +1492,11 @@ def main() -> None:
         print(f"Clases Nivel_0: {len(dist_nivel0)}")
         print(f"Clases Nivel_1: {len(dist_nivel1)}")
         print(f"Clases Nivel_2: {len(dist_nivel2)}")
+        print(
+            "Confiabilidad numérica:",
+            f"{base_conf_stats['n_numericos']:,}/{total:,}",
+            f"({base_conf_stats['pct_cobertura_numerica']:.3f}%)",
+        )
         print(f"Inconsistencias jerárquicas: {len(hierarchy_inconsistencies)}")
         print("Salidas generadas en outputs/tables, outputs/figures y outputs/reports.")
 

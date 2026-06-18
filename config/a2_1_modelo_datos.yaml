@@ -1,3 +1,653 @@
+# activity: a2_1_modelo_datos
+# input:
+#   gpkg: data/processed/scoring_aptitud/10_scoring_aptitud_outputs.gpkg
+#   layer: xy_group_aptitude_master
+# output:
+#   processed_dir: data/processed/a2_1_modelo_datos
+#   reports_dir: outputs/reports
+#   logs_dir: logs
+#   gpkg_dir: gpkg
+#   tables_dir: tables
+#   metadata_dir: metadata
+#   spatial_gpkg: a2_1_xy_point.gpkg
+#   spatial_layer: xy_point
+#   homologation_final_table: xy_homologacion_final
+#   write_homologation_final_csv: true
+#   write_tables_to_gpkg: true
+#   create_join_indexes: true
+#   overwrite: true
+# validation:
+#   strict_schema: true
+#   require_unique_pk: true
+#   require_non_null_pk: true
+#   warn_extra_fields: true
+#   fail_on_unknown_class_code: false
+#   validate_dominante_vs_valores: true
+#   fail_on_dominante_valores_mismatch: false
+#   require_complete_final_homologation: true
+# normalization:
+#   code_regex: ^\s*(?P<cod>\d{2,3})\b.*$
+#   split_regex: \s*(?:\||;)\s*
+#   empty_values:
+#   - ''
+#   - nan
+#   - none
+#   - 'null'
+#   - sin_dato
+#   - sin dato
+#   - no_definido
+#   class_fk_sources:
+#     id_0:
+#       level: 0
+#       dominante: nivel_0_dominante
+#       valores: valores_nivel_0
+#     id_1:
+#       level: 1
+#       dominante: nivel_1_dominante
+#       valores: valores_nivel_1
+#     id_2:
+#       level: 2
+#       dominante: nivel_2_dominante
+#       valores: valores_nivel_2
+# source_class_catalog:
+#   description: Sistema de clasificación de origen de los datos. Tabla 1 del Informe Final - Puntos Control GBM.
+#   tables:
+#     nivel_0: clase_origen_nivel_0
+#     nivel_1: clase_origen_nivel_1
+#     nivel_2: clase_origen_nivel_2
+#   fields:
+#   - id_0
+#   - nivel_0
+#   - id_1
+#   - nivel_1
+#   - id_2
+#   - nivel_2
+#   rows:
+#   - id_0: 10
+#     nivel_0: Artificializado y otra tierras
+#     id_1: 11
+#     nivel_1: Urbano
+#     id_2: 110
+#     nivel_2: Urbano
+#   - id_0: 10
+#     nivel_0: Artificializado y otra tierras
+#     id_1: 11
+#     nivel_1: Urbano
+#     id_2: 111
+#     nivel_2: Urbano continuo
+#   - id_0: 10
+#     nivel_0: Artificializado y otra tierras
+#     id_1: 11
+#     nivel_1: Urbano
+#     id_2: 112
+#     nivel_2: Urbano discontinuo
+#   - id_0: 10
+#     nivel_0: Artificializado y otra tierras
+#     id_1: 12
+#     nivel_1: Otras tierras
+#     id_2: 121
+#     nivel_2: Otros artificializado
+#   - id_0: 10
+#     nivel_0: Artificializado y otra tierras
+#     id_1: 12
+#     nivel_1: Otras tierras
+#     id_2: 122
+#     nivel_2: Suelo desnudo, arena, rocoso, lava, otros
+#   - id_0: 20
+#     nivel_0: Tierras húmedas y agua
+#     id_1: 21
+#     nivel_1: Cuerpos de Agua
+#     id_2: 210
+#     nivel_2: Cuerpos de Agua
+#   - id_0: 20
+#     nivel_0: Tierras húmedas y agua
+#     id_1: 21
+#     nivel_1: Cuerpos de Agua
+#     id_2: 211
+#     nivel_2: Cuerpos de agua natural
+#   - id_0: 20
+#     nivel_0: Tierras húmedas y agua
+#     id_1: 21
+#     nivel_1: Cuerpos de Agua
+#     id_2: 212
+#     nivel_2: Cuerpos de agua artificial
+#   - id_0: 20
+#     nivel_0: Tierras húmedas y agua
+#     id_1: 22
+#     nivel_1: Humedales
+#     id_2: 220
+#     nivel_2: Humedales
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 31
+#     nivel_1: Cultivos intensivos No-Arbóreos
+#     id_2: 311
+#     nivel_2: Palma aceitera
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 31
+#     nivel_1: Cultivos intensivos No-Arbóreos
+#     id_2: 312
+#     nivel_2: Bananeras
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 31
+#     nivel_1: Cultivos intensivos No-Arbóreos
+#     id_2: 313
+#     nivel_2: Caña de azúcar
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 31
+#     nivel_1: Cultivos intensivos No-Arbóreos
+#     id_2: 314
+#     nivel_2: Piña
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 31
+#     nivel_1: Cultivos intensivos No-Arbóreos
+#     id_2: 315
+#     nivel_2: Otros cultivos intensivos no arbóreos
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 32
+#     nivel_1: Cultivos Arbóreos
+#     id_2: 321
+#     nivel_2: Café
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 32
+#     nivel_1: Cultivos Arbóreos
+#     id_2: 322
+#     nivel_2: Cacao
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 32
+#     nivel_1: Cultivos Arbóreos
+#     id_2: 323
+#     nivel_2: Frutales
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 32
+#     nivel_1: Cultivos Arbóreos
+#     id_2: 324
+#     nivel_2: Hule
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 32
+#     nivel_1: Cultivos Arbóreos
+#     id_2: 325
+#     nivel_2: Otros sistemas agroforestales o silvopastoriles
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 33
+#     nivel_1: Cultivos extensivos, Pastizales y matorrales
+#     id_2: 331
+#     nivel_2: Granos básicos y hortalizas y otros
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 33
+#     nivel_1: Cultivos extensivos, Pastizales y matorrales
+#     id_2: 332
+#     nivel_2: Pastizales naturales y cultivados
+#   - id_0: 30
+#     nivel_0: Tierras de Cultivo y Pastos
+#     id_1: 33
+#     nivel_1: Cultivos extensivos, Pastizales y matorrales
+#     id_2: 333
+#     nivel_2: Matorrales (barbecho o en descanso)
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 41
+#     nivel_1: Bosque latifoliado y mixto
+#     id_2: 410
+#     nivel_2: Bosque latifoliado y mixto
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 41
+#     nivel_1: Bosque latifoliado y mixto
+#     id_2: 411
+#     nivel_2: Latifoliado maduro húmedo
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 41
+#     nivel_1: Bosque latifoliado y mixto
+#     id_2: 412
+#     nivel_2: Latifoliado secundario húmedo
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 41
+#     nivel_1: Bosque latifoliado y mixto
+#     id_2: 413
+#     nivel_2: Bosque Mixto (Lat-Coniferas)
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 41
+#     nivel_1: Bosque latifoliado y mixto
+#     id_2: 414
+#     nivel_2: Bosque seco o deciduo
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 42
+#     nivel_1: Bosque de coníferas
+#     id_2: 420
+#     nivel_2: Bosque de coníferas
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 42
+#     nivel_1: Bosque de coníferas
+#     id_2: 421
+#     nivel_2: Coníferas denso
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 42
+#     nivel_1: Bosque de coníferas
+#     id_2: 422
+#     nivel_2: Coníferas ralo
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 42
+#     nivel_1: Bosque de coníferas
+#     id_2: 423
+#     nivel_2: Sabanas de pino
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 43
+#     nivel_1: Manglares
+#     id_2: 430
+#     nivel_2: Manglares
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 43
+#     nivel_1: Manglares
+#     id_2: 431
+#     nivel_2: Manglar alto
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 43
+#     nivel_1: Manglares
+#     id_2: 432
+#     nivel_2: Manglar bajo
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 44
+#     nivel_1: Otros arbóreo en tierras no agrícola
+#     id_2: 441
+#     nivel_2: Masa arbórea ribereña
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 44
+#     nivel_1: Otros arbóreo en tierras no agrícola
+#     id_2: 442
+#     nivel_2: Plantaciones forestales
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 44
+#     nivel_1: Otros arbóreo en tierras no agrícola
+#     id_2: 443
+#     nivel_2: Árboles fuera de bosque y otras áreas naturales
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 44
+#     nivel_1: Otros arbóreo en tierras no agrícola
+#     id_2: 444
+#     nivel_2: Regeneración forestal
+#   - id_0: 40
+#     nivel_0: Tierras Forestales
+#     id_1: 44
+#     nivel_1: Otros arbóreo en tierras no agrícola
+#     id_2: 445
+#     nivel_2: Bosque de Palmas
+#   - id_0: 90
+#     nivel_0: Otras
+#     id_1: 91
+#     nivel_1: Otras
+#     id_2: 910
+#     nivel_2: Otras
+# schema:
+#   pk: xy_group_id
+#   tables:
+#     xy_point:
+#       format: gpkg
+#       geometry: true
+#       cardinality: spatial
+#       fields:
+#       - xy_group_id
+#       - lon
+#       - lat
+#       - pais_grupo
+#       - id_0
+#       - id_1
+#       - id_2
+#       derive_classes_from:
+#         id_0: nivel_0_dominante
+#         id_1: nivel_1_dominante
+#         id_2: nivel_2_dominante
+#     xy_core:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - estado_xy_subset
+#       - tipo_grupo_original
+#       - n_registros_original
+#       - n_registros_subset
+#       - n_registros
+#       - n_fuentes
+#       - pais_dominante
+#       - fuente_dominante
+#     xy_temporal:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - n_anios
+#       - anio_min
+#       - anio_max
+#       - distancia_minima_2020
+#       - incluye_2020
+#       - incluye_2018_2022
+#     xy_clase_resumen:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - n_nivel0
+#       - n_nivel1
+#       - n_nivel2
+#       - conf_integrada_promedio
+#       - n_registros_pais_clase
+#       - estado_pais_clase
+#     xy_spectral:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - n_extract_units_spectral
+#       - n_spectral_rows
+#       - spectral_severity_order_max
+#       - spectral_alert_count_sum
+#       - pct_extract_units_sin_alerta
+#       - pct_extract_units_alerta_baja
+#       - pct_extract_units_alerta_media
+#       - pct_extract_units_alerta_alta
+#       - pct_extract_units_baja_disponibilidad
+#       - pct_extract_units_sin_datos
+#       - pct_extract_units_revision_espectral
+#       - s2yr_months_obs_median
+#       - s2yr_obs_total_median
+#       - s2yr_obs_mean_median
+#       - s2yr_cloudprob_median
+#       - s2yr_ndvi_mean
+#       - s2yr_ndvi_median
+#       - s2yr_ndvi8a_mean
+#       - s2yr_ndvi8a_median
+#       - s2yr_ndre_mean
+#       - s2yr_ndre_median
+#       - spectral_alert_level_max
+#     xy_score:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - score_temporal
+#       - score_espectral
+#       - score_prioridad_revision
+#       - score_espacial
+#       - score_consistencia_clase
+#       - score_viabilidad_clase
+#       - score_claridad_semantica
+#       - score_nivel_leyenda
+#       - score_tematico
+#       - score_confiabilidad
+#       - score_representatividad
+#       - score_fuente
+#       - score_aptitud_raw
+#       - score_cap
+#       - cap_reason
+#       - score_aptitud_total
+#     xy_conflicto:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - tipo_conflicto
+#       - severidad_conflicto
+#       - flag_conflicto_activo
+#       - flag_clase_residual
+#     xy_accion:
+#       format: csv
+#       cardinality: '1:1'
+#       fields:
+#       - xy_group_id
+#       - categoria_aptitud_preliminar
+#       - categoria_uso_actividad_1_8
+#       - definicion_categoria_aptitud
+#       - accion_recomendada
+#       - razon_categoria_aptitud
+#   field_types:
+#     text:
+#     - xy_group_id
+#     - pais_grupo
+#     - estado_xy_subset
+#     - tipo_grupo_original
+#     - pais_dominante
+#     - fuente_dominante
+#     - nivel_0_dominante
+#     - nivel_1_dominante
+#     - nivel_2_dominante
+#     - valores_nivel_0
+#     - valores_nivel_1
+#     - valores_nivel_2
+#     - nivel_0
+#     - nivel_0_propuesta
+#     - nivel_1_propuesta
+#     - nivel_1
+#     - nivel_2
+#     - estado_pais_clase
+#     - spectral_alert_level_max
+#     - tipo_conflicto
+#     - severidad_conflicto
+#     - cap_reason
+#     - categoria_aptitud_preliminar
+#     - categoria_uso_actividad_1_8
+#     - definicion_categoria_aptitud
+#     - accion_recomendada
+#     - razon_categoria_aptitud
+#     integer:
+#     - id_0
+#     - id_0_propuesta
+#     - id_1_propuesta
+#     - id_1
+#     - id_2
+#     - n_registros_original
+#     - n_registros_subset
+#     - n_registros
+#     - n_fuentes
+#     - n_anios
+#     - anio_min
+#     - anio_max
+#     - distancia_minima_2020
+#     - n_nivel0
+#     - n_nivel1
+#     - n_nivel2
+#     - n_extract_units_spectral
+#     - n_spectral_rows
+#     - spectral_severity_order_max
+#     - spectral_alert_count_sum
+#     - n_registros_pais_clase
+#     float:
+#     - lon
+#     - lat
+#     - score_temporal
+#     - conf_integrada_promedio
+#     - pct_extract_units_sin_alerta
+#     - pct_extract_units_alerta_baja
+#     - pct_extract_units_alerta_media
+#     - pct_extract_units_alerta_alta
+#     - pct_extract_units_baja_disponibilidad
+#     - pct_extract_units_sin_datos
+#     - pct_extract_units_revision_espectral
+#     - s2yr_months_obs_median
+#     - s2yr_obs_total_median
+#     - s2yr_obs_mean_median
+#     - s2yr_cloudprob_median
+#     - s2yr_ndvi_mean
+#     - s2yr_ndvi_median
+#     - s2yr_ndvi8a_mean
+#     - s2yr_ndvi8a_median
+#     - s2yr_ndre_mean
+#     - s2yr_ndre_median
+#     - score_espectral
+#     - score_prioridad_revision
+#     - score_espacial
+#     - score_consistencia_clase
+#     - score_viabilidad_clase
+#     - score_claridad_semantica
+#     - score_nivel_leyenda
+#     - score_tematico
+#     - score_confiabilidad
+#     - score_representatividad
+#     - score_fuente
+#     - score_aptitud_raw
+#     - score_cap
+#     - score_aptitud_total
+#     boolean:
+#     - incluye_2020
+#     - incluye_2018_2022
+#     - flag_conflicto_activo
+#     - flag_clase_residual
+# proposed_class_homologations:
+#   nivel_0:
+#     description: Homologación general N:1 entre las clases de origen de nivel 0 y la clasificación propuesta de nivel 0.
+#     role: general
+#     source_level: 0
+#     source_id_field: id_0
+#     target_level: 0
+#     target_id_field: id_0_propuesta
+#     target_label_field: nivel_0_propuesta
+#     target_table: clase_propuesta_nivel_0
+#     mapping_table: homologacion_nivel_0_origen_propuesta
+#     require_complete_source_mapping: true
+#     fail_on_unmapped_observed: true
+#     cardinality: N:1
+#     classes:
+#     - id_0_propuesta: 1
+#       nivel_0_propuesta: Bosques/Tierras forestales
+#     - id_0_propuesta: 2
+#       nivel_0_propuesta: No Bosques
+#     mapping:
+#     - id_0: 10
+#       id_0_propuesta: 2
+#     - id_0: 20
+#       id_0_propuesta: 2
+#     - id_0: 30
+#       id_0_propuesta: 2
+#     - id_0: 40
+#       id_0_propuesta: 1
+#     - id_0: 90
+#       id_0_propuesta: 2
+#   nivel_1_general:
+#     description: Regla general N:1 desde id_1 de origen hacia id_1_propuesta. Se aplica cuando no existe una excepción específica
+#       por id_2.
+#     role: general
+#     source_level: 1
+#     source_id_field: id_1
+#     target_level: 1
+#     target_id_field: id_1_propuesta
+#     target_label_field: nivel_1_propuesta
+#     parent_target_id_field: id_0_propuesta
+#     parent_target_table: clase_propuesta_nivel_0
+#     target_table: clase_propuesta_nivel_1
+#     mapping_table: homologacion_nivel_1_origen_propuesta
+#     require_complete_source_mapping: true
+#     fail_on_unmapped_observed: true
+#     cardinality: N:1
+#     classes:
+#     - id_1_propuesta: 11
+#       nivel_1_propuesta: Bosques latifoliados y mixtos
+#       id_0_propuesta: 1
+#     - id_1_propuesta: 12
+#       nivel_1_propuesta: Bosques de coníferas
+#       id_0_propuesta: 1
+#     - id_1_propuesta: 13
+#       nivel_1_propuesta: Bosques de mangle
+#       id_0_propuesta: 1
+#     - id_1_propuesta: 14
+#       nivel_1_propuesta: Bosques secos
+#       id_0_propuesta: 1
+#     - id_1_propuesta: 15
+#       nivel_1_propuesta: Plantaciones forestales
+#       id_0_propuesta: 1
+#     - id_1_propuesta: 21
+#       nivel_1_propuesta: Cultivos arbóreos
+#       id_0_propuesta: 2
+#     - id_1_propuesta: 22
+#       nivel_1_propuesta: Zonas agrícolas no arbóreas
+#       id_0_propuesta: 2
+#     - id_1_propuesta: 23
+#       nivel_1_propuesta: Construido
+#       id_0_propuesta: 2
+#     - id_1_propuesta: 24
+#       nivel_1_propuesta: Cuerpos de agua
+#       id_0_propuesta: 2
+#     - id_1_propuesta: 25
+#       nivel_1_propuesta: Otras tierras
+#       id_0_propuesta: 2
+#     mapping:
+#     - id_1: 11
+#       id_1_propuesta: 23
+#     - id_1: 12
+#       id_1_propuesta: 23
+#     - id_1: 21
+#       id_1_propuesta: 24
+#     - id_1: 22
+#       id_1_propuesta: 25
+#     - id_1: 31
+#       id_1_propuesta: 22
+#     - id_1: 32
+#       id_1_propuesta: 21
+#     - id_1: 33
+#       id_1_propuesta: 22
+#     - id_1: 41
+#       id_1_propuesta: 11
+#     - id_1: 42
+#       id_1_propuesta: 12
+#     - id_1: 43
+#       id_1_propuesta: 13
+#     - id_1: 44
+#       id_1_propuesta: 11
+#     - id_1: 91
+#       id_1_propuesta: 25
+#   nivel_1_excepciones:
+#     description: Excepciones N:1 definidas por id_2. Tienen prioridad sobre la regla general de nivel 1 y permiten resolver
+#       clases cuyo detalle de nivel 2 cambia el destino propuesto.
+#     role: override
+#     fallback_homologation: nivel_1_general
+#     final_assignment_name: nivel_1_final
+#     source_level: 2
+#     source_id_field: id_2
+#     target_level: 1
+#     target_id_field: id_1_propuesta
+#     target_label_field: nivel_1_propuesta
+#     parent_target_id_field: id_0_propuesta
+#     parent_target_table: clase_propuesta_nivel_0
+#     target_table: clase_propuesta_nivel_1
+#     catalog_ref: nivel_1_general
+#     mapping_table: homologacion_nivel_2_excepcion_nivel_1_propuesta
+#     require_complete_source_mapping: false
+#     fail_on_unmapped_observed: false
+#     cardinality: N:1
+#     mapping:
+#     - id_2: 122
+#       id_1_propuesta: 25
+#     - id_2: 311
+#       id_1_propuesta: 21
+#     - id_2: 414
+#       id_1_propuesta: 14
+#     - id_2: 442
+#       id_1_propuesta: 15
+
+
 activity: a2_1_modelo_datos
 input:
   gpkg: data/processed/scoring_aptitud/10_scoring_aptitud_outputs.gpkg
@@ -49,6 +699,48 @@ normalization:
       level: 2
       dominante: nivel_2_dominante
       valores: valores_nivel_2
+  keep_only_final_scores: true
+  final_score_table: xy_score
+  final_score_fields: &id001
+  - xy_group_id
+  - score_temporal
+  - score_espacial
+  - score_tematico
+  - score_espectral
+  - score_confiabilidad
+  - score_representatividad
+  - score_fuente
+  - score_aptitud_total
+  audit_only_fields:
+  - id_fuente_dominante
+  - tipo_fuente_dominante
+  - detalle_tipo_fuente_dominante
+  - ids_fuente_presentes
+  - fuentes_presentes
+  - tipos_fuente_presentes
+  - score_directitud_fuente_promedio
+  - score_trazabilidad_fuente_promedio
+  - score_temporal_metadata_fuente_promedio
+  - score_fuente_promedio
+  - score_fuente_minimo
+  - score_fuente_maximo
+  - n_fuentes_anio_inconsistente
+  - n_fuentes_pais_inconsistente
+  - conf_integrada_promedio
+  - conf_integrada_promedio_observada
+  - n_conf_integrada_observada
+  - pct_conf_integrada_observada
+  - flag_confianza_imputada
+  - score_confiabilidad_base
+  - origen_score_confiabilidad
+  - score_prioridad_revision
+  - score_consistencia_clase
+  - score_viabilidad_clase
+  - score_claridad_semantica
+  - score_nivel_leyenda
+  - score_aptitud_raw
+  - score_cap
+  - cap_reason
 source_class_catalog:
   description: Sistema de clasificación de origen de los datos. Tabla 1 del Informe Final - Puntos Control GBM.
   tables:
@@ -354,7 +1046,6 @@ schema:
       - n_nivel0
       - n_nivel1
       - n_nivel2
-      - conf_integrada_promedio
       - n_registros_pais_clase
       - estado_pais_clase
     xy_spectral:
@@ -387,24 +1078,7 @@ schema:
     xy_score:
       format: csv
       cardinality: '1:1'
-      fields:
-      - xy_group_id
-      - score_temporal
-      - score_espectral
-      - score_prioridad_revision
-      - score_espacial
-      - score_consistencia_clase
-      - score_viabilidad_clase
-      - score_claridad_semantica
-      - score_nivel_leyenda
-      - score_tematico
-      - score_confiabilidad
-      - score_representatividad
-      - score_fuente
-      - score_aptitud_raw
-      - score_cap
-      - cap_reason
-      - score_aptitud_total
+      fields: *id001
     xy_conflicto:
       format: csv
       cardinality: '1:1'
@@ -447,7 +1121,6 @@ schema:
     - spectral_alert_level_max
     - tipo_conflicto
     - severidad_conflicto
-    - cap_reason
     - categoria_aptitud_preliminar
     - categoria_uso_actividad_1_8
     - definicion_categoria_aptitud
@@ -479,7 +1152,6 @@ schema:
     - lon
     - lat
     - score_temporal
-    - conf_integrada_promedio
     - pct_extract_units_sin_alerta
     - pct_extract_units_alerta_baja
     - pct_extract_units_alerta_media
@@ -498,18 +1170,11 @@ schema:
     - s2yr_ndre_mean
     - s2yr_ndre_median
     - score_espectral
-    - score_prioridad_revision
     - score_espacial
-    - score_consistencia_clase
-    - score_viabilidad_clase
-    - score_claridad_semantica
-    - score_nivel_leyenda
     - score_tematico
     - score_confiabilidad
     - score_representatividad
     - score_fuente
-    - score_aptitud_raw
-    - score_cap
     - score_aptitud_total
     boolean:
     - incluye_2020
@@ -547,8 +1212,7 @@ proposed_class_homologations:
     - id_0: 90
       id_0_propuesta: 2
   nivel_1_general:
-    description: Regla general N:1 desde id_1 de origen hacia id_1_propuesta. Se aplica cuando no existe una excepción específica
-      por id_2.
+    description: Regla general N:1 desde id_1 de origen hacia id_1_propuesta. Se aplica cuando no existe una excepción específica por id_2.
     role: general
     source_level: 1
     source_id_field: id_1
@@ -619,8 +1283,7 @@ proposed_class_homologations:
     - id_1: 91
       id_1_propuesta: 25
   nivel_1_excepciones:
-    description: Excepciones N:1 definidas por id_2. Tienen prioridad sobre la regla general de nivel 1 y permiten resolver
-      clases cuyo detalle de nivel 2 cambia el destino propuesto.
+    description: Excepciones N:1 definidas por id_2. Tienen prioridad sobre la regla general de nivel 1 y permiten resolver clases cuyo detalle de nivel 2 cambia el destino propuesto.
     role: override
     fallback_homologation: nivel_1_general
     final_assignment_name: nivel_1_final

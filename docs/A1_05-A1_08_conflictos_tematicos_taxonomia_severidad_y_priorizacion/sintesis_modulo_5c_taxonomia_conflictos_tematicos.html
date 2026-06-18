@@ -79,13 +79,20 @@
       tr { page-break-inside:avoid; page-break-after:auto; }
     }
   </style>
+<style>
+  .criteria-table { width:100%; border-collapse:collapse; margin:18px 0 26px 0; font-size:0.9rem; }
+  .criteria-table th { background:#174A7C; color:#fff; text-align:left; padding:8px; }
+  .criteria-table td { border:1px solid #d0d7de; padding:7px; vertical-align:top; }
+  .criteria-table tr:nth-child(even) { background:#f8fafc; }
+  .criteria-note { background:#f8fafc; border-left:5px solid #64748b; padding:14px 18px; margin:18px 0; border-radius:6px; }
+</style>
 </head>
 <body>
   <h1>Síntesis interpretativa - Módulo 5C</h1>
   <p class="subtitle">
     <strong>Taxonomía y severidad de conflictos temáticos XY</strong><br>
     PGBM - Actividad 1 | Diagnóstico regional de aptitud de fuentes y preparación de datos para modelamiento<br>
-    Documento generado: 2026-05-19 14:43:04
+    Fecha de ejecución: 2026-06-17 19:50:10
   </p>
 
   <div class="box">
@@ -93,6 +100,22 @@
       Este informe interpreta los resultados del <strong>Módulo 5C</strong>, cuyo propósito fue clasificar los conflictos temáticos XY detectados dentro de la ventana operativa <strong>2018–2022</strong>. A diferencia del Módulo 5, que cuantificó conflictos temáticos en toda la base histórica, y del Módulo 5B, que restringió el diagnóstico a 2020 y la ventana ±2 años, este módulo diferencia el tipo de conflicto, su severidad y su prioridad de revisión.
     </p>
   </div>
+
+
+<section id="criterios-lectura">
+<h2>Criterios de clasificación y severidad</h2>
+<p>La taxonomía del Módulo 5C se basa en los criterios resumidos en la <strong>Tabla C1</strong>. La clasificación diferencia el tipo semántico del conflicto, el mecanismo temporal-operativo y la prioridad de revisión.</p>
+<table class="criteria-table compact">
+<thead><tr><th>Criterio</th><th>Condición evaluada</th><th>Severidad típica</th><th>Decisión recomendada</th></tr></thead>
+<tbody>
+<tr><td><code>bosque_vs_no_bosque</code></td><td>Un mismo XY alterna entre clases forestales y no forestales.</td><td>Alta o muy alta</td><td>Excluir de entrenamiento directo o enviar a revisión prioritaria.</td></tr>
+<tr><td><code>conflicto_mismo_anio</code></td><td>Un mismo XY tiene clases distintas dentro del mismo año.</td><td>Alta o muy alta</td><td>No usar sin resolver, porque no representa cambio temporal.</td></tr>
+<tr><td><code>posible_cambio_temporal</code></td><td>El conflicto ocurre entre años distintos y puede reflejar transición real.</td><td>Media</td><td>Separar para revisión temporal o uso en análisis de cambio.</td></tr>
+<tr><td><code>residual_otras</code></td><td>Interviene la clase <code>Otras</code> o categorías residuales.</td><td>Alta cuando afecta la clase final</td><td>Revisar o degradar aptitud por ambigüedad temática.</td></tr>
+<tr><td>Revisión prioritaria</td><td><code>score_revision >= 75</code></td><td>Alta prioridad</td><td>Separar como subconjunto de control antes de modelamiento.</td></tr>
+<tr><td>Mecanismo operativo</td><td>Conflicto simultáneo, multianual, misma fuente o multifuente</td><td>Variable</td><td>Define si se corrige por regla, revisión visual o exclusión.</td></tr>
+</tbody></table>
+</section>
 
   <h2>1. Lectura ejecutiva</h2>
   <div class="critical">
