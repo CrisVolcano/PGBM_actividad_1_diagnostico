@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="ChatGPT">
   <diagram id="pgbm-a1-architecture" name="PGBM A1 - Arquitectura de datos">
-    <mxGraphModel dx="3918" dy="760" grid="1" gridSize="12" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
+    <mxGraphModel dx="4647" dy="1111" grid="1" gridSize="12" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -13,7 +13,7 @@
         <mxCell id="z1" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=8;strokeWidth=2;fillColor=#F8FAFC;strokeColor=#CBD5E0;fontSize=18;fontStyle=1;align=center;verticalAlign=top;spacingTop=14;shadow=0;" value="01–05C · Auditorías base" vertex="1">
           <mxGeometry height="980" width="640" x="440" y="110" as="geometry" />
         </mxCell>
-        <mxCell id="z2" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=8;strokeWidth=2;fillColor=#F8FAFC;strokeColor=#CBD5E0;fontSize=18;fontStyle=1;align=center;verticalAlign=top;spacingTop=14;shadow=0;" value="06–09 · Auditorias Espectrales: Sentinel-2 / GEE" vertex="1">
+        <mxCell id="z2" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=8;strokeWidth=2;fillColor=#F8FAFC;strokeColor=#CBD5E0;fontSize=18;fontStyle=1;align=center;verticalAlign=top;spacingTop=14;shadow=0;" value="06–09 · Auditorias Espectrales: Sentinel-2&amp;nbsp;" vertex="1">
           <mxGeometry height="980" width="520" x="1120" y="110" as="geometry" />
         </mxCell>
         <mxCell id="z3" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=8;strokeWidth=2;fillColor=#F8FAFC;strokeColor=#CBD5E0;fontSize=18;fontStyle=1;align=center;verticalAlign=top;spacingTop=14;shadow=0;" value="10 · Scoring multicriterio" vertex="1">
@@ -85,13 +85,13 @@
         <mxCell id="rconflict" parent="1" style="fontFamily=Inter,Helvetica,Arial;rhombus;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFF5F5;strokeColor=#E53E3E;fontColor=#4A0B0B;fontSize=13;align=center;verticalAlign=middle;spacing=8;" value="Conflictos altos&lt;br/&gt;no van directo a&lt;br/&gt;entrenamiento" vertex="1">
           <mxGeometry height="105" width="180" x="775" y="825" as="geometry" />
         </mxCell>
-        <mxCell id="m06" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;" value="&lt;b&gt;06&lt;/b&gt;&lt;br/&gt;Input GEE&lt;br/&gt;&lt;span style=&quot;font-size:12px&quot;&gt;2018–2022 · Long/Lat/Año&lt;/span&gt;" vertex="1">
+        <mxCell id="m06" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;" value="&lt;b&gt;06&lt;/b&gt;&lt;br&gt;Input&lt;br&gt;&lt;span style=&quot;font-size:12px&quot;&gt;2018–2022 · Long/Lat/Año&lt;/span&gt;" vertex="1">
           <mxGeometry height="75" width="200" x="1165" y="180" as="geometry" />
         </mxCell>
-        <mxCell id="m07" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;" value="&lt;b&gt;07&lt;/b&gt;&lt;br/&gt;Script GEE&lt;br/&gt;documentado" vertex="1">
+        <mxCell id="m07" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;" value="&lt;b&gt;07&lt;/b&gt;&lt;br&gt;Script&lt;br&gt;documentado" vertex="1">
           <mxGeometry height="75" width="190" x="1395" y="180" as="geometry" />
         </mxCell>
-        <mxCell id="gee" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;shape=cylinder3d;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;b&gt;Exportación GEE&lt;/b&gt;&lt;br/&gt;S2 SR + s2cloudless" vertex="1">
+        <mxCell id="gee" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;shape=cylinder3d;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;b&gt;Exportación&lt;/b&gt;&lt;br&gt;S2 SR + s2cloudless" vertex="1">
           <mxGeometry height="82" width="290" x="1225" y="310" as="geometry" />
         </mxCell>
         <mxCell id="m08" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F0ECFF;strokeColor=#6B46C1;fontColor=#24104F;" value="&lt;b&gt;08&lt;/b&gt;&lt;br/&gt;Join espectral" vertex="1">
@@ -116,7 +116,7 @@
           <mxGeometry height="62" width="255" x="1220" y="825" as="geometry" />
         </mxCell>
         <mxCell id="rs2" parent="1" style="fontFamily=Inter,Helvetica,Arial;rhombus;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFF5F5;strokeColor=#E53E3E;fontColor=#4A0B0B;fontSize=13;align=center;verticalAlign=middle;spacing=8;" value="Sentinel-2 = calidad&lt;br/&gt;no validación definitiva" vertex="1">
-          <mxGeometry height="95" width="250" x="1220" y="930" as="geometry" />
+          <mxGeometry height="95" width="250" x="1222.5" y="937" as="geometry" />
         </mxCell>
         <mxCell id="cfg10" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F7F7F7;strokeColor=#4A5568;fontColor=#1A202C;" value="config&lt;br/&gt;scoring_aptitud.yaml" vertex="1">
           <mxGeometry height="62" width="150" x="1725" y="180" as="geometry" />
