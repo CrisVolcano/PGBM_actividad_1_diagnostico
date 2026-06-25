@@ -1,6 +1,6 @@
 Actividad 2.1 — Reporte de implementación del modelo de datos
 ========================================================================
-Fecha de proceso: 2026-06-18T13:43:04
+Fecha de proceso: 2026-06-25T11:19:15
 ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
 CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
 Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
@@ -64,12 +64,13 @@ Homologación override de nivel 1 desde id_2 (N:1):
 - id_2 311 -> id_1_propuesta 21 (Cultivos arbóreos)
 - id_2 414 -> id_1_propuesta 14 (Bosques secos)
 - id_2 442 -> id_1_propuesta 15 (Plantaciones forestales)
+- id_2 443 -> id_1_propuesta 25 (Otras tierras)
 - tabla de homologación: homologacion_nivel_2_excepcion_nivel_1_propuesta
 - catálogo propuesto: clase_propuesta_nivel_1
-- clases con excepción explícita: [122, 311, 414, 442]
+- clases con excepción explícita: [122, 311, 414, 442, 443]
 - las demás clases utilizan la regla general de nivel 1
-- conteos de auditoría: {'11': 0, '12': 0, '13': 0, '14': 1792, '15': 3238, '21': 77460, '22': 0, '23': 0, '24': 0, '25': 2146, 'registros_con_excepcion': 84636, 'registros_sin_excepcion_usan_regla_general': 1027214, 'clases_observadas_con_excepcion': 4}
-Asignación propuesta final (nivel_1_final; excepción > general): {'11': 244193, '12': 13442, '13': 11920, '14': 1792, '15': 3238, '21': 348740, '22': 441325, '23': 32219, '24': 2491, '25': 12490, 'registros_resueltos_por_excepcion': 84636, 'registros_resueltos_por_regla_general': 1027214, 'registros_sin_homologacion_final': 0}
+- conteos de auditoría: {'11': 0, '12': 0, '13': 0, '14': 1792, '15': 3238, '21': 77460, '22': 0, '23': 0, '24': 0, '25': 5183, 'registros_con_excepcion': 87673, 'registros_sin_excepcion_usan_regla_general': 1024177, 'clases_observadas_con_excepcion': 5}
+Asignación propuesta final (nivel_1_final; excepción > general): {'11': 241156, '12': 13442, '13': 11920, '14': 1792, '15': 3238, '21': 348740, '22': 441325, '23': 32219, '24': 2491, '25': 15527, 'registros_resueltos_por_excepcion': 87673, 'registros_resueltos_por_regla_general': 1024177, 'registros_sin_homologacion_final': 0}
 Filas-nivel sin equivalencia estricta dominante vs valores: 7782
 Filas-nivel donde el dominante está incluido dentro de múltiples valores: 7782
 Filas-nivel con diferencia crítica dominante/valores: 0
@@ -93,7 +94,7 @@ CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_0.csv | filas
 CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_1.csv | filas=10 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_0_origen_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_1_origen_propuesta.csv | filas=12 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
-CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_2_excepcion_nivel_1_propuesta.csv | filas=4 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_2_excepcion_nivel_1_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\xy_homologacion_final.csv | filas=1111850 | campos=5 | cardinalidad=1:1_revision_qgis | en_gpkg=True
 Metadata: data\processed\a2_1_modelo_datos\metadata\campo_mapeo.csv
 Metadata: data\processed\a2_1_modelo_datos\metadata\field_audit.csv

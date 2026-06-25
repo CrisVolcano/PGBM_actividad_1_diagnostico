@@ -14,6 +14,8 @@ CSV principales: `C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\out
 
 GeoPackage principal: `C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg`
 
+HTML interactivo publicable: `docs\A1_06-A1_07-A1_08_scoring_multicriterio_y_clasificacion_funcional_final\10_explorador_interactivo_vacios_clases.html`
+
 ## Interpretación general del resultado
 
 Este módulo no clasifica los grupos XY usando un único criterio. La aptitud final se calcula mediante un score multicriterio que combina evidencia temporal, espacial, temática, espectral, de confiabilidad, representatividad y fuente.

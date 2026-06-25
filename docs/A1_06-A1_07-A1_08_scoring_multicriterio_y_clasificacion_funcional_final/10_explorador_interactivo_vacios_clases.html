@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorador interactivo de vacíos país-clase</title>
+<style>
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef2f6;
+  --text: #1f2933;
+  --muted: #5f6c7b;
+  --border: #d8dee6;
+  --primary: #174a7c;
+  --primary-2: #25636f;
+  --green: #13795b;
+  --amber: #b45309;
+  --red: #b42318;
+  --blue: #2563eb;
+  --shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.45;
+}
+
+a {
+  color: var(--primary);
+}
+
+.shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 22px;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.topbar p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 820px;
+}
+
+.toplinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 280px;
+}
+
+.link-button,
+button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
+.link-button:hover,
+button:hover {
+  border-color: var(--primary);
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.panel,
+.viz,
+.details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.panel {
+  position: sticky;
+  top: 16px;
+  padding: 16px;
+}
+
+.control {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+select,
+input[type="search"],
+input[type="range"] {
+  width: 100%;
+}
+
+select,
+input[type="search"] {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  padding: 9px 10px;
+}
+
+.range-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.top-value {
+  color: var(--primary);
+  font-weight: 800;
+  min-width: 36px;
+  text-align: right;
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.hint {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.viz {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.viz-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+h2 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 21px;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 8px;
+  min-width: 430px;
+}
+
+.stat {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  padding: 8px 10px;
+}
+
+.stat span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stat strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 18px;
+}
+
+.chart {
+  padding: 12px 18px 20px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(190px, 330px) minmax(160px, 1fr) minmax(150px, 260px);
+  gap: 10px;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.bar-row:last-child {
+  border-bottom: 0;
+}
+
+.label-main {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.label-sub {
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.bar-track {
+  position: relative;
+  height: 18px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #e9edf2;
+}
+
+.bar-fill {
+  height: 100%;
+  min-width: 2px;
+  border-radius: 8px;
+  background: var(--blue);
+}
+
+.bar-fill.critical {
+  background: var(--red);
+}
+
+.bar-fill.warning {
+  background: var(--amber);
+}
+
+.bar-fill.ok {
+  background: var(--green);
+}
+
+.metric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric strong {
+  display: block;
+}
+
+.metric span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.empty {
+  padding: 36px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.details {
+  margin-top: 16px;
+  padding: 18px;
+}
+
+.details h2 {
+  margin-bottom: 10px;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #edf0f4;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f0f5f9;
+  color: #17324d;
+  font-weight: 800;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge.critical {
+  background: var(--red);
+}
+
+.badge.warning {
+  background: var(--amber);
+}
+
+.badge.ok {
+  background: var(--green);
+}
+
+.method {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.method code {
+  background: #eef2f6;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1px 5px;
+}
+
+.status {
+  min-height: 18px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 1120px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    position: static;
+  }
+
+  .stats {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    padding: 14px;
+  }
+
+  .topbar,
+  .viz-head {
+    display: block;
+  }
+
+  .toplinks {
+    justify-content: flex-start;
+    margin-top: 12px;
+    min-width: 0;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 12px;
+  }
+
+  .bar-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .metric {
+    text-align: left;
+  }
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">PGBM Actividad 1 · Módulo 10</p>
+      <h1>Explorador interactivo de vacíos país-clase</h1>
+      <p>Consulta publicable para revisar baja cantidad de puntos, clases ausentes con soporte regional y combinaciones con scoring bajo. Funciona como HTML estático en GitHub Pages.</p>
+    </div>
+    <nav class="toplinks" aria-label="Enlaces del reporte">
+      <a class="link-button" href="10_scoring_multicriterio_aptitud.html">Reporte del scoring</a>
+      <a class="link-button" href="#tabla">Tabla filtrada</a>
+    </nav>
+  </header>
+
+  <section class="workspace" aria-label="Explorador interactivo">
+    <aside class="panel">
+      <div class="control">
+        <label for="level">Nivel</label>
+        <select id="level"></select>
+      </div>
+      <div class="control">
+        <label for="country">País</label>
+        <select id="country"></select>
+      </div>
+      <div class="control">
+        <label for="view">Vista</label>
+        <select id="view">
+          <option value="gaps">Vacíos y baja cantidad</option>
+          <option value="count">Cantidad de puntos</option>
+          <option value="score">Scoring más bajo</option>
+        </select>
+      </div>
+      <div class="control" id="order-control">
+        <label for="order">Orden</label>
+        <select id="order">
+          <option value="asc">Menor cantidad</option>
+          <option value="desc">Mayor cantidad</option>
+        </select>
+      </div>
+      <div class="control">
+        <label for="topn">Top N</label>
+        <div class="range-row">
+          <input id="topn" type="range" min="10" max="80" value="30" step="5">
+          <span id="topn-value" class="top-value">30</span>
+        </div>
+      </div>
+      <div class="control">
+        <label for="class-filter">Filtrar clase</label>
+        <input id="class-filter" type="search" placeholder="Nombre o código de clase">
+      </div>
+      <div class="button-row">
+        <button id="copy-link" type="button">Copiar enlace</button>
+        <button id="download-csv" type="button">Descargar CSV</button>
+      </div>
+      <button id="reset" type="button" style="width:100%;margin-top:8px">Restablecer</button>
+      <p class="hint">Datos embebidos desde los CSV del módulo 10. Última generación: 2026-06-25.</p>
+      <div id="status" class="status" aria-live="polite"></div>
+    </aside>
+
+    <section class="viz">
+      <div class="viz-head">
+        <div>
+          <h2 id="chart-title">Exploración</h2>
+          <p id="chart-subtitle" class="subtitle"></p>
+        </div>
+        <div class="stats" aria-label="Resumen del filtro">
+          <div class="stat"><span>Filas</span><strong id="stat-rows">0</strong></div>
+          <div class="stat"><span>Países</span><strong id="stat-countries">0</strong></div>
+          <div class="stat"><span>Clases</span><strong id="stat-classes">0</strong></div>
+          <div class="stat"><span>Máximo</span><strong id="stat-max">0</strong></div>
+        </div>
+      </div>
+      <div id="chart" class="chart"></div>
+    </section>
+  </section>
+
+  <section id="tabla" class="details">
+    <h2>Tabla filtrada</h2>
+    <div class="table-wrap">
+      <table>
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <p class="method">
+      Para <code>Vacíos y baja cantidad</code>, la métrica de priorización usa <code>n_xy_regional</code> cuando <code>n_xy</code> del país es cero, y <code>n_xy</code> cuando la clase sí existe en el país. Para <code>Scoring más bajo</code>, se ordena por <code>score_medio</code> ascendente.
+    </p>
+    <p class="method" id="source-files"></p>
+  </section>
+</main>
+
+<script type="application/json" id="gap-data">{"generated_at":"2026-06-25","levels":["Nivel_1","Nivel_2"],"countries":["Todos","Belice","Costa Rica","El Salvador","Guatemala","Honduras","México","Nicaragua","Panamá"],"count":{"Nivel_1":[{"pais":"Nicaragua","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":0,"n_registros":0,"n_xy_regional":329183,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":329183},{"pais":"Belice","clase":"32 Cultivos Arbóreos","n_xy":0,"n_registros":0,"n_xy_regional":271280,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":271280},{"pais":"México","clase":"32 Cultivos Arbóreos","n_xy":0,"n_registros":0,"n_xy_regional":271280,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":271280},{"pais":"Nicaragua","clase":"41 Bosque latifoliado y mixto","n_xy":0,"n_registros":0,"n_xy_regional":242053,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":242053},{"pais":"Nicaragua","clase":"11 Urbano","n_xy":0,"n_registros":0,"n_xy_regional":29318,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":29318},{"pais":"Costa Rica","clase":"42 Bosque de coníferas","n_xy":0,"n_registros":0,"n_xy_regional":13442,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13442},{"pais":"Nicaragua","clase":"42 Bosque de coníferas","n_xy":0,"n_registros":0,"n_xy_regional":13442,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13442},{"pais":"Panamá","clase":"42 Bosque de coníferas","n_xy":0,"n_registros":0,"n_xy_regional":13442,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13442},{"pais":"Costa Rica","clase":"43 Manglares","n_xy":0,"n_registros":0,"n_xy_regional":11920,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11920},{"pais":"Nicaragua","clase":"43 Manglares","n_xy":0,"n_registros":0,"n_xy_regional":11920,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11920},{"pais":"Nicaragua","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":0,"n_registros":0,"n_xy_regional":7170,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":7170},{"pais":"Belice","clase":"91 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"Guatemala","clase":"91 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"Honduras","clase":"91 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"México","clase":"91 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"Nicaragua","clase":"91 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"El Salvador","clase":"22 Humedales","n_xy":0,"n_registros":0,"n_xy_regional":5162,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5162},{"pais":"México","clase":"12 Otras tierras","n_xy":0,"n_registros":0,"n_xy_regional":5047,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5047},{"pais":"Nicaragua","clase":"12 Otras tierras","n_xy":0,"n_registros":0,"n_xy_regional":5047,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5047},{"pais":"México","clase":"21 Cuerpos de Agua","n_xy":0,"n_registros":0,"n_xy_regional":2491,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2491},{"pais":"Nicaragua","clase":"32 Cultivos Arbóreos","n_xy":1,"n_registros":1,"n_xy_regional":271280,"n_xy_pais_total":7,"pct_clase_en_pais":14.286,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Nicaragua","clase":"22 Humedales","n_xy":1,"n_registros":1,"n_xy_regional":5162,"n_xy_pais_total":7,"pct_clase_en_pais":14.286,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Nicaragua","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":2,"n_registros":6,"n_xy_regional":189602,"n_xy_pais_total":7,"pct_clase_en_pais":28.571,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":198},{"pais":"Panamá","clase":"91 Otras","n_xy":2,"n_registros":2,"n_xy_regional":5182,"n_xy_pais_total":29187,"pct_clase_en_pais":0.007,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":198},{"pais":"Nicaragua","clase":"21 Cuerpos de Agua","n_xy":3,"n_registros":15,"n_xy_regional":2491,"n_xy_pais_total":7,"pct_clase_en_pais":42.857,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":197},{"pais":"México","clase":"11 Urbano","n_xy":5,"n_registros":6,"n_xy_regional":29318,"n_xy_pais_total":2149,"pct_clase_en_pais":0.233,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"Guatemala","clase":"42 Bosque de coníferas","n_xy":5,"n_registros":5,"n_xy_regional":13442,"n_xy_pais_total":209829,"pct_clase_en_pais":0.002,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"El Salvador","clase":"91 Otras","n_xy":5,"n_registros":5,"n_xy_regional":5182,"n_xy_pais_total":571610,"pct_clase_en_pais":0.001,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"Costa Rica","clase":"21 Cuerpos de Agua","n_xy":5,"n_registros":5,"n_xy_regional":2491,"n_xy_pais_total":133066,"pct_clase_en_pais":0.004,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"México","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":8,"n_registros":8,"n_xy_regional":7170,"n_xy_pais_total":2149,"pct_clase_en_pais":0.372,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":192},{"pais":"Costa Rica","clase":"12 Otras tierras","n_xy":9,"n_registros":9,"n_xy_regional":5047,"n_xy_pais_total":133066,"pct_clase_en_pais":0.007,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":191},{"pais":"Panamá","clase":"32 Cultivos Arbóreos","n_xy":14,"n_registros":14,"n_xy_regional":271280,"n_xy_pais_total":29187,"pct_clase_en_pais":0.048,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":186},{"pais":"Panamá","clase":"12 Otras tierras","n_xy":14,"n_registros":14,"n_xy_regional":5047,"n_xy_pais_total":29187,"pct_clase_en_pais":0.048,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":186},{"pais":"México","clase":"43 Manglares","n_xy":16,"n_registros":16,"n_xy_regional":11920,"n_xy_pais_total":2149,"pct_clase_en_pais":0.745,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":184},{"pais":"Panamá","clase":"22 Humedales","n_xy":16,"n_registros":16,"n_xy_regional":5162,"n_xy_pais_total":29187,"pct_clase_en_pais":0.055,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":184},{"pais":"Guatemala","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":22,"n_registros":22,"n_xy_regional":7170,"n_xy_pais_total":209829,"pct_clase_en_pais":0.01,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":178},{"pais":"Honduras","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":24,"n_registros":24,"n_xy_regional":7170,"n_xy_pais_total":132683,"pct_clase_en_pais":0.018,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":176},{"pais":"México","clase":"22 Humedales","n_xy":36,"n_registros":36,"n_xy_regional":5162,"n_xy_pais_total":2149,"pct_clase_en_pais":1.675,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":164},{"pais":"México","clase":"42 Bosque de coníferas","n_xy":44,"n_registros":44,"n_xy_regional":13442,"n_xy_pais_total":2149,"pct_clase_en_pais":2.047,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":156},{"pais":"Guatemala","clase":"21 Cuerpos de Agua","n_xy":52,"n_registros":60,"n_xy_regional":2491,"n_xy_pais_total":209829,"pct_clase_en_pais":0.025,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":148},{"pais":"Panamá","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":63,"n_registros":63,"n_xy_regional":7170,"n_xy_pais_total":29187,"pct_clase_en_pais":0.216,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":137},{"pais":"Belice","clase":"12 Otras tierras","n_xy":72,"n_registros":72,"n_xy_regional":5047,"n_xy_pais_total":33319,"pct_clase_en_pais":0.216,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":128},{"pais":"Panamá","clase":"21 Cuerpos de Agua","n_xy":78,"n_registros":78,"n_xy_regional":2491,"n_xy_pais_total":29187,"pct_clase_en_pais":0.267,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":122},{"pais":"Guatemala","clase":"43 Manglares","n_xy":84,"n_registros":84,"n_xy_regional":11920,"n_xy_pais_total":209829,"pct_clase_en_pais":0.04,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":116},{"pais":"Guatemala","clase":"22 Humedales","n_xy":84,"n_registros":84,"n_xy_regional":5162,"n_xy_pais_total":209829,"pct_clase_en_pais":0.04,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":116},{"pais":"Panamá","clase":"11 Urbano","n_xy":93,"n_registros":93,"n_xy_regional":29318,"n_xy_pais_total":29187,"pct_clase_en_pais":0.319,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":107},{"pais":"Panamá","clase":"43 Manglares","n_xy":109,"n_registros":109,"n_xy_regional":11920,"n_xy_pais_total":29187,"pct_clase_en_pais":0.373,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":91},{"pais":"México","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":114,"n_registros":114,"n_xy_regional":329183,"n_xy_pais_total":2149,"pct_clase_en_pais":5.305,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":86},{"pais":"Guatemala","clase":"11 Urbano","n_xy":125,"n_registros":125,"n_xy_regional":29318,"n_xy_pais_total":209829,"pct_clase_en_pais":0.06,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":75},{"pais":"Honduras","clase":"12 Otras tierras","n_xy":154,"n_registros":186,"n_xy_regional":5047,"n_xy_pais_total":132683,"pct_clase_en_pais":0.116,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":46},{"pais":"Guatemala","clase":"12 Otras tierras","n_xy":164,"n_registros":168,"n_xy_regional":5047,"n_xy_pais_total":209829,"pct_clase_en_pais":0.078,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":36},{"pais":"Belice","clase":"21 Cuerpos de Agua","n_xy":235,"n_registros":235,"n_xy_regional":2491,"n_xy_pais_total":33319,"pct_clase_en_pais":0.705,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-35},{"pais":"Belice","clase":"11 Urbano","n_xy":245,"n_registros":245,"n_xy_regional":29318,"n_xy_pais_total":33319,"pct_clase_en_pais":0.735,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-45},{"pais":"Honduras","clase":"21 Cuerpos de Agua","n_xy":283,"n_registros":947,"n_xy_regional":2491,"n_xy_pais_total":132683,"pct_clase_en_pais":0.213,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-83},{"pais":"Honduras","clase":"11 Urbano","n_xy":310,"n_registros":1394,"n_xy_regional":29318,"n_xy_pais_total":132683,"pct_clase_en_pais":0.234,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-110},{"pais":"Costa Rica","clase":"11 Urbano","n_xy":438,"n_registros":438,"n_xy_regional":29318,"n_xy_pais_total":133066,"pct_clase_en_pais":0.329,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-238},{"pais":"Honduras","clase":"22 Humedales","n_xy":474,"n_registros":2370,"n_xy_regional":5162,"n_xy_pais_total":132683,"pct_clase_en_pais":0.357,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-274},{"pais":"México","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":481,"n_registros":483,"n_xy_regional":189602,"n_xy_pais_total":2149,"pct_clase_en_pais":22.383,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-281},{"pais":"Guatemala","clase":"41 Bosque latifoliado y mixto","n_xy":526,"n_registros":658,"n_xy_regional":242053,"n_xy_pais_total":209829,"pct_clase_en_pais":0.251,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-326},{"pais":"Belice","clase":"43 Manglares","n_xy":627,"n_registros":628,"n_xy_regional":11920,"n_xy_pais_total":33319,"pct_clase_en_pais":1.882,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-427},{"pais":"Belice","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":659,"n_registros":659,"n_xy_regional":7170,"n_xy_pais_total":33319,"pct_clase_en_pais":1.978,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-459},{"pais":"Belice","clase":"22 Humedales","n_xy":1072,"n_registros":1072,"n_xy_regional":5162,"n_xy_pais_total":33319,"pct_clase_en_pais":3.217,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-872},{"pais":"Guatemala","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":1177,"n_registros":1260,"n_xy_regional":189602,"n_xy_pais_total":209829,"pct_clase_en_pais":0.561,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-977},{"pais":"Honduras","clase":"43 Manglares","n_xy":1209,"n_registros":1602,"n_xy_regional":11920,"n_xy_pais_total":132683,"pct_clase_en_pais":0.911,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1009},{"pais":"México","clase":"41 Bosque latifoliado y mixto","n_xy":1445,"n_registros":1454,"n_xy_regional":242053,"n_xy_pais_total":2149,"pct_clase_en_pais":67.241,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1245},{"pais":"Panamá","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":1564,"n_registros":1564,"n_xy_regional":189602,"n_xy_pais_total":29187,"pct_clase_en_pais":5.359,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1364},{"pais":"Belice","clase":"42 Bosque de coníferas","n_xy":1661,"n_registros":1661,"n_xy_regional":13442,"n_xy_pais_total":33319,"pct_clase_en_pais":4.985,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1461},{"pais":"El Salvador","clase":"21 Cuerpos de Agua","n_xy":1835,"n_registros":1837,"n_xy_regional":2491,"n_xy_pais_total":571610,"pct_clase_en_pais":0.321,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1635},{"pais":"Costa Rica","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":2179,"n_registros":2193,"n_xy_regional":7170,"n_xy_pais_total":133066,"pct_clase_en_pais":1.638,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1979},{"pais":"Panamá","clase":"41 Bosque latifoliado y mixto","n_xy":2723,"n_registros":2723,"n_xy_regional":242053,"n_xy_pais_total":29187,"pct_clase_en_pais":9.329,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2523},{"pais":"Costa Rica","clase":"22 Humedales","n_xy":3479,"n_registros":3654,"n_xy_regional":5162,"n_xy_pais_total":133066,"pct_clase_en_pais":2.614,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-3279},{"pais":"Belice","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":4116,"n_registros":4118,"n_xy_regional":189602,"n_xy_pais_total":33319,"pct_clase_en_pais":12.353,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-3916},{"pais":"El Salvador","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":4215,"n_registros":4215,"n_xy_regional":7170,"n_xy_pais_total":571610,"pct_clase_en_pais":0.737,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-4015},{"pais":"El Salvador","clase":"12 Otras tierras","n_xy":4634,"n_registros":4634,"n_xy_regional":5047,"n_xy_pais_total":571610,"pct_clase_en_pais":0.811,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-4434},{"pais":"Costa Rica","clase":"91 Otras","n_xy":5175,"n_registros":5479,"n_xy_regional":5182,"n_xy_pais_total":133066,"pct_clase_en_pais":3.889,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-4975},{"pais":"Honduras","clase":"42 Bosque de coníferas","n_xy":5718,"n_registros":17708,"n_xy_regional":13442,"n_xy_pais_total":132683,"pct_clase_en_pais":4.31,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-5518},{"pais":"El Salvador","clase":"42 Bosque de coníferas","n_xy":6014,"n_registros":6014,"n_xy_regional":13442,"n_xy_pais_total":571610,"pct_clase_en_pais":1.052,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-5814},{"pais":"Honduras","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":7461,"n_registros":32566,"n_xy_regional":189602,"n_xy_pais_total":132683,"pct_clase_en_pais":5.623,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-7261},{"pais":"Honduras","clase":"41 Bosque latifoliado y mixto","n_xy":8131,"n_registros":36217,"n_xy_regional":242053,"n_xy_pais_total":132683,"pct_clase_en_pais":6.128,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-7931},{"pais":"El Salvador","clase":"43 Manglares","n_xy":9875,"n_registros":9875,"n_xy_regional":11920,"n_xy_pais_total":571610,"pct_clase_en_pais":1.728,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-9675},{"pais":"Belice","clase":"41 Bosque latifoliado y mixto","n_xy":11527,"n_registros":11531,"n_xy_regional":242053,"n_xy_pais_total":33319,"pct_clase_en_pais":34.596,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-11327},{"pais":"Belice","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":13105,"n_registros":13111,"n_xy_regional":329183,"n_xy_pais_total":33319,"pct_clase_en_pais":39.332,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-12905},{"pais":"Costa Rica","clase":"32 Cultivos Arbóreos","n_xy":15715,"n_registros":15723,"n_xy_regional":271280,"n_xy_pais_total":133066,"pct_clase_en_pais":11.81,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-15515},{"pais":"Costa Rica","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":22225,"n_registros":22236,"n_xy_regional":329183,"n_xy_pais_total":133066,"pct_clase_en_pais":16.702,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-22025},{"pais":"Panamá","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":24511,"n_registros":24511,"n_xy_regional":329183,"n_xy_pais_total":29187,"pct_clase_en_pais":83.979,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-24311},{"pais":"El Salvador","clase":"11 Urbano","n_xy":28102,"n_registros":28102,"n_xy_regional":29318,"n_xy_pais_total":571610,"pct_clase_en_pais":4.916,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-27902},{"pais":"Costa Rica","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":29175,"n_registros":31804,"n_xy_regional":189602,"n_xy_pais_total":133066,"pct_clase_en_pais":21.925,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-28975},{"pais":"Honduras","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":41805,"n_registros":43455,"n_xy_regional":329183,"n_xy_pais_total":132683,"pct_clase_en_pais":31.507,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-41605},{"pais":"Costa Rica","clase":"41 Bosque latifoliado y mixto","n_xy":54666,"n_registros":60718,"n_xy_regional":242053,"n_xy_pais_total":133066,"pct_clase_en_pais":41.082,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-54466},{"pais":"Honduras","clase":"32 Cultivos Arbóreos","n_xy":67114,"n_registros":70609,"n_xy_regional":271280,"n_xy_pais_total":132683,"pct_clase_en_pais":50.582,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-66914},{"pais":"El Salvador","clase":"32 Cultivos Arbóreos","n_xy":79154,"n_registros":79154,"n_xy_regional":271280,"n_xy_pais_total":571610,"pct_clase_en_pais":13.848,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-78954},{"pais":"Guatemala","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":98308,"n_registros":98390,"n_xy_regional":329183,"n_xy_pais_total":209829,"pct_clase_en_pais":46.851,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-98108},{"pais":"Guatemala","clase":"32 Cultivos Arbóreos","n_xy":109282,"n_registros":109323,"n_xy_regional":271280,"n_xy_pais_total":209829,"pct_clase_en_pais":52.081,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-109082},{"pais":"El Salvador","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":129115,"n_registros":129115,"n_xy_regional":329183,"n_xy_pais_total":571610,"pct_clase_en_pais":22.588,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-128915},{"pais":"El Salvador","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":145626,"n_registros":145626,"n_xy_regional":189602,"n_xy_pais_total":571610,"pct_clase_en_pais":25.476,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-145426},{"pais":"El Salvador","clase":"41 Bosque latifoliado y mixto","n_xy":163035,"n_registros":163115,"n_xy_regional":242053,"n_xy_pais_total":571610,"pct_clase_en_pais":28.522,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-162835}],"Nivel_2":[{"pais":"Belice","clase":"410 Bosque latifoliado y mixto","n_xy":0,"n_registros":0,"n_xy_regional":223452,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":223452},{"pais":"Nicaragua","clase":"410 Bosque latifoliado y mixto","n_xy":0,"n_registros":0,"n_xy_regional":223452,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":223452},{"pais":"Belice","clase":"321 Café","n_xy":0,"n_registros":0,"n_xy_regional":218517,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":218517},{"pais":"México","clase":"321 Café","n_xy":0,"n_registros":0,"n_xy_regional":218517,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":218517},{"pais":"Costa Rica","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":0,"n_registros":0,"n_xy_regional":116818,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":116818},{"pais":"Nicaragua","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":0,"n_registros":0,"n_xy_regional":116818,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":116818},{"pais":"Costa Rica","clase":"313 Caña de azúcar","n_xy":0,"n_registros":0,"n_xy_regional":104159,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":104159},{"pais":"México","clase":"313 Caña de azúcar","n_xy":0,"n_registros":0,"n_xy_regional":104159,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":104159},{"pais":"Nicaragua","clase":"313 Caña de azúcar","n_xy":0,"n_registros":0,"n_xy_regional":104159,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":104159},{"pais":"El Salvador","clase":"311 Palma aceitera","n_xy":0,"n_registros":0,"n_xy_regional":77460,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":77460},{"pais":"México","clase":"311 Palma aceitera","n_xy":0,"n_registros":0,"n_xy_regional":77460,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":77460},{"pais":"Nicaragua","clase":"311 Palma aceitera","n_xy":0,"n_registros":0,"n_xy_regional":77460,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":77460},{"pais":"Costa Rica","clase":"333 Matorrales (barbecho o en descanso)","n_xy":0,"n_registros":0,"n_xy_regional":55873,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":55873},{"pais":"Nicaragua","clase":"333 Matorrales (barbecho o en descanso)","n_xy":0,"n_registros":0,"n_xy_regional":55873,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":55873},{"pais":"Belice","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":0,"n_registros":0,"n_xy_regional":23196,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":23196},{"pais":"Costa Rica","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":0,"n_registros":0,"n_xy_regional":23196,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":23196},{"pais":"México","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":0,"n_registros":0,"n_xy_regional":23196,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":23196},{"pais":"Nicaragua","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":0,"n_registros":0,"n_xy_regional":23196,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":23196},{"pais":"Belice","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"Costa Rica","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"El Salvador","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"Honduras","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"México","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"Nicaragua","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"Panamá","clase":"324 Hule","n_xy":0,"n_registros":0,"n_xy_regional":22488,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22488},{"pais":"México","clase":"331 Granos básicos y hortalizas  y otros","n_xy":0,"n_registros":0,"n_xy_regional":22157,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22157},{"pais":"Nicaragua","clase":"331 Granos básicos y hortalizas  y otros","n_xy":0,"n_registros":0,"n_xy_regional":22157,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":22157},{"pais":"Costa Rica","clase":"312 Bananeras","n_xy":0,"n_registros":0,"n_xy_regional":17293,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17293},{"pais":"El Salvador","clase":"312 Bananeras","n_xy":0,"n_registros":0,"n_xy_regional":17293,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17293},{"pais":"México","clase":"312 Bananeras","n_xy":0,"n_registros":0,"n_xy_regional":17293,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17293},{"pais":"Nicaragua","clase":"312 Bananeras","n_xy":0,"n_registros":0,"n_xy_regional":17293,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17293},{"pais":"Belice","clase":"112 Urbano discontinuo","n_xy":0,"n_registros":0,"n_xy_regional":17271,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17271},{"pais":"Costa Rica","clase":"112 Urbano discontinuo","n_xy":0,"n_registros":0,"n_xy_regional":17271,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17271},{"pais":"México","clase":"112 Urbano discontinuo","n_xy":0,"n_registros":0,"n_xy_regional":17271,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17271},{"pais":"Nicaragua","clase":"112 Urbano discontinuo","n_xy":0,"n_registros":0,"n_xy_regional":17271,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17271},{"pais":"Panamá","clase":"112 Urbano discontinuo","n_xy":0,"n_registros":0,"n_xy_regional":17271,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":17271},{"pais":"Belice","clase":"314 Piña","n_xy":0,"n_registros":0,"n_xy_regional":13453,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13453},{"pais":"El Salvador","clase":"314 Piña","n_xy":0,"n_registros":0,"n_xy_regional":13453,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13453},{"pais":"México","clase":"314 Piña","n_xy":0,"n_registros":0,"n_xy_regional":13453,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13453},{"pais":"Nicaragua","clase":"314 Piña","n_xy":0,"n_registros":0,"n_xy_regional":13453,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":13453},{"pais":"Costa Rica","clase":"420 Bosque de coníferas","n_xy":0,"n_registros":0,"n_xy_regional":11981,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11981},{"pais":"Nicaragua","clase":"420 Bosque de coníferas","n_xy":0,"n_registros":0,"n_xy_regional":11981,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11981},{"pais":"Panamá","clase":"420 Bosque de coníferas","n_xy":0,"n_registros":0,"n_xy_regional":11981,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11981},{"pais":"Costa Rica","clase":"430 Manglares","n_xy":0,"n_registros":0,"n_xy_regional":11920,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11920},{"pais":"Nicaragua","clase":"430 Manglares","n_xy":0,"n_registros":0,"n_xy_regional":11920,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11920},{"pais":"Honduras","clase":"411 Latifoliado maduro húmedo","n_xy":0,"n_registros":0,"n_xy_regional":11355,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11355},{"pais":"México","clase":"411 Latifoliado maduro húmedo","n_xy":0,"n_registros":0,"n_xy_regional":11355,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11355},{"pais":"Nicaragua","clase":"411 Latifoliado maduro húmedo","n_xy":0,"n_registros":0,"n_xy_regional":11355,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":11355},{"pais":"Belice","clase":"111 Urbano continuo","n_xy":0,"n_registros":0,"n_xy_regional":10995,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":10995},{"pais":"Costa Rica","clase":"111 Urbano continuo","n_xy":0,"n_registros":0,"n_xy_regional":10995,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":10995},{"pais":"Honduras","clase":"111 Urbano continuo","n_xy":0,"n_registros":0,"n_xy_regional":10995,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":10995},{"pais":"México","clase":"111 Urbano continuo","n_xy":0,"n_registros":0,"n_xy_regional":10995,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":10995},{"pais":"Nicaragua","clase":"111 Urbano continuo","n_xy":0,"n_registros":0,"n_xy_regional":10995,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":10995},{"pais":"Panamá","clase":"111 Urbano continuo","n_xy":0,"n_registros":0,"n_xy_regional":10995,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":10995},{"pais":"Belice","clase":"323 Frutales","n_xy":0,"n_registros":0,"n_xy_regional":6518,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":6518},{"pais":"México","clase":"323 Frutales","n_xy":0,"n_registros":0,"n_xy_regional":6518,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":6518},{"pais":"Nicaragua","clase":"323 Frutales","n_xy":0,"n_registros":0,"n_xy_regional":6518,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":6518},{"pais":"Belice","clase":"910 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"Guatemala","clase":"910 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"Honduras","clase":"910 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"México","clase":"910 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"Nicaragua","clase":"910 Otras","n_xy":0,"n_registros":0,"n_xy_regional":5182,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5182},{"pais":"El Salvador","clase":"220 Humedales","n_xy":0,"n_registros":0,"n_xy_regional":5162,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":5162},{"pais":"Guatemala","clase":"412 Latifoliado secundario húmedo","n_xy":0,"n_registros":0,"n_xy_regional":4503,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":4503},{"pais":"Honduras","clase":"412 Latifoliado secundario húmedo","n_xy":0,"n_registros":0,"n_xy_regional":4503,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":4503},{"pais":"Nicaragua","clase":"412 Latifoliado secundario húmedo","n_xy":0,"n_registros":0,"n_xy_regional":4503,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":4503},{"pais":"Nicaragua","clase":"442 Plantaciones forestales","n_xy":0,"n_registros":0,"n_xy_regional":3238,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":3238},{"pais":"Honduras","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":0,"n_registros":0,"n_xy_regional":3037,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":3037},{"pais":"México","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":0,"n_registros":0,"n_xy_regional":3037,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":3037},{"pais":"Nicaragua","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":0,"n_registros":0,"n_xy_regional":3037,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":3037},{"pais":"Panamá","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":0,"n_registros":0,"n_xy_regional":3037,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":3037},{"pais":"Costa Rica","clase":"121 Otros artificializado","n_xy":0,"n_registros":0,"n_xy_regional":2901,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2901},{"pais":"Guatemala","clase":"121 Otros artificializado","n_xy":0,"n_registros":0,"n_xy_regional":2901,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2901},{"pais":"México","clase":"121 Otros artificializado","n_xy":0,"n_registros":0,"n_xy_regional":2901,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2901},{"pais":"Nicaragua","clase":"121 Otros artificializado","n_xy":0,"n_registros":0,"n_xy_regional":2901,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2901},{"pais":"México","clase":"210 Cuerpos de Agua","n_xy":0,"n_registros":0,"n_xy_regional":2385,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2385},{"pais":"México","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":0,"n_registros":0,"n_xy_regional":2146,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2146},{"pais":"Nicaragua","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":0,"n_registros":0,"n_xy_regional":2146,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":2146},{"pais":"Belice","clase":"414 Bosque seco o deciduo","n_xy":0,"n_registros":0,"n_xy_regional":1792,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1792},{"pais":"Costa Rica","clase":"414 Bosque seco o deciduo","n_xy":0,"n_registros":0,"n_xy_regional":1792,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1792},{"pais":"Guatemala","clase":"414 Bosque seco o deciduo","n_xy":0,"n_registros":0,"n_xy_regional":1792,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1792},{"pais":"Nicaragua","clase":"414 Bosque seco o deciduo","n_xy":0,"n_registros":0,"n_xy_regional":1792,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1792},{"pais":"Panamá","clase":"414 Bosque seco o deciduo","n_xy":0,"n_registros":0,"n_xy_regional":1792,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1792},{"pais":"Costa Rica","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"El Salvador","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"Guatemala","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"Honduras","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"México","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"Nicaragua","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"Panamá","clase":"423 Sabanas de pino","n_xy":0,"n_registros":0,"n_xy_regional":1461,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1461},{"pais":"El Salvador","clase":"110 Urbano","n_xy":0,"n_registros":0,"n_xy_regional":1052,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1052},{"pais":"Guatemala","clase":"110 Urbano","n_xy":0,"n_registros":0,"n_xy_regional":1052,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1052},{"pais":"Nicaragua","clase":"110 Urbano","n_xy":0,"n_registros":0,"n_xy_regional":1052,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":1052},{"pais":"Belice","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":0,"n_registros":0,"n_xy_regional":951,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":951},{"pais":"Costa Rica","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":0,"n_registros":0,"n_xy_regional":951,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":951},{"pais":"El Salvador","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":0,"n_registros":0,"n_xy_regional":951,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":951},{"pais":"Nicaragua","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":0,"n_registros":0,"n_xy_regional":951,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":951},{"pais":"Panamá","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":0,"n_registros":0,"n_xy_regional":951,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":951},{"pais":"Belice","clase":"322 Cacao","n_xy":0,"n_registros":0,"n_xy_regional":561,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":561},{"pais":"Costa Rica","clase":"322 Cacao","n_xy":0,"n_registros":0,"n_xy_regional":561,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":561},{"pais":"El Salvador","clase":"322 Cacao","n_xy":0,"n_registros":0,"n_xy_regional":561,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":561},{"pais":"México","clase":"322 Cacao","n_xy":0,"n_registros":0,"n_xy_regional":561,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":561},{"pais":"Nicaragua","clase":"322 Cacao","n_xy":0,"n_registros":0,"n_xy_regional":561,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":561},{"pais":"Panamá","clase":"322 Cacao","n_xy":0,"n_registros":0,"n_xy_regional":561,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":561},{"pais":"Costa Rica","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"El Salvador","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"Guatemala","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"Honduras","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"México","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"Nicaragua","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"Panamá","clase":"444 Regeneración forestal","n_xy":0,"n_registros":0,"n_xy_regional":542,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":542},{"pais":"Belice","clase":"441 Masa arbórea ribereña","n_xy":0,"n_registros":0,"n_xy_regional":339,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":339},{"pais":"Costa Rica","clase":"441 Masa arbórea ribereña","n_xy":0,"n_registros":0,"n_xy_regional":339,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":339},{"pais":"Honduras","clase":"441 Masa arbórea ribereña","n_xy":0,"n_registros":0,"n_xy_regional":339,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":339},{"pais":"México","clase":"441 Masa arbórea ribereña","n_xy":0,"n_registros":0,"n_xy_regional":339,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":339},{"pais":"Nicaragua","clase":"441 Masa arbórea ribereña","n_xy":0,"n_registros":0,"n_xy_regional":339,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":339},{"pais":"Panamá","clase":"441 Masa arbórea ribereña","n_xy":0,"n_registros":0,"n_xy_regional":339,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":339},{"pais":"Costa Rica","clase":"212 Cuerpos de agua artificial","n_xy":0,"n_registros":0,"n_xy_regional":69,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":69},{"pais":"Guatemala","clase":"212 Cuerpos de agua artificial","n_xy":0,"n_registros":0,"n_xy_regional":69,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":69},{"pais":"Honduras","clase":"212 Cuerpos de agua artificial","n_xy":0,"n_registros":0,"n_xy_regional":69,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":69},{"pais":"México","clase":"212 Cuerpos de agua artificial","n_xy":0,"n_registros":0,"n_xy_regional":69,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":69},{"pais":"Nicaragua","clase":"212 Cuerpos de agua artificial","n_xy":0,"n_registros":0,"n_xy_regional":69,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":69},{"pais":"Panamá","clase":"212 Cuerpos de agua artificial","n_xy":0,"n_registros":0,"n_xy_regional":69,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":69},{"pais":"Belice","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"Costa Rica","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"El Salvador","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"Honduras","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"México","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":2149,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"Nicaragua","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"Panamá","clase":"211 Cuerpos de agua natural","n_xy":0,"n_registros":0,"n_xy_regional":37,"n_xy_pais_total":29187,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":37},{"pais":"Belice","clase":"445 Bosque de Palmas","n_xy":0,"n_registros":0,"n_xy_regional":14,"n_xy_pais_total":33319,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":14},{"pais":"Costa Rica","clase":"445 Bosque de Palmas","n_xy":0,"n_registros":0,"n_xy_regional":14,"n_xy_pais_total":133066,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":14},{"pais":"El Salvador","clase":"445 Bosque de Palmas","n_xy":0,"n_registros":0,"n_xy_regional":14,"n_xy_pais_total":571610,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":14},{"pais":"Guatemala","clase":"445 Bosque de Palmas","n_xy":0,"n_registros":0,"n_xy_regional":14,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":14},{"pais":"Honduras","clase":"445 Bosque de Palmas","n_xy":0,"n_registros":0,"n_xy_regional":14,"n_xy_pais_total":132683,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":14},{"pais":"Nicaragua","clase":"445 Bosque de Palmas","n_xy":0,"n_registros":0,"n_xy_regional":14,"n_xy_pais_total":7,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos: no hay grupos XY en el pais","prioridad_count":14},{"pais":"Nicaragua","clase":"321 Café","n_xy":1,"n_registros":1,"n_xy_regional":218517,"n_xy_pais_total":7,"pct_clase_en_pais":14.286,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Guatemala","clase":"411 Latifoliado maduro húmedo","n_xy":1,"n_registros":1,"n_xy_regional":11355,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Nicaragua","clase":"220 Humedales","n_xy":1,"n_registros":1,"n_xy_regional":5162,"n_xy_pais_total":7,"pct_clase_en_pais":14.286,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Guatemala","clase":"442 Plantaciones forestales","n_xy":1,"n_registros":1,"n_xy_regional":3238,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Guatemala","clase":"441 Masa arbórea ribereña","n_xy":1,"n_registros":1,"n_xy_regional":339,"n_xy_pais_total":209829,"pct_clase_en_pais":0.0,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":199},{"pais":"Nicaragua","clase":"332 Pastizales naturales y cultivados","n_xy":2,"n_registros":6,"n_xy_regional":111572,"n_xy_pais_total":7,"pct_clase_en_pais":28.571,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":198},{"pais":"Panamá","clase":"910 Otras","n_xy":2,"n_registros":2,"n_xy_regional":5182,"n_xy_pais_total":29187,"pct_clase_en_pais":0.007,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":198},{"pais":"Panamá","clase":"323 Frutales","n_xy":3,"n_registros":3,"n_xy_regional":6518,"n_xy_pais_total":29187,"pct_clase_en_pais":0.01,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":197},{"pais":"Nicaragua","clase":"210 Cuerpos de Agua","n_xy":3,"n_registros":15,"n_xy_regional":2385,"n_xy_pais_total":7,"pct_clase_en_pais":42.857,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":197},{"pais":"Honduras","clase":"322 Cacao","n_xy":3,"n_registros":15,"n_xy_regional":561,"n_xy_pais_total":132683,"pct_clase_en_pais":0.002,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":197},{"pais":"México","clase":"442 Plantaciones forestales","n_xy":4,"n_registros":4,"n_xy_regional":3238,"n_xy_pais_total":2149,"pct_clase_en_pais":0.186,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":196},{"pais":"Panamá","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":4,"n_registros":4,"n_xy_regional":2146,"n_xy_pais_total":29187,"pct_clase_en_pais":0.014,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":196},{"pais":"Guatemala","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":4,"n_registros":4,"n_xy_regional":951,"n_xy_pais_total":209829,"pct_clase_en_pais":0.002,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":196},{"pais":"México","clase":"445 Bosque de Palmas","n_xy":4,"n_registros":4,"n_xy_regional":14,"n_xy_pais_total":2149,"pct_clase_en_pais":0.186,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":196},{"pais":"Panamá","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":5,"n_registros":5,"n_xy_regional":23196,"n_xy_pais_total":29187,"pct_clase_en_pais":0.017,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"Guatemala","clase":"420 Bosque de coníferas","n_xy":5,"n_registros":5,"n_xy_regional":11981,"n_xy_pais_total":209829,"pct_clase_en_pais":0.002,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"El Salvador","clase":"910 Otras","n_xy":5,"n_registros":5,"n_xy_regional":5182,"n_xy_pais_total":571610,"pct_clase_en_pais":0.001,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"Costa Rica","clase":"210 Cuerpos de Agua","n_xy":5,"n_registros":5,"n_xy_regional":2385,"n_xy_pais_total":133066,"pct_clase_en_pais":0.004,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"México","clase":"110 Urbano","n_xy":5,"n_registros":6,"n_xy_regional":1052,"n_xy_pais_total":2149,"pct_clase_en_pais":0.233,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":195},{"pais":"Panamá","clase":"321 Café","n_xy":6,"n_registros":6,"n_xy_regional":218517,"n_xy_pais_total":29187,"pct_clase_en_pais":0.021,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":194},{"pais":"Belice","clase":"311 Palma aceitera","n_xy":6,"n_registros":12,"n_xy_regional":77460,"n_xy_pais_total":33319,"pct_clase_en_pais":0.018,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":194},{"pais":"Panamá","clase":"410 Bosque latifoliado y mixto","n_xy":8,"n_registros":8,"n_xy_regional":223452,"n_xy_pais_total":29187,"pct_clase_en_pais":0.027,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":192},{"pais":"Costa Rica","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":9,"n_registros":9,"n_xy_regional":2146,"n_xy_pais_total":133066,"pct_clase_en_pais":0.007,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":191},{"pais":"Belice","clase":"442 Plantaciones forestales","n_xy":10,"n_registros":10,"n_xy_regional":3238,"n_xy_pais_total":33319,"pct_clase_en_pais":0.03,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":190},{"pais":"Panamá","clase":"121 Otros artificializado","n_xy":10,"n_registros":10,"n_xy_regional":2901,"n_xy_pais_total":29187,"pct_clase_en_pais":0.034,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":190},{"pais":"Panamá","clase":"445 Bosque de Palmas","n_xy":10,"n_registros":10,"n_xy_regional":14,"n_xy_pais_total":29187,"pct_clase_en_pais":0.034,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":190},{"pais":"Guatemala","clase":"323 Frutales","n_xy":12,"n_registros":15,"n_xy_regional":6518,"n_xy_pais_total":209829,"pct_clase_en_pais":0.006,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":188},{"pais":"El Salvador","clase":"414 Bosque seco o deciduo","n_xy":14,"n_registros":14,"n_xy_regional":1792,"n_xy_pais_total":571610,"pct_clase_en_pais":0.002,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":186},{"pais":"El Salvador","clase":"411 Latifoliado maduro húmedo","n_xy":15,"n_registros":15,"n_xy_regional":11355,"n_xy_pais_total":571610,"pct_clase_en_pais":0.003,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":185},{"pais":"Costa Rica","clase":"323 Frutales","n_xy":15,"n_registros":15,"n_xy_regional":6518,"n_xy_pais_total":133066,"pct_clase_en_pais":0.011,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":185},{"pais":"Guatemala","clase":"210 Cuerpos de Agua","n_xy":15,"n_registros":23,"n_xy_regional":2385,"n_xy_pais_total":209829,"pct_clase_en_pais":0.007,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":185},{"pais":"México","clase":"430 Manglares","n_xy":16,"n_registros":16,"n_xy_regional":11920,"n_xy_pais_total":2149,"pct_clase_en_pais":0.745,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":184},{"pais":"Panamá","clase":"220 Humedales","n_xy":16,"n_registros":16,"n_xy_regional":5162,"n_xy_pais_total":29187,"pct_clase_en_pais":0.055,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":184},{"pais":"Guatemala","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":20,"n_registros":20,"n_xy_regional":3037,"n_xy_pais_total":209829,"pct_clase_en_pais":0.01,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":180},{"pais":"Belice","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":21,"n_registros":21,"n_xy_regional":2146,"n_xy_pais_total":33319,"pct_clase_en_pais":0.063,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":179},{"pais":"Honduras","clase":"442 Plantaciones forestales","n_xy":24,"n_registros":24,"n_xy_regional":3238,"n_xy_pais_total":132683,"pct_clase_en_pais":0.018,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":176},{"pais":"El Salvador","clase":"212 Cuerpos de agua artificial","n_xy":28,"n_registros":28,"n_xy_regional":69,"n_xy_pais_total":571610,"pct_clase_en_pais":0.005,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":172},{"pais":"México","clase":"220 Humedales","n_xy":36,"n_registros":36,"n_xy_regional":5162,"n_xy_pais_total":2149,"pct_clase_en_pais":1.675,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":164},{"pais":"Guatemala","clase":"211 Cuerpos de agua natural","n_xy":37,"n_registros":37,"n_xy_regional":37,"n_xy_pais_total":209829,"pct_clase_en_pais":0.018,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":163},{"pais":"Honduras","clase":"323 Frutales","n_xy":38,"n_registros":190,"n_xy_regional":6518,"n_xy_pais_total":132683,"pct_clase_en_pais":0.029,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":162},{"pais":"Honduras","clase":"112 Urbano discontinuo","n_xy":39,"n_registros":39,"n_xy_regional":17271,"n_xy_pais_total":132683,"pct_clase_en_pais":0.029,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":161},{"pais":"Belice","clase":"212 Cuerpos de agua artificial","n_xy":41,"n_registros":41,"n_xy_regional":69,"n_xy_pais_total":33319,"pct_clase_en_pais":0.123,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":159},{"pais":"Guatemala","clase":"111 Urbano continuo","n_xy":42,"n_registros":42,"n_xy_regional":10995,"n_xy_pais_total":209829,"pct_clase_en_pais":0.02,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":158},{"pais":"México","clase":"420 Bosque de coníferas","n_xy":44,"n_registros":44,"n_xy_regional":11981,"n_xy_pais_total":2149,"pct_clase_en_pais":2.047,"estado_count":"baja cantidad de puntos critica","lectura_count":"baja cantidad de puntos","prioridad_count":156},{"pais":"Belice","clase":"121 Otros artificializado","n_xy":51,"n_registros":51,"n_xy_regional":2901,"n_xy_pais_total":33319,"pct_clase_en_pais":0.153,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":149},{"pais":"Panamá","clase":"442 Plantaciones forestales","n_xy":53,"n_registros":53,"n_xy_regional":3238,"n_xy_pais_total":29187,"pct_clase_en_pais":0.182,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":147},{"pais":"Honduras","clase":"121 Otros artificializado","n_xy":60,"n_registros":60,"n_xy_regional":2901,"n_xy_pais_total":132683,"pct_clase_en_pais":0.045,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":140},{"pais":"Panamá","clase":"210 Cuerpos de Agua","n_xy":78,"n_registros":78,"n_xy_regional":2385,"n_xy_pais_total":29187,"pct_clase_en_pais":0.267,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":122},{"pais":"México","clase":"412 Latifoliado secundario húmedo","n_xy":79,"n_registros":79,"n_xy_regional":4503,"n_xy_pais_total":2149,"pct_clase_en_pais":3.676,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":121},{"pais":"México","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":79,"n_registros":79,"n_xy_regional":951,"n_xy_pais_total":2149,"pct_clase_en_pais":3.676,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":121},{"pais":"Guatemala","clase":"112 Urbano discontinuo","n_xy":83,"n_registros":83,"n_xy_regional":17271,"n_xy_pais_total":209829,"pct_clase_en_pais":0.04,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":117},{"pais":"Guatemala","clase":"430 Manglares","n_xy":84,"n_registros":84,"n_xy_regional":11920,"n_xy_pais_total":209829,"pct_clase_en_pais":0.04,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":116},{"pais":"Guatemala","clase":"220 Humedales","n_xy":84,"n_registros":84,"n_xy_regional":5162,"n_xy_pais_total":209829,"pct_clase_en_pais":0.04,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":116},{"pais":"Panamá","clase":"110 Urbano","n_xy":93,"n_registros":93,"n_xy_regional":1052,"n_xy_pais_total":29187,"pct_clase_en_pais":0.319,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":107},{"pais":"Honduras","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":94,"n_registros":126,"n_xy_regional":2146,"n_xy_pais_total":132683,"pct_clase_en_pais":0.071,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":106},{"pais":"Panamá","clase":"331 Granos básicos y hortalizas  y otros","n_xy":96,"n_registros":96,"n_xy_regional":22157,"n_xy_pais_total":29187,"pct_clase_en_pais":0.329,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":104},{"pais":"Belice","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":107,"n_registros":107,"n_xy_regional":3037,"n_xy_pais_total":33319,"pct_clase_en_pais":0.321,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":93},{"pais":"Panamá","clase":"430 Manglares","n_xy":109,"n_registros":109,"n_xy_regional":11920,"n_xy_pais_total":29187,"pct_clase_en_pais":0.373,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":91},{"pais":"Guatemala","clase":"331 Granos básicos y hortalizas  y otros","n_xy":112,"n_registros":112,"n_xy_regional":22157,"n_xy_pais_total":209829,"pct_clase_en_pais":0.053,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":88},{"pais":"México","clase":"414 Bosque seco o deciduo","n_xy":112,"n_registros":112,"n_xy_regional":1792,"n_xy_pais_total":2149,"pct_clase_en_pais":5.212,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":88},{"pais":"México","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":114,"n_registros":114,"n_xy_regional":116818,"n_xy_pais_total":2149,"pct_clase_en_pais":5.305,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":86},{"pais":"El Salvador","clase":"412 Latifoliado secundario húmedo","n_xy":117,"n_registros":117,"n_xy_regional":4503,"n_xy_pais_total":571610,"pct_clase_en_pais":0.02,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":83},{"pais":"Belice","clase":"331 Granos básicos y hortalizas  y otros","n_xy":148,"n_registros":148,"n_xy_regional":22157,"n_xy_pais_total":33319,"pct_clase_en_pais":0.444,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":52},{"pais":"Guatemala","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":149,"n_registros":149,"n_xy_regional":23196,"n_xy_pais_total":209829,"pct_clase_en_pais":0.071,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":51},{"pais":"México","clase":"332 Pastizales naturales y cultivados","n_xy":156,"n_registros":156,"n_xy_regional":111572,"n_xy_pais_total":2149,"pct_clase_en_pais":7.259,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":44},{"pais":"Guatemala","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":164,"n_registros":168,"n_xy_regional":2146,"n_xy_pais_total":209829,"pct_clase_en_pais":0.078,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":36},{"pais":"Belice","clase":"210 Cuerpos de Agua","n_xy":194,"n_registros":194,"n_xy_regional":2385,"n_xy_pais_total":33319,"pct_clase_en_pais":0.582,"estado_count":"baja cantidad de puntos","lectura_count":"baja cantidad de puntos","prioridad_count":6},{"pais":"Belice","clase":"420 Bosque de coníferas","n_xy":200,"n_registros":200,"n_xy_regional":11981,"n_xy_pais_total":33319,"pct_clase_en_pais":0.6,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":0},{"pais":"Belice","clase":"110 Urbano","n_xy":245,"n_registros":245,"n_xy_regional":1052,"n_xy_pais_total":33319,"pct_clase_en_pais":0.735,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-45},{"pais":"Honduras","clase":"110 Urbano","n_xy":271,"n_registros":1355,"n_xy_regional":1052,"n_xy_pais_total":132683,"pct_clase_en_pais":0.204,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-71},{"pais":"Honduras","clase":"210 Cuerpos de Agua","n_xy":283,"n_registros":947,"n_xy_regional":2385,"n_xy_pais_total":132683,"pct_clase_en_pais":0.213,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-83},{"pais":"Panamá","clase":"333 Matorrales (barbecho o en descanso)","n_xy":305,"n_registros":305,"n_xy_regional":55873,"n_xy_pais_total":29187,"pct_clase_en_pais":1.045,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-105},{"pais":"México","clase":"333 Matorrales (barbecho o en descanso)","n_xy":325,"n_registros":327,"n_xy_regional":55873,"n_xy_pais_total":2149,"pct_clase_en_pais":15.123,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-125},{"pais":"El Salvador","clase":"441 Masa arbórea ribereña","n_xy":338,"n_registros":338,"n_xy_regional":339,"n_xy_pais_total":571610,"pct_clase_en_pais":0.059,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-138},{"pais":"Guatemala","clase":"333 Matorrales (barbecho o en descanso)","n_xy":357,"n_registros":381,"n_xy_regional":55873,"n_xy_pais_total":209829,"pct_clase_en_pais":0.17,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-157},{"pais":"Panamá","clase":"314 Piña","n_xy":414,"n_registros":414,"n_xy_regional":13453,"n_xy_pais_total":29187,"pct_clase_en_pais":1.418,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-214},{"pais":"Costa Rica","clase":"110 Urbano","n_xy":438,"n_registros":438,"n_xy_regional":1052,"n_xy_pais_total":133066,"pct_clase_en_pais":0.329,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-238},{"pais":"Honduras","clase":"220 Humedales","n_xy":474,"n_registros":2370,"n_xy_regional":5162,"n_xy_pais_total":132683,"pct_clase_en_pais":0.357,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-274},{"pais":"Honduras","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":475,"n_registros":2219,"n_xy_regional":23196,"n_xy_pais_total":132683,"pct_clase_en_pais":0.358,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-275},{"pais":"Guatemala","clase":"410 Bosque latifoliado y mixto","n_xy":521,"n_registros":653,"n_xy_regional":223452,"n_xy_pais_total":209829,"pct_clase_en_pais":0.248,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-321},{"pais":"Belice","clase":"444 Regeneración forestal","n_xy":542,"n_registros":542,"n_xy_regional":542,"n_xy_pais_total":33319,"pct_clase_en_pais":1.627,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-342},{"pais":"Costa Rica","clase":"411 Latifoliado maduro húmedo","n_xy":548,"n_registros":548,"n_xy_regional":11355,"n_xy_pais_total":133066,"pct_clase_en_pais":0.412,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-348},{"pais":"Guatemala","clase":"322 Cacao","n_xy":558,"n_registros":558,"n_xy_regional":561,"n_xy_pais_total":209829,"pct_clase_en_pais":0.266,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-358},{"pais":"Honduras","clase":"314 Piña","n_xy":594,"n_registros":594,"n_xy_regional":13453,"n_xy_pais_total":132683,"pct_clase_en_pais":0.448,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-394},{"pais":"Belice","clase":"430 Manglares","n_xy":627,"n_registros":628,"n_xy_regional":11920,"n_xy_pais_total":33319,"pct_clase_en_pais":1.882,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-427},{"pais":"Guatemala","clase":"332 Pastizales naturales y cultivados","n_xy":708,"n_registros":767,"n_xy_regional":111572,"n_xy_pais_total":209829,"pct_clase_en_pais":0.337,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-508},{"pais":"Costa Rica","clase":"412 Latifoliado secundario húmedo","n_xy":856,"n_registros":856,"n_xy_regional":4503,"n_xy_pais_total":133066,"pct_clase_en_pais":0.643,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-656},{"pais":"Honduras","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":868,"n_registros":4340,"n_xy_regional":951,"n_xy_pais_total":132683,"pct_clase_en_pais":0.654,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-668},{"pais":"Costa Rica","clase":"442 Plantaciones forestales","n_xy":897,"n_registros":911,"n_xy_regional":3238,"n_xy_pais_total":133066,"pct_clase_en_pais":0.674,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-697},{"pais":"Panamá","clase":"412 Latifoliado secundario húmedo","n_xy":951,"n_registros":951,"n_xy_regional":4503,"n_xy_pais_total":29187,"pct_clase_en_pais":3.258,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-751},{"pais":"Honduras","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":1050,"n_registros":1144,"n_xy_regional":116818,"n_xy_pais_total":132683,"pct_clase_en_pais":0.791,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-850},{"pais":"Honduras","clase":"312 Bananeras","n_xy":1068,"n_registros":1068,"n_xy_regional":17293,"n_xy_pais_total":132683,"pct_clase_en_pais":0.805,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-868},{"pais":"Belice","clase":"220 Humedales","n_xy":1072,"n_registros":1072,"n_xy_regional":5162,"n_xy_pais_total":33319,"pct_clase_en_pais":3.217,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-872},{"pais":"Panamá","clase":"332 Pastizales naturales y cultivados","n_xy":1163,"n_registros":1163,"n_xy_regional":111572,"n_xy_pais_total":29187,"pct_clase_en_pais":3.985,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-963},{"pais":"Honduras","clase":"331 Granos básicos y hortalizas  y otros","n_xy":1170,"n_registros":5850,"n_xy_regional":22157,"n_xy_pais_total":132683,"pct_clase_en_pais":0.882,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-970},{"pais":"México","clase":"410 Bosque latifoliado y mixto","n_xy":1175,"n_registros":1184,"n_xy_regional":223452,"n_xy_pais_total":2149,"pct_clase_en_pais":54.677,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-975},{"pais":"Honduras","clase":"430 Manglares","n_xy":1209,"n_registros":1602,"n_xy_regional":11920,"n_xy_pais_total":132683,"pct_clase_en_pais":0.911,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1009},{"pais":"Costa Rica","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":1282,"n_registros":1282,"n_xy_regional":3037,"n_xy_pais_total":133066,"pct_clase_en_pais":0.963,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1082},{"pais":"Belice","clase":"332 Pastizales naturales y cultivados","n_xy":1363,"n_registros":1365,"n_xy_regional":111572,"n_xy_pais_total":33319,"pct_clase_en_pais":4.091,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1163},{"pais":"Belice","clase":"423 Sabanas de pino","n_xy":1461,"n_registros":1461,"n_xy_regional":1461,"n_xy_pais_total":33319,"pct_clase_en_pais":4.385,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1261},{"pais":"El Salvador","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":1628,"n_registros":1628,"n_xy_regional":3037,"n_xy_pais_total":571610,"pct_clase_en_pais":0.285,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1428},{"pais":"Honduras","clase":"414 Bosque seco o deciduo","n_xy":1666,"n_registros":8335,"n_xy_regional":1792,"n_xy_pais_total":132683,"pct_clase_en_pais":1.256,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1466},{"pais":"Panamá","clase":"411 Latifoliado maduro húmedo","n_xy":1764,"n_registros":1764,"n_xy_regional":11355,"n_xy_pais_total":29187,"pct_clase_en_pais":6.044,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1564},{"pais":"El Salvador","clase":"210 Cuerpos de Agua","n_xy":1807,"n_registros":1809,"n_xy_regional":2385,"n_xy_pais_total":571610,"pct_clase_en_pais":0.316,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1607},{"pais":"El Salvador","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":1854,"n_registros":1854,"n_xy_regional":2146,"n_xy_pais_total":571610,"pct_clase_en_pais":0.324,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1654},{"pais":"Belice","clase":"312 Bananeras","n_xy":1920,"n_registros":1920,"n_xy_regional":17293,"n_xy_pais_total":33319,"pct_clase_en_pais":5.762,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1720},{"pais":"Panamá","clase":"312 Bananeras","n_xy":2042,"n_registros":2042,"n_xy_regional":17293,"n_xy_pais_total":29187,"pct_clase_en_pais":6.996,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1842},{"pais":"Guatemala","clase":"314 Piña","n_xy":2070,"n_registros":2070,"n_xy_regional":13453,"n_xy_pais_total":209829,"pct_clase_en_pais":0.987,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-1870},{"pais":"El Salvador","clase":"442 Plantaciones forestales","n_xy":2249,"n_registros":2249,"n_xy_regional":3238,"n_xy_pais_total":571610,"pct_clase_en_pais":0.393,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2049},{"pais":"Guatemala","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":2384,"n_registros":2429,"n_xy_regional":116818,"n_xy_pais_total":209829,"pct_clase_en_pais":1.136,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2184},{"pais":"Belice","clase":"412 Latifoliado secundario húmedo","n_xy":2500,"n_registros":2502,"n_xy_regional":4503,"n_xy_pais_total":33319,"pct_clase_en_pais":7.503,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2300},{"pais":"Belice","clase":"333 Matorrales (barbecho o en descanso)","n_xy":2605,"n_registros":2605,"n_xy_regional":55873,"n_xy_pais_total":33319,"pct_clase_en_pais":7.818,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2405},{"pais":"El Salvador","clase":"121 Otros artificializado","n_xy":2780,"n_registros":2780,"n_xy_regional":2901,"n_xy_pais_total":571610,"pct_clase_en_pais":0.486,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2580},{"pais":"Honduras","clase":"333 Matorrales (barbecho o en descanso)","n_xy":3014,"n_registros":12950,"n_xy_regional":55873,"n_xy_pais_total":132683,"pct_clase_en_pais":2.272,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-2814},{"pais":"Honduras","clase":"332 Pastizales naturales y cultivados","n_xy":3277,"n_registros":13766,"n_xy_regional":111572,"n_xy_pais_total":132683,"pct_clase_en_pais":2.47,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-3077},{"pais":"Costa Rica","clase":"220 Humedales","n_xy":3479,"n_registros":3654,"n_xy_regional":5162,"n_xy_pais_total":133066,"pct_clase_en_pais":2.614,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-3279},{"pais":"Panamá","clase":"311 Palma aceitera","n_xy":3488,"n_registros":3488,"n_xy_regional":77460,"n_xy_pais_total":29187,"pct_clase_en_pais":11.951,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-3288},{"pais":"Belice","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":3577,"n_registros":3577,"n_xy_regional":116818,"n_xy_pais_total":33319,"pct_clase_en_pais":10.736,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-3377},{"pais":"Costa Rica","clase":"910 Otras","n_xy":5175,"n_registros":5479,"n_xy_regional":5182,"n_xy_pais_total":133066,"pct_clase_en_pais":3.889,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-4975},{"pais":"Honduras","clase":"410 Bosque latifoliado y mixto","n_xy":5597,"n_registros":23542,"n_xy_regional":223452,"n_xy_pais_total":132683,"pct_clase_en_pais":4.218,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-5397},{"pais":"Panamá","clase":"313 Caña de azúcar","n_xy":5622,"n_registros":5622,"n_xy_regional":104159,"n_xy_pais_total":29187,"pct_clase_en_pais":19.262,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-5422},{"pais":"Honduras","clase":"420 Bosque de coníferas","n_xy":5718,"n_registros":17708,"n_xy_regional":11981,"n_xy_pais_total":132683,"pct_clase_en_pais":4.31,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-5518},{"pais":"El Salvador","clase":"420 Bosque de coníferas","n_xy":6014,"n_registros":6014,"n_xy_regional":11981,"n_xy_pais_total":571610,"pct_clase_en_pais":1.052,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-5814},{"pais":"Honduras","clase":"313 Caña de azúcar","n_xy":6374,"n_registros":6374,"n_xy_regional":104159,"n_xy_pais_total":132683,"pct_clase_en_pais":4.804,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-6174},{"pais":"El Salvador","clase":"323 Frutales","n_xy":6450,"n_registros":6450,"n_xy_regional":6518,"n_xy_pais_total":571610,"pct_clase_en_pais":1.128,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-6250},{"pais":"Belice","clase":"313 Caña de azúcar","n_xy":7602,"n_registros":7602,"n_xy_regional":104159,"n_xy_pais_total":33319,"pct_clase_en_pais":22.816,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-7402},{"pais":"Costa Rica","clase":"331 Granos básicos y hortalizas  y otros","n_xy":7797,"n_registros":8475,"n_xy_regional":22157,"n_xy_pais_total":133066,"pct_clase_en_pais":5.859,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-7597},{"pais":"Belice","clase":"411 Latifoliado maduro húmedo","n_xy":9027,"n_registros":9029,"n_xy_regional":11355,"n_xy_pais_total":33319,"pct_clase_en_pais":27.093,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-8827},{"pais":"El Salvador","clase":"430 Manglares","n_xy":9875,"n_registros":9875,"n_xy_regional":11920,"n_xy_pais_total":571610,"pct_clase_en_pais":1.728,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-9675},{"pais":"Costa Rica","clase":"314 Piña","n_xy":10375,"n_registros":10375,"n_xy_regional":13453,"n_xy_pais_total":133066,"pct_clase_en_pais":7.797,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-10175},{"pais":"El Salvador","clase":"111 Urbano continuo","n_xy":10953,"n_registros":10953,"n_xy_regional":10995,"n_xy_pais_total":571610,"pct_clase_en_pais":1.916,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-10753},{"pais":"Costa Rica","clase":"311 Palma aceitera","n_xy":11850,"n_registros":11861,"n_xy_regional":77460,"n_xy_pais_total":133066,"pct_clase_en_pais":8.905,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-11650},{"pais":"Guatemala","clase":"312 Bananeras","n_xy":12263,"n_registros":12273,"n_xy_regional":17293,"n_xy_pais_total":209829,"pct_clase_en_pais":5.844,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-12063},{"pais":"El Salvador","clase":"331 Granos básicos y hortalizas  y otros","n_xy":12834,"n_registros":12834,"n_xy_regional":22157,"n_xy_pais_total":571610,"pct_clase_en_pais":2.245,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-12634},{"pais":"Panamá","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":12945,"n_registros":12945,"n_xy_regional":116818,"n_xy_pais_total":29187,"pct_clase_en_pais":44.352,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-12745},{"pais":"Costa Rica","clase":"321 Café","n_xy":15700,"n_registros":15708,"n_xy_regional":218517,"n_xy_pais_total":133066,"pct_clase_en_pais":11.799,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-15500},{"pais":"El Salvador","clase":"112 Urbano discontinuo","n_xy":17149,"n_registros":17149,"n_xy_regional":17271,"n_xy_pais_total":571610,"pct_clase_en_pais":3.0,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-16949},{"pais":"Costa Rica","clase":"332 Pastizales naturales y cultivados","n_xy":21378,"n_registros":23329,"n_xy_regional":111572,"n_xy_pais_total":133066,"pct_clase_en_pais":16.066,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-21178},{"pais":"Guatemala","clase":"324 Hule","n_xy":22488,"n_registros":22488,"n_xy_regional":22488,"n_xy_pais_total":209829,"pct_clase_en_pais":10.717,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-22288},{"pais":"El Salvador","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":22567,"n_registros":22567,"n_xy_regional":23196,"n_xy_pais_total":571610,"pct_clase_en_pais":3.948,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-22367},{"pais":"Guatemala","clase":"311 Palma aceitera","n_xy":29397,"n_registros":29423,"n_xy_regional":77460,"n_xy_pais_total":209829,"pct_clase_en_pais":14.01,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-29197},{"pais":"El Salvador","clase":"313 Caña de azúcar","n_xy":32367,"n_registros":32367,"n_xy_regional":104159,"n_xy_pais_total":571610,"pct_clase_en_pais":5.662,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-32167},{"pais":"Honduras","clase":"311 Palma aceitera","n_xy":32719,"n_registros":34275,"n_xy_regional":77460,"n_xy_pais_total":132683,"pct_clase_en_pais":24.66,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-32519},{"pais":"El Salvador","clase":"333 Matorrales (barbecho o en descanso)","n_xy":49267,"n_registros":49267,"n_xy_regional":55873,"n_xy_pais_total":571610,"pct_clase_en_pais":8.619,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-49067},{"pais":"El Salvador","clase":"321 Café","n_xy":50137,"n_registros":50137,"n_xy_regional":218517,"n_xy_pais_total":571610,"pct_clase_en_pais":8.771,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-49937},{"pais":"Guatemala","clase":"313 Caña de azúcar","n_xy":52194,"n_registros":52195,"n_xy_regional":104159,"n_xy_pais_total":209829,"pct_clase_en_pais":24.875,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-51994},{"pais":"Costa Rica","clase":"410 Bosque latifoliado y mixto","n_xy":53262,"n_registros":59314,"n_xy_regional":223452,"n_xy_pais_total":133066,"pct_clase_en_pais":40.027,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-53062},{"pais":"Honduras","clase":"321 Café","n_xy":66598,"n_registros":68185,"n_xy_regional":218517,"n_xy_pais_total":132683,"pct_clase_en_pais":50.193,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-66398},{"pais":"El Salvador","clase":"332 Pastizales naturales y cultivados","n_xy":83525,"n_registros":83525,"n_xy_regional":111572,"n_xy_pais_total":571610,"pct_clase_en_pais":14.612,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-83325},{"pais":"Guatemala","clase":"321 Café","n_xy":86075,"n_registros":86113,"n_xy_regional":218517,"n_xy_pais_total":209829,"pct_clase_en_pais":41.021,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-85875},{"pais":"El Salvador","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":96748,"n_registros":96748,"n_xy_regional":116818,"n_xy_pais_total":571610,"pct_clase_en_pais":16.926,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-96548},{"pais":"El Salvador","clase":"410 Bosque latifoliado y mixto","n_xy":162889,"n_registros":162969,"n_xy_regional":223452,"n_xy_pais_total":571610,"pct_clase_en_pais":28.497,"estado_count":"suficiente","lectura_count":"suficiente","prioridad_count":-162689}]},"score":{"Nivel_1":[{"pais":"Costa Rica","clase":"21 Cuerpos de Agua","n_xy":5,"n_registros":5,"score_medio":63.656,"score_min":63.163,"estado_score":"score critico"},{"pais":"Costa Rica","clase":"12 Otras tierras","n_xy":9,"n_registros":9,"score_medio":66.473,"score_min":64.918,"estado_score":"score critico"},{"pais":"Nicaragua","clase":"32 Cultivos Arbóreos","n_xy":1,"n_registros":1,"score_medio":71.377,"score_min":71.377,"estado_score":"score bajo"},{"pais":"Belice","clase":"12 Otras tierras","n_xy":72,"n_registros":72,"score_medio":72.715,"score_min":60.0,"estado_score":"score bajo"},{"pais":"México","clase":"11 Urbano","n_xy":5,"n_registros":6,"score_medio":72.735,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Costa Rica","clase":"11 Urbano","n_xy":438,"n_registros":438,"score_medio":73.385,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Guatemala","clase":"12 Otras tierras","n_xy":164,"n_registros":168,"score_medio":74.008,"score_min":40.0,"estado_score":"score bajo"},{"pais":"Costa Rica","clase":"91 Otras","n_xy":5175,"n_registros":5479,"score_medio":74.57,"score_min":60.0,"estado_score":"score bajo"},{"pais":"El Salvador","clase":"12 Otras tierras","n_xy":4634,"n_registros":4634,"score_medio":74.586,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Honduras","clase":"12 Otras tierras","n_xy":154,"n_registros":186,"score_medio":74.643,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Panamá","clase":"91 Otras","n_xy":2,"n_registros":2,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"El Salvador","clase":"91 Otras","n_xy":5,"n_registros":5,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"Panamá","clase":"12 Otras tierras","n_xy":14,"n_registros":14,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"Nicaragua","clase":"21 Cuerpos de Agua","n_xy":3,"n_registros":15,"score_medio":76.109,"score_min":60.0,"estado_score":"score bajo"},{"pais":"México","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":8,"n_registros":8,"score_medio":77.348,"score_min":71.499,"estado_score":"score bajo"},{"pais":"Guatemala","clase":"41 Bosque latifoliado y mixto","n_xy":526,"n_registros":658,"score_medio":78.057,"score_min":40.0,"estado_score":"score bajo"},{"pais":"Guatemala","clase":"21 Cuerpos de Agua","n_xy":52,"n_registros":60,"score_medio":78.095,"score_min":40.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"11 Urbano","n_xy":245,"n_registros":245,"score_medio":79.928,"score_min":70.0,"estado_score":"score bajo"},{"pais":"México","clase":"42 Bosque de coníferas","n_xy":44,"n_registros":44,"score_medio":80.123,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":4116,"n_registros":4118,"score_medio":80.24,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":659,"n_registros":659,"score_medio":80.646,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"42 Bosque de coníferas","n_xy":5,"n_registros":5,"score_medio":81.189,"score_min":80.868,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":22,"n_registros":22,"score_medio":81.291,"score_min":73.36,"estado_score":"suficiente"},{"pais":"Belice","clase":"21 Cuerpos de Agua","n_xy":235,"n_registros":235,"score_medio":81.364,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"22 Humedales","n_xy":84,"n_registros":84,"score_medio":82.489,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"22 Humedales","n_xy":474,"n_registros":2370,"score_medio":82.962,"score_min":58.897,"estado_score":"suficiente"},{"pais":"Honduras","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":24,"n_registros":24,"score_medio":83.011,"score_min":75.107,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"43 Manglares","n_xy":84,"n_registros":84,"score_medio":83.358,"score_min":69.996,"estado_score":"suficiente"},{"pais":"Honduras","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":41805,"n_registros":43455,"score_medio":83.514,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"41 Bosque latifoliado y mixto","n_xy":11527,"n_registros":11531,"score_medio":83.545,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"42 Bosque de coníferas","n_xy":1661,"n_registros":1661,"score_medio":83.592,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"32 Cultivos Arbóreos","n_xy":15715,"n_registros":15723,"score_medio":83.678,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":13105,"n_registros":13111,"score_medio":83.704,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"32 Cultivos Arbóreos","n_xy":14,"n_registros":14,"score_medio":84.025,"score_min":80.878,"estado_score":"suficiente"},{"pais":"Honduras","clase":"32 Cultivos Arbóreos","n_xy":67114,"n_registros":70609,"score_medio":84.191,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":2179,"n_registros":2193,"score_medio":84.317,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"43 Manglares","n_xy":16,"n_registros":16,"score_medio":84.344,"score_min":78.13,"estado_score":"suficiente"},{"pais":"Panamá","clase":"22 Humedales","n_xy":16,"n_registros":16,"score_medio":84.464,"score_min":80.054,"estado_score":"suficiente"},{"pais":"Nicaragua","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":2,"n_registros":6,"score_medio":84.878,"score_min":83.419,"estado_score":"suficiente"},{"pais":"Belice","clase":"22 Humedales","n_xy":1072,"n_registros":1072,"score_medio":85.1,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":7461,"n_registros":32566,"score_medio":85.885,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Nicaragua","clase":"22 Humedales","n_xy":1,"n_registros":1,"score_medio":86.301,"score_min":86.301,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":1177,"n_registros":1260,"score_medio":86.655,"score_min":40.0,"estado_score":"suficiente"},{"pais":"México","clase":"22 Humedales","n_xy":36,"n_registros":36,"score_medio":86.948,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"42 Bosque de coníferas","n_xy":5718,"n_registros":17708,"score_medio":86.994,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"11 Urbano","n_xy":93,"n_registros":93,"score_medio":87.088,"score_min":81.886,"estado_score":"suficiente"},{"pais":"Belice","clase":"43 Manglares","n_xy":627,"n_registros":628,"score_medio":87.299,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"11 Urbano","n_xy":125,"n_registros":125,"score_medio":87.336,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"11 Urbano","n_xy":310,"n_registros":1394,"score_medio":87.488,"score_min":53.231,"estado_score":"suficiente"},{"pais":"Panamá","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":63,"n_registros":63,"score_medio":87.697,"score_min":77.572,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":145626,"n_registros":145626,"score_medio":87.717,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":114,"n_registros":114,"score_medio":88.172,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"21 Cuerpos de Agua","n_xy":283,"n_registros":947,"score_medio":88.235,"score_min":40.0,"estado_score":"suficiente"},{"pais":"México","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":481,"n_registros":483,"score_medio":88.6,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"41 Bosque latifoliado y mixto","n_xy":8131,"n_registros":36217,"score_medio":88.63,"score_min":40.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":129115,"n_registros":129115,"score_medio":88.766,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"21 Cuerpos de Agua","n_xy":78,"n_registros":78,"score_medio":88.975,"score_min":84.412,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"11 Urbano","n_xy":28102,"n_registros":28102,"score_medio":89.027,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"44 Otros arbóreo en tierras no agrícola","n_xy":4215,"n_registros":4215,"score_medio":89.522,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"42 Bosque de coníferas","n_xy":6014,"n_registros":6014,"score_medio":90.312,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"41 Bosque latifoliado y mixto","n_xy":163035,"n_registros":163115,"score_medio":90.947,"score_min":40.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"21 Cuerpos de Agua","n_xy":1835,"n_registros":1837,"score_medio":91.326,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"43 Manglares","n_xy":109,"n_registros":109,"score_medio":92.14,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"22 Humedales","n_xy":3479,"n_registros":3654,"score_medio":92.444,"score_min":40.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"32 Cultivos Arbóreos","n_xy":79154,"n_registros":79154,"score_medio":92.583,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":29175,"n_registros":31804,"score_medio":93.324,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":22225,"n_registros":22236,"score_medio":93.331,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"41 Bosque latifoliado y mixto","n_xy":54666,"n_registros":60718,"score_medio":93.512,"score_min":40.0,"estado_score":"suficiente"},{"pais":"México","clase":"41 Bosque latifoliado y mixto","n_xy":1445,"n_registros":1454,"score_medio":93.659,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"43 Manglares","n_xy":1209,"n_registros":1602,"score_medio":93.893,"score_min":40.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"43 Manglares","n_xy":9875,"n_registros":9875,"score_medio":94.341,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":24511,"n_registros":24511,"score_medio":94.548,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"33 Cultivos extensivos, Pastizales y matorrales","n_xy":1564,"n_registros":1564,"score_medio":94.619,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"41 Bosque latifoliado y mixto","n_xy":2723,"n_registros":2723,"score_medio":94.653,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"31 Cultivos intensivos No-Arbóreos","n_xy":98308,"n_registros":98390,"score_medio":95.841,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"32 Cultivos Arbóreos","n_xy":109282,"n_registros":109323,"score_medio":97.147,"score_min":40.0,"estado_score":"suficiente"}],"Nivel_2":[{"pais":"Belice","clase":"311 Palma aceitera","n_xy":6,"n_registros":12,"score_medio":40.0,"score_min":40.0,"estado_score":"score critico"},{"pais":"Guatemala","clase":"210 Cuerpos de Agua","n_xy":15,"n_registros":23,"score_medio":60.656,"score_min":40.0,"estado_score":"score critico"},{"pais":"Costa Rica","clase":"210 Cuerpos de Agua","n_xy":5,"n_registros":5,"score_medio":63.656,"score_min":63.163,"estado_score":"score critico"},{"pais":"Costa Rica","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":9,"n_registros":9,"score_medio":66.473,"score_min":64.918,"estado_score":"score critico"},{"pais":"Costa Rica","clase":"412 Latifoliado secundario húmedo","n_xy":856,"n_registros":856,"score_medio":70.0,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Nicaragua","clase":"321 Café","n_xy":1,"n_registros":1,"score_medio":71.377,"score_min":71.377,"estado_score":"score bajo"},{"pais":"México","clase":"442 Plantaciones forestales","n_xy":4,"n_registros":4,"score_medio":71.57,"score_min":71.499,"estado_score":"score bajo"},{"pais":"Belice","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":21,"n_registros":21,"score_medio":71.991,"score_min":60.0,"estado_score":"score bajo"},{"pais":"México","clase":"110 Urbano","n_xy":5,"n_registros":6,"score_medio":72.735,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"121 Otros artificializado","n_xy":51,"n_registros":51,"score_medio":73.013,"score_min":67.711,"estado_score":"score bajo"},{"pais":"Costa Rica","clase":"110 Urbano","n_xy":438,"n_registros":438,"score_medio":73.385,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Guatemala","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":164,"n_registros":168,"score_medio":74.008,"score_min":40.0,"estado_score":"score bajo"},{"pais":"El Salvador","clase":"121 Otros artificializado","n_xy":2780,"n_registros":2780,"score_medio":74.57,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Costa Rica","clase":"910 Otras","n_xy":5175,"n_registros":5479,"score_medio":74.57,"score_min":60.0,"estado_score":"score bajo"},{"pais":"El Salvador","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":1854,"n_registros":1854,"score_medio":74.609,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Honduras","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":94,"n_registros":126,"score_medio":74.628,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Honduras","clase":"121 Otros artificializado","n_xy":60,"n_registros":60,"score_medio":74.667,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Panamá","clase":"910 Otras","n_xy":2,"n_registros":2,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"Panamá","clase":"122 Suelo desnudo, arena, rocoso, lava, otros","n_xy":4,"n_registros":4,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"El Salvador","clase":"910 Otras","n_xy":5,"n_registros":5,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"Panamá","clase":"121 Otros artificializado","n_xy":10,"n_registros":10,"score_medio":75.0,"score_min":75.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"212 Cuerpos de agua artificial","n_xy":41,"n_registros":41,"score_medio":75.292,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Nicaragua","clase":"210 Cuerpos de Agua","n_xy":3,"n_registros":15,"score_medio":76.109,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Costa Rica","clase":"411 Latifoliado maduro húmedo","n_xy":548,"n_registros":548,"score_medio":77.56,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Guatemala","clase":"410 Bosque latifoliado y mixto","n_xy":521,"n_registros":653,"score_medio":77.936,"score_min":40.0,"estado_score":"score bajo"},{"pais":"Honduras","clase":"322 Cacao","n_xy":3,"n_registros":15,"score_medio":78.629,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Costa Rica","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":1282,"n_registros":1282,"score_medio":78.755,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":107,"n_registros":107,"score_medio":79.237,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"331 Granos básicos y hortalizas  y otros","n_xy":148,"n_registros":148,"score_medio":79.423,"score_min":60.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"110 Urbano","n_xy":245,"n_registros":245,"score_medio":79.928,"score_min":70.0,"estado_score":"score bajo"},{"pais":"Belice","clase":"332 Pastizales naturales y cultivados","n_xy":1363,"n_registros":1365,"score_medio":80.046,"score_min":40.0,"estado_score":"suficiente"},{"pais":"México","clase":"420 Bosque de coníferas","n_xy":44,"n_registros":44,"score_medio":80.123,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":1050,"n_registros":1144,"score_medio":80.17,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"333 Matorrales (barbecho o en descanso)","n_xy":2605,"n_registros":2605,"score_medio":80.388,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":3577,"n_registros":3577,"score_medio":80.721,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"444 Regeneración forestal","n_xy":542,"n_registros":542,"score_medio":80.886,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":20,"n_registros":20,"score_medio":81.099,"score_min":73.36,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"420 Bosque de coníferas","n_xy":5,"n_registros":5,"score_medio":81.189,"score_min":80.868,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"323 Frutales","n_xy":12,"n_registros":15,"score_medio":81.576,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"220 Humedales","n_xy":84,"n_registros":84,"score_medio":82.489,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"311 Palma aceitera","n_xy":32719,"n_registros":34275,"score_medio":82.524,"score_min":56.601,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"442 Plantaciones forestales","n_xy":1,"n_registros":1,"score_medio":82.624,"score_min":82.624,"estado_score":"suficiente"},{"pais":"Belice","clase":"210 Cuerpos de Agua","n_xy":194,"n_registros":194,"score_medio":82.647,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"442 Plantaciones forestales","n_xy":10,"n_registros":10,"score_medio":82.68,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"220 Humedales","n_xy":474,"n_registros":2370,"score_medio":82.962,"score_min":58.897,"estado_score":"suficiente"},{"pais":"Honduras","clase":"442 Plantaciones forestales","n_xy":24,"n_registros":24,"score_medio":83.011,"score_min":75.107,"estado_score":"suficiente"},{"pais":"Panamá","clase":"323 Frutales","n_xy":3,"n_registros":3,"score_medio":83.039,"score_min":80.878,"estado_score":"suficiente"},{"pais":"México","clase":"445 Bosque de Palmas","n_xy":4,"n_registros":4,"score_medio":83.127,"score_min":82.746,"estado_score":"suficiente"},{"pais":"Belice","clase":"420 Bosque de coníferas","n_xy":200,"n_registros":200,"score_medio":83.178,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"411 Latifoliado maduro húmedo","n_xy":1,"n_registros":1,"score_medio":83.192,"score_min":83.192,"estado_score":"suficiente"},{"pais":"Belice","clase":"411 Latifoliado maduro húmedo","n_xy":9027,"n_registros":9029,"score_medio":83.305,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"430 Manglares","n_xy":84,"n_registros":84,"score_medio":83.358,"score_min":69.996,"estado_score":"suficiente"},{"pais":"Belice","clase":"423 Sabanas de pino","n_xy":1461,"n_registros":1461,"score_medio":83.649,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"321 Café","n_xy":15700,"n_registros":15708,"score_medio":83.676,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"441 Masa arbórea ribereña","n_xy":1,"n_registros":1,"score_medio":83.795,"score_min":83.795,"estado_score":"suficiente"},{"pais":"Panamá","clase":"321 Café","n_xy":6,"n_registros":6,"score_medio":83.946,"score_min":81.865,"estado_score":"suficiente"},{"pais":"Honduras","clase":"321 Café","n_xy":66598,"n_registros":68185,"score_medio":84.172,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"323 Frutales","n_xy":38,"n_registros":190,"score_medio":84.193,"score_min":56.831,"estado_score":"suficiente"},{"pais":"México","clase":"430 Manglares","n_xy":16,"n_registros":16,"score_medio":84.344,"score_min":78.13,"estado_score":"suficiente"},{"pais":"Belice","clase":"412 Latifoliado secundario húmedo","n_xy":2500,"n_registros":2502,"score_medio":84.41,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"220 Humedales","n_xy":16,"n_registros":16,"score_medio":84.464,"score_min":80.054,"estado_score":"suficiente"},{"pais":"Honduras","clase":"332 Pastizales naturales y cultivados","n_xy":3277,"n_registros":13766,"score_medio":84.675,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":5,"n_registros":5,"score_medio":84.71,"score_min":81.905,"estado_score":"suficiente"},{"pais":"Belice","clase":"313 Caña de azúcar","n_xy":7602,"n_registros":7602,"score_medio":84.841,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Nicaragua","clase":"332 Pastizales naturales y cultivados","n_xy":2,"n_registros":6,"score_medio":84.878,"score_min":83.419,"estado_score":"suficiente"},{"pais":"Belice","clase":"312 Bananeras","n_xy":1920,"n_registros":1920,"score_medio":84.897,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Belice","clase":"220 Humedales","n_xy":1072,"n_registros":1072,"score_medio":85.1,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"314 Piña","n_xy":594,"n_registros":594,"score_medio":85.155,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"211 Cuerpos de agua natural","n_xy":37,"n_registros":37,"score_medio":85.164,"score_min":75.948,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"333 Matorrales (barbecho o en descanso)","n_xy":49267,"n_registros":49267,"score_medio":85.503,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"312 Bananeras","n_xy":1068,"n_registros":1068,"score_medio":85.657,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"333 Matorrales (barbecho o en descanso)","n_xy":3014,"n_registros":12950,"score_medio":85.791,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"323 Frutales","n_xy":15,"n_registros":15,"score_medio":85.938,"score_min":85.579,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"333 Matorrales (barbecho o en descanso)","n_xy":357,"n_registros":381,"score_medio":86.266,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Nicaragua","clase":"220 Humedales","n_xy":1,"n_registros":1,"score_medio":86.301,"score_min":86.301,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"332 Pastizales naturales y cultivados","n_xy":708,"n_registros":767,"score_medio":86.495,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":475,"n_registros":2219,"score_medio":86.881,"score_min":56.284,"estado_score":"suficiente"},{"pais":"México","clase":"220 Humedales","n_xy":36,"n_registros":36,"score_medio":86.948,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"420 Bosque de coníferas","n_xy":5718,"n_registros":17708,"score_medio":86.994,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"110 Urbano","n_xy":93,"n_registros":93,"score_medio":87.088,"score_min":81.886,"estado_score":"suficiente"},{"pais":"Honduras","clase":"110 Urbano","n_xy":271,"n_registros":1355,"score_medio":87.185,"score_min":53.231,"estado_score":"suficiente"},{"pais":"Honduras","clase":"410 Bosque latifoliado y mixto","n_xy":5597,"n_registros":23542,"score_medio":87.259,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"112 Urbano discontinuo","n_xy":83,"n_registros":83,"score_medio":87.294,"score_min":76.118,"estado_score":"suficiente"},{"pais":"Belice","clase":"430 Manglares","n_xy":627,"n_registros":628,"score_medio":87.299,"score_min":60.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"443  Árboles fuera de bosque y otras áreas naturales","n_xy":1628,"n_registros":1628,"score_medio":87.373,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"111 Urbano continuo","n_xy":42,"n_registros":42,"score_medio":87.42,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"442 Plantaciones forestales","n_xy":53,"n_registros":53,"score_medio":87.578,"score_min":77.572,"estado_score":"suficiente"},{"pais":"México","clase":"333 Matorrales (barbecho o en descanso)","n_xy":325,"n_registros":327,"score_medio":87.715,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"441 Masa arbórea ribereña","n_xy":338,"n_registros":338,"score_medio":87.818,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"331 Granos básicos y hortalizas  y otros","n_xy":12834,"n_registros":12834,"score_medio":87.878,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":96748,"n_registros":96748,"score_medio":87.985,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":114,"n_registros":114,"score_medio":88.172,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"212 Cuerpos de agua artificial","n_xy":28,"n_registros":28,"score_medio":88.213,"score_min":83.991,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"112 Urbano discontinuo","n_xy":17149,"n_registros":17149,"score_medio":88.233,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"210 Cuerpos de Agua","n_xy":283,"n_registros":947,"score_medio":88.235,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"445 Bosque de Palmas","n_xy":10,"n_registros":10,"score_medio":88.329,"score_min":87.225,"estado_score":"suficiente"},{"pais":"Honduras","clase":"313 Caña de azúcar","n_xy":6374,"n_registros":6374,"score_medio":88.632,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"331 Granos básicos y hortalizas  y otros","n_xy":112,"n_registros":112,"score_medio":88.908,"score_min":79.74,"estado_score":"suficiente"},{"pais":"Panamá","clase":"210 Cuerpos de Agua","n_xy":78,"n_registros":78,"score_medio":88.975,"score_min":84.412,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"332 Pastizales naturales y cultivados","n_xy":83525,"n_registros":83525,"score_medio":88.998,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"331 Granos básicos y hortalizas  y otros","n_xy":1170,"n_registros":5850,"score_medio":89.518,"score_min":55.552,"estado_score":"suficiente"},{"pais":"Honduras","clase":"112 Urbano discontinuo","n_xy":39,"n_registros":39,"score_medio":89.598,"score_min":81.802,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"323 Frutales","n_xy":6450,"n_registros":6450,"score_medio":89.743,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":149,"n_registros":149,"score_medio":90.142,"score_min":83.437,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"111 Urbano continuo","n_xy":10953,"n_registros":10953,"score_medio":90.271,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"420 Bosque de coníferas","n_xy":6014,"n_registros":6014,"score_medio":90.312,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"332 Pastizales naturales y cultivados","n_xy":156,"n_registros":156,"score_medio":90.445,"score_min":76.085,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"410 Bosque latifoliado y mixto","n_xy":162889,"n_registros":162969,"score_medio":90.945,"score_min":40.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"313 Caña de azúcar","n_xy":32367,"n_registros":32367,"score_medio":91.098,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"325 Otros sistemas agroforestales o silvopastoriles","n_xy":22567,"n_registros":22567,"score_medio":91.193,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"442 Plantaciones forestales","n_xy":2249,"n_registros":2249,"score_medio":91.334,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"210 Cuerpos de Agua","n_xy":1807,"n_registros":1809,"score_medio":91.374,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"414 Bosque seco o deciduo","n_xy":1666,"n_registros":8335,"score_medio":91.423,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":868,"n_registros":4340,"score_medio":92.111,"score_min":57.088,"estado_score":"suficiente"},{"pais":"Panamá","clase":"430 Manglares","n_xy":109,"n_registros":109,"score_medio":92.14,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"414 Bosque seco o deciduo","n_xy":112,"n_registros":112,"score_medio":92.189,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"412 Latifoliado secundario húmedo","n_xy":117,"n_registros":117,"score_medio":92.243,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"442 Plantaciones forestales","n_xy":897,"n_registros":911,"score_medio":92.267,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"220 Humedales","n_xy":3479,"n_registros":3654,"score_medio":92.444,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"311 Palma aceitera","n_xy":11850,"n_registros":11861,"score_medio":92.473,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":4,"n_registros":4,"score_medio":92.546,"score_min":88.043,"estado_score":"suficiente"},{"pais":"México","clase":"412 Latifoliado secundario húmedo","n_xy":79,"n_registros":79,"score_medio":92.732,"score_min":81.135,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"331 Granos básicos y hortalizas  y otros","n_xy":7797,"n_registros":8475,"score_medio":92.905,"score_min":52.898,"estado_score":"suficiente"},{"pais":"Panamá","clase":"311 Palma aceitera","n_xy":3488,"n_registros":3488,"score_medio":92.942,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"413 Bosque Mixto (Lat-Coniferas)","n_xy":79,"n_registros":79,"score_medio":93.179,"score_min":82.343,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"414 Bosque seco o deciduo","n_xy":14,"n_registros":14,"score_medio":93.344,"score_min":88.22,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"332 Pastizales naturales y cultivados","n_xy":21378,"n_registros":23329,"score_medio":93.476,"score_min":40.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"321 Café","n_xy":50137,"n_registros":50137,"score_medio":93.574,"score_min":70.0,"estado_score":"suficiente"},{"pais":"México","clase":"410 Bosque latifoliado y mixto","n_xy":1175,"n_registros":1184,"score_medio":93.893,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Honduras","clase":"430 Manglares","n_xy":1209,"n_registros":1602,"score_medio":93.893,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"333 Matorrales (barbecho o en descanso)","n_xy":305,"n_registros":305,"score_medio":94.038,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"311 Palma aceitera","n_xy":29397,"n_registros":29423,"score_medio":94.047,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"410 Bosque latifoliado y mixto","n_xy":53262,"n_registros":59314,"score_medio":94.054,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"411 Latifoliado maduro húmedo","n_xy":1764,"n_registros":1764,"score_medio":94.292,"score_min":60.0,"estado_score":"suficiente"},{"pais":"Costa Rica","clase":"314 Piña","n_xy":10375,"n_registros":10375,"score_medio":94.309,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"430 Manglares","n_xy":9875,"n_registros":9875,"score_medio":94.341,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"312 Bananeras","n_xy":2042,"n_registros":2042,"score_medio":94.522,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"331 Granos básicos y hortalizas  y otros","n_xy":96,"n_registros":96,"score_medio":94.671,"score_min":91.003,"estado_score":"suficiente"},{"pais":"Panamá","clase":"313 Caña de azúcar","n_xy":5622,"n_registros":5622,"score_medio":94.705,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"332 Pastizales naturales y cultivados","n_xy":1163,"n_registros":1163,"score_medio":94.767,"score_min":70.0,"estado_score":"suficiente"},{"pais":"El Salvador","clase":"411 Latifoliado maduro húmedo","n_xy":15,"n_registros":15,"score_medio":94.79,"score_min":84.601,"estado_score":"suficiente"},{"pais":"Panamá","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":12945,"n_registros":12945,"score_medio":94.892,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"412 Latifoliado secundario húmedo","n_xy":951,"n_registros":951,"score_medio":95.309,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"314 Piña","n_xy":414,"n_registros":414,"score_medio":95.33,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Panamá","clase":"410 Bosque latifoliado y mixto","n_xy":8,"n_registros":8,"score_medio":96.198,"score_min":95.405,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"315 Otros cultivos intensivos no arbóreos","n_xy":2384,"n_registros":2429,"score_medio":96.368,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"312 Bananeras","n_xy":12263,"n_registros":12273,"score_medio":96.493,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"314 Piña","n_xy":2070,"n_registros":2070,"score_medio":96.627,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"313 Caña de azúcar","n_xy":52194,"n_registros":52195,"score_medio":96.642,"score_min":40.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"322 Cacao","n_xy":558,"n_registros":558,"score_medio":96.756,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"324 Hule","n_xy":22488,"n_registros":22488,"score_medio":96.99,"score_min":70.0,"estado_score":"suficiente"},{"pais":"Guatemala","clase":"321 Café","n_xy":86075,"n_registros":86113,"score_medio":97.205,"score_min":40.0,"estado_score":"suficiente"}]},"sources":{"count":{"Nivel_1":"outputs\\tables\\10_baja_cantidad_puntos_pais_clase_Nivel_1.csv","Nivel_2":"outputs\\tables\\10_baja_cantidad_puntos_pais_clase_Nivel_2.csv"},"score":{"Nivel_1":"outputs\\tables\\10_bajo_scoring_pais_clase_Nivel_1.csv","Nivel_2":"outputs\\tables\\10_bajo_scoring_pais_clase_Nivel_2.csv"}}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById("gap-data").textContent);
+
+const controls = {
+  level: document.getElementById("level"),
+  country: document.getElementById("country"),
+  view: document.getElementById("view"),
+  order: document.getElementById("order"),
+  orderControl: document.getElementById("order-control"),
+  topn: document.getElementById("topn"),
+  topnValue: document.getElementById("topn-value"),
+  classFilter: document.getElementById("class-filter"),
+  reset: document.getElementById("reset"),
+  copyLink: document.getElementById("copy-link"),
+  downloadCsv: document.getElementById("download-csv"),
+  status: document.getElementById("status")
+};
+
+const chart = document.getElementById("chart");
+const chartTitle = document.getElementById("chart-title");
+const chartSubtitle = document.getElementById("chart-subtitle");
+const tableHead = document.getElementById("table-head");
+const tableBody = document.getElementById("table-body");
+const sourceFiles = document.getElementById("source-files");
+const statRows = document.getElementById("stat-rows");
+const statCountries = document.getElementById("stat-countries");
+const statClasses = document.getElementById("stat-classes");
+const statMax = document.getElementById("stat-max");
+
+const VIEW_LABELS = {
+  gaps: "Vacíos y baja cantidad",
+  count: "Cantidad de puntos",
+  score: "Scoring más bajo"
+};
+
+function fmtInt(value) {
+  const number = Number(value || 0);
+  return Math.round(number).toLocaleString("es-CR");
+}
+
+function fmtFloat(value, digits = 2) {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) return "NA";
+  return Number(value).toLocaleString("es-CR", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  });
+}
+
+function normalizeText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function badgeClass(state) {
+  const text = normalizeText(state);
+  if (text.includes("critico") || text.includes("sin score")) return "critical";
+  if (text.includes("baja") || text.includes("bajo")) return "warning";
+  return "ok";
+}
+
+function metricFor(row, view) {
+  if (view === "score") return Number(row.score_medio || 0);
+  if (view === "gaps") return Number(row.n_xy === 0 ? row.n_xy_regional : row.n_xy);
+  return Number(row.n_xy || 0);
+}
+
+function detailFor(row, view) {
+  if (view === "score") {
+    return `score min=${fmtFloat(row.score_min, 2)} · puntos=${fmtInt(row.n_xy)}`;
+  }
+
+  if (view === "gaps" && Number(row.n_xy || 0) === 0) {
+    return `ausente en país · soporte regional=${fmtInt(row.n_xy_regional)}`;
+  }
+
+  return `puntos=${fmtInt(row.n_xy)} · registros=${fmtInt(row.n_registros)} · regional=${fmtInt(row.n_xy_regional)}`;
+}
+
+function rowsForState() {
+  const level = controls.level.value;
+  const country = controls.country.value;
+  const view = controls.view.value;
+  const query = normalizeText(controls.classFilter.value);
+
+  let rows = view === "score"
+    ? [...DATA.score[level]]
+    : [...DATA.count[level]];
+
+  if (country !== "Todos") {
+    rows = rows.filter(row => row.pais === country);
+  }
+
+  if (query) {
+    rows = rows.filter(row => normalizeText(row.clase).includes(query));
+  }
+
+  if (view === "gaps") {
+    rows = rows.filter(row => row.estado_count !== "suficiente");
+    rows.sort((a, b) =>
+      Number(a.n_xy || 0) - Number(b.n_xy || 0) ||
+      metricFor(b, view) - metricFor(a, view) ||
+      Number(b.n_xy_regional || 0) - Number(a.n_xy_regional || 0) ||
+      String(a.clase).localeCompare(String(b.clase), "es")
+    );
+  } else if (view === "count") {
+    rows = rows.filter(row => Number(row.n_xy || 0) > 0);
+    rows.sort((a, b) => {
+      const diff = Number(a.n_xy || 0) - Number(b.n_xy || 0);
+      const ordered = controls.order.value === "desc" ? -diff : diff;
+      return ordered || String(a.clase).localeCompare(String(b.clase), "es");
+    });
+  } else {
+    rows = rows.filter(row => Number(row.n_xy || 0) > 0);
+    rows.sort((a, b) =>
+      Number(a.score_medio || 0) - Number(b.score_medio || 0) ||
+      Number(a.n_xy || 0) - Number(b.n_xy || 0) ||
+      String(a.clase).localeCompare(String(b.clase), "es")
+    );
+  }
+
+  return rows;
+}
+
+function selectedRows() {
+  return rowsForState().slice(0, Number(controls.topn.value));
+}
+
+function renderCountries() {
+  const selected = controls.country.value || "Todos";
+  const level = controls.level.value || DATA.levels[0];
+  const countries = new Set(["Todos"]);
+
+  for (const group of [DATA.count[level], DATA.score[level]]) {
+    for (const row of group) countries.add(row.pais);
+  }
+
+  controls.country.innerHTML = [...countries].sort((a, b) => {
+    if (a === "Todos") return -1;
+    if (b === "Todos") return 1;
+    return a.localeCompare(b, "es");
+  }).map(country => `<option value="${escapeAttr(country)}">${escapeHtml(country)}</option>`).join("");
+
+  controls.country.value = countries.has(selected) ? selected : "Todos";
+}
+
+function renderControlsFromQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const level = params.get("nivel");
+  const country = params.get("pais");
+  const view = params.get("vista");
+  const order = params.get("orden");
+  const top = params.get("top");
+  const q = params.get("clase");
+
+  controls.level.innerHTML = DATA.levels
+    .map(levelName => `<option value="${escapeAttr(levelName)}">${escapeHtml(levelName)}</option>`)
+    .join("");
+
+  controls.level.value = DATA.levels.includes(level) ? level : DATA.levels[1] || DATA.levels[0];
+  renderCountries();
+
+  if (country) controls.country.value = country;
+  if (["gaps", "count", "score"].includes(view)) controls.view.value = view;
+  if (["asc", "desc"].includes(order)) controls.order.value = order;
+  if (top && Number(top) >= 10 && Number(top) <= 80) controls.topn.value = String(Number(top));
+  if (q) controls.classFilter.value = q;
+}
+
+function render() {
+  renderCountries();
+  controls.orderControl.style.display = controls.view.value === "count" ? "block" : "none";
+  controls.topnValue.textContent = controls.topn.value;
+
+  const rows = rowsForState();
+  const shown = selectedRows();
+  const metrics = shown.map(row => metricFor(row, controls.view.value));
+  const maxMetric = metrics.length ? Math.max(...metrics) : 0;
+  const countries = new Set(rows.map(row => row.pais));
+  const classes = new Set(rows.map(row => row.clase));
+
+  chartTitle.textContent = `${VIEW_LABELS[controls.view.value]} · ${controls.level.value}`;
+  chartSubtitle.textContent = `País: ${controls.country.value} · Top ${controls.topn.value}`;
+  statRows.textContent = fmtInt(rows.length);
+  statCountries.textContent = fmtInt(countries.size);
+  statClasses.textContent = fmtInt(classes.size);
+  statMax.textContent = controls.view.value === "score" ? fmtFloat(maxMetric, 2) : fmtInt(maxMetric);
+
+  renderChart(shown, maxMetric);
+  renderTable(shown);
+  renderSources();
+  updateUrl();
+}
+
+function renderChart(rows, maxMetric) {
+  if (!rows.length) {
+    chart.innerHTML = `<div class="empty">No hay datos para el filtro seleccionado.</div>`;
+    return;
+  }
+
+  chart.innerHTML = rows.map(row => {
+    const view = controls.view.value;
+    const metric = metricFor(row, view);
+    const width = view === "score"
+      ? Math.max(2, Math.min(100, metric))
+      : Math.max(2, maxMetric ? (metric / maxMetric) * 100 : 0);
+    const state = view === "score" ? row.estado_score : row.estado_count;
+    const css = badgeClass(state);
+    const metricLabel = view === "score" ? fmtFloat(metric, 2) : fmtInt(metric);
+    const metricSub = view === "score" ? "score medio" : (view === "gaps" ? "prioridad" : "nXY país");
+
+    return `
+      <div class="bar-row">
+        <div>
+          <div class="label-main">${escapeHtml(row.pais)} | ${escapeHtml(row.clase)}</div>
+          <div class="label-sub"><span class="badge ${css}">${escapeHtml(state || "sin estado")}</span> ${escapeHtml(detailFor(row, view))}</div>
+        </div>
+        <div class="bar-track" aria-hidden="true">
+          <div class="bar-fill ${css}" style="width:${width.toFixed(3)}%"></div>
+        </div>
+        <div class="metric"><strong>${metricLabel}</strong><span>${metricSub}</span></div>
+      </div>`;
+  }).join("");
+}
+
+function renderTable(rows) {
+  const view = controls.view.value;
+  const headers = view === "score"
+    ? ["País", "Clase", "Estado", "nXY", "Registros", "Score medio", "Score min"]
+    : ["País", "Clase", "Estado", "nXY país", "Registros", "nXY regional", "% clase país", "Métrica"];
+
+  tableHead.innerHTML = `<tr>${headers.map(header => `<th>${escapeHtml(header)}</th>`).join("")}</tr>`;
+
+  tableBody.innerHTML = rows.map(row => {
+    if (view === "score") {
+      return `<tr>
+        <td>${escapeHtml(row.pais)}</td>
+        <td>${escapeHtml(row.clase)}</td>
+        <td><span class="badge ${badgeClass(row.estado_score)}">${escapeHtml(row.estado_score)}</span></td>
+        <td>${fmtInt(row.n_xy)}</td>
+        <td>${fmtInt(row.n_registros)}</td>
+        <td>${fmtFloat(row.score_medio, 3)}</td>
+        <td>${fmtFloat(row.score_min, 3)}</td>
+      </tr>`;
+    }
+
+    return `<tr>
+      <td>${escapeHtml(row.pais)}</td>
+      <td>${escapeHtml(row.clase)}</td>
+      <td><span class="badge ${badgeClass(row.estado_count)}">${escapeHtml(row.estado_count)}</span></td>
+      <td>${fmtInt(row.n_xy)}</td>
+      <td>${fmtInt(row.n_registros)}</td>
+      <td>${fmtInt(row.n_xy_regional)}</td>
+      <td>${fmtFloat(row.pct_clase_en_pais, 3)}</td>
+      <td>${view === "gaps" ? fmtInt(metricFor(row, view)) : fmtInt(row.n_xy)}</td>
+    </tr>`;
+  }).join("");
+}
+
+function renderSources() {
+  const level = controls.level.value;
+  sourceFiles.innerHTML = `Fuentes: <code>${escapeHtml(DATA.sources.count[level])}</code> y <code>${escapeHtml(DATA.sources.score[level])}</code>.`;
+}
+
+function updateUrl() {
+  const params = new URLSearchParams();
+  params.set("nivel", controls.level.value);
+  params.set("pais", controls.country.value);
+  params.set("vista", controls.view.value);
+  params.set("orden", controls.order.value);
+  params.set("top", controls.topn.value);
+  if (controls.classFilter.value.trim()) params.set("clase", controls.classFilter.value.trim());
+  try {
+    window.history.replaceState(null, "", `${window.location.pathname}?${params.toString()}`);
+  } catch (error) {
+    // Some local file viewers restrict history updates; GitHub Pages supports them.
+  }
+}
+
+function csvEscape(value) {
+  const text = String(value ?? "");
+  if (/[",\n]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+  return text;
+}
+
+function downloadCurrentCsv() {
+  const rows = selectedRows();
+  if (!rows.length) {
+    controls.status.textContent = "No hay filas para descargar.";
+    return;
+  }
+
+  const view = controls.view.value;
+  const headers = view === "score"
+    ? ["pais", "clase", "estado_score", "n_xy", "n_registros", "score_medio", "score_min"]
+    : ["pais", "clase", "estado_count", "n_xy", "n_registros", "n_xy_regional", "pct_clase_en_pais", "metrica"];
+
+  const lines = [headers.join(",")];
+  for (const row of rows) {
+    const values = view === "score"
+      ? headers.map(key => row[key])
+      : headers.map(key => key === "metrica" ? metricFor(row, view) : row[key]);
+    lines.push(values.map(csvEscape).join(","));
+  }
+
+  const blob = new Blob([lines.join("\n")], {type: "text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `explorador_vacios_${controls.level.value}_${view}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  controls.status.textContent = "CSV descargado con el filtro actual.";
+}
+
+async function copyCurrentLink() {
+  const href = window.location.href;
+  try {
+    await navigator.clipboard.writeText(href);
+    controls.status.textContent = "Enlace copiado.";
+  } catch (error) {
+    controls.status.textContent = href;
+  }
+}
+
+function resetControls() {
+  controls.level.value = DATA.levels[1] || DATA.levels[0];
+  renderCountries();
+  controls.country.value = "Todos";
+  controls.view.value = "gaps";
+  controls.order.value = "asc";
+  controls.topn.value = "30";
+  controls.classFilter.value = "";
+  render();
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value);
+}
+
+for (const control of [controls.level, controls.country, controls.view, controls.order, controls.topn, controls.classFilter]) {
+  control.addEventListener("input", render);
+  control.addEventListener("change", render);
+}
+
+controls.reset.addEventListener("click", resetControls);
+controls.copyLink.addEventListener("click", copyCurrentLink);
+controls.downloadCsv.addEventListener("click", downloadCurrentCsv);
+
+renderControlsFromQuery();
+render();
+</script>
+<noscript>Esta página necesita JavaScript para aplicar filtros y dibujar la gráfica.</noscript>
+</body>
+</html>

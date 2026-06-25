@@ -23,10 +23,12 @@ Criterios:
 - No se exportan los campos compuestos nivel_*_dominante ni valores_nivel_*.
 - Esos campos se usan solo como insumos para calcular FKs y validar consistencia.
 - xy_point no almacena id_0_propuesta ni id_1_propuesta.
-- El nivel 0 propuesto se obtiene mediante id_0 -> id_0_propuesta.
 - El nivel 1 final se resuelve con prioridad:
   1) excepción id_2 -> id_1_propuesta, cuando exista;
   2) regla general id_1 -> id_1_propuesta, en caso contrario.
+- El nivel 0 propuesto final se deriva del padre de id_1_propuesta final;
+  la regla id_0 -> id_0_propuesta se conserva como regla general de respaldo
+  y como tabla normalizada, pero no domina las excepciones de nivel 2.
 - Todas las tablas de homologación son N:1 y deterministas.
 - xy_homologacion_final materializa códigos y labels finales solo para revisión/join.
 - Los labels maestros de clase continúan en sus tablas de referencia.
@@ -394,6 +396,17 @@ def fields_by_type(cfg: dict[str, Any], dtype: str) -> set[str]:
     return set(cfg["schema"]["field_types"].get(dtype, []))
 
 
+def lowercase_text_values(cfg: dict[str, Any]) -> bool:
+    return bool(cfg.get("normalization", {}).get("lowercase_text_values", False))
+
+
+def lowercase_text_exclude_fields(cfg: dict[str, Any]) -> set[str]:
+    configured = cfg.get("normalization", {}).get("lowercase_text_exclude_fields")
+    if configured is None:
+        configured = [pk_field(cfg)]
+    return {str(field) for field in configured}
+
+
 def expected_fields(cfg: dict[str, Any]) -> list[str]:
     fields: list[str] = []
 
@@ -526,7 +539,10 @@ def coerce_types(
             out[field] = pd.to_numeric(out[field], errors="coerce").astype("Float64")
 
         elif field in text_fields:
-            out[field] = out[field].astype("string")
+            values = out[field].astype("string").str.strip()
+            if lowercase_text_values(cfg) and field not in lowercase_text_exclude_fields(cfg):
+                values = values.str.lower()
+            out[field] = values
 
     return out
 
@@ -854,6 +870,15 @@ def proposed_homologation_tables(cfg: dict[str, Any]) -> dict[str, pd.DataFrame]
                 .itertuples(index=False, name=None)
             )
 
+        # Validación de jerarquía propuesta.
+        #
+        # Las reglas generales deben respetar la relación padre-hijo entre
+        # nivel 0 propuesto y nivel 1 propuesto. Sin embargo, las reglas
+        # override por id_2 pueden cruzar dominio de forma intencional.
+        # Ejemplo: 443 viene de 40/44 en la leyenda documental, pero se
+        # homologa operativamente hacia 2/25 (No Bosques / Otras tierras).
+        # En esos casos, la coherencia final se garantiza más adelante
+        # derivando id_0_propuesta desde el padre de id_1_propuesta final.
         inconsistent: list[tuple[int, int, int, int]] = []
         for source_id, target_id in mapping_df[[source_field, target_field]].astype(int).itertuples(index=False, name=None):
             source_id0 = source_to_id0[source_id]
@@ -863,7 +888,14 @@ def proposed_homologation_tables(cfg: dict[str, Any]) -> dict[str, pd.DataFrame]
                 inconsistent.append(
                     (source_id, target_id, expected_parent, observed_parent)
                 )
-        if inconsistent:
+
+        if inconsistent and hom.get("role") == "override":
+            logging.info(
+                "%s: excepciones que cruzan dominio nivel 0 detectadas y permitidas: %s",
+                hom_name,
+                inconsistent[:20],
+            )
+        elif inconsistent:
             raise ValueError(
                 f"{hom_name}: la homologación no respeta el nivel 0 propuesto: "
                 f"{inconsistent[:20]}"
@@ -1531,9 +1563,13 @@ def build_xy_homologacion_final(
     La tabla resultante no sustituye las tablas normalizadas. Es una vista
     materializada 1:1 por ``xy_group_id`` que resuelve internamente:
 
-    - nivel 0: regla general por ``id_0``;
     - nivel 1: excepción por ``id_2`` cuando exista;
-    - nivel 1: regla general por ``id_1`` en los demás casos.
+    - nivel 1: regla general por ``id_1`` en los demás casos;
+    - nivel 0: padre del ``id_1_propuesta`` final.
+
+    Nota metodológica: el nivel 0 propuesto no debe dominar la excepción
+    de nivel 2. Esto permite casos como 443, que proviene de 40/44 en la
+    leyenda documental, pero se homologa hacia 2/25 en la leyenda operativa.
     """
     pk = pk_field(cfg)
     homologations = proposed_homologations_config(cfg)
@@ -1603,7 +1639,7 @@ def build_xy_homologacion_final(
     map1 = mapping_dict(hom1)
     map1_override = mapping_dict(hom1_override)
 
-    id0_propuesta = (
+    id0_general = (
         gdf[hom0["source_id_field"]].map(map0).astype("Int64")
     )
     id1_general = (
@@ -1618,6 +1654,34 @@ def build_xy_homologacion_final(
 
     catalog0 = tables[hom0["target_table"]]
     catalog1 = tables[hom1["target_table"]]
+
+    # El id_0_propuesta final se deriva desde el padre de id_1_propuesta
+    # final. Así, una excepción de nivel 2 puede cruzar dominio sin dejar
+    # una contradicción jerárquica en xy_homologacion_final.
+    parent_field = hom1.get("parent_target_id_field")
+    if parent_field and parent_field in catalog1.columns:
+        parent_map = dict(
+            zip(
+                catalog1[hom1["target_id_field"]].astype(int),
+                catalog1[parent_field].astype(int),
+            )
+        )
+        id0_from_level1 = id1_propuesta.map(parent_map).astype("Int64")
+        cross_domain = (
+            id0_general.notna()
+            & id0_from_level1.notna()
+            & (id0_general != id0_from_level1)
+        )
+        if cross_domain.any():
+            logging.info(
+                "xy_homologacion_final: %s registros cruzan dominio nivel 0 "
+                "por excepción o regla de nivel 1; se usa el padre de "
+                "id_1_propuesta final.",
+                int(cross_domain.sum()),
+            )
+        id0_propuesta = id0_from_level1.combine_first(id0_general).astype("Int64")
+    else:
+        id0_propuesta = id0_general
     label0_map = dict(
         zip(
             catalog0[hom0["target_id_field"]].astype(int),
@@ -1666,15 +1730,10 @@ def build_xy_homologacion_final(
             raise ValueError(msg)
         logging.warning(msg)
 
-    # Comprobar coherencia entre nivel 0 y el padre del nivel 1 propuesto.
-    parent_field = hom1.get("parent_target_id_field")
+    # Comprobar coherencia entre nivel 0 final y el padre del nivel 1 final.
+    # Como id_0_propuesta se deriva arriba desde id_1_propuesta, esta
+    # validación debería fallar solo si el catálogo propuesto está mal definido.
     if parent_field and parent_field in catalog1.columns:
-        parent_map = dict(
-            zip(
-                catalog1[hom1["target_id_field"]].astype(int),
-                catalog1[parent_field].astype(int),
-            )
-        )
         parent_from_level1 = id1_propuesta.map(parent_map).astype("Int64")
         hierarchy_error = (
             id0_propuesta.notna()
@@ -2070,8 +2129,6 @@ Los labels se consultan mediante:
 
 ## Regla final de homologación
 
-El nivel 0 propuesto se obtiene directamente mediante `id_0`.
-
 El nivel 1 propuesto se obtiene con una regla de prioridad determinista:
 
 1. buscar `id_2` en `homologacion_nivel_2_excepcion_nivel_1_propuesta`;
@@ -2082,8 +2139,18 @@ Equivalente lógico:
 
 `id_1_propuesta_final = COALESCE(excepcion.id_1_propuesta, general.id_1_propuesta)`
 
-De esta manera, cada punto recibe una sola clase propuesta y todas las tablas
-de homologación conservan cardinalidad N:1.
+El nivel 0 propuesto final se deriva del padre de `id_1_propuesta_final`
+en `clase_propuesta_nivel_1`. La regla `id_0 -> id_0_propuesta` se conserva
+como tabla normalizada y respaldo, pero no domina las excepciones de nivel 2.
+
+Equivalente lógico:
+
+`id_0_propuesta_final = parent(id_1_propuesta_final)`
+
+De esta manera, cada punto recibe una sola clase propuesta y se permiten
+excepciones controladas que cruzan dominio, como `443 -> 25`, sin romper la
+coherencia jerárquica final. Todas las tablas de homologación conservan
+cardinalidad N:1.
 
 {chr(10).join(sections)}
 

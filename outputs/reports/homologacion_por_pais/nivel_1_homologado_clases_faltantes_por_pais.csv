@@ -1,19 +1,19 @@
 ﻿pais,id_1_propuesta,nivel_1_propuesta
-Belice,14,Bosques secos
-Belice,21,Cultivos arbóreos
-Costa Rica,12,Bosques de coníferas
-Costa Rica,13,Bosques de mangle
-Costa Rica,14,Bosques secos
-Guatemala,14,Bosques secos
-México,21,Cultivos arbóreos
-México,24,Cuerpos de agua
-Nicaragua,11,Bosques latifoliados y mixtos
-Nicaragua,12,Bosques de coníferas
-Nicaragua,13,Bosques de mangle
-Nicaragua,14,Bosques secos
-Nicaragua,15,Plantaciones forestales
-Nicaragua,23,Construido
-Panamá,12,Bosques de coníferas
-Panamá,14,Bosques secos
-multipais_o_inconsistente,15,Plantaciones forestales
-multipais_o_inconsistente,23,Construido
+belice,14,bosques secos
+belice,21,cultivos arbóreos
+costa rica,12,bosques de coníferas
+costa rica,13,bosques de mangle
+costa rica,14,bosques secos
+guatemala,14,bosques secos
+multipais_o_inconsistente,15,plantaciones forestales
+multipais_o_inconsistente,23,construido
+méxico,21,cultivos arbóreos
+méxico,24,cuerpos de agua
+nicaragua,11,bosques latifoliados y mixtos
+nicaragua,12,bosques de coníferas
+nicaragua,13,bosques de mangle
+nicaragua,14,bosques secos
+nicaragua,15,plantaciones forestales
+nicaragua,23,construido
+panamá,12,bosques de coníferas
+panamá,14,bosques secos
