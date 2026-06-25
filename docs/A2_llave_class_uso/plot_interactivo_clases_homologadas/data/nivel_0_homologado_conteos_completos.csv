@@ -1,0 +1,19 @@
+﻿pais,id_0_propuesta,nivel_0_propuesta,n_registros,presente
+belice,1,bosques/tierras forestales,14473,True
+belice,2,no bosques,18838,True
+costa rica,1,bosques/tierras forestales,56830,True
+costa rica,2,no bosques,76184,True
+el salvador,1,bosques/tierras forestales,183059,True
+el salvador,2,no bosques,388469,True
+guatemala,1,bosques/tierras forestales,505,True
+guatemala,2,no bosques,209016,True
+honduras,1,bosques/tierras forestales,14985,True
+honduras,2,no bosques,117399,True
+multipais_o_inconsistente,1,bosques/tierras forestales,325,True
+multipais_o_inconsistente,2,no bosques,424,True
+méxico,1,bosques/tierras forestales,1513,True
+méxico,2,no bosques,636,True
+nicaragua,1,bosques/tierras forestales,0,False
+nicaragua,2,no bosques,7,True
+panamá,1,bosques/tierras forestales,2895,True
+panamá,2,no bosques,26292,True

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exploración interactiva de clases homologadas</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+:root {
+  --bg: #f7f8fb;
+  --panel: #ffffff;
+  --text: #1f2937;
+  --muted: #667085;
+  --border: #d9dee8;
+  --accent: #174a7c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.page {
+  width: min(1500px, 100%);
+  margin: 0 auto;
+  padding: 14px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 10px;
+  padding: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.control {
+  display: grid;
+  gap: 4px;
+}
+
+.level { width: 210px; }
+.scope { width: 150px; }
+.country { width: 210px; }
+.plot { width: 340px; }
+.table { width: 260px; }
+
+label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+select {
+  min-height: 34px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  padding: 5px 8px;
+}
+
+select:disabled {
+  color: #98a2b3;
+  background: #f2f4f7;
+}
+
+.summary {
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.summary strong {
+  color: var(--accent);
+}
+
+.plot-panel,
+.table-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+#chart {
+  width: 100%;
+  min-height: 560px;
+}
+
+.table-panel {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.table-wrap {
+  max-height: 520px;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th,
+td {
+  padding: 7px 8px;
+  border-bottom: 1px solid #edf0f4;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: #eef3f8;
+  color: #17324d;
+  z-index: 1;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.status {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .level,
+  .scope,
+  .country,
+  .plot,
+  .table {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="controls" aria-label="Controles del panel interactivo">
+    <div class="control level">
+      <label for="level">Nivel:</label>
+      <select id="level">
+        <option>Nivel 0 homologado</option>
+        <option selected>Nivel 1 homologado</option>
+      </select>
+    </div>
+    <div class="control scope">
+      <label for="scope">Vista:</label>
+      <select id="scope">
+        <option selected>General</option>
+        <option>Por país</option>
+      </select>
+    </div>
+    <div class="control country">
+      <label for="country">País:</label>
+      <select id="country" disabled></select>
+    </div>
+    <div class="control plot">
+      <label for="plot">Gráfico:</label>
+      <select id="plot"></select>
+    </div>
+    <div class="control table">
+      <label for="table">Tabla:</label>
+      <select id="table"></select>
+    </div>
+  </section>
+
+  <section class="summary" id="summary"></section>
+
+  <section class="plot-panel">
+    <div id="chart"></div>
+  </section>
+
+  <section class="table-panel" id="table-panel">
+    <div class="table-wrap">
+      <table>
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </section>
+  <div class="status" id="status"></div>
+</main>
+
+<script>
+const LEVELS = {
+  "Nivel 0 homologado": {
+    slug: "nivel_0_homologado",
+    id: "id_0_propuesta",
+    label: "nivel_0_propuesta"
+  },
+  "Nivel 1 homologado": {
+    slug: "nivel_1_homologado",
+    id: "id_1_propuesta",
+    label: "nivel_1_propuesta"
+  }
+};
+
+const GENERAL_PLOTS = [
+  "Clases presentes por país (apilado por clase)",
+  "Cobertura porcentual por país",
+  "Registros regionales por clase",
+  "Matriz de presencia y ausencia"
+];
+
+const COUNTRY_PLOTS = [
+  "Registros por clase",
+  "Porcentaje de registros por clase"
+];
+
+const GENERAL_TABLES = [
+  "Sin tabla",
+  "Conteos por clase y país",
+  "Resumen de cobertura por país",
+  "Clases faltantes por país",
+  "Presencia regional por clase"
+];
+
+const COUNTRY_TABLES = [
+  "Sin tabla",
+  "Conteos por clase",
+  "Resumen de cobertura",
+  "Clases faltantes"
+];
+
+const palette = [
+  "#174a7c", "#0f766e", "#b45309", "#7c3aed", "#be123c",
+  "#2563eb", "#16a34a", "#9333ea", "#ca8a04", "#0891b2",
+  "#c2410c", "#4f46e5", "#15803d", "#a21caf"
+];
+
+const state = {
+  tables: {}
+};
+
+const controls = {
+  level: document.getElementById("level"),
+  scope: document.getElementById("scope"),
+  country: document.getElementById("country"),
+  plot: document.getElementById("plot"),
+  table: document.getElementById("table")
+};
+
+const summary = document.getElementById("summary");
+const tablePanel = document.getElementById("table-panel");
+const tableHead = document.getElementById("table-head");
+const tableBody = document.getElementById("table-body");
+const status = document.getElementById("status");
+
+function dataPath(levelName, suffix) {
+  return `data/${LEVELS[levelName].slug}_${suffix}.csv`;
+}
+
+async function loadData() {
+  for (const levelName of Object.keys(LEVELS)) {
+    state.tables[levelName] = {
+      complete: await fetchCsv(dataPath(levelName, "conteos_completos")),
+      coverage: await fetchCsv(dataPath(levelName, "cobertura_por_pais")),
+      missing: await fetchCsv(dataPath(levelName, "clases_faltantes_por_pais")),
+      regional: await fetchCsv(dataPath(levelName, "presencia_regional"))
+    };
+  }
+}
+
+async function fetchCsv(path) {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`No se pudo leer ${path}`);
+  return parseCsv(await response.text());
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let field = "";
+  let row = [];
+  let inQuotes = false;
+  const clean = text.replace(/^\uFEFF/, "");
+
+  for (let i = 0; i < clean.length; i++) {
+    const char = clean[i];
+    const next = clean[i + 1];
+
+    if (char === '"' && inQuotes && next === '"') {
+      field += '"';
+      i++;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === "," && !inQuotes) {
+      row.push(field);
+      field = "";
+    } else if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (char === "\r" && next === "\n") i++;
+      row.push(field);
+      if (row.some(value => value !== "")) rows.push(row);
+      row = [];
+      field = "";
+    } else {
+      field += char;
+    }
+  }
+
+  if (field !== "" || row.length) {
+    row.push(field);
+    rows.push(row);
+  }
+
+  const headers = rows.shift();
+  return rows.map(values => {
+    const item = {};
+    headers.forEach((header, index) => {
+      item[header] = coerceValue(header, values[index]);
+    });
+    return item;
+  });
+}
+
+function coerceValue(key, value) {
+  if (value === undefined || value === null || value === "") return "";
+  if (value === "True") return true;
+  if (value === "False") return false;
+
+  const numericFields = new Set([
+    "id_0_propuesta",
+    "id_1_propuesta",
+    "n_registros",
+    "clases_esperadas",
+    "clases_presentes",
+    "registros",
+    "clases_faltantes",
+    "cobertura_pct",
+    "paises_presentes",
+    "registros_regionales",
+    "paises_faltantes"
+  ]);
+
+  return numericFields.has(key) ? Number(value) : value;
+}
+
+function updateOptions() {
+  const levelName = controls.level.value;
+  const tables = state.tables[levelName];
+  const selectedCountry = controls.country.value;
+  const countries = [...new Set(tables.complete.map(row => row.pais))].sort((a, b) => a.localeCompare(b, "es"));
+
+  controls.country.innerHTML = countries
+    .map(country => `<option value="${escapeHtml(country)}">${escapeHtml(country)}</option>`)
+    .join("");
+  controls.country.value = countries.includes(selectedCountry) ? selectedCountry : countries[0];
+  controls.country.disabled = controls.scope.value === "General";
+
+  const plotOptions = controls.scope.value === "General" ? GENERAL_PLOTS : COUNTRY_PLOTS;
+  setOptions(controls.plot, plotOptions);
+
+  const tableOptions = controls.scope.value === "General" ? GENERAL_TABLES : COUNTRY_TABLES;
+  setOptions(controls.table, tableOptions, controls.scope.value === "General" ? "Resumen de cobertura por país" : "Resumen de cobertura");
+}
+
+function setOptions(select, options, defaultValue = null) {
+  const current = select.value;
+  select.innerHTML = options
+    .map(option => `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`)
+    .join("");
+  select.value = options.includes(current) ? current : (defaultValue && options.includes(defaultValue) ? defaultValue : options[0]);
+}
+
+function renderDashboard() {
+  updateOptions();
+  renderSummary();
+  renderPlot();
+  renderTable();
+}
+
+function renderSummary() {
+  const levelName = controls.level.value;
+  const config = LEVELS[levelName];
+  const tables = state.tables[levelName];
+  const complete = tables.complete;
+
+  if (controls.scope.value === "General") {
+    const records = sum(complete, "n_registros");
+    const present = new Set(complete.filter(row => row.presente).map(row => row[config.id])).size;
+    const catalog = new Set(complete.map(row => row[config.id])).size;
+    summary.innerHTML = `<strong>${escapeHtml(levelName)} - vista general</strong><br>Registros: ${formatInt(records)}<br>Clases presentes regionalmente: ${present}/${catalog}`;
+  } else {
+    const selected = complete.filter(row => row.pais === controls.country.value);
+    const records = sum(selected, "n_registros");
+    const present = selected.filter(row => row.presente).length;
+    const catalog = selected.length;
+    summary.innerHTML = `<strong>${escapeHtml(levelName)} - ${escapeHtml(controls.country.value)}</strong><br>Registros: ${formatInt(records)}<br>Clases presentes: ${present}/${catalog}<br>Clases faltantes: ${catalog - present}`;
+  }
+}
+
+function renderPlot() {
+  const levelName = controls.level.value;
+  const config = LEVELS[levelName];
+  const tables = state.tables[levelName];
+  const plotName = controls.plot.value;
+
+  let traces = [];
+  let layout = baseLayout();
+
+  if (controls.scope.value === "General") {
+    if (plotName === "Clases presentes por país (apilado por clase)") {
+      const complete = tables.complete.filter(row => row.presente);
+      const classes = uniqueSorted(complete, config.id);
+
+      traces = classes.map((classId, index) => {
+        const classRows = complete.filter(row => row[config.id] === classId);
+        const label = classRows[0]?.[config.label] || String(classId);
+        return {
+          type: "bar",
+          name: label,
+          x: classRows.map(row => row.pais),
+          y: classRows.map(() => 1),
+          marker: { color: palette[index % palette.length] },
+          customdata: classRows.map(row => [row[config.id], row.n_registros]),
+          hovertemplate: "País: %{x}<br>Clase: " + escapePlot(label) + "<br>ID: %{customdata[0]}<br>Registros: %{customdata[1]:,}<extra></extra>"
+        };
+      });
+
+      layout.barmode = "stack";
+      layout.title = `${levelName}: clases presentes por país`;
+      layout.xaxis = { title: "País", tickangle: -45 };
+      layout.yaxis = { title: "Clases presentes", rangemode: "tozero" };
+      layout.legend = { title: { text: "Clase homologada" } };
+    } else if (plotName === "Cobertura porcentual por país") {
+      const data = [...tables.coverage].sort((a, b) => b.cobertura_pct - a.cobertura_pct);
+      traces = [{
+        type: "bar",
+        x: data.map(row => row.pais),
+        y: data.map(row => row.cobertura_pct),
+        marker: { color: "#174a7c" },
+        customdata: data.map(row => [
+          row.clases_presentes,
+          row.clases_faltantes,
+          row.registros,
+          row.clases_faltantes_detalle,
+          row.registros_por_clase
+        ]),
+        hovertemplate: "País: %{x}<br>Cobertura: %{y:.1f}%<br>Clases presentes: %{customdata[0]}<br>Clases faltantes: %{customdata[1]}<br>Registros: %{customdata[2]:,}<br><br>Faltantes:<br>%{customdata[3]}<br><br>Registros por clase:<br>%{customdata[4]}<extra></extra>"
+      }];
+      layout.title = `${levelName}: cobertura de clases por país`;
+      layout.xaxis = { title: "País", tickangle: -45 };
+      layout.yaxis = { title: "Cobertura (%)", range: [0, 105] };
+    } else if (plotName === "Registros regionales por clase") {
+      const data = [...tables.regional].sort((a, b) => a.registros_regionales - b.registros_regionales);
+      traces = [{
+        type: "bar",
+        orientation: "h",
+        x: data.map(row => row.registros_regionales),
+        y: data.map(row => row[config.label]),
+        marker: { color: data.map((_, index) => palette[index % palette.length]) },
+        customdata: data.map(row => [row[config.id], row.paises_presentes, row.paises_faltantes]),
+        hovertemplate: "Clase: %{y}<br>ID: %{customdata[0]}<br>Registros: %{x:,}<br>Países presentes: %{customdata[1]}<br>Países faltantes: %{customdata[2]}<extra></extra>"
+      }];
+      layout.title = `${levelName}: registros regionales por clase`;
+      layout.xaxis = { title: "Cantidad de registros" };
+      layout.yaxis = { title: "Clase homologada", automargin: true };
+      layout.height = Math.max(520, 90 + data.length * 34);
+      layout.showlegend = false;
+    } else if (plotName === "Matriz de presencia y ausencia") {
+      const complete = [...tables.complete].sort((a, b) =>
+        Number(a[config.id]) - Number(b[config.id]) || String(a.pais).localeCompare(String(b.pais), "es")
+      );
+      const countries = [...new Set(complete.map(row => row.pais))].sort((a, b) => a.localeCompare(b, "es"));
+      const classes = uniqueSorted(complete, config.id).map(classId => {
+        const row = complete.find(item => item[config.id] === classId);
+        return row[config.label];
+      });
+      const z = classes.map(label =>
+        countries.map(country => {
+          const row = complete.find(item => item[config.label] === label && item.pais === country);
+          return row && row.presente ? 1 : 0;
+        })
+      );
+      const text = classes.map(label =>
+        countries.map(country => {
+          const row = complete.find(item => item[config.label] === label && item.pais === country);
+          return row ? String(row.n_registros) : "0";
+        })
+      );
+      traces = [{
+        type: "heatmap",
+        x: countries,
+        y: classes,
+        z,
+        text,
+        colorscale: [[0, "#f2f4f7"], [1, "#174a7c"]],
+        showscale: true,
+        hovertemplate: "País: %{x}<br>Clase: %{y}<br>Presencia: %{z}<br>Registros: %{text}<extra></extra>"
+      }];
+      layout.title = `${levelName}: presencia (1) y ausencia (0)`;
+      layout.xaxis = { title: "País", tickangle: -45 };
+      layout.yaxis = { title: "Clase homologada", automargin: true };
+      layout.height = Math.max(520, 100 + classes.length * 32);
+    }
+  } else {
+    const selected = tables.complete.filter(row => row.pais === controls.country.value);
+
+    if (plotName === "Registros por clase") {
+      const data = [...selected].sort((a, b) => a.n_registros - b.n_registros);
+      traces = [{
+        type: "bar",
+        orientation: "h",
+        x: data.map(row => row.n_registros),
+        y: data.map(row => row[config.label]),
+        marker: { color: data.map((_, index) => palette[index % palette.length]) },
+        customdata: data.map(row => [row[config.id], row.presente]),
+        hovertemplate: "Clase: %{y}<br>ID: %{customdata[0]}<br>Registros: %{x:,}<br>Presente: %{customdata[1]}<extra></extra>"
+      }];
+      layout.title = `${levelName}: registros por clase - ${controls.country.value}`;
+      layout.xaxis = { title: "Cantidad de registros" };
+      layout.yaxis = { title: "Clase homologada", automargin: true };
+      layout.height = Math.max(520, 90 + data.length * 34);
+      layout.showlegend = false;
+    } else if (plotName === "Porcentaje de registros por clase") {
+      const total = sum(selected, "n_registros");
+      const data = selected
+        .map(row => ({ ...row, porcentaje: total > 0 ? 100 * row.n_registros / total : 0 }))
+        .sort((a, b) => a.porcentaje - b.porcentaje);
+      traces = [{
+        type: "bar",
+        orientation: "h",
+        x: data.map(row => row.porcentaje),
+        y: data.map(row => row[config.label]),
+        marker: { color: data.map((_, index) => palette[index % palette.length]) },
+        customdata: data.map(row => [row[config.id], row.n_registros]),
+        hovertemplate: "Clase: %{y}<br>ID: %{customdata[0]}<br>Porcentaje: %{x:.2f}%<br>Registros: %{customdata[1]:,}<extra></extra>"
+      }];
+      layout.title = `${levelName}: porcentaje por clase - ${controls.country.value}`;
+      layout.xaxis = { title: "Porcentaje de registros (%)" };
+      layout.yaxis = { title: "Clase homologada", automargin: true };
+      layout.height = Math.max(520, 90 + data.length * 34);
+      layout.showlegend = false;
+    }
+  }
+
+  Plotly.react("chart", traces, layout, {
+    responsive: true,
+    displaylogo: false,
+    modeBarButtonsToRemove: ["lasso2d", "select2d"]
+  });
+}
+
+function renderTable() {
+  const levelName = controls.level.value;
+  const config = LEVELS[levelName];
+  const tables = state.tables[levelName];
+  const tableName = controls.table.value;
+
+  if (tableName === "Sin tabla") {
+    tablePanel.style.display = "none";
+    tableHead.innerHTML = "";
+    tableBody.innerHTML = "";
+    return;
+  }
+
+  tablePanel.style.display = "block";
+  let rows = [];
+  let columns = [];
+
+  if (controls.scope.value === "General") {
+    if (tableName === "Conteos por clase y país") {
+      rows = [...tables.complete].sort((a, b) => a.pais.localeCompare(b.pais, "es") || Number(a[config.id]) - Number(b[config.id]));
+      columns = ["pais", config.id, config.label, "n_registros", "presente"];
+    } else if (tableName === "Resumen de cobertura por país") {
+      rows = [...tables.coverage].sort((a, b) => b.clases_faltantes - a.clases_faltantes || a.pais.localeCompare(b.pais, "es"));
+      columns = ["pais", "clases_esperadas", "clases_presentes", "registros", "clases_faltantes", "cobertura_pct", "clases_faltantes_detalle", "registros_por_clase"];
+    } else if (tableName === "Clases faltantes por país") {
+      rows = tables.missing;
+      columns = ["pais", config.id, config.label];
+    } else if (tableName === "Presencia regional por clase") {
+      rows = [...tables.regional].sort((a, b) => a.paises_presentes - b.paises_presentes || Number(a[config.id]) - Number(b[config.id]));
+      columns = [config.id, config.label, "paises_presentes", "registros_regionales", "paises_faltantes"];
+    }
+  } else {
+    if (tableName === "Conteos por clase") {
+      rows = tables.complete
+        .filter(row => row.pais === controls.country.value)
+        .sort((a, b) => Number(a[config.id]) - Number(b[config.id]));
+      columns = [config.id, config.label, "n_registros", "presente"];
+    } else if (tableName === "Resumen de cobertura") {
+      rows = tables.coverage.filter(row => row.pais === controls.country.value);
+      columns = ["pais", "clases_esperadas", "clases_presentes", "registros", "clases_faltantes", "cobertura_pct", "clases_faltantes_detalle", "registros_por_clase"];
+    } else if (tableName === "Clases faltantes") {
+      rows = tables.missing.filter(row => row.pais === controls.country.value);
+      columns = [config.id, config.label];
+    }
+  }
+
+  tableHead.innerHTML = `<tr>${columns.map(column => `<th>${escapeHtml(column)}</th>`).join("")}</tr>`;
+  tableBody.innerHTML = rows.map(row =>
+    `<tr>${columns.map(column => `<td>${formatCell(row[column])}</td>`).join("")}</tr>`
+  ).join("");
+}
+
+function baseLayout() {
+  return {
+    margin: { l: 120, r: 35, t: 70, b: 85 },
+    paper_bgcolor: "#ffffff",
+    plot_bgcolor: "#ffffff",
+    font: { family: "Segoe UI, Roboto, Arial, sans-serif", color: "#1f2937" },
+    hoverlabel: { align: "left" }
+  };
+}
+
+function uniqueSorted(rows, key) {
+  return [...new Set(rows.map(row => row[key]))].sort((a, b) => Number(a) - Number(b));
+}
+
+function sum(rows, key) {
+  return rows.reduce((total, row) => total + Number(row[key] || 0), 0);
+}
+
+function formatInt(value) {
+  return Math.round(Number(value || 0)).toLocaleString("es-CR");
+}
+
+function formatCell(value) {
+  if (typeof value === "number") return value.toLocaleString("es-CR", { maximumFractionDigits: 3 });
+  if (typeof value === "boolean") return value ? "True" : "False";
+  return escapeHtml(String(value ?? "")).replace(/\n/g, "<br>");
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapePlot(value) {
+  return String(value ?? "").replace(/%/g, "%%");
+}
+
+for (const control of Object.values(controls)) {
+  control.addEventListener("change", renderDashboard);
+}
+
+loadData()
+  .then(() => {
+    updateOptions();
+    renderDashboard();
+  })
+  .catch(error => {
+    status.textContent = error.message;
+  });
+</script>
+</body>
+</html>

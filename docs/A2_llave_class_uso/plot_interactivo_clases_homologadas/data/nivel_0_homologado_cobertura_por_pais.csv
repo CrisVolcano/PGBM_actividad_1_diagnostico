@@ -1,0 +1,26 @@
+﻿pais,clases_esperadas,clases_presentes,registros,clases_faltantes,cobertura_pct,clases_faltantes_detalle,clases_presentes_detalle,registros_por_clase
+belice,2,2,33311,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 14,473
+2 – no bosques: 18,838"
+costa rica,2,2,133014,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 56,830
+2 – no bosques: 76,184"
+el salvador,2,2,571528,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 183,059
+2 – no bosques: 388,469"
+guatemala,2,2,209521,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 505
+2 – no bosques: 209,016"
+honduras,2,2,132384,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 14,985
+2 – no bosques: 117,399"
+multipais_o_inconsistente,2,2,749,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 325
+2 – no bosques: 424"
+méxico,2,2,2149,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 1,513
+2 – no bosques: 636"
+nicaragua,2,1,7,1,50.0,1 – bosques/tierras forestales,2 – no bosques,2 – no bosques: 7
+panamá,2,2,29187,0,100.0,Ninguna,"1 – bosques/tierras forestales
+2 – no bosques","1 – bosques/tierras forestales: 2,895
+2 – no bosques: 26,292"

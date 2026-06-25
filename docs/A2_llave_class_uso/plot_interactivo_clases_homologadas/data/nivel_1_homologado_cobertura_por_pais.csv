@@ -1,0 +1,147 @@
+﻿pais,clases_esperadas,clases_presentes,registros,clases_faltantes,cobertura_pct,clases_faltantes_detalle,clases_presentes_detalle,registros_por_clase
+belice,10,8,33311,2,80.0,"14 – bosques secos
+21 – cultivos arbóreos","11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+15 – plantaciones forestales
+22 – zonas agrícolas no arbóreas
+23 – construido
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 12,175
+12 – bosques de coníferas: 1,661
+13 – bosques de mangle: 627
+15 – plantaciones forestales: 10
+22 – zonas agrícolas no arbóreas: 17,214
+23 – construido: 296
+24 – cuerpos de agua: 235
+25 – otras tierras: 1,093"
+costa rica,10,7,133014,3,70.0,"12 – bosques de coníferas
+13 – bosques de mangle
+14 – bosques secos","11 – bosques latifoliados y mixtos
+15 – plantaciones forestales
+21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+23 – construido
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 55,933
+15 – plantaciones forestales: 897
+21 – cultivos arbóreos: 27,550
+22 – zonas agrícolas no arbóreas: 39,533
+23 – construido: 438
+24 – cuerpos de agua: 5
+25 – otras tierras: 8,658"
+el salvador,10,10,571528,0,100.0,Ninguna,"11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+14 – bosques secos
+15 – plantaciones forestales
+21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+23 – construido
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 164,907
+12 – bosques de coníferas: 6,014
+13 – bosques de mangle: 9,875
+14 – bosques secos: 14
+15 – plantaciones forestales: 2,249
+21 – cultivos arbóreos: 79,154
+22 – zonas agrícolas no arbóreas: 274,741
+23 – construido: 30,882
+24 – cuerpos de agua: 1,833
+25 – otras tierras: 1,859"
+guatemala,10,9,209521,1,90.0,14 – bosques secos,"11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+15 – plantaciones forestales
+21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+23 – construido
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 415
+12 – bosques de coníferas: 5
+13 – bosques de mangle: 84
+15 – plantaciones forestales: 1
+21 – cultivos arbóreos: 138,624
+22 – zonas agrícolas no arbóreas: 69,979
+23 – construido: 125
+24 – cuerpos de agua: 44
+25 – otras tierras: 244"
+honduras,10,10,132384,0,100.0,Ninguna,"11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+14 – bosques secos
+15 – plantaciones forestales
+21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+23 – construido
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 6,416
+12 – bosques de coníferas: 5,672
+13 – bosques de mangle: 1,208
+14 – bosques secos: 1,665
+15 – plantaciones forestales: 24
+21 – cultivos arbóreos: 99,826
+22 – zonas agrícolas no arbóreas: 16,368
+23 – construido: 370
+24 – cuerpos de agua: 267
+25 – otras tierras: 568"
+multipais_o_inconsistente,10,8,749,2,80.0,"15 – plantaciones forestales
+23 – construido","11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+14 – bosques secos
+21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 277
+12 – bosques de coníferas: 46
+13 – bosques de mangle: 1
+14 – bosques secos: 1
+21 – cultivos arbóreos: 83
+22 – zonas agrícolas no arbóreas: 306
+24 – cuerpos de agua: 26
+25 – otras tierras: 9"
+méxico,10,8,2149,2,80.0,"21 – cultivos arbóreos
+24 – cuerpos de agua","11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+14 – bosques secos
+15 – plantaciones forestales
+22 – zonas agrícolas no arbóreas
+23 – construido
+25 – otras tierras","11 – bosques latifoliados y mixtos: 1,337
+12 – bosques de coníferas: 44
+13 – bosques de mangle: 16
+14 – bosques secos: 112
+15 – plantaciones forestales: 4
+22 – zonas agrícolas no arbóreas: 595
+23 – construido: 5
+25 – otras tierras: 36"
+nicaragua,10,4,7,6,40.0,"11 – bosques latifoliados y mixtos
+12 – bosques de coníferas
+13 – bosques de mangle
+14 – bosques secos
+15 – plantaciones forestales
+23 – construido","21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+24 – cuerpos de agua
+25 – otras tierras","21 – cultivos arbóreos: 1
+22 – zonas agrícolas no arbóreas: 2
+24 – cuerpos de agua: 3
+25 – otras tierras: 1"
+panamá,10,8,29187,2,80.0,"12 – bosques de coníferas
+14 – bosques secos","11 – bosques latifoliados y mixtos
+13 – bosques de mangle
+15 – plantaciones forestales
+21 – cultivos arbóreos
+22 – zonas agrícolas no arbóreas
+23 – construido
+24 – cuerpos de agua
+25 – otras tierras","11 – bosques latifoliados y mixtos: 2,733
+13 – bosques de mangle: 109
+15 – plantaciones forestales: 53
+21 – cultivos arbóreos: 3,502
+22 – zonas agrícolas no arbóreas: 22,587
+23 – construido: 103
+24 – cuerpos de agua: 78
+25 – otras tierras: 22"
