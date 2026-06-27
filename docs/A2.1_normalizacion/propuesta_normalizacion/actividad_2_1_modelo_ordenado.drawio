@@ -837,7 +837,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="02_modelo_logico_relacional" name="02_modelo_logico_relacional">
-    <mxGraphModel dx="2143" dy="1031" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
+    <mxGraphModel dx="5383" dy="2403" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2600" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -845,7 +845,8 @@
           <mxGeometry relative="1" x="0.9291" as="geometry">
             <mxPoint y="1" as="offset" />
             <Array as="points">
-              <mxPoint x="6280" y="1780" />
+              <mxPoint x="5460" y="1780" />
+              <mxPoint x="5460" y="3368" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -861,7 +862,7 @@
           <mxGeometry height="80" width="480" x="1700" y="1300" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;align=left;spacing=8;fontSize=20;" value="PK natural: xy_group_id. Cada CSV repite xy_group_id como PK/FK para permitir joins temáticos con la capa espacial xy_point." vertex="1">
-          <mxGeometry height="78" width="780" x="1700" y="1450" as="geometry" />
+          <mxGeometry height="78" width="1570" x="2130" y="2942" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-5" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_point" vertex="1">
           <mxGeometry height="296.0000000000002" width="501" x="2250" y="1560" as="geometry" />
@@ -1011,7 +1012,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-38" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_core" vertex="1">
-          <mxGeometry height="314" width="501" x="1700" y="1920" as="geometry" />
+          <mxGeometry height="314" width="501" x="3820" y="2770" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-39" parent="qRtUM2QTETCNr6wnIPHE-38" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="60" width="501" y="30" as="geometry" />
@@ -1305,7 +1306,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-104" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_accion" vertex="1">
-          <mxGeometry height="230" width="501" x="6550" y="1920" as="geometry" />
+          <mxGeometry height="230" width="501" x="4450" y="2540" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-105" parent="qRtUM2QTETCNr6wnIPHE-104" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="60" width="501" y="30" as="geometry" />
@@ -1799,7 +1800,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-216" parent="1" style="shape=table;startSize=20;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_score" vertex="1">
-          <mxGeometry height="304" width="501" x="5480" y="1920" as="geometry" />
+          <mxGeometry height="304" width="501" x="4450" y="2196" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-217" parent="qRtUM2QTETCNr6wnIPHE-216" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="50" width="501" y="20" as="geometry" />
@@ -1964,7 +1965,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-285" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="xy_spectral" vertex="1">
-          <mxGeometry height="696" width="501" x="6030" y="1920" as="geometry" />
+          <mxGeometry height="696" width="501" x="4450" y="2840" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-286" parent="qRtUM2QTETCNr6wnIPHE-285" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;strokeColor=#788AA3;fontColor=#46495D;fontSize=15;" value="" vertex="1">
           <mxGeometry height="50" width="501" y="30" as="geometry" />
@@ -2383,7 +2384,8 @@
         <mxCell id="qRtUM2QTETCNr6wnIPHE-378" edge="1" parent="1" source="qRtUM2QTETCNr6wnIPHE-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;strokeColor=#788AA3;fontColor=#46495D;strokeWidth=3;fontSize=15;fontStyle=1;labelBackgroundColor=#ffffff;align=center;verticalAlign=middle;spacing=4;" target="qRtUM2QTETCNr6wnIPHE-38" value="1:1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="1951" y="1656" />
+              <mxPoint x="2080" y="1656" />
+              <mxPoint x="2080" y="2927" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -2391,7 +2393,8 @@
           <mxGeometry relative="1" x="0.9332" as="geometry">
             <mxPoint y="-1" as="offset" />
             <Array as="points">
-              <mxPoint x="6800" y="1780" />
+              <mxPoint x="5460" y="1780" />
+              <mxPoint x="5460" y="2815" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -2404,7 +2407,8 @@
           <mxGeometry relative="1" x="0.9102" as="geometry">
             <mxPoint x="1" as="offset" />
             <Array as="points">
-              <mxPoint x="5730" y="1780" />
+              <mxPoint x="5460" y="1780" />
+              <mxPoint x="5460" y="2437" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -2440,7 +2444,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-386" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#788AA3;strokeWidth=1.5;fontSize=20;fontColor=#46495D;align=left;verticalAlign=middle;spacing=6;" value="Cardinalidad de las tablas temáticas: 1:1 por xy_group_id. Las relaciones 1:n de esta sección corresponden a jerarquías y homologaciones de clases." vertex="1">
-          <mxGeometry height="170" width="1580" x="2760" y="1550" as="geometry" />
+          <mxGeometry height="170" width="1570" x="2130" y="2640" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-387" edge="1" parent="1" source="qRtUM2QTETCNr6wnIPHE-129" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#222222;strokeWidth=2;fontSize=12;fontStyle=1;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="qRtUM2QTETCNr6wnIPHE-140" value="1:n">
           <mxGeometry relative="1" as="geometry" />
@@ -2449,7 +2453,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-389" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#788AA3;strokeWidth=1.5;fontSize=18;fontColor=#46495D;align=left;verticalAlign=middle;spacing=6;" value="Campos fuente no exportados: nivel_0_dominante, nivel_1_dominante, nivel_2_dominante, valores_nivel_0, valores_nivel_1 y valores_nivel_2. Se usan para calcular id_0/id_1/id_2 en xy_point y para generar validacion_dominante_vs_valores." vertex="1">
-          <mxGeometry height="60" width="1580" x="2760" y="1468" as="geometry" />
+          <mxGeometry height="60" width="1570" x="2130" y="2840" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-390" edge="1" parent="1" source="qRtUM2QTETCNr6wnIPHE-392" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#788AA3;strokeWidth=2;align=center;verticalAlign=middle;spacing=4;fontFamily=Helvetica;fontSize=15;fontColor=#46495D;fontStyle=1;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="qRtUM2QTETCNr6wnIPHE-402" value="n:1">
           <mxGeometry relative="1" as="geometry" />
@@ -2711,7 +2715,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="qRtUM2QTETCNr6wnIPHE-449" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#788AA3;strokeWidth=1.5;fontSize=20;fontColor=#46495D;align=left;verticalAlign=middle;spacing=6;" value="Asignación final de nivel 1 propuesto: COALESCE(homologacion_nivel_2_excepcion_nivel_1_propuesta.id_1_propuesta, homologacion_nivel_1_origen_propuesta.id_1_propuesta). Cada tabla conserva una relación N:1." vertex="1">
-          <mxGeometry height="80" width="1580" x="2760" y="2470" as="geometry" />
+          <mxGeometry height="80" width="1580" x="2130" y="2520" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

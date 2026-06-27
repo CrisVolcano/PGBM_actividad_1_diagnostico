@@ -1,11 +1,11 @@
 <mxfile host="Electron" agent="ChatGPT">
   <diagram id="pgbm-a1-architecture" name="PGBM A1 - Arquitectura de datos">
-    <mxGraphModel dx="4647" dy="1111" grid="1" gridSize="12" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
+    <mxGraphModel dx="3000" dy="4744" grid="1" gridSize="12" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" parent="1" style="fontFamily=Inter,Helvetica,Arial;text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=30;fontStyle=1;fontColor=#1A202C;" value="Pipeline ejecutado como arquitectura de datos" vertex="1">
-          <mxGeometry height="42" width="2500" x="-140" as="geometry" />
+          <mxGeometry height="42" width="2807" x="48" y="-24" as="geometry" />
         </mxCell>
         <mxCell id="z0" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=8;strokeWidth=2;fillColor=#F8FAFC;strokeColor=#CBD5E0;fontSize=18;fontStyle=1;align=center;verticalAlign=top;spacingTop=14;shadow=0;" value="00 · Gobierno del dato / RAW" vertex="1">
           <mxGeometry height="980" width="360" x="40" y="110" as="geometry" />
@@ -154,11 +154,17 @@
         <mxCell id="dHLMcmHFWq1yaJxlajOs-2" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="dHLMcmHFWq1yaJxlajOs-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="YqCBeDSsvjiMqgvu8DlK-2" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="YqCBeDSsvjiMqgvu8DlK-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="model" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F7F7F7;strokeColor=#4A5568;fontColor=#1A202C;" value="&lt;b&gt;Modelo normalizado&lt;/b&gt;&lt;br&gt;xy_point + 7 tablas XY&lt;br&gt;catálogos de origen 3NF" vertex="1">
           <mxGeometry height="100" width="300" x="2185" y="578" as="geometry" />
         </mxCell>
         <mxCell id="outs" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#FFF4D6;strokeColor=#B7791F;fontColor=#3B2F0B;shape=cylinder3d;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;b&gt;outputs/&lt;/b&gt;&lt;br/&gt;reports · tables · figures" vertex="1">
           <mxGeometry height="85" width="300" x="2185" y="826" as="geometry" />
+        </mxCell>
+        <mxCell id="YqCBeDSsvjiMqgvu8DlK-3" edge="1" parent="1" source="rule_out" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="YqCBeDSsvjiMqgvu8DlK-1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="rule_out" parent="1" style="fontFamily=Inter,Helvetica,Arial;rhombus;whiteSpace=wrap;html=1;strokeWidth=2;fillColor=#FFF5F5;strokeColor=#E53E3E;fontColor=#4A0B0B;fontSize=13;align=center;verticalAlign=middle;spacing=8;" value="Salida clasificada según uso&lt;br/&gt;no solo según disponibilidad" vertex="1">
           <mxGeometry height="95" width="250" x="2210" y="960" as="geometry" />
@@ -404,8 +410,8 @@
             <mxPoint x="2500.028571428571" y="395.26" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="WwPJyLfur4pQA2ySt-Jr-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 25px;&quot;&gt;&lt;b&gt;Actividad 1&lt;/b&gt;&lt;/font&gt;" vertex="1">
-          <mxGeometry height="30" width="756" x="745" y="60" as="geometry" />
+        <mxCell id="WwPJyLfur4pQA2ySt-Jr-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 25px;&quot;&gt;&lt;b&gt;Actividad 1 y 2&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="756" x="1120" y="24" as="geometry" />
         </mxCell>
         <mxCell id="dHLMcmHFWq1yaJxlajOs-5" edge="1" parent="1" source="dHLMcmHFWq1yaJxlajOs-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="dHLMcmHFWq1yaJxlajOs-3">
           <mxGeometry relative="1" as="geometry" />
@@ -424,6 +430,9 @@
         </mxCell>
         <mxCell id="dHLMcmHFWq1yaJxlajOs-7" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=15;align=center;verticalAlign=middle;spacing=8;shadow=0;fillColor=#F7F7F7;strokeColor=#4A5568;fontColor=#1A202C;" value="&lt;b&gt;&lt;i&gt;Esta sección implica que tenemos una propuesta de homologación basada en conversaciones con especialistas de las universidades que forman parte del proyecto&lt;/i&gt;&lt;/b&gt;" vertex="1">
           <mxGeometry height="100" width="300" x="2544" y="467" as="geometry" />
+        </mxCell>
+        <mxCell id="YqCBeDSsvjiMqgvu8DlK-1" parent="1" style="fontFamily=Inter,Helvetica,Arial;rounded=1;whiteSpace=wrap;html=1;arcSize=10;strokeWidth=2;fontSize=13;align=center;verticalAlign=middle;spacing=7;shadow=0;fillColor=#E6FFFA;strokeColor=#0987A0;fontColor=#073B4C;" value="&lt;b&gt;Evaluación de vacios de clase&lt;/b&gt;" vertex="1">
+          <mxGeometry height="118" width="300" x="2544" y="937" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
