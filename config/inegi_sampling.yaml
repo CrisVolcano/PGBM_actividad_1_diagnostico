@@ -1,6 +1,6 @@
 project:
   name: inegi_serie_vii_sampling
-  description: "Extracción simple de puntos desde el continuo nacional de Uso del Suelo y Vegetación Serie VII."
+  description: "Extracción simple de puntos desde una fuente temática vectorial o raster. Caso base: INEGI Uso del Suelo y Vegetación Serie VII."
   source_name: "INEGI_USV_SERIE_VII_CONTINUO_NACIONAL"
   base_year: 2018
 
@@ -13,17 +13,36 @@ inputs:
       state_name: "ENTIDAD"
       geographic_feature: "RASGO_GEOG"
 
-  # Única capa temática del pipeline.
-  land_cover:
-    # Ajusta solo esta ruta si el continuo nacional está en otra carpeta.
-    path: "data/raw/INEGI_otros/conjunto_de_datos/cdv_usuev250sVII_cnal.shp"
-    layer: null
-    fields:
-      # Puede dejarse null si el archivo solo trae CLAVE y DESCRIPCIO.
-      # El pipeline generará source_objectid y source_uid.
-      object_id: null
-      key: "CLAVE"
-      description: "DESCRIPCIO"
+  # Fuente temática principal.
+  # Cambia source_type a "raster" cuando la fuente sea un mapa raster de clases.
+  thematic_source:
+    source_type: "vector"   # vector | raster
+
+    vector:
+      path: "data/raw/INEGI_otros/conjunto_de_datos/cdv_usuev250sVII_cnal.shp"
+      layer: null
+      fields:
+        # Puede dejarse null si el archivo no trae un ID estable.
+        # El pipeline generará source_objectid y source_uid.
+        object_id: null
+
+        # Campos temáticos de la fuente vectorial.
+        # En INEGI equivalen a CLAVE y DESCRIPCIO.
+        class_id: "CLAVE"
+        class_label: "DESCRIPCIO"
+
+    raster:
+      # Estos campos quedan como plantilla para usar source_type: "raster".
+      path: null
+      band: 1
+      nodata: null
+
+      # Tabla opcional para traducir valores raster a nombres de clase.
+      # Puede ser CSV o Excel.
+      class_table: null
+      fields:
+        class_id: "value"
+        class_label: "label"
 
 aoi:
   state_codes:
@@ -51,8 +70,36 @@ geometry:
   minimum_area_ha: 0.0
 
 sampling:
-  # Un punto interior por fragmento después de intersectar con el estado.
+  # Vector: un punto interior por fragmento después de intersectar con el estado.
   representative_point_method: "point_on_surface"
+
+  # Raster: malla simple para extraer valores de clase.
+  # Solo se usa cuando thematic_source.source_type = "raster".
+  raster_sampling:
+    candidate_spacing_m: 500
+
+  # Regla simple para evitar que una clase desaparezca del muestreo.
+  class_representation:
+    enabled: true
+
+    # En INEGI se recomienda stratum_id porque combina class_id + class_label.
+    # Para otras fuentes puede usarse "class_id" si los códigos son suficientes.
+    class_field: "stratum_id"
+
+    # Si una clase tiene candidatos disponibles, intenta conservar al menos N.
+    minimum_points_per_class: 1
+
+    # Clases prioritarias opcionales.
+    # Se pueden llenar después de revisar catalogo_clases.csv.
+    priority_classes:
+      enabled: true
+      field: "stratum_id"
+      values: []
+      minimum_points_per_class: 3
+
+    # Mantener puntos protegidos aunque queden más cerca que la distancia mínima.
+    # Esto protege clases raras; queda auditado en seleccion_auditoria.
+    keep_protected_points_even_if_close: true
 
   # Separación mínima global entre puntos, en metros.
   thinning_distances_m:
@@ -75,7 +122,7 @@ outputs:
   layers:
     aoi_states: "aoi_estados"
     aoi_union: "aoi_union"
-    land_cover_clipped: "serie_vii_recortada"
+    land_cover_clipped: "fuente_vectorial_recortada"
     candidate_points: "puntos_candidatos"
     thinned_prefix: "puntos_d"
 
@@ -86,6 +133,7 @@ outputs:
     domain_summary: "resumen_dominios"
     class_summary: "resumen_clases"
     polygon_summary: "resumen_poligonos"
+    class_representation_summary: "resumen_representacion_clases"
     selection_audit: "seleccion_auditoria"
     run_metadata: "run_metadata"
 
