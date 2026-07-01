@@ -1,0 +1,16 @@
+﻿key,value
+project_name,PGBM - muestreo SINAC de bosque deciduo
+source_name,SINAC - Consenso bosque deciduo 2021-2023
+base_year,2021-2023
+run_utc,2026-06-29T23:44:23.619929+00:00
+config_path,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/config/bosque_deciduo_sampling.yaml
+source_path,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg
+source_layer,deciduo_consenso_2021_2023
+source_features,80407
+source_crs,EPSG:8908
+processing_crs,EPSG:8908
+output_crs,EPSG:4326
+target_class_field,clase_objetivo
+target_class_value,bosque deciduo
+thinning_distances_m,"500,1000,2000,5000"
+configuration_json,"{""project"": {""name"": ""PGBM - muestreo SINAC de bosque deciduo"", ""source_name"": ""SINAC - Consenso bosque deciduo 2021-2023"", ""base_year"": ""2021-2023""}, ""inputs"": {""source"": {""path"": ""data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg"", ""layer"": ""deciduo_consenso_2021_2023"", ""fields"": {""class_field"": ""clase_objetivo"", ""source_id_field"": ""consenso_id"", ""area_field"": ""area_consenso_ha""}, ""keep_fields"": [""consenso_id"", ""clase_objetivo"", ""criterio_consenso"", ""fuente_2021"", ""campo_2021"", ""valores_2021"", ""fid_2021"", ""id_original_2021"", ""clase_2021"", ""area_deciduo_2021_ha"", ""fuente_2023"", ""campo_2023"", ""valor_2023"", ""fid_2023"", ""dn_2023"", ""area_attr_2023"", ""area_deciduo_2023_ha"", ""area_consenso_ha""]}}, ""crs"": {""processing_crs"": ""EPSG:8908"", ""output_crs"": ""EPSG:4326""}, ""geometry"": {""repair_invalid"": true, ""minimum_area_ha"": 0.01}, ""sampling"": {""target_class_value"": ""bosque deciduo"", ""representative_point_method"": ""point_on_surface"", ""thinning_distances_m"": [500, 1000, 2000, 5000], ""selection_order"": [""area_desc"", ""source_id_asc""]}, ""outputs"": {""geodata_dir"": ""outputs/geodata"", ""tables_dir"": ""outputs/tables"", ""reports_dir"": ""outputs/reports"", ""logs_dir"": ""logs"", ""gpkg_name"": ""bosque_deciduo_sampling_sinac.gpkg"", ""log_name"": ""bosque_deciduo_sampling_sinac.log"", ""report_name"": ""bosque_deciduo_sampling_sinac_reporte.md"", ""point_id_prefix"": ""SINAC_BD"", ""export_csv"": true, ""layers"": {""processed_polygons"": ""bosque_deciduo_sinac_poligonos_procesados"", ""candidate_points"": ""bosque_deciduo_sinac_puntos_candidatos"", ""selected_prefix"": ""bosque_deciduo_sinac_puntos_d"", ""class_distribution"": ""bosque_deciduo_sinac_distribucion_clases"", ""area_filter_summary"": ""bosque_deciduo_sinac_resumen_filtro_area"", ""processed_polygon_summary"": ""bosque_deciduo_sinac_resumen_poligonos"", ""scenario_summary"": ""bosque_deciduo_sinac_resumen_escenarios"", ""selection_audit"": ""bosque_deciduo_sinac_auditoria_seleccion"", ""candidate_selection_matrix"": ""bosque_deciduo_sinac_matriz_candidatos"", ""run_metadata"": ""bosque_deciduo_sinac_run_metadata""}}}"

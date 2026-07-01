@@ -1,0 +1,7 @@
+geopandas
+pyogrio
+pandas
+numpy
+PyYAML
+pyproj
+scipy
