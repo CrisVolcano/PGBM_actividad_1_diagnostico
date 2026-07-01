@@ -2,11 +2,11 @@
 project_name,PGBM - muestreo SINAC de bosque deciduo
 source_name,SINAC - Consenso bosque deciduo 2021-2023
 base_year,2021-2023
-run_utc,2026-06-29T23:44:23.619929+00:00
+run_utc,2026-07-01T21:13:58.327365+00:00
 config_path,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/config/bosque_deciduo_sampling.yaml
 source_path,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg
 source_layer,deciduo_consenso_2021_2023
-source_features,80407
+source_features,7652
 source_crs,EPSG:8908
 processing_crs,EPSG:8908
 output_crs,EPSG:4326

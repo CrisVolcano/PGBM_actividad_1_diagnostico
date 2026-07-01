@@ -1,43 +1,44 @@
-2026-06-29 17:44:08 | INFO | Inspección inicial: {"path": "/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg", "layer": "deciduo_consenso_2021_2023", "driver": "GPKG", "features": 80407, "geometry_type": "MultiPolygon", "crs": "EPSG:8908", "crs_name": "CR-SIRGAS epoch 2014.59 / CRTM05", "is_projected": true, "fields": ["consenso_id", "clase_objetivo", "criterio_consenso", "fuente_2021", "campo_2021", "valores_2021", "fid_2021", "id_original_2021", "clase_2021", "area_deciduo_2021_ha", "fuente_2023", "campo_2023", "valor_2023", "fid_2023", "dn_2023", "area_attr_2023", "area_deciduo_2023_ha", "area_consenso_ha"], "dtypes": ["int64", "object", "object", "object", "object", "object", "int64", "int64", "object", "float64", "object", "object", "int64", "int64", "int64", "float64", "float64", "float64"], "fid_column": "fid", "total_bounds": [287109.90983764, 1057323.9508, 423443.261740218, 1238543.9508]}
-2026-06-29 17:44:08 | INFO | Leyendo fuente: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg | layer=deciduo_consenso_2021_2023
-2026-06-29 17:44:08 | INFO | Columnas solicitadas: ['clase_objetivo', 'consenso_id', 'criterio_consenso', 'fuente_2021', 'campo_2021', 'valores_2021', 'fid_2021', 'id_original_2021', 'clase_2021', 'area_deciduo_2021_ha', 'fuente_2023', 'campo_2023', 'valor_2023', 'fid_2023', 'dn_2023', 'area_attr_2023', 'area_deciduo_2023_ha', 'area_consenso_ha']
-2026-06-29 17:44:10 | INFO | Fuente leída | objetos=80,407 | CRS=EPSG:8908
-2026-06-29 17:44:10 | INFO | Filtro temático | campo=clase_objetivo | valor objetivo=bosque deciduo | seleccionados=80,407/80,407
-2026-06-29 17:44:17 | INFO | polígonos de bosque deciduo ya está en EPSG:8908
-2026-06-29 17:44:18 | INFO | Filtro por área mínima 0.010000 ha | descartados=8,541 | remanentes=71,866
-2026-06-29 17:44:18 | INFO | Generando un punto interior por polígono procesado
-2026-06-29 17:44:18 | INFO | Puntos candidatos generados: 71,866
-2026-06-29 17:44:18 | INFO | Aplicando escenario de separación mínima: 500 m
-2026-06-29 17:44:19 | INFO | Escenario 500 m | seleccionados=10,470 | rechazados=61,396
-2026-06-29 17:44:19 | INFO | Aplicando escenario de separación mínima: 1,000 m
-2026-06-29 17:44:21 | INFO | Escenario 1,000 m | seleccionados=3,921 | rechazados=67,945
-2026-06-29 17:44:21 | INFO | Aplicando escenario de separación mínima: 2,000 m
-2026-06-29 17:44:22 | INFO | Escenario 2,000 m | seleccionados=1,290 | rechazados=70,576
-2026-06-29 17:44:22 | INFO | Aplicando escenario de separación mínima: 5,000 m
-2026-06-29 17:44:23 | INFO | Escenario 5,000 m | seleccionados=257 | rechazados=71,609
-2026-06-29 17:44:24 | INFO | Exportando capa: bosque_deciduo_sinac_poligonos_procesados | objetos=71,866
-2026-06-29 17:44:27 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_candidatos | objetos=71,866
-2026-06-29 17:44:32 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d0500 | objetos=10,470
-2026-06-29 17:44:33 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d1000 | objetos=3,921
-2026-06-29 17:44:34 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d2000 | objetos=1,290
-2026-06-29 17:44:35 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d5000 | objetos=257
-2026-06-29 17:44:36 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_distribucion_clases | filas=1
-2026-06-29 17:44:36 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_resumen_filtro_area | filas=1
-2026-06-29 17:44:37 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_resumen_poligonos | filas=1
-2026-06-29 17:44:37 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_resumen_escenarios | filas=4
-2026-06-29 17:44:38 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_auditoria_seleccion | filas=287,464
-2026-06-29 17:44:41 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_matriz_candidatos | filas=71,866
-2026-06-29 17:44:42 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_run_metadata | filas=15
-2026-06-29 17:44:42 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_distribucion_clases.csv
-2026-06-29 17:44:42 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_resumen_filtro_area.csv
-2026-06-29 17:44:42 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_resumen_poligonos.csv
-2026-06-29 17:44:42 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_resumen_escenarios.csv
-2026-06-29 17:44:42 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_auditoria_seleccion.csv
-2026-06-29 17:44:44 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_matriz_candidatos.csv
-2026-06-29 17:44:44 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_run_metadata.csv
-2026-06-29 17:44:44 | INFO | Reporte Markdown exportado: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/reports/bosque_deciduo_sampling_sinac_reporte.md
-2026-06-29 17:44:44 | INFO | Proceso finalizado correctamente.
-2026-06-29 17:44:44 | INFO | GeoPackage: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/geodata/bosque_deciduo_sampling_sinac.gpkg
-2026-06-29 17:44:44 | INFO | Tablas CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables
-2026-06-29 17:44:44 | INFO | Reporte: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/reports/bosque_deciduo_sampling_sinac_reporte.md
-2026-06-29 17:44:44 | INFO | Log: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/logs/bosque_deciduo_sampling_sinac.log
+2026-07-01 15:13:50 | INFO | Eliminando GeoPackage previo: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/geodata/bosque_deciduo_sampling_sinac.gpkg
+2026-07-01 15:13:50 | INFO | Inspección inicial: {"path": "/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg", "layer": "deciduo_consenso_2021_2023", "driver": "GPKG", "features": 7652, "geometry_type": "MultiPolygon", "crs": "EPSG:8908", "crs_name": "CR-SIRGAS epoch 2014.59 / CRTM05", "is_projected": true, "fields": ["consenso_id", "clase_objetivo", "criterio_consenso", "fuente_2021", "campo_2021", "valores_2021", "fid_2021", "id_original_2021", "clase_2021", "area_deciduo_2021_ha", "fuente_2023", "campo_2023", "valor_2023", "fid_2023", "dn_2023", "area_attr_2023", "area_deciduo_2023_ha", "area_consenso_ha"], "dtypes": ["int64", "object", "object", "object", "object", "object", "int64", "int64", "object", "float64", "object", "object", "int64", "int64", "int64", "float64", "float64", "float64"], "fid_column": "fid", "total_bounds": [287109.90983764, 1058443.9508, 413466.4817, 1235108.38023311]}
+2026-07-01 15:13:50 | INFO | Leyendo fuente: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Costa Rica/Datos_SINAC/consenso_bosque_deciduo_2021_2023.gpkg | layer=deciduo_consenso_2021_2023
+2026-07-01 15:13:50 | INFO | Columnas solicitadas: ['clase_objetivo', 'consenso_id', 'criterio_consenso', 'fuente_2021', 'campo_2021', 'valores_2021', 'fid_2021', 'id_original_2021', 'clase_2021', 'area_deciduo_2021_ha', 'fuente_2023', 'campo_2023', 'valor_2023', 'fid_2023', 'dn_2023', 'area_attr_2023', 'area_deciduo_2023_ha', 'area_consenso_ha']
+2026-07-01 15:13:50 | INFO | Fuente leída | objetos=7,652 | CRS=EPSG:8908
+2026-07-01 15:13:50 | INFO | Filtro temático | campo=clase_objetivo | valor objetivo=bosque deciduo | seleccionados=7,652/7,652
+2026-07-01 15:13:57 | INFO | polígonos de bosque deciduo ya está en EPSG:8908
+2026-07-01 15:13:57 | INFO | Filtro por área mínima 0.010000 ha | descartados=0 | remanentes=7,652
+2026-07-01 15:13:57 | INFO | Generando un punto interior por polígono procesado
+2026-07-01 15:13:57 | INFO | Puntos candidatos generados: 7,652
+2026-07-01 15:13:57 | INFO | Aplicando escenario de separación mínima: 500 m
+2026-07-01 15:13:57 | INFO | Escenario 500 m | seleccionados=4,769 | rechazados=2,883
+2026-07-01 15:13:57 | INFO | Aplicando escenario de separación mínima: 1,000 m
+2026-07-01 15:13:58 | INFO | Escenario 1,000 m | seleccionados=2,464 | rechazados=5,188
+2026-07-01 15:13:58 | INFO | Aplicando escenario de separación mínima: 2,000 m
+2026-07-01 15:13:58 | INFO | Escenario 2,000 m | seleccionados=989 | rechazados=6,663
+2026-07-01 15:13:58 | INFO | Aplicando escenario de separación mínima: 5,000 m
+2026-07-01 15:13:58 | INFO | Escenario 5,000 m | seleccionados=224 | rechazados=7,428
+2026-07-01 15:13:59 | INFO | Exportando capa: bosque_deciduo_sinac_poligonos_procesados | objetos=7,652
+2026-07-01 15:14:00 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_candidatos | objetos=7,652
+2026-07-01 15:14:01 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d0500 | objetos=4,769
+2026-07-01 15:14:02 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d1000 | objetos=2,464
+2026-07-01 15:14:03 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d2000 | objetos=989
+2026-07-01 15:14:04 | INFO | Exportando capa: bosque_deciduo_sinac_puntos_d5000 | objetos=224
+2026-07-01 15:14:05 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_distribucion_clases | filas=1
+2026-07-01 15:14:05 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_resumen_filtro_area | filas=1
+2026-07-01 15:14:06 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_resumen_poligonos | filas=1
+2026-07-01 15:14:06 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_resumen_escenarios | filas=4
+2026-07-01 15:14:06 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_auditoria_seleccion | filas=30,608
+2026-07-01 15:14:07 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_matriz_candidatos | filas=7,652
+2026-07-01 15:14:08 | INFO | Exportando tabla GeoPackage: bosque_deciduo_sinac_run_metadata | filas=15
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_distribucion_clases.csv
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_resumen_filtro_area.csv
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_resumen_poligonos.csv
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_resumen_escenarios.csv
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_auditoria_seleccion.csv
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_matriz_candidatos.csv
+2026-07-01 15:14:08 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/bosque_deciduo_sinac_run_metadata.csv
+2026-07-01 15:14:08 | INFO | Reporte Markdown exportado: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/reports/bosque_deciduo_sampling_sinac_reporte.md
+2026-07-01 15:14:08 | INFO | Proceso finalizado correctamente.
+2026-07-01 15:14:08 | INFO | GeoPackage: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/geodata/bosque_deciduo_sampling_sinac.gpkg
+2026-07-01 15:14:08 | INFO | Tablas CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables
+2026-07-01 15:14:08 | INFO | Reporte: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/reports/bosque_deciduo_sampling_sinac_reporte.md
+2026-07-01 15:14:08 | INFO | Log: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/logs/bosque_deciduo_sampling_sinac.log

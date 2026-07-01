@@ -5,7 +5,7 @@
 - Proyecto: PGBM - muestreo SINAC de bosque deciduo
 - Fuente: SINAC - Consenso bosque deciduo 2021-2023
 - Año base: 2021-2023
-- Fecha de ejecución UTC: 2026-06-29T23:44:23.619929+00:00
+- Fecha de ejecución UTC: 2026-07-01T21:13:58.327365+00:00
 - Capa de entrada: `deciduo_consenso_2021_2023`
 - CRS de entrada: `EPSG:8908` (CR-SIRGAS epoch 2014.59 / CRTM05)
 - CRS de procesamiento: `EPSG:8908`
@@ -13,10 +13,10 @@
 
 ## Inspección de entrada
 
-- Objetos reportados por la capa: 80,407
+- Objetos reportados por la capa: 7,652
 - Tipo geométrico reportado: MultiPolygon
 - Campos disponibles: consenso_id, clase_objetivo, criterio_consenso, fuente_2021, campo_2021, valores_2021, fid_2021, id_original_2021, clase_2021, area_deciduo_2021_ha, fuente_2023, campo_2023, valor_2023, fid_2023, dn_2023, area_attr_2023, area_deciduo_2023_ha, area_consenso_ha
-- Bounds de entrada: [287109.90983764, 1057323.9508, 423443.261740218, 1238543.9508]
+- Bounds de entrada: [287109.90983764, 1058443.9508, 413466.4817, 1235108.38023311]
 
 ## Filtro temático
 
@@ -25,35 +25,35 @@ Valor objetivo: `bosque deciduo`
 
 | class_value    |   n_features |   selected_as_target |
 |:---------------|-------------:|---------------------:|
-| Bosque deciduo |        80407 |                    1 |
+| Bosque deciduo |         7652 |                    1 |
 
 ## Control geométrico
 
-- Geometrías de entrada al control: 80,407
+- Geometrías de entrada al control: 7,652
 - Geometrías nulas/vacías descartadas antes de reparar: 0
 - Geometrías inválidas detectadas antes de reparar: 0
 - Geometrías nulas/vacías descartadas después de reparar: 0
 - Geometrías inválidas no resueltas descartadas: 0
 - Geometrías no poligonales descartadas: 0
-- Geometrías válidas después del control: 80,407
+- Geometrías válidas después del control: 7,652
 
 ## Resumen de polígonos procesados
 
-- Polígonos procesados: 71,866
-- Área total procesada: 125,586.72 ha
-- Área media: 1.7475 ha
-- Área mediana: 0.0676 ha
-- Área mínima: 0.01000000 ha
+- Polígonos procesados: 7,652
+- Área total procesada: 116,378.75 ha
+- Área media: 15.2089 ha
+- Área mediana: 2.2382 ha
+- Área mínima: 1.00090652 ha
 - Área máxima: 6,808.55 ha
 
 ## Escenarios de separación mínima
 
 |   distance_m |   n_candidates |   n_selected |   n_rejected |   pct_selected |   total_source_area_ha_selected |   mean_nearest_neighbor_m |   min_nearest_neighbor_m |
 |-------------:|---------------:|-------------:|-------------:|---------------:|--------------------------------:|--------------------------:|-------------------------:|
-|          500 |          71866 |        10470 |        61396 |       14.5688  |                        112198   |                   615.423 |                   500    |
-|         1000 |          71866 |         3921 |        67945 |        5.45599 |                        101343   |                  1156.55  |                  1000    |
-|         2000 |          71866 |         1290 |        70576 |        1.79501 |                         87202.8 |                  2242.07  |                  2000.08 |
-|         5000 |          71866 |          257 |        71609 |        0.35761 |                         61691.1 |                  5490.48  |                  5016.07 |
+|          500 |           7652 |         4769 |         2883 |       62.3236  |                        110283   |                   744.961 |                   500.1  |
+|         1000 |           7652 |         2464 |         5188 |       32.2007  |                        100783   |                  1268.12  |                  1000.04 |
+|         2000 |           7652 |          989 |         6663 |       12.9247  |                         87091.4 |                  2349.17  |                  2000.08 |
+|         5000 |           7652 |          224 |         7428 |        2.92734 |                         61673.1 |                  5581.11  |                  5018.56 |
 
 ## Criterio metodológico
 

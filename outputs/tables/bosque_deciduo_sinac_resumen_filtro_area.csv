@@ -1,2 +1,2 @@
 ﻿n_input_target_polygons,n_processed_polygons,n_dropped_by_minimum_area,minimum_area_ha,total_area_ha,mean_area_ha,median_area_ha,min_area_ha,max_area_ha,source_id_origin
-80407,71866,8541,0.01,125586.71796071084,1.7475122862092065,0.06756896144184103,0.01,6808.553856754524,campo:consenso_id
+7652,7652,0,0.01,116378.75429559832,15.208932866649024,2.2382269566404265,1.0009065165467073,6808.553856754524,campo:consenso_id
