@@ -33,6 +33,7 @@ dependencies:
   - papermill
   - pyyaml
   - python-dotenv
+  - boto3
   - tqdm
   - loguru
   - black

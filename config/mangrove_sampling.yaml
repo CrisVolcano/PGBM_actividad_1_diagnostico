@@ -1,0 +1,111 @@
+project:
+  name: mangrove_consensus_2020_sampling
+  description: "Extracción de puntos candidatos desde fuente auxiliar de manglar de alta confianza basada en GMW 2020 ∩ ESA WorldCover 2020."
+  source_name: "GMW2020_ESAWorldCover2020_MANGROVE_CONSENSUS_MIN05HA"
+  source_prefix: "MANGROVE"
+  base_year: 2020
+
+inputs:
+  aoi:
+    path: "data/raw/paises_region_estudio/paises_region_estudio.gpkg"
+    layer: null
+
+    # Pueden dejarse null si el AOI no tiene campos estándar.
+    # En ese caso el script genera aoi_unit_id y aoi_unit_name automáticamente.
+    fields:
+      unit_id: null
+      unit_name: null
+
+  mangrove_source:
+    path: "data/processed/mangrove_consensus_2020/vector/mangrove_consensus_gmw2020_esa2020_min05ha.gpkg"
+    layer: "mangrove_consensus_min05ha"
+
+    fields:
+      object_id: "patch_id"
+      class_id: "class_id"
+      class_label: "class_name"
+      confidence: "confidence"
+      source_area_ha: "area_ha"
+
+      extra_fields:
+        - "source"
+        - "rule"
+        - "min_patch_ha"
+
+aoi:
+  # Si quieres usar todo el AOI regional, dejar enabled: false.
+  filter:
+    enabled: false
+    field: null
+    values: []
+
+  exclude:
+    enabled: false
+    field: null
+    values: []
+
+crs:
+  # CRS métrico para distancias y áreas.
+  # Para esta región funciona como CRS operativo simple.
+  processing_crs: "EPSG:3857"
+
+  # CRS final de exportación.
+  output_crs: "EPSG:4326"
+
+geometry:
+  repair_invalid: true
+
+  # Ya eliminamos parches menores a 0.5 ha en la fuente.
+  # Aquí se puede dejar 0 para no eliminar fragmentos adicionales después del clip.
+  minimum_fragment_area_ha: 0.0
+
+sampling:
+  representative_point_method: "point_on_surface"
+
+  class_representation:
+    enabled: true
+    class_field: "stratum_id"
+    minimum_points_per_class: 1
+
+    priority_classes:
+      enabled: false
+      field: "stratum_id"
+      values: []
+      minimum_points_per_class: 3
+
+    keep_protected_points_even_if_close: true
+
+  thinning_distances_m:
+    - 250
+    - 500
+    - 1000
+    - 2000
+    - 3000
+    - 5000
+
+  selection_order:
+    - "area_desc"
+    - "objectid_asc"
+
+outputs:
+  root: "data/processed/mangrove_consensus_2020/sampling"
+  gpkg_name: "mangrove_consensus_sampling_2020.gpkg"
+  log_name: "mangrove_consensus_sampling_2020.log"
+  export_csv: true
+
+  layers:
+    aoi_units: "aoi_units"
+    aoi_union: "aoi_union"
+    source_clipped: "mangrove_source_clipped"
+    candidate_points: "mangrove_candidate_points"
+    thinned_prefix: "mangrove_points_d"
+
+    field_audit: "field_audit"
+    class_catalog: "class_catalog"
+    distance_summary: "distance_summary"
+    aoi_summary: "aoi_summary"
+    class_summary: "class_summary"
+    source_patch_summary: "source_patch_summary"
+    class_representation_summary: "class_representation_summary"
+    selection_audit: "selection_audit"
+    run_metadata: "run_metadata"
