@@ -57,10 +57,10 @@ sampling:
     - "source_id_asc"
 
 outputs:
-  geodata_dir: "outputs/geodata"
-  tables_dir: "outputs/tables"
-  reports_dir: "outputs/reports"
-  logs_dir: "logs"
+  geodata_dir: "data/processed/samplign_deciduo_CR/gpkg"
+  tables_dir: "data/processed/samplign_deciduo_CR/tables"
+  reports_dir: "data/processed/samplign_deciduo_CR/reports"
+  logs_dir: "data/processed/samplign_deciduo_CR/logs"
   gpkg_name: "bosque_deciduo_sampling_sinac.gpkg"
   log_name: "bosque_deciduo_sampling_sinac.log"
   report_name: "bosque_deciduo_sampling_sinac_reporte.md"
