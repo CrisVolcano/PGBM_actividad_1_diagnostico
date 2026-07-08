@@ -8,11 +8,12 @@ Default execution from the repository root:
 
 The extraction:
 1. Reads A2.1 xy_point from the model GeoPackage.
-2. Reads xy_homologacion_final and xy_score from the same GeoPackage.
+2. Reads xy_homologacion_final, xy_score and xy_accion from the same GeoPackage.
 3. Spatially assigns points to pilot quadrants.
 4. Adds id_zona and id_cuadrante to each extracted point.
-5. Adds id_1_propuesta, nivel_1_propuesta and score_confiabilidad.
-6. Exports a combined point layer, optional per-quadrant layers, and summary tables.
+5. Adds id_1_propuesta, nivel_1_propuesta, score_aptitud_total and uso.
+6. Keeps only training and validation points.
+7. Exports a combined point layer, optional per-quadrant layers, and summary tables.
 """
 
 from __future__ import annotations
@@ -73,6 +74,7 @@ DEFAULT_LOG_PATH = DEFAULT_OUTPUT_ROOT / "logs" / "extract_pilot_quadrant_points
 POINTS_LAYER = "xy_point"
 HOMOLOGATION_TABLE = "xy_homologacion_final"
 SCORE_TABLE = "xy_score"
+ACTION_TABLE = "xy_accion"
 QUADRANTS_LAYER = "zonas_cuadrantes"
 OUTPUT_POINTS_LAYER = "pilot_quadrant_points"
 OUTPUT_SUMMARY_TABLE = "pilot_quadrant_summary"
@@ -81,7 +83,9 @@ OUTPUT_METADATA_TABLE = "pilot_quadrant_extraction_metadata"
 KEY_FIELD = "xy_group_id"
 QUADRANT_FIELDS = ["id_zona", "id_cuadrante"]
 HOMOLOGATION_FIELDS = [KEY_FIELD, "id_1_propuesta", "nivel_1_propuesta"]
-SCORE_FIELDS = [KEY_FIELD, "score_confiabilidad"]
+SCORE_FIELDS = [KEY_FIELD, "score_aptitud_total"]
+ACTION_FIELDS = [KEY_FIELD, "categoria_aptitud_preliminar", "categoria_uso_actividad_1_8"]
+EXPORT_USES = ["entrenamiento", "validación"]
 
 LOGGER = logging.getLogger("pilot_quadrant_extraction")
 
@@ -241,24 +245,42 @@ def enrich_points(
     points: gpd.GeoDataFrame,
     homologation: pd.DataFrame,
     scores: pd.DataFrame,
+    actions: pd.DataFrame,
 ) -> gpd.GeoDataFrame:
     validate_unique_key(points, KEY_FIELD, POINTS_LAYER)
     validate_unique_key(homologation, KEY_FIELD, HOMOLOGATION_TABLE)
     validate_unique_key(scores, KEY_FIELD, SCORE_TABLE)
+    validate_unique_key(actions, KEY_FIELD, ACTION_TABLE)
 
     LOGGER.info("Uniendo homologación final.")
     enriched = points.merge(homologation, on=KEY_FIELD, how="left", validate="one_to_one")
 
-    LOGGER.info("Uniendo score de confiabilidad.")
+    LOGGER.info("Uniendo score de aptitud total.")
     enriched = enriched.merge(scores, on=KEY_FIELD, how="left", validate="one_to_one")
 
+    LOGGER.info("Uniendo categoría funcional de uso.")
+    enriched = enriched.merge(actions, on=KEY_FIELD, how="left", validate="one_to_one")
+
     missing_homologation = enriched["id_1_propuesta"].isna().sum()
-    missing_score = enriched["score_confiabilidad"].isna().sum()
+    missing_score = enriched["score_aptitud_total"].isna().sum()
+    missing_usage = enriched["categoria_uso_actividad_1_8"].isna().sum()
 
     if missing_homologation:
         raise ValueError(f"Puntos sin homologación final: {missing_homologation:,}")
     if missing_score:
-        raise ValueError(f"Puntos sin score_confiabilidad: {missing_score:,}")
+        raise ValueError(f"Puntos sin score_aptitud_total: {missing_score:,}")
+    if missing_usage:
+        raise ValueError(f"Puntos sin categoría de uso en {ACTION_TABLE}: {missing_usage:,}")
+
+    enriched["uso"] = enriched["categoria_uso_actividad_1_8"].astype("string")
+    exported = enriched[enriched["uso"].isin(EXPORT_USES)].copy()
+    excluded = len(enriched) - len(exported)
+    LOGGER.info(
+        "Filtrando por uso exportable: %s | exportados=%s | excluidos=%s",
+        ", ".join(EXPORT_USES),
+        f"{len(exported):,}",
+        f"{excluded:,}",
+    )
 
     preferred_columns = [
         KEY_FIELD,
@@ -270,17 +292,20 @@ def enrich_points(
         "id_2",
         "id_1_propuesta",
         "nivel_1_propuesta",
-        "score_confiabilidad",
+        "score_aptitud_total",
+        "categoria_aptitud_preliminar",
+        "categoria_uso_actividad_1_8",
+        "uso",
         "id_zona",
         "id_cuadrante",
         "geometry",
     ]
-    existing_columns = [column for column in preferred_columns if column in enriched.columns]
+    existing_columns = [column for column in preferred_columns if column in exported.columns]
     extra_columns = [
-        column for column in enriched.columns if column not in existing_columns and column != "geometry"
+        column for column in exported.columns if column not in existing_columns and column != "geometry"
     ]
 
-    return enriched[existing_columns[:-1] + extra_columns + ["geometry"]].copy()
+    return exported[existing_columns[:-1] + extra_columns + ["geometry"]].copy()
 
 
 def dominant_value(series: pd.Series) -> Any:
@@ -308,12 +333,17 @@ def build_quadrant_summary(
                 "n_unique_xy",
                 "n_nivel_1_propuesta",
                 "nivel_1_propuesta_dominante",
-                "score_confiabilidad_mean",
-                "score_confiabilidad_min",
-                "score_confiabilidad_max",
+                "n_entrenamiento",
+                "n_validacion",
+                "score_aptitud_total_mean",
+                "score_aptitud_total_min",
+                "score_aptitud_total_max",
             ]
         )
     else:
+        points = points.copy()
+        points["_uso_entrenamiento"] = points["uso"].eq("entrenamiento").astype("int64")
+        points["_uso_validacion"] = points["uso"].eq("validación").astype("int64")
         summary = (
             points.groupby(["id_zona", "id_cuadrante"], dropna=False)
             .agg(
@@ -321,9 +351,11 @@ def build_quadrant_summary(
                 n_unique_xy=(KEY_FIELD, "nunique"),
                 n_nivel_1_propuesta=("nivel_1_propuesta", "nunique"),
                 nivel_1_propuesta_dominante=("nivel_1_propuesta", dominant_value),
-                score_confiabilidad_mean=("score_confiabilidad", "mean"),
-                score_confiabilidad_min=("score_confiabilidad", "min"),
-                score_confiabilidad_max=("score_confiabilidad", "max"),
+                n_entrenamiento=("_uso_entrenamiento", "sum"),
+                n_validacion=("_uso_validacion", "sum"),
+                score_aptitud_total_mean=("score_aptitud_total", "mean"),
+                score_aptitud_total_min=("score_aptitud_total", "min"),
+                score_aptitud_total_max=("score_aptitud_total", "max"),
             )
             .reset_index()
         )
@@ -331,14 +363,20 @@ def build_quadrant_summary(
     all_quadrants = quadrants[QUADRANT_FIELDS].drop_duplicates().copy()
     summary = all_quadrants.merge(summary, on=QUADRANT_FIELDS, how="left")
 
-    count_columns = ["n_points", "n_unique_xy", "n_nivel_1_propuesta"]
+    count_columns = [
+        "n_points",
+        "n_unique_xy",
+        "n_nivel_1_propuesta",
+        "n_entrenamiento",
+        "n_validacion",
+    ]
     for column in count_columns:
         summary[column] = summary[column].fillna(0).astype("int64")
 
     score_columns = [
-        "score_confiabilidad_mean",
-        "score_confiabilidad_min",
-        "score_confiabilidad_max",
+        "score_aptitud_total_mean",
+        "score_aptitud_total_min",
+        "score_aptitud_total_max",
     ]
     for column in score_columns:
         summary[column] = summary[column].round(6)
@@ -434,6 +472,7 @@ def build_metadata(
     predicate: str,
     quadrants_count: int,
     bbox_candidate_count: int,
+    assigned_count: int,
     extracted_count: int,
     write_per_quadrant_layers: bool,
 ) -> pd.DataFrame:
@@ -445,13 +484,20 @@ def build_metadata(
                 "points_layer": POINTS_LAYER,
                 "homologation_table": HOMOLOGATION_TABLE,
                 "score_table": SCORE_TABLE,
+                "action_table": ACTION_TABLE,
                 "quadrants_gpkg": str(quadrants_gpkg),
                 "quadrants_layer": QUADRANTS_LAYER,
                 "output_gpkg": str(output_gpkg),
                 "spatial_predicate": predicate,
                 "quadrants_count": quadrants_count,
                 "bbox_candidate_points": bbox_candidate_count,
+                "assigned_points_before_usage_filter": assigned_count,
                 "extracted_points": extracted_count,
+                "score_field": "score_aptitud_total",
+                "usage_field": "uso",
+                "exported_uses": "|".join(EXPORT_USES),
+                "training_threshold": 85,
+                "validation_threshold": 70,
                 "write_per_quadrant_layers": write_per_quadrant_layers,
             }
         ]
@@ -505,7 +551,8 @@ def main() -> None:
 
     homologation = read_attribute_table(points_gpkg, HOMOLOGATION_TABLE, HOMOLOGATION_FIELDS)
     scores = read_attribute_table(points_gpkg, SCORE_TABLE, SCORE_FIELDS)
-    enriched = enrich_points(assigned, homologation, scores)
+    actions = read_attribute_table(points_gpkg, ACTION_TABLE, ACTION_FIELDS)
+    enriched = enrich_points(assigned, homologation, scores, actions)
 
     summary = build_quadrant_summary(enriched, quadrants)
     metadata = build_metadata(
@@ -515,6 +562,7 @@ def main() -> None:
         predicate=args.predicate,
         quadrants_count=len(quadrants),
         bbox_candidate_count=len(points),
+        assigned_count=len(assigned),
         extracted_count=len(enriched),
         write_per_quadrant_layers=write_per_quadrant_layers,
     )

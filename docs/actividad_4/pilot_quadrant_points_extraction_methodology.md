@@ -7,12 +7,15 @@ de los cuadrantes piloto, enriqueciendo cada punto con:
 
 - `id_1_propuesta`
 - `nivel_1_propuesta`
-- `score_confiabilidad`
+- `score_aptitud_total`
+- `uso`
 - `id_zona`
 - `id_cuadrante`
 
-La salida permite revisar, filtrar y analizar los puntos disponibles por zona y cuadrante
-piloto sin modificar el GeoPackage original del modelo de datos.
+La salida conserva únicamente puntos con uso funcional `entrenamiento` o `validación`,
+según la clasificación de aptitud de A1/A2.1. Esto permite revisar y analizar los puntos
+disponibles por zona y cuadrante piloto sin modificar el GeoPackage original del modelo
+de datos.
 
 ## Script
 
@@ -47,7 +50,9 @@ Capas/tablas utilizadas:
 - `xy_point`: capa espacial principal de puntos.
 - `xy_homologacion_final`: tabla atributiva para traer `id_1_propuesta` y
   `nivel_1_propuesta`.
-- `xy_score`: tabla atributiva para traer `score_confiabilidad`.
+- `xy_score`: tabla atributiva para traer `score_aptitud_total`.
+- `xy_accion`: tabla atributiva para traer `categoria_aptitud_preliminar` y
+  `categoria_uso_actividad_1_8`.
 
 Llave de join:
 
@@ -106,25 +111,40 @@ Campos utilizados:
    `id_zona` e `id_cuadrante`, y conserva la primera coincidencia. Esta regla deja una
    asignación determinística.
 
-7. Leer las tablas atributivas `xy_homologacion_final` y `xy_score` desde el mismo GPKG
-   de A2.1 mediante SQLite.
+7. Leer las tablas atributivas `xy_homologacion_final`, `xy_score` y `xy_accion` desde
+   el mismo GPKG de A2.1 mediante SQLite.
 
 8. Validar unicidad de `xy_group_id` en:
 
    - puntos asignados a cuadrantes
    - `xy_homologacion_final`
    - `xy_score`
+   - `xy_accion`
 
 9. Hacer joins atributivos uno a uno:
 
    - `xy_point` -> `xy_homologacion_final`, para traer `id_1_propuesta` y
      `nivel_1_propuesta`.
-   - `xy_point` -> `xy_score`, para traer `score_confiabilidad`.
+   - `xy_point` -> `xy_score`, para traer `score_aptitud_total`.
+   - `xy_point` -> `xy_accion`, para traer la categoría funcional de uso.
 
-10. Validar que no queden puntos extraídos sin homologación final ni sin
-    `score_confiabilidad`.
+10. Crear la columna `uso` a partir de `categoria_uso_actividad_1_8`.
 
-11. Exportar la capa combinada, las capas individuales por cuadrante, una tabla resumen
+11. Filtrar la salida final a:
+
+    - `uso = entrenamiento`, equivalente a `score_aptitud_total >= 85` cuando no
+      existen reglas prioritarias de exclusión.
+    - `uso = validación`, equivalente a `score_aptitud_total >= 70` y menor que el
+      umbral de entrenamiento cuando no existen reglas prioritarias de exclusión.
+
+    La clasificación completa de A1/A2.1 se respeta porque `xy_accion` ya incorpora
+    las prioridades por conflicto activo, alerta espectral, prueba, referencia
+    contextual y máscaras.
+
+12. Validar que no queden puntos extraídos sin homologación final, sin
+    `score_aptitud_total` ni sin categoría de uso.
+
+13. Exportar la capa combinada, las capas individuales por cuadrante, una tabla resumen
     y una tabla de metadatos de ejecución.
 
 ## Productos generados
@@ -161,19 +181,31 @@ Campos principales de `pilot_quadrant_points`:
 - `id_2`
 - `id_1_propuesta`
 - `nivel_1_propuesta`
-- `score_confiabilidad`
+- `score_aptitud_total`
+- `categoria_aptitud_preliminar`
+- `categoria_uso_actividad_1_8`
+- `uso`
 - `id_zona`
 - `id_cuadrante`
 - `geometry`
 
-## Resultado de la ejecución inicial
+## Resultado de la ejecución actual
 
-La primera ejecución con los insumos indicados produjo:
+La ejecución actual con los insumos indicados produjo:
 
 - Cuadrantes leídos: `45`
 - Puntos candidatos dentro del bbox de cuadrantes: `689,790`
 - Puntos asignados a cuadrantes: `107,604`
+- Puntos exportados después del filtro entrenamiento/validación: `103,256`
+- Puntos excluidos por no pertenecer a entrenamiento/validación: `4,348`
+- Puntos exportados con `uso = entrenamiento`: `92,922`
+- Puntos exportados con `uso = validación`: `10,334`
 - Cuadrantes con al menos un punto: `45`
+
+Rango de `score_aptitud_total` en la salida exportada:
+
+- `entrenamiento`: `85.0` a `97.583`
+- `validación`: `75.0` a `84.999`
 
 El resumen por cuadrante se guarda en:
 
@@ -191,7 +223,9 @@ Se verificó que:
 - `xy_group_id` no queda duplicado después de la asignación final a cuadrantes.
 - Los joins atributivos contra homologación y score son uno a uno.
 - No quedan puntos extraídos sin `id_1_propuesta`.
-- No quedan puntos extraídos sin `score_confiabilidad`.
+- No quedan puntos extraídos sin `score_aptitud_total`.
+- No quedan puntos extraídos sin categoría de uso.
+- La salida final contiene solo `uso = entrenamiento` o `uso = validación`.
 
 Validaciones de código ejecutadas:
 
