@@ -40,6 +40,22 @@ Para activarlo:
 
 conda activate pgbm_actividad1
 
+## Uso del extractor de cuadrantes piloto
+
+El script [src/actividad_4/extract_pilot_quadrant_points.py](src/actividad_4/extract_pilot_quadrant_points.py) ahora acepta un archivo YAML para parametrizar rutas y parámetros espaciales. Un ejemplo está en [config/pilot_quadrant_extraction.yaml](config/pilot_quadrant_extraction.yaml).
+
+Ejemplo de ejecución:
+
+```bash
+conda run -n pgbm_actividad1 python src/actividad_4/extract_pilot_quadrant_points.py --config config/pilot_quadrant_extraction.yaml
+```
+
+También puede sobrescribir valores desde la línea de comandos, por ejemplo:
+
+```bash
+conda run -n pgbm_actividad1 python src/actividad_4/extract_pilot_quadrant_points.py --config config/pilot_quadrant_extraction.yaml --predicate intersects --buffer-negative-m 12.5
+```
+
 ## Estado de implementación
 
 - [x] Módulo 0: configuración inicial del proyecto.
