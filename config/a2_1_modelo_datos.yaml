@@ -94,8 +94,38 @@ normalization:
   - score_aptitud_raw
   - score_cap
   - cap_reason
+  country:
+    enabled: true
+    catalog_table: pais
+    id_field: id_pais_grupo
+    name_field: pais
+    null_values:
+    - multipais_o_inconsistente
+    rows:
+    - pais: Belice
+      id_pais_grupo: 1
+    - pais: Costa Rica
+      id_pais_grupo: 2
+    - pais: El Salvador
+      id_pais_grupo: 3
+    - pais: Guatemala
+      id_pais_grupo: 4
+    - pais: Honduras
+      id_pais_grupo: 5
+    - pais: México
+      id_pais_grupo: 6
+    - pais: Nicaragua
+      id_pais_grupo: 7
+    - pais: Panamá
+      id_pais_grupo: 8
+    sources:
+      id_pais_grupo:
+        source_field: pais_grupo
+      id_pais_dominante:
+        source_field: pais_dominante
 source_class_catalog:
-  description: Sistema de clasificación de origen de los datos. Tabla 1 del Informe Final - Puntos Control GBM.
+  description: Sistema de clasificación de origen de los datos. Tabla 1 del Informe
+    Final - Puntos Control GBM.
   tables:
     nivel_0: clase_origen_nivel_0
     nivel_1: clase_origen_nivel_1
@@ -359,7 +389,7 @@ schema:
       - xy_group_id
       - lon
       - lat
-      - pais_grupo
+      - id_pais_grupo
       - id_0
       - id_1
       - id_2
@@ -378,7 +408,7 @@ schema:
       - n_registros_subset
       - n_registros
       - n_fuentes
-      - pais_dominante
+      - id_pais_dominante
       - fuente_dominante
     xy_temporal:
       format: csv
@@ -454,10 +484,8 @@ schema:
   field_types:
     text:
     - xy_group_id
-    - pais_grupo
     - estado_xy_subset
     - tipo_grupo_original
-    - pais_dominante
     - fuente_dominante
     - nivel_0_dominante
     - nivel_1_dominante
@@ -479,6 +507,7 @@ schema:
     - definicion_categoria_aptitud
     - accion_recomendada
     - razon_categoria_aptitud
+    - pais
     integer:
     - id_0
     - id_0_propuesta
@@ -501,6 +530,8 @@ schema:
     - spectral_severity_order_max
     - spectral_alert_count_sum
     - n_registros_pais_clase
+    - id_pais_grupo
+    - id_pais_dominante
     float:
     - lon
     - lat
@@ -536,7 +567,8 @@ schema:
     - flag_clase_residual
 proposed_class_homologations:
   nivel_0:
-    description: Homologación general N:1 entre las clases de origen de nivel 0 y la clasificación propuesta de nivel 0.
+    description: Homologación general N:1 entre las clases de origen de nivel 0 y
+      la clasificación propuesta de nivel 0.
     role: general
     source_level: 0
     source_id_field: id_0
@@ -565,7 +597,8 @@ proposed_class_homologations:
     - id_0: 90
       id_0_propuesta: 2
   nivel_1_general:
-    description: Regla general N:1 desde id_1 de origen hacia id_1_propuesta. Se aplica cuando no existe una excepción específica por id_2.
+    description: Regla general N:1 desde id_1 de origen hacia id_1_propuesta. Se aplica
+      cuando no existe una excepción específica por id_2.
     role: general
     source_level: 1
     source_id_field: id_1
@@ -636,7 +669,9 @@ proposed_class_homologations:
     - id_1: 91
       id_1_propuesta: 25
   nivel_1_excepciones:
-    description: Excepciones N:1 definidas por id_2. Tienen prioridad sobre la regla general de nivel 1 y permiten resolver clases cuyo detalle de nivel 2 cambia el destino propuesto.
+    description: Excepciones N:1 definidas por id_2. Tienen prioridad sobre la regla
+      general de nivel 1 y permiten resolver clases cuyo detalle de nivel 2 cambia
+      el destino propuesto.
     role: override
     fallback_homologation: nivel_1_general
     final_assignment_name: nivel_1_final

@@ -2,26 +2,25 @@
 
 ## Objetivo
 
-Construir una extracción reproducible de los puntos `xy_point` de A2.1 que caen dentro
-de los cuadrantes piloto, enriqueciendo cada punto con:
+Construir una extensión normalizada del modelo A2.1 que asigne puntos `xy_point` a
+cuadrantes piloto sin duplicar atributos que ya tienen una fuente maestra.
 
-- `id_1_propuesta`
-- `nivel_1_propuesta`
-- `score_aptitud_total`
-- `uso`
-- `id_zona`
-- `id_cuadrante`
+La extensión materializa únicamente:
 
-La salida conserva únicamente puntos con uso funcional `entrenamiento` o `validación`,
-según la clasificación de aptitud de A1/A2.1. Esto permite revisar y analizar los puntos
-disponibles por zona y cuadrante piloto sin modificar el GeoPackage original del modelo
-de datos.
+- el subconjunto espacial de puntos piloto;
+- las zonas y los cuadrantes piloto;
+- la relación `xy_group_id → id_cuadrante`;
+- la geometría interior usada para la asignación;
+- los metadatos y posibles conflictos del proceso.
+
+Los países, las clases, la homologación, los puntajes y las acciones permanecen en las
+tablas canónicas de A2.1.
 
 ## Script
 
 El flujo está implementado en:
 
-```bash
+```text
 src/actividad_4/extract_pilot_quadrant_points.py
 ```
 
@@ -31,224 +30,194 @@ Ejecución recomendada desde la raíz del repositorio:
 conda run -n pgbm_actividad1 python src/actividad_4/extract_pilot_quadrant_points.py
 ```
 
-El ambiente `pgbm_actividad1` se considera el ambiente pertinente porque está definido en
-`environment.yml` e incluye las dependencias geoespaciales usadas por el proyecto
-(`geopandas`, `pyogrio`, `fiona`, `gdal`, `shapely`, `pyproj`).
-
 ## Insumos
 
-### Modelo de datos A2.1
+### Modelo normalizado A2.1
 
 Archivo:
 
-```bash
+```text
 data/processed/a2_1_modelo_datos/gpkg/a2_1_xy_point.gpkg
 ```
 
-Capas/tablas utilizadas:
+El extractor usa:
 
-- `xy_point`: capa espacial principal de puntos.
-- `xy_homologacion_final`: tabla atributiva para traer `id_1_propuesta` y
-  `nivel_1_propuesta`.
-- `xy_score`: tabla atributiva para traer `score_aptitud_total`.
-- `xy_accion`: tabla atributiva para traer `categoria_aptitud_preliminar` y
-  `categoria_uso_actividad_1_8`.
+- `xy_point`, con `xy_group_id`, coordenadas, geometría y las FK normalizadas
+  `id_pais_grupo`, `id_0`, `id_1` e `id_2`;
+- `xy_accion`, únicamente para seleccionar los puntos cuyo
+  `categoria_uso_actividad_1_8` sea `entrenamiento` o `validación`.
 
-Llave de join:
-
-```text
-xy_group_id
-```
+No se copian `pais`, los catálogos de clase, `xy_homologacion_final`, `xy_score` ni
+`xy_accion` al GeoPackage de Actividad 4. Estas tablas siguen siendo la fuente
+canónica y se consultan mediante `xy_group_id` o las FK correspondientes.
 
 ### Cuadrantes piloto
 
 Archivo:
 
-```bash
+```text
 data/raw/cuadrantes_pilotos/zonas_cuadrantes_pilotos.gpkg
 ```
 
-Capa utilizada:
+Capa:
 
 ```text
 zonas_cuadrantes
 ```
 
-Campos utilizados:
+Campos requeridos:
 
-- `id_zona`
-- `id_cuadrante`
-- `geometry`
+- `id_zona`;
+- `id_cuadrante`;
+- `geometry`.
+
+`id_cuadrante` debe ser único globalmente. Una zona puede contener varios cuadrantes.
 
 ## Flujo metodológico
 
-1. Leer la capa `zonas_cuadrantes` y validar que tenga CRS, geometría y los campos
-   `id_zona` e `id_cuadrante`.
+1. Validar los insumos, el CRS, los campos obligatorios, la nulabilidad de los
+   identificadores y la unicidad global de `id_cuadrante`.
 
-2. Leer una muestra de `xy_point` para identificar el CRS de los puntos.
+2. Construir `pilot_zone` disolviendo los polígonos por `id_zona`.
 
-3. Reproyectar temporalmente los cuadrantes al CRS de `xy_point`, cuando sea necesario,
-   y calcular el bbox total de los cuadrantes.
-
-4. Leer de `xy_point` únicamente los puntos candidatos dentro del bbox de los cuadrantes.
-   Esto reduce el volumen de lectura antes del cruce espacial.
-
-5. Ejecutar un join espacial entre puntos candidatos y cuadrantes.
-
-   Predicado por defecto:
+3. Construir `pilot_quadrant` con:
 
    ```text
-   within
+   id_cuadrante (PK lógica)
+   id_zona       (FK lógica a pilot_zone)
+   geometry
    ```
 
-   Es decir, se conserva cada punto cuya geometría cae dentro de un polígono de cuadrante.
-   El script también permite `intersects` o `covered_by` mediante el argumento
-   `--predicate`, si se requiere incluir casos sobre bordes.
+4. Reproyectar los cuadrantes a un CRS métrico y aplicar un buffer negativo. La
+   distancia predeterminada es 30 m y puede modificarse con
+   `--buffer-negative-m`.
 
-6. Resolver posibles coincidencias múltiples.
+5. Guardar la geometría reducida en `pilot_quadrant_buffer`. La geometría original de
+   `pilot_quadrant` no se modifica.
 
-   Si un punto cae en más de un cuadrante, el script ordena por `xy_group_id`,
-   `id_zona` e `id_cuadrante`, y conserva la primera coincidencia. Esta regla deja una
-   asignación determinística.
+6. Leer de `xy_point` los puntos candidatos contenidos en el bbox de los cuadrantes
+   reducidos. El extractor exige el esquema 3FN vigente; si, por ejemplo, aparece
+   `pais_grupo` en vez de `id_pais_grupo`, la ejecución falla de forma explícita.
 
-7. Leer las tablas atributivas `xy_homologacion_final`, `xy_score` y `xy_accion` desde
-   el mismo GPKG de A2.1 mediante SQLite.
+7. Ejecutar el join espacial con el predicado `within` por defecto.
 
-8. Validar unicidad de `xy_group_id` en:
+8. Detectar puntos que coincidan con más de un cuadrante reducido. Por defecto se
+   excluyen y se registran en las tablas de conflicto. El script nunca selecciona
+   silenciosamente la primera coincidencia. Con `--multiple-match-policy raise`, la
+   ejecución se detiene al detectar el conflicto.
 
-   - puntos asignados a cuadrantes
-   - `xy_homologacion_final`
-   - `xy_score`
-   - `xy_accion`
+9. Consultar `xy_accion` y conservar solamente asignaciones con uso
+   `entrenamiento` o `validación`. La tabla se usa como filtro, pero no se duplica en
+   la salida.
 
-9. Hacer joins atributivos uno a uno:
+10. Materializar `pilot_xy_point` con los campos:
 
-   - `xy_point` -> `xy_homologacion_final`, para traer `id_1_propuesta` y
-     `nivel_1_propuesta`.
-   - `xy_point` -> `xy_score`, para traer `score_aptitud_total`.
-   - `xy_point` -> `xy_accion`, para traer la categoría funcional de uso.
+    ```text
+    xy_group_id
+    lon
+    lat
+    id_pais_grupo
+    id_0
+    id_1
+    id_2
+    geometry
+    ```
 
-10. Crear la columna `uso` a partir de `categoria_uso_actividad_1_8`.
+11. Crear `xy_pilot_quadrant` con solo:
 
-11. Filtrar la salida final a:
+    ```text
+    xy_group_id
+    id_cuadrante
+    ```
 
-    - `uso = entrenamiento`, equivalente a `score_aptitud_total >= 85` cuando no
-      existen reglas prioritarias de exclusión.
-    - `uso = validación`, equivalente a `score_aptitud_total >= 70` y menor que el
-      umbral de entrenamiento cuando no existen reglas prioritarias de exclusión.
-
-    La clasificación completa de A1/A2.1 se respeta porque `xy_accion` ya incorpora
-    las prioridades por conflicto activo, alerta espectral, prueba, referencia
-    contextual y máscaras.
-
-12. Validar que no queden puntos extraídos sin homologación final, sin
-    `score_aptitud_total` ni sin categoría de uso.
-
-13. Exportar la capa combinada, las capas individuales por cuadrante, una tabla resumen
-    y una tabla de metadatos de ejecución.
+12. Exportar las entidades, la relación y los metadatos al GeoPackage normalizado.
+    Se crean índices únicos sobre las claves lógicas para impedir duplicados.
 
 ## Productos generados
 
-Directorio de salida:
-
-```bash
-data/processed/a4_pilot_quadrant_extraction/
-```
-
-Productos principales:
-
-```bash
-data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_points.gpkg
-data/processed/a4_pilot_quadrant_extraction/tables/pilot_quadrant_summary.csv
-data/processed/a4_pilot_quadrant_extraction/logs/extract_pilot_quadrant_points.log
-```
-
-El GeoPackage de salida contiene:
-
-- `pilot_quadrant_points`: capa combinada con todos los puntos extraídos.
-- `z{id_zona}_q{id_cuadrante}`: capas individuales por cuadrante.
-- `pilot_quadrant_summary`: tabla resumen por zona y cuadrante.
-- `pilot_quadrant_extraction_metadata`: metadatos de ejecución.
-
-Campos principales de `pilot_quadrant_points`:
-
-- `xy_group_id`
-- `lon`
-- `lat`
-- `pais_grupo`
-- `id_0`
-- `id_1`
-- `id_2`
-- `id_1_propuesta`
-- `nivel_1_propuesta`
-- `score_aptitud_total`
-- `categoria_aptitud_preliminar`
-- `categoria_uso_actividad_1_8`
-- `uso`
-- `id_zona`
-- `id_cuadrante`
-- `geometry`
-
-## Resultado de la ejecución actual
-
-La ejecución actual con los insumos indicados produjo:
-
-- Cuadrantes leídos: `45`
-- Puntos candidatos dentro del bbox de cuadrantes: `689,790`
-- Puntos asignados a cuadrantes: `107,604`
-- Puntos exportados después del filtro entrenamiento/validación: `103,256`
-- Puntos excluidos por no pertenecer a entrenamiento/validación: `4,348`
-- Puntos exportados con `uso = entrenamiento`: `92,922`
-- Puntos exportados con `uso = validación`: `10,334`
-- Cuadrantes con al menos un punto: `45`
-
-Rango de `score_aptitud_total` en la salida exportada:
-
-- `entrenamiento`: `85.0` a `97.583`
-- `validación`: `75.0` a `84.999`
-
-El resumen por cuadrante se guarda en:
-
-```bash
-data/processed/a4_pilot_quadrant_extraction/tables/pilot_quadrant_summary.csv
-```
-
-## Validaciones realizadas
-
-Se verificó que:
-
-- Las capas y tablas requeridas existen en los GeoPackages de entrada.
-- Los campos obligatorios están presentes.
-- Las capas espaciales tienen CRS definido.
-- `xy_group_id` no queda duplicado después de la asignación final a cuadrantes.
-- Los joins atributivos contra homologación y score son uno a uno.
-- No quedan puntos extraídos sin `id_1_propuesta`.
-- No quedan puntos extraídos sin `score_aptitud_total`.
-- No quedan puntos extraídos sin categoría de uso.
-- La salida final contiene solo `uso = entrenamiento` o `uso = validación`.
-
-Validaciones de código ejecutadas:
-
-```bash
-conda run -n pgbm_actividad1 python -m py_compile src/actividad_4/extract_pilot_quadrant_points.py
-conda run -n pgbm_actividad1 ruff check src/actividad_4/extract_pilot_quadrant_points.py
-```
-
-## Consideraciones para GitHub
-
-El archivo `pilot_quadrant_points.gpkg` no debe subirse al repositorio porque es una
-salida geoespacial pesada. Actualmente queda protegido por `.gitignore` mediante:
+GeoPackage:
 
 ```text
-data/processed/
-*.gpkg
+data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_extraction_normalized.gpkg
 ```
 
-Los archivos que sí deben versionarse para reproducir la extracción son:
+Log:
 
-- `src/actividad_4/extract_pilot_quadrant_points.py`
-- `docs/actividad_4/pilot_quadrant_points_extraction_methodology.md`
+```text
+data/processed/a4_pilot_quadrant_extraction/logs/extract_pilot_quadrant_points_normalized.log
+```
 
-Opcionalmente, si se quisiera versionar un resumen liviano en el futuro, habría que mover
-o copiar una tabla depurada fuera de `data/processed/`, ya que ese directorio está
-ignorado globalmente.
+Capas espaciales:
+
+- `pilot_xy_point`;
+- `pilot_zone`;
+- `pilot_quadrant`;
+- `pilot_quadrant_buffer`.
+
+Tablas atributivas:
+
+- `pilot_buffer_run`;
+- `pilot_assignment_run`;
+- `xy_pilot_quadrant`;
+- `xy_pilot_quadrant_conflict`;
+- `xy_pilot_quadrant_conflict_match`.
+
+No se generan capas por cuadrante ni una capa plana enriquecida.
+
+## Respuesta a la tercera forma normal
+
+La relación central cumple la dependencia:
+
+```text
+xy_group_id → id_cuadrante
+```
+
+No almacena `id_zona`, porque:
+
+```text
+id_cuadrante → id_zona
+```
+
+Guardar ambos campos en `xy_pilot_quadrant` introduciría la dependencia transitiva
+`xy_group_id → id_cuadrante → id_zona`. La zona se resuelve mediante
+`pilot_quadrant`.
+
+Del mismo modo, `pilot_xy_point` conserva `id_pais_grupo`, pero no el nombre del país:
+
+```text
+id_pais_grupo → pais
+```
+
+El nombre vive una sola vez en `pais` dentro de A2.1. Las etiquetas de clase, la
+homologación, los puntajes y las acciones también se resuelven en sus tablas
+canónicas; Actividad 4 no crea segundos catálogos ni copias maestras.
+
+`pilot_xy_point` es una proyección materializada y derivada de `xy_point`, no una nueva
+fuente maestra. `xy_group_id` conserva la identidad y permite volver al modelo A2.1.
+
+## Regla de bordes
+
+El buffer negativo elimina una franja interior del ancho configurado antes de asignar
+los puntos. Así, un punto cercano al límite entre cuadrantes no influye en la selección
+del cuadrante vecino.
+
+La distancia y el CRS métrico quedan registrados en `pilot_buffer_run`. Esta regla es
+espacial y no altera las dependencias funcionales del modelo.
+
+## Validaciones
+
+El script comprueba:
+
+- existencia de archivos, capas, tablas y campos obligatorios;
+- presencia de CRS en las capas;
+- `id_cuadrante` único y no nulo;
+- `id_zona` no nulo y único en `pilot_zone`;
+- `xy_group_id` único en los puntos y en `xy_accion`;
+- presencia estricta de `id_pais_grupo`, `id_0`, `id_1` e `id_2`;
+- una sola asignación válida por `xy_group_id`;
+- registro o interrupción ante coincidencias múltiples;
+- presencia de categoría de uso para toda asignación espacial;
+- índices únicos sobre las claves lógicas de la salida.
+
+Los GeoPackages generados permanecen fuera de Git mediante las reglas del repositorio
+para `data/processed/` y `*.gpkg`.
