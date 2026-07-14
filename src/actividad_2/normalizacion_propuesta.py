@@ -8,6 +8,7 @@ Ordena la salida de Actividad 1 en una estructura relacional pragmática:
 - una capa espacial principal: xy_point
 - FKs de clase de origen directamente en xy_point: id_0, id_1, id_2
 - tablas de referencia de clases de origen en 3NF
+- catálogo normalizado de países y FKs de país por rol
 - catálogos propuestos de niveles 0 y 1
 - homologación general N:1 por id_0 e id_1
 - excepciones N:1 por id_2 con prioridad sobre la regla general de nivel 1
@@ -22,6 +23,8 @@ Ordena la salida de Actividad 1 en una estructura relacional pragmática:
 Criterios:
 - No se exportan los campos compuestos nivel_*_dominante ni valores_nivel_*.
 - Esos campos se usan solo como insumos para calcular FKs y validar consistencia.
+- xy_point no almacena pais_grupo como texto; almacena id_pais_grupo.
+- xy_core no almacena pais_dominante como texto; almacena id_pais_dominante.
 - xy_point no almacena id_0_propuesta ni id_1_propuesta.
 - El nivel 1 final se resuelve con prioridad:
   1) excepción id_2 -> id_1_propuesta, cuando exista;
@@ -211,6 +214,257 @@ def pk_field(cfg: dict[str, Any]) -> str:
 
 def class_fk_sources(cfg: dict[str, Any]) -> dict[str, Any]:
     return cfg.get("normalization", {}).get("class_fk_sources", {})
+
+
+# ============================================================
+# NORMALIZACIÓN DE PAÍSES
+# ============================================================
+
+def country_normalization_config(cfg: dict[str, Any]) -> dict[str, Any]:
+    """Return country-normalization configuration.
+
+    Expected YAML structure:
+
+    normalization:
+      country:
+        enabled: true
+        catalog_table: pais
+        id_field: id_pais_grupo
+        name_field: pais
+        null_values:
+          - multipais_o_inconsistente
+        rows:
+          - id_pais_grupo: 1
+            pais: Belice
+          ...
+        sources:
+          id_pais_grupo:
+            source_field: pais_grupo
+          id_pais_dominante:
+            source_field: pais_dominante
+    """
+    country_cfg = cfg.get("normalization", {}).get("country", {}) or {}
+    if not bool(country_cfg.get("enabled", False)):
+        return {}
+
+    required = {"catalog_table", "id_field", "name_field", "rows", "sources"}
+    missing = sorted(required - set(country_cfg))
+    if missing:
+        raise ValueError(f"Faltan claves en normalization.country: {missing}")
+
+    catalog_table = str(country_cfg["catalog_table"])
+    id_field = str(country_cfg["id_field"])
+    name_field = str(country_cfg["name_field"])
+    if not catalog_table or not id_field or not name_field:
+        raise ValueError(
+            "normalization.country debe definir catalog_table, id_field y name_field."
+        )
+    if id_field == name_field:
+        raise ValueError("normalization.country.id_field y name_field deben ser distintos.")
+
+    rows = country_cfg.get("rows", [])
+    if not isinstance(rows, list) or not rows:
+        raise ValueError(
+            "normalization.country.rows debe definir el único catálogo maestro de países."
+        )
+
+    sources = country_cfg.get("sources", {})
+    if not isinstance(sources, dict) or not sources:
+        raise ValueError("normalization.country.sources debe ser un diccionario no vacío.")
+
+    for fk_field, spec in sources.items():
+        if not isinstance(spec, dict) or not spec.get("source_field"):
+            raise ValueError(
+                f"normalization.country.sources.{fk_field} debe definir source_field."
+            )
+        if fk_field == name_field:
+            raise ValueError(
+                f"La FK por rol {fk_field} no puede reutilizar el campo textual del catálogo pais."
+            )
+        # Se permite que una FK por rol tenga el mismo nombre que la PK del catálogo.
+        # En este modelo, id_pais_grupo es simultáneamente:
+        # - PK de pais; y
+        # - FK en xy_point que conserva el mismo identificador trazable desde A2.1.
+
+    schema_defs = cfg.get("schema", {}).get("tables", {})
+    if catalog_table in schema_defs:
+        raise ValueError(
+            f"{catalog_table} debe ser un único catálogo de referencia, no una tabla temática."
+        )
+
+    for fk_field in sources:
+        destinations = [
+            table_name
+            for table_name, table_def in schema_defs.items()
+            if fk_field in table_def.get("fields", [])
+        ]
+        if len(destinations) != 1:
+            raise ValueError(
+                f"{fk_field} debe aparecer una sola vez en schema.tables; "
+                f"destinos encontrados: {destinations}"
+            )
+
+    return country_cfg
+
+
+def country_source_specs(cfg: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    country_cfg = country_normalization_config(cfg)
+    if not country_cfg:
+        return {}
+    return country_cfg["sources"]
+
+
+def country_fk_fields(cfg: dict[str, Any]) -> set[str]:
+    return set(country_source_specs(cfg).keys())
+
+
+def country_source_fields(cfg: dict[str, Any]) -> set[str]:
+    fields: set[str] = set()
+    for spec in country_source_specs(cfg).values():
+        fields.add(str(spec["source_field"]))
+    return fields
+
+
+def country_empty_values(cfg: dict[str, Any]) -> set[str]:
+    values = {
+        str(value).strip().lower()
+        for value in cfg.get("normalization", {}).get("empty_values", [])
+    }
+    country_cfg = cfg.get("normalization", {}).get("country", {}) or {}
+    values.update(
+        str(value).strip().lower()
+        for value in country_cfg.get("null_values", [])
+    )
+    return values
+
+
+def clean_country_label(value: Any, cfg: dict[str, Any]) -> str | pd._libs.missing.NAType:
+    if pd.isna(value):
+        return pd.NA
+
+    text = re.sub(r"\s+", " ", str(value).strip())
+    if not text or text.lower() in country_empty_values(cfg):
+        return pd.NA
+
+    if lowercase_text_values(cfg):
+        text = text.lower()
+
+    return text
+
+
+def country_key(value: Any, cfg: dict[str, Any]) -> str | pd._libs.missing.NAType:
+    label = clean_country_label(value, cfg)
+    if pd.isna(label):
+        return pd.NA
+
+    key = unicodedata.normalize("NFKD", str(label))
+    key = "".join(ch for ch in key if not unicodedata.combining(ch))
+    key = key.lower().strip()
+    key = re.sub(r"\s+", " ", key)
+    return key
+
+
+def build_country_catalog_table(gdf: gpd.GeoDataFrame, cfg: dict[str, Any]) -> pd.DataFrame:
+    country_cfg = country_normalization_config(cfg)
+    if not country_cfg:
+        return pd.DataFrame()
+
+    id_field = country_cfg["id_field"]
+    name_field = country_cfg["name_field"]
+    catalog = pd.DataFrame(country_cfg["rows"], columns=[id_field, name_field])
+
+    if catalog[[id_field, name_field]].isna().any().any():
+        raise ValueError("normalization.country.rows contiene IDs o nombres nulos.")
+
+    catalog[id_field] = pd.to_numeric(catalog[id_field], errors="raise").astype("Int64")
+    if (catalog[id_field] <= 0).any():
+        raise ValueError("pais.<id_field> debe contener enteros positivos.")
+    if catalog[id_field].duplicated().any():
+        duplicated = catalog.loc[catalog[id_field].duplicated(False), id_field].tolist()
+        raise ValueError(f"normalization.country.rows tiene IDs de país duplicados: {duplicated}")
+
+    catalog[name_field] = catalog[name_field].apply(
+        lambda value: clean_country_label(value, cfg)
+    ).astype("string")
+    catalog["_country_key"] = catalog[name_field].apply(
+        lambda value: country_key(value, cfg)
+    ).astype("string")
+
+    if catalog["_country_key"].isna().any():
+        raise ValueError("normalization.country.rows contiene nombres de país no válidos.")
+    if catalog["_country_key"].duplicated().any():
+        duplicated = catalog.loc[
+            catalog["_country_key"].duplicated(False),
+            name_field,
+        ].tolist()
+        raise ValueError(
+            "normalization.country.rows contiene nombres equivalentes duplicados: "
+            f"{duplicated}"
+        )
+
+    known_keys = set(catalog["_country_key"].astype(str))
+    observed_keys: set[str] = set()
+    for source_field in sorted(country_source_fields(cfg)):
+        if source_field not in gdf.columns:
+            raise ValueError(f"No existe el campo fuente de país: {source_field}")
+        observed_keys.update(
+            str(key)
+            for value in gdf[source_field].drop_duplicates()
+            if not pd.isna(key := country_key(value, cfg))
+        )
+
+    unknown_keys = sorted(observed_keys - known_keys)
+    if unknown_keys:
+        raise ValueError(
+            "Se observaron países sin ID en normalization.country.rows: "
+            f"{unknown_keys}"
+        )
+
+    return (
+        catalog[[id_field, name_field]]
+        .sort_values(id_field)
+        .reset_index(drop=True)
+    )
+
+
+def derive_country_fks(
+    gdf: gpd.GeoDataFrame,
+    cfg: dict[str, Any],
+    country_catalog: pd.DataFrame,
+    warnings: list[str],
+) -> gpd.GeoDataFrame:
+    country_cfg = country_normalization_config(cfg)
+    if not country_cfg:
+        return gdf
+
+    id_field = country_cfg["id_field"]
+    name_field = country_cfg["name_field"]
+
+    if country_catalog.empty:
+        warnings.append("No se encontraron países válidos para construir el catálogo pais.")
+        return gdf
+
+    key_to_id = {
+        str(country_key(row[name_field], cfg)): int(row[id_field])
+        for _, row in country_catalog.iterrows()
+    }
+
+    out = gdf.copy()
+    for fk_field, spec in country_source_specs(cfg).items():
+        source_field = spec["source_field"]
+        if source_field not in out.columns:
+            raise ValueError(f"No existe el campo fuente de país para {fk_field}: {source_field}")
+
+        source_keys = out[source_field].map(lambda value: country_key(value, cfg))
+        out[fk_field] = source_keys.map(key_to_id).astype("Int64")
+
+        unresolved = int((source_keys.notna() & out[fk_field].isna()).sum())
+        if unresolved:
+            raise ValueError(
+                f"{fk_field}: {unresolved} registros con país no resuelto desde {source_field}."
+            )
+
+    return out
 
 
 # Campos derivados por el Módulo 10 que se conservan en sus salidas de
@@ -424,13 +678,23 @@ def analytic_fields(cfg: dict[str, Any]) -> list[str]:
 
 
 def source_fields_required(cfg: dict[str, Any]) -> list[str]:
-    """Campos que deben existir en la entrada original."""
-    required: list[str] = []
+    """Campos que deben existir en la entrada original.
 
-    # Campos directos del modelo.
+    Los campos generados por normalización, por ejemplo id_pais_grupo o
+    id_pais_dominante, no se exigen como campos de entrada. En su lugar se
+    exigen sus campos fuente textuales, como pais_grupo y pais_dominante.
+    """
+    required: list[str] = []
+    generated_country_fields = country_fk_fields(cfg)
+
+    # Campos directos del modelo, excepto FKs generadas y clases derivadas.
     for table_def in schema_tables(cfg).values():
         for field in table_def["fields"]:
-            if field not in {"id_0", "id_1", "id_2"} and field not in required:
+            if field in {"id_0", "id_1", "id_2"}:
+                continue
+            if field in generated_country_fields:
+                continue
+            if field not in required:
                 required.append(field)
 
     # Campos fuente para derivar FKs de clase y validar duplicados.
@@ -438,6 +702,11 @@ def source_fields_required(cfg: dict[str, Any]) -> list[str]:
         for source_field in [info.get("dominante"), info.get("valores")]:
             if source_field and source_field not in required:
                 required.append(source_field)
+
+    # Campos fuente para construir el catálogo de países y sus FKs.
+    for source_field in sorted(country_source_fields(cfg)):
+        if source_field not in required:
+            required.append(source_field)
 
     return required
 
@@ -450,6 +719,8 @@ def source_only_fields(cfg: dict[str, Any]) -> set[str]:
             fields.add(info["dominante"])
         if info.get("valores"):
             fields.add(info["valores"])
+
+    fields.update(country_source_fields(cfg))
 
     return fields
 
@@ -1342,6 +1613,43 @@ def write_source_class_catalog_outputs(
 
 
 
+
+
+def write_country_catalog_outputs(
+    cfg: dict[str, Any],
+    tables_dir: Path,
+    gpkg_path: Path,
+    country_catalog: pd.DataFrame,
+) -> dict[str, Any] | None:
+    country_cfg = country_normalization_config(cfg)
+    if not country_cfg:
+        return None
+
+    table_name = country_cfg["catalog_table"]
+    id_field = country_cfg["id_field"]
+
+    df = coerce_types(country_catalog, cfg, table_name, warnings=[])
+    out_csv = tables_dir / f"{table_name}.csv"
+    write_csv_with_csvt(df, out_csv, cfg)
+
+    if cfg["output"].get("write_tables_to_gpkg", True):
+        write_table_to_gpkg(
+            df=df,
+            gpkg_path=gpkg_path,
+            table_name=table_name,
+            pk=id_field,
+            create_index=bool(cfg["output"].get("create_join_indexes", True)),
+        )
+
+    return {
+        "tabla": table_name,
+        "filas": len(df),
+        "campos_incluyendo_pk": len(df.columns),
+        "cardinalidad": "referencia_3nf",
+        "ruta_csv": str(out_csv.relative_to(ROOT)),
+        "en_gpkg": bool(cfg["output"].get("write_tables_to_gpkg", True)),
+    }
+
 def sql_identifier(name: str) -> str:
     """Quote an SQLite identifier safely."""
     return '"' + str(name).replace('"', '""') + '"'
@@ -1878,12 +2186,21 @@ def build_campo_mapeo(
             if field == pk:
                 continue
             source_note = ""
+            source_field = field
             action = "conservar_en_gpkg" if table_name == "xy_point" else "separar_por_tema"
             if table_name == "xy_point" and field in class_fk_sources(cfg):
-                source_note = f" Derivado desde {class_fk_sources(cfg)[field]['dominante']}."
+                source_field = class_fk_sources(cfg)[field]["dominante"]
+                source_note = f" Derivado desde {source_field}."
                 action = "extraer_fk_clase_desde_dominante"
+            elif field in country_source_specs(cfg):
+                source_field = country_source_specs(cfg)[field]["source_field"]
+                source_note = (
+                    f" FK por rol derivada desde {source_field}; "
+                    f"referencia {country_normalization_config(cfg)['catalog_table']}."
+                )
+                action = "extraer_fk_pais_desde_texto"
             rows.append({
-                "campo_original": original_lookup.get(field, field),
+                "campo_original": original_lookup.get(source_field, source_field),
                 "campo_normalizado": field,
                 "tabla_destino": table_name,
                 "tipo_dato_propuesto": infer_field_type(field, cfg),
@@ -1895,7 +2212,7 @@ def build_campo_mapeo(
             })
 
     for id_field, info in class_fk_sources(cfg).items():
-        for source_kind in ["dominante", "valores"]:
+        for source_kind in ["valores"]:
             source = info[source_kind]
             rows.append({
                 "campo_original": original_lookup.get(source, source),
@@ -1908,6 +2225,25 @@ def build_campo_mapeo(
                     "exporta porque duplica información de clase."
                 ),
             })
+
+    country_cfg = country_normalization_config(cfg)
+    if country_cfg:
+        rows.append({
+            "campo_original": "Configuración normalization.country.rows",
+            "campo_normalizado": country_cfg["id_field"],
+            "tabla_destino": country_cfg["catalog_table"],
+            "tipo_dato_propuesto": infer_field_type(country_cfg["id_field"], cfg),
+            "accion": "pk_catalogo_pais",
+            "observacion": "PK estable del único catálogo normalizado de países.",
+        })
+        rows.append({
+            "campo_original": "Configuración normalization.country.rows",
+            "campo_normalizado": country_cfg["name_field"],
+            "tabla_destino": country_cfg["catalog_table"],
+            "tipo_dato_propuesto": infer_field_type(country_cfg["name_field"], cfg),
+            "accion": "label_catalogo_pais",
+            "observacion": "Nombre de país almacenado una sola vez en el catálogo normalizado.",
+        })
 
     for table_name, df in source_catalog_tables(cfg).items():
         for field in df.columns:
@@ -2115,6 +2451,14 @@ Se documentan en metadata/field_audit.csv como
 
 `{pk}`
 
+## País normalizado
+
+Los nombres de país observados en los campos fuente se almacenan una sola vez en `pais`.
+Las tablas del modelo conservan únicamente FKs por rol:
+
+- `xy_point.id_pais_grupo` -> `pais.id_pais_grupo`
+- `xy_core.id_pais_dominante` -> `pais.id_pais_grupo`
+
 ## Clases de origen en `xy_point`
 
 - `id_0`
@@ -2282,6 +2626,10 @@ def run() -> None:
     # Derive only the source class FKs stored in xy_point.
     gdf = derive_class_fks(gdf, cfg, warnings)
 
+    # Construir catálogo normalizado de países y derivar FKs por rol.
+    country_catalog = build_country_catalog_table(gdf, cfg)
+    gdf = derive_country_fks(gdf, cfg, country_catalog, warnings)
+
     # Validar todas las homologaciones sin añadir FKs propuestas a xy_point.
     proposed_usage_counts = validate_observed_proposed_homologations(
         gdf=gdf,
@@ -2408,6 +2756,18 @@ def run() -> None:
     table_summary.extend(catalog_summaries)
 
     # --------------------------------------------------------
+    # 3b. Catálogo normalizado de países
+    # --------------------------------------------------------
+    country_summary = write_country_catalog_outputs(
+        cfg=cfg,
+        tables_dir=tables_dir,
+        gpkg_path=out_gpkg,
+        country_catalog=country_catalog,
+    )
+    if country_summary is not None:
+        table_summary.append(country_summary)
+
+    # --------------------------------------------------------
     # 4. Catálogos propuestos y homologaciones de niveles 0 y 1
     # --------------------------------------------------------
     proposed_summaries = write_proposed_homologation_outputs(
@@ -2517,9 +2877,10 @@ def run() -> None:
     report_lines.append(f"{pk} nulos: {n_null_pk}")
     report_lines.append(f"{pk} duplicados: {n_dup_pk}")
     report_lines.append("")
-    report_lines.append("Normalización de clases")
+    report_lines.append("Normalización de países y clases")
     report_lines.append("-" * 72)
-    report_lines.append("xy_point guarda únicamente las FKs de origen: id_0, id_1, id_2.")
+    report_lines.append("xy_point guarda las FKs de país y clase: id_pais_grupo, id_0, id_1, id_2.")
+    report_lines.append("xy_core guarda id_pais_dominante; los nombres de país quedan solo en pais.")
     report_lines.append(
         "id_0_propuesta e id_1_propuesta no se almacenan en xy_point; se resuelven mediante reglas N:1."
     )

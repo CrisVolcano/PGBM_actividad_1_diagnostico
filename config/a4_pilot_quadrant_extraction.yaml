@@ -1,0 +1,241 @@
+# Actividad 4 — extracción normalizada de puntos por cuadrantes piloto
+# ------------------------------------------------------------------
+# Este YAML concentra la configuración operativa del script
+# extract_pilot_quadrant_points.py. El código no debe definir aquí campos,
+# tablas, capas o nombres de salida de forma rígida, salvo valores mínimos
+# necesarios para validar la estructura del archivo.
+
+activity: a4_pilot_quadrant_extraction
+
+paths:
+  points_gpkg: data/processed/a2_1_modelo_datos/gpkg/a2_1_xy_point.gpkg
+  quadrants_gpkg: data/raw/cuadrantes_pilotos/zonas_cuadrantes_pilotos.gpkg
+  output_gpkg: data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_extraction_normalized.gpkg
+  log_path: data/processed/a4_pilot_quadrant_extraction/logs/extract_pilot_quadrant_points_normalized.log
+
+inputs:
+  points_layer: xy_point
+  action_table: xy_accion
+  score_table: xy_score
+  quadrants_layer: zonas_cuadrantes
+
+fields:
+  key: xy_group_id
+  zone: id_zona
+  quadrant: id_cuadrante
+  quadrant_fields:
+    - id_zona
+    - id_cuadrante
+
+  pilot_xy_point:
+    - xy_group_id
+    - lon
+    - lat
+    - id_pais_grupo
+    - id_0
+    - id_1
+    - id_2
+
+  score:
+    - xy_group_id
+    - score_aptitud_total
+
+  action:
+    - xy_group_id
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - definicion_categoria_aptitud
+    - accion_recomendada
+    - razon_categoria_aptitud
+
+outputs:
+  layers:
+    pilot_xy_point: pilot_xy_point
+    pilot_zone: pilot_zone
+    pilot_quadrant: pilot_quadrant
+    pilot_quadrant_buffer: pilot_quadrant_buffer
+
+  tables:
+    pilot_buffer_run: pilot_buffer_run
+    pilot_assignment_run: pilot_assignment_run
+    xy_pilot_quadrant: xy_pilot_quadrant
+    xy_score: xy_score
+    xy_accion: xy_accion
+    xy_pilot_quadrant_conflict: xy_pilot_quadrant_conflict
+    xy_pilot_quadrant_conflict_match: xy_pilot_quadrant_conflict_match
+
+filters:
+  export_uses:
+    - entrenamiento
+    - validación
+  action_use_field: categoria_uso_actividad_1_8
+
+spatial:
+  predicate: within
+  allowed_predicates:
+    - within
+    - intersects
+    - covered_by
+  buffer_negative_m: 30.0
+  metric_crs: auto
+  multiple_match_policy: exclude
+  allowed_multiple_match_policies:
+    - exclude
+    - raise
+
+runs:
+  buffer_run_id: buffer_run_001
+  assignment_run_id: assignment_run_001
+
+reference_tables:
+  pais:
+    fields:
+      - id_pais_grupo
+      - pais
+    pk: id_pais_grupo
+    description: Catálogo normalizado de países usado por pilot_xy_point.id_pais_grupo.
+
+  clase_origen_nivel_0:
+    fields:
+      - id_0
+      - nivel_0
+    pk: id_0
+    description: Catálogo de clases de origen nivel 0.
+
+  clase_origen_nivel_1:
+    fields:
+      - id_1
+      - nivel_1
+      - id_0
+    pk: id_1
+    description: Catálogo de clases de origen nivel 1.
+
+  clase_origen_nivel_2:
+    fields:
+      - id_2
+      - nivel_2
+      - id_1
+    pk: id_2
+    description: Catálogo de clases de origen nivel 2.
+
+  clase_propuesta_nivel_0:
+    fields:
+      - id_0_propuesta
+      - nivel_0_propuesta
+    pk: id_0_propuesta
+    description: Catálogo de clases propuestas nivel 0.
+
+  clase_propuesta_nivel_1:
+    fields:
+      - id_1_propuesta
+      - nivel_1_propuesta
+      - id_0_propuesta
+    pk: id_1_propuesta
+    description: Catálogo de clases propuestas nivel 1.
+
+  homologacion_nivel_0_origen_propuesta:
+    fields:
+      - id_0
+      - id_0_propuesta
+    pk: id_0
+    description: Homologación N:1 de nivel 0 de origen a propuesta.
+
+  homologacion_nivel_1_origen_propuesta:
+    fields:
+      - id_1
+      - id_1_propuesta
+    pk: id_1
+    description: Homologación N:1 de nivel 1 de origen a propuesta.
+
+  homologacion_nivel_2_excepcion_nivel_1_propuesta:
+    fields:
+      - id_2
+      - id_1_propuesta
+    pk: id_2
+    description: Excepciones N:1 desde nivel 2 de origen a nivel 1 propuesto.
+
+relationships:
+  - child_table: pilot_xy_point
+    child_field: id_pais_grupo
+    parent_table: pais
+    parent_field: id_pais_grupo
+  - child_table: pilot_xy_point
+    child_field: id_0
+    parent_table: clase_origen_nivel_0
+    parent_field: id_0
+  - child_table: pilot_xy_point
+    child_field: id_1
+    parent_table: clase_origen_nivel_1
+    parent_field: id_1
+  - child_table: pilot_xy_point
+    child_field: id_2
+    parent_table: clase_origen_nivel_2
+    parent_field: id_2
+  - child_table: clase_origen_nivel_1
+    child_field: id_0
+    parent_table: clase_origen_nivel_0
+    parent_field: id_0
+  - child_table: clase_origen_nivel_2
+    child_field: id_1
+    parent_table: clase_origen_nivel_1
+    parent_field: id_1
+  - child_table: clase_propuesta_nivel_1
+    child_field: id_0_propuesta
+    parent_table: clase_propuesta_nivel_0
+    parent_field: id_0_propuesta
+  - child_table: homologacion_nivel_0_origen_propuesta
+    child_field: id_0
+    parent_table: clase_origen_nivel_0
+    parent_field: id_0
+  - child_table: homologacion_nivel_0_origen_propuesta
+    child_field: id_0_propuesta
+    parent_table: clase_propuesta_nivel_0
+    parent_field: id_0_propuesta
+  - child_table: homologacion_nivel_1_origen_propuesta
+    child_field: id_1
+    parent_table: clase_origen_nivel_1
+    parent_field: id_1
+  - child_table: homologacion_nivel_1_origen_propuesta
+    child_field: id_1_propuesta
+    parent_table: clase_propuesta_nivel_1
+    parent_field: id_1_propuesta
+  - child_table: homologacion_nivel_2_excepcion_nivel_1_propuesta
+    child_field: id_2
+    parent_table: clase_origen_nivel_2
+    parent_field: id_2
+  - child_table: homologacion_nivel_2_excepcion_nivel_1_propuesta
+    child_field: id_1_propuesta
+    parent_table: clase_propuesta_nivel_1
+    parent_field: id_1_propuesta
+  - child_table: pilot_quadrant
+    child_field: id_zona
+    parent_table: pilot_zone
+    parent_field: id_zona
+  - child_table: pilot_quadrant_buffer
+    child_field: id_cuadrante
+    parent_table: pilot_quadrant
+    parent_field: id_cuadrante
+  - child_table: xy_pilot_quadrant
+    child_field: xy_group_id
+    parent_table: pilot_xy_point
+    parent_field: xy_group_id
+  - child_table: xy_pilot_quadrant
+    child_field: id_cuadrante
+    parent_table: pilot_quadrant
+    parent_field: id_cuadrante
+  - child_table: xy_score
+    child_field: xy_group_id
+    parent_table: pilot_xy_point
+    parent_field: xy_group_id
+  - child_table: xy_accion
+    child_field: xy_group_id
+    parent_table: pilot_xy_point
+    parent_field: xy_group_id
+  - child_table: xy_pilot_quadrant_conflict_match
+    child_field: id_cuadrante
+    parent_table: pilot_quadrant
+    parent_field: id_cuadrante
+  - child_table: xy_pilot_quadrant_conflict_match
+    child_field: xy_group_id
+    parent_table: xy_pilot_quadrant_conflict
+    parent_field: xy_group_id

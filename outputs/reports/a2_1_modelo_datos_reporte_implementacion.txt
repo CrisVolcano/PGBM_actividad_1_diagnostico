@@ -1,6 +1,6 @@
 Actividad 2.1 — Reporte de implementación del modelo de datos
 ========================================================================
-Fecha de proceso: 2026-06-25T11:19:15
+Fecha de proceso: 2026-07-09T10:34:59
 ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
 CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a2_1_modelo_datos.yaml
 Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\scoring_aptitud\10_scoring_aptitud_outputs.gpkg
@@ -24,9 +24,10 @@ Validación de llave
 xy_group_id nulos: 0
 xy_group_id duplicados: 0
 
-Normalización de clases
+Normalización de países y clases
 ------------------------------------------------------------------------
-xy_point guarda únicamente las FKs de origen: id_0, id_1, id_2.
+xy_point guarda las FKs de país y clase: id_pais_grupo, id_0, id_1, id_2.
+xy_core guarda id_pais_dominante; los nombres de país quedan solo en pais.
 id_0_propuesta e id_1_propuesta no se almacenan en xy_point; se resuelven mediante reglas N:1.
 Los labels de origen quedan solo en sus tablas de referencia:
 - clase_origen_nivel_0
@@ -90,6 +91,7 @@ CSV: data\processed\a2_1_modelo_datos\tables\xy_accion.csv | filas=1111850 | cam
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_1.csv | filas=12 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_origen_nivel_2.csv | filas=40 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\a2_1_modelo_datos\tables\pais.csv | filas=8 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_0.csv | filas=2 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\clase_propuesta_nivel_1.csv | filas=10 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
 CSV: data\processed\a2_1_modelo_datos\tables\homologacion_nivel_0_origen_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
