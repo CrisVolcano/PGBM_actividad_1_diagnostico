@@ -1,0 +1,92 @@
+# Actividad 4.3 — Exportación de mosaicos/predictores por grupo espacial piloto
+#
+# Ejecución:
+#   python src/actividad_4/4_3_export_spatial_group_rasters.py
+#
+# Este flujo NO exporta los 45 cuadrantes 20 x 20 km por separado.
+# Lee pilot_quadrant y disuelve/agrupa por id_zona para generar 5 grupos
+# espaciales piloto. Luego exporta todos los predictores válidos del Excel
+# para cada grupo espacial.
+#
+# Tareas esperadas:
+#   5 grupos espaciales x 16 predictores = 80 tareas
+
+paths:
+  pilot_gpkg: data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_extraction_normalized.gpkg
+  predictor_registry: data/raw/predictors/Registro de Capas Predictoras Centroamérica PGBM Red II - AECID - GIZ.xlsx
+  output_dir: data/processed/a4_3_spatial_group_raster_export
+
+inputs:
+  # Fuente: cuadrantes 20 x 20 km de A4.
+  # Se agrupan espacialmente por id_zona para obtener las 5 áreas piloto.
+  region_source_layer: pilot_quadrant
+  dissolve_by_field: id_zona
+  region_id_field: id_zona
+
+registry:
+  sheet: Hoja1
+  keep_purpose:
+    - Predictor
+
+  columns:
+    project: Proyecto
+    type: Tipo
+    asset: Ubicación
+    resolution: Res Espacial
+    purpose: Proposito
+    period: Periodo
+    rescale: Reescalado
+    description: Descripción breve
+    bands: Lista Bandas
+
+  band_range_patterns:
+    worldclim_b1_b19:
+      contains:
+        - b1
+        - b19
+      prefix: b
+      start: 1
+      end: 19
+
+gee:
+  project: ee-jesusc461
+  root_drive_folder: PGBM_A4_3_spatial_group_rasters
+
+  # No se homogeniza a una escala común.
+  # Cada predictor se exporta con la escala declarada en el registro de capas.
+  scale_policy: registry
+  fixed_scale_m: 10
+
+  max_pixels: 10000000000000
+  file_format: GeoTIFF
+  cloud_optimized: true
+  skip_empty_tiles: true
+
+  validate_assets_before_submit: true
+  strict_asset_validation: true
+  max_tasks_to_submit: 120
+
+  authenticate_if_needed: true
+  force_authentication: false
+  auth_mode:
+  use_certifi_ssl: true
+
+export:
+  # Carpeta por grupo espacial piloto. Dentro queda un GeoTIFF por predictor.
+  # Ejemplo:
+  #   PGBM_A4_3_spatial_group_rasters_1/
+  #     1__a_sar_max.tif
+  #     1__b_msi_dry10.tif
+  folder_template: "{root_drive_folder}_{id_region_safe}"
+  filename_template: "{id_region_safe}__{predictor_id}"
+  description_template: "a4_3_{id_region_safe}_{predictor_id}"
+
+  # 0 = usa la geometría completa del grupo espacial sin simplificar.
+  simplify_geometry_m: 0
+
+outputs:
+  predictor_name_separator: "__"
+  predictor_catalog_csv: predictor_catalog_rasters.csv
+  regions_csv: spatial_groups_for_raster_export.csv
+  gee_asset_probe_csv: gee_asset_probe_rasters.csv
+  task_manifest_csv: gee_spatial_group_raster_task_manifest.csv

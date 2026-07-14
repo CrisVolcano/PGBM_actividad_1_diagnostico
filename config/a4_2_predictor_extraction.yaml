@@ -1,0 +1,130 @@
+# Actividad 4.2 — Extracción de predictores para puntos piloto A4
+# -----------------------------------------------------------------------------
+# Este YAML controla la extracción real de predictores en Google Earth Engine.
+# No hay execution.mode, run_all, execute, failed ni filtros de submission.
+# Al ejecutar el script, se envían todos los predictores válidos del Excel
+# y todos los lotes generados a Google Drive.
+
+paths:
+  pilot_gpkg: data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_extraction_normalized.gpkg
+  predictor_registry: data/raw/predictors/Registro de Capas Predictoras Centroamérica PGBM Red II - AECID - GIZ.xlsx
+  output_dir: data/processed/a4_2_predictor_extraction
+
+inputs:
+  pilot_points_layer: pilot_xy_point
+  assignment_table: xy_pilot_quadrant
+  score_table: xy_score
+  action_table: xy_accion
+
+fields:
+  key: xy_group_id
+  quadrant: id_cuadrante
+
+  # Campos que se leen desde pilot_xy_point. Deben incluir la llave y geometría.
+  pilot_point_fields:
+    - xy_group_id
+    - lon
+    - lat
+    - id_pais_grupo
+    - id_0
+    - id_1
+    - id_2
+
+  # Campos disponibles si se quieren exportar como propiedades en los CSV de Drive.
+  score_fields:
+    - xy_group_id
+    - score_aptitud_total
+
+  action_fields:
+    - xy_group_id
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - definicion_categoria_aptitud
+    - accion_recomendada
+    - razon_categoria_aptitud
+
+  # Propiedades mínimas que viajan a GEE y vuelven en cada CSV exportado.
+  # xy_group_id es indispensable para identificar el punto muestreado.
+  # id_cuadrante permite controlar de qué cuadrante viene el punto.
+  export_properties:
+    - xy_group_id
+    - id_cuadrante
+
+registry:
+  sheet: Hoja1
+  columns:
+    project: Proyecto
+    asset: Ubicación
+    type: Tipo
+    resolution: Res Espacial
+    purpose: Proposito
+    period: Periodo
+    rescale: Reescalado
+    description: Descripción breve
+    bands: "Lista Bandas "
+
+  keep_purpose:
+    - Predictor
+
+  # En el Excel hay textos tipo Desde “b1” a “b19”. Esta regla los expande.
+  band_range_patterns:
+    worldclim_b1_b19:
+      contains:
+        - b1
+        - b19
+      prefix: b
+      start: 1
+      end: 19
+
+gee:
+  # null usa el proyecto configurado por Earth Engine.
+  # Si tu cuenta requiere proyecto explícito, escribir aquí el project ID.
+  project: ee-jesusc461
+
+  # Autenticación desde el código.
+  # authenticate_if_needed=true hace que el script llame ee.Authenticate()
+  # si no encuentra credenciales locales válidas.
+  authenticate_if_needed: true
+
+  # Usar true solo si querés renovar credenciales aunque ya existan.
+  force_authentication: false
+
+  # null deja que Earth Engine escoja el mejor método.
+  # En Windows local normalmente también puede usarse: localhost
+  auth_mode: null
+
+  # Evita errores SSL de Windows/Conda durante el intercambio OAuth.
+  # El código usa certifi para la validación HTTPS.
+  use_certifi_ssl: true
+
+  drive_folder: PGBM_A4_2_predictor_exports
+  batch_size: 5000
+  tile_scale: 16
+  geometries: false
+  file_format: CSV
+
+  # Valida acceso a assets y nombres de bandas antes de enviar tareas.
+  # Esto evita fallos tardíos tipo: Image.select: band pattern ... did not match.
+  validate_assets_before_submit: true
+  strict_asset_validation: true
+
+  # registry = usa Res Espacial del Excel por predictor.
+  # fixed = usa fixed_scale_m para todos los predictores.
+  scale_policy: registry
+  fixed_scale_m: 10
+
+  # null deja que GEE use la proyección/CRS del asset.
+  crs: null
+
+  # Control de seguridad para no enviar demasiadas tareas por accidente.
+  max_tasks_to_submit: 500
+
+outputs:
+  predictor_catalog_csv: predictor_catalog.csv
+  task_manifest_csv: gee_task_manifest.csv
+  gee_asset_probe_csv: gee_asset_probe.csv
+  predictor_name_separator: "__"
+
+  # Solo auditoría local; no es necesario para la extracción.
+  write_local_selected_points_csv: false
+  selected_points_csv: pilot_points_for_gee.csv

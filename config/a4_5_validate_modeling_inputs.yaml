@@ -1,0 +1,80 @@
+# Actividad 5.0 — Validación previa al modelado
+# ----------------------------------------------------------------------
+# Valida la base preparada en A4.4 antes de entrenar modelos.
+# No crea splits ni entrena modelos. Solo diagnostica integridad,
+# completitud, nulos, distribución de clases y preparación para validación
+# espacial por cuadrantes.
+
+paths:
+  # Base preparada por A4.4. Tiene una capa espacial real y tablas relacionadas.
+  modeling_gpkg: data/processed/a4_4_predictor_normalization/gpkg/a4_4_point_predictors_normalized.gpkg
+
+  # Carpeta donde se escriben reportes y tablas de diagnóstico.
+  output_dir: data/processed/a5_0_pre_model_validation
+
+inputs:
+  pilot_points_layer: pilot_xy_point
+  assignment_table: xy_pilot_quadrant
+  score_table: xy_score
+  action_table: xy_accion
+
+catalogs:
+  predictor_source_table: predictor_source
+  predictor_band_table: predictor_band
+
+fields:
+  key: xy_group_id
+  quadrant: id_cuadrante
+
+  # Campos de contexto que deberían existir en la matriz derivada.
+  model_context_fields:
+    - xy_group_id
+    - lon
+    - lat
+    - id_pais_grupo
+    - id_0
+    - id_1
+    - id_2
+    - id_cuadrante
+    - score_aptitud_total
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - definicion_categoria_aptitud
+    - accion_recomendada
+    - razon_categoria_aptitud
+
+  # Se resumen como distribución, pero se mantienen separados en xy_accion.
+  action_distribution_fields:
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - accion_recomendada
+
+model_readiness:
+  # Se revisa preparación para modelado en los tres niveles.
+  target_fields:
+    - id_0
+    - id_1
+    - id_2
+
+  # No crea el split; solo evalúa si una validación espacial por cuadrantes
+  # sería viable. El split real vendría en A5.1.
+  group_kfold_n_splits: 5
+
+thresholds:
+  # Umbrales iniciales. Se pueden ajustar después de ver el diagnóstico.
+  min_points_per_class: 30
+  min_quadrants_per_class: 2
+  max_predictor_null_pct_warning: 5
+  max_predictor_null_pct_critical: 30
+
+outputs:
+  model_matrix_table: pilot_model_matrix
+
+  # Normalmente la matriz está dentro del GPKG A4.4. Si no existe ahí,
+  # puede usarse este CSV como respaldo, relativo a paths.output_dir si se
+  # deja solo el nombre del archivo.
+  model_matrix_csv: null
+
+validation:
+  # Si hay fallos críticos, termina con error para evitar pasar al modelado.
+  fail_on_critical: true

@@ -44,3 +44,4 @@ dependencies:
       - leafmap
       - geemap
       - ydata-profiling
+      - openpyxl
