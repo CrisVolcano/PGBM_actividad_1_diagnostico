@@ -1,0 +1,138 @@
+project:
+  name: "PGBM_actividad_1_diagnostico"
+  module: "Preparacion y auditoria GEE Sentinel-2 SR para nueva fuente puntual"
+  source_description: "SINAC - Malla de Entrenamientos del Mapa de Bosques 2021, Costa Rica"
+
+paths:
+  # Raiz del repositorio destino, relativa a esta carpeta config/a3_auditorias_nuevas_fuentes/.
+  project_root: "../.."
+
+input_data:
+  # GeoPackage normalizado producido por src/actividad_3/a3_auditorias_nuevas_fuentes/01_preparar_sinac_auditoria_espectral.py.
+  gpkg_file: "data/processed/a3_auditorias_nuevas_fuentes/preparacion/preparacion_datos_sinac_auditoria_espectral.gpkg"
+  gpkg_layer: "preparacion_datos_sinac_auditoria_espectral"
+
+fields:
+  id: "id_registro"
+  original_id: "id_muestra_original"
+  xy_group_id: "xy_group_id"
+  xy_year_group_id: "xy_year_group_id"
+  xy_class_group_id: "xy_class_group_id"
+  extract_id: "extract_id"
+  source: "Fuente"
+  source_id: "id_fuente"
+  year: "Año"
+  country: "Pais_es"
+  country_code: "Pais_cod3"
+  longitude: "Longitud"
+  latitude: "Latitud"
+  class_code: "Clase"
+  class_group_code: "GranClase"
+  class_name: "nombre_clase"
+  class_group_name: "nombre_gran_clase"
+
+settings:
+  expected_crs: "EPSG:4326"
+  coordinate_precision: 6
+  extract_id_prefix: "S2SR_llenado_SRC10"
+  batch_size: 50000
+
+temporal:
+  year_min: 2021
+  year_max: 2021
+
+outputs:
+  base_dir: "data/processed/a3_auditorias_nuevas_fuentes/gee_input"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/gee_input"
+  units_csv: "s2_sr_extract_units_sinac_src10_2021.csv"
+  eligible_gpkg: "puntos_sinac_src10_2021_con_extract_id.gpkg"
+  eligible_layer: "puntos_sinac_src10_2021_con_extract_id"
+  overwrite: true
+
+xy_groups:
+  enabled: true
+  id_namespace: "SRC10_CRI_2021"
+  id_strategy: "hash"
+  hash_length: 12
+  coordinate_precision: 6
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/preparacion/preparacion_datos_sinac_auditoria_espectral.gpkg"
+  input_layer: "preparacion_datos_sinac_auditoria_espectral"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/xy_groups/sinac_src10_2021_xy_groups_outputs.gpkg"
+  output_layers:
+    records: "sinac_src10_records_with_xy_groups"
+    xy_groups: "sinac_src10_xy_groups"
+    xy_year_groups: "sinac_src10_xy_year_groups"
+    xy_class_groups: "sinac_src10_xy_class_groups"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/xy_groups"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/xy_groups/xy_groups_sinac_src10_2021_report.md"
+  use_for_gee_input: true
+
+s2sr_join:
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/gee_input/puntos_sinac_src10_2021_con_extract_id.gpkg"
+  input_layer: "puntos_sinac_src10_2021_con_extract_id"
+  gee_export_dir: "data/processed/a3_auditorias_nuevas_fuentes/gee_exports"
+  gee_export_prefix: "pgbm_s2sr_monthly_s2cloudless_sinac_src10_2021"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/s2sr_join/sinac_src10_2021_s2sr_join_outputs.gpkg"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/s2sr_join"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/s2sr_join/join_s2sr_to_sinac_src10_2021_records_report.md"
+
+spectral_class_audit:
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/s2sr_join/sinac_src10_2021_s2sr_join_outputs.gpkg"
+  input_layers:
+    original_annual: "sinac_src10_records_s2sr_annual"
+    extract_units_annual: "sinac_src10_extract_units_s2sr_annual"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/spectral_class_audit/s2sr_spectral_class_audit_sinac_src10_2021_outputs.gpkg"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/spectral_class_audit"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/spectral_class_audit/s2sr_spectral_class_audit_sinac_src10_2021_report.md"
+  parameters:
+    min_valid_months: 4
+    min_total_obs: 4
+    cloud_prob_high: 60.0
+    min_group_size_for_rareness: 20
+    iqr_factor: 1.5
+    high_gap_pct: 25.0
+    high_rare_pct: 15.0
+    high_alert_pct: 25.0
+
+quality_scoring:
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/quality_scoring/sinac_src10_2021_quality_scoring_outputs.gpkg"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/quality_scoring"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/quality_scoring/quality_scoring_sinac_src10_2021_report.md"
+  target_year: 2021
+  source_base_score: 85
+  confidence_neutral_score: 70
+  min_records_moderate_class: 100
+  min_records_sufficient_class: 500
+  semantic_keywords:
+    residual:
+      - "otra"
+      - "otras"
+      - "sin clasificar"
+      - "no clasificado"
+  weights_xy:
+    temporal: 0.20
+    spatial: 0.20
+    thematic: 0.20
+    spectral: 0.15
+    confidence: 0.10
+    representativity: 0.10
+    source: 0.05
+  spectral_scores:
+    sin_alerta: 100
+    baja: 80
+    media: 60
+    alta: 30
+    alta_sin_datos: 10
+  representativity_scores:
+    suficiente: 100
+    moderado: 85
+    bajo: 65
+    critico: 40
+  state_thresholds:
+    training_high: 85
+    training_conditioned: 70
+    contextual: 55
+  caps:
+    spectral_alert_high: 70
+    spectral_no_data: 60
+    semantic_residual: 75

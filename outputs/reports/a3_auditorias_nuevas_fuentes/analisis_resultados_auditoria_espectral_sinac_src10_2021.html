@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Análisis de resultados de auditoría espectral SINAC SRC10 2021</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --ink: #1f2933;
+      --muted: #5f6b76;
+      --line: #d9ded6;
+      --panel: #ffffff;
+      --accent: #1f7a6d;
+      --accent-2: #9d5c2e;
+      --soft: #edf6f2;
+      --warn: #fff5df;
+      --danger: #fae7e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      background: #153f3a;
+      color: white;
+      padding: 46px clamp(20px, 6vw, 72px) 38px;
+    }
+    header p { max-width: 960px; color: #d7ebe6; font-size: 1.06rem; margin: 10px 0 0; }
+    h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1.08; letter-spacing: 0; }
+    h2 { margin-top: 40px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    h3 { margin-top: 28px; }
+    main { max-width: 1180px; margin: 0 auto; padding: 30px clamp(16px, 4vw, 44px) 70px; }
+    .meta { color: #d7ebe6; font-size: .92rem; margin-top: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 20px 0; }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 120px;
+    }
+    .metric strong { display: block; font-size: 1.8rem; color: var(--accent); line-height: 1.1; }
+    .metric p { margin: 8px 0 0; color: var(--ink); font-weight: 650; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); font-size: .9rem; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .note { background: var(--soft); border-left: 5px solid var(--accent); }
+    .warning { background: var(--warn); border-left: 5px solid var(--accent-2); }
+    .danger { background: var(--danger); border-left: 5px solid #b6463a; }
+    code {
+      background: #eef1ee;
+      border: 1px solid #dce2dd;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: .92em;
+    }
+    pre {
+      overflow: auto;
+      background: #172421;
+      color: #e7f2ef;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    ul, ol { padding-left: 1.25rem; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin: 14px 0 24px;
+      font-size: .92rem;
+    }
+    .data-table th, .data-table td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .data-table th { background: #eef4ef; font-weight: 750; }
+    .table-wrap { overflow-x: auto; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 230px) 1fr minmax(120px, 160px);
+      gap: 12px;
+      align-items: center;
+      margin: 9px 0;
+    }
+    .bar-track { height: 12px; background: #e2e8e3; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); }
+    .bar-label { font-weight: 650; }
+    .bar-value { text-align: right; font-variant-numeric: tabular-nums; }
+    .bar-value span { color: var(--muted); }
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+    footer { color: var(--muted); font-size: .9rem; margin-top: 44px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Análisis de resultados de auditoría espectral SINAC SRC10 2021</h1>
+    <p>Síntesis de conteos, distribución de alertas, clases priorizadas y controles de calidad del procesamiento.</p>
+    <div class="meta">Generado: 2026-07-14 09:43:59 · Carpeta base: PGBM_actividad_1_diagnostico</div>
+  </header>
+  <main>
+    
+    <section class="grid">
+      
+      <article class="metric">
+        <strong>19,474</strong>
+        <p>Registros elegibles</p>
+        <span>Registros normalizados de entrada</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>19,455</strong>
+        <p>Grupos XY</p>
+        <span>Longitud + Latitud con namespace</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>19,455</strong>
+        <p>Unidades únicas de extracción</p>
+        <span>Longitud + Latitud + Año</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>233,460</strong>
+        <p>Filas mensuales GEE esperadas</p>
+        <span>12 meses por extract_id</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>6,964</strong>
+        <p>Registros prioritarios</p>
+        <span>35.761% del total</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>6,945</strong>
+        <p>Unidades prioritarias</p>
+        <span>35.698% de unidades</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>354</strong>
+        <p>Registros con rareza espectral</p>
+        <span>1.818%</span>
+      </article>
+    
+      
+      <article class="metric">
+        <strong>92.396</strong>
+        <p>Score total promedio</p>
+        <span>Promedio por xy_group_id</span>
+      </article>
+    
+    </section>
+
+    <section class="panel note">
+      <h2>Lectura general</h2>
+      <p>El procesamiento fue consistente: todos los <code>extract_id</code> originales tienen valores espectrales, no hubo <code>extract_id</code> extra en GEE y no se detectaron duplicados por <code>extract_id + month</code>. La cobertura anual es buena: las capas anuales reportan 12 meses observados como mediana en todas las clases principales.</p>
+      <p>La auditoría espacial generó 19,455 <code>xy_group_id</code> independientes. Estos IDs se conservaron en la preparación GEE, el join S2SR y la auditoría espectral por grupo.</p>
+      <p>La auditoría marcó como prioritarios 6,964 registros originales (35.761%). Esto debe leerse como priorización de revisión, no como error definitivo.</p>
+    </section>
+
+    <h2>Distribución de alertas</h2>
+    <div class="two-col">
+      <div class="panel">
+        <h3>Registros originales</h3>
+        
+            <div class="bar-row">
+              <div class="bar-label">sin_alerta</div>
+              <div class="bar-track"><div class="bar-fill" style="width:100.00%"></div></div>
+              <div class="bar-value">12,510 <span>64.239%</span></div>
+            </div>
+            
+
+            <div class="bar-row">
+              <div class="bar-label">media</div>
+              <div class="bar-track"><div class="bar-fill" style="width:30.25%"></div></div>
+              <div class="bar-value">3,784 <span>19.431%</span></div>
+            </div>
+            
+
+            <div class="bar-row">
+              <div class="bar-label">alta</div>
+              <div class="bar-track"><div class="bar-fill" style="width:25.42%"></div></div>
+              <div class="bar-value">3,180 <span>16.329%</span></div>
+            </div>
+            
+      </div>
+      <div class="panel">
+        <h3>Unidades únicas de extracción</h3>
+        
+            <div class="bar-row">
+              <div class="bar-label">sin_alerta</div>
+              <div class="bar-track"><div class="bar-fill" style="width:100.00%"></div></div>
+              <div class="bar-value">12,510 <span>64.302%</span></div>
+            </div>
+            
+
+            <div class="bar-row">
+              <div class="bar-label">media</div>
+              <div class="bar-track"><div class="bar-fill" style="width:30.24%"></div></div>
+              <div class="bar-value">3,783 <span>19.445%</span></div>
+            </div>
+            
+
+            <div class="bar-row">
+              <div class="bar-label">alta</div>
+              <div class="bar-track"><div class="bar-fill" style="width:25.28%"></div></div>
+              <div class="bar-value">3,162 <span>16.253%</span></div>
+            </div>
+            
+      </div>
+    </div>
+
+    <h2>Resultados por clase</h2>
+    <div class="panel warning">
+      <p>Las clases que más concentran prioridad son <strong>Humedal Palustre</strong>, <strong>Edificaciones</strong> y <strong>Pastos</strong>. En Humedal Palustre, la regla es deliberadamente sensible a extremos porque es una clase mixta agua-vegetación. En Edificaciones, una señal vegetal elevada puede indicar mezcla con árboles, jardines, bordes urbanos o un posible desajuste temático. En Pastos, valores vegetativos altos también pueden reflejar manejo, estacionalidad o confusión temática.</p>
+    </div>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Clase</th>
+      <th>Registros</th>
+      <th>Prioritarios</th>
+      <th>% prioritarios</th>
+      <th>Alertas altas</th>
+      <th>Alertas medias</th>
+      <th>% regla alta</th>
+      <th>% regla media</th>
+      <th>% rareza</th>
+      <th>Nivel clase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Humedal Palustre</td>
+      <td>409</td>
+      <td>405</td>
+      <td>99.022</td>
+      <td>1</td>
+      <td>404</td>
+      <td>0.000</td>
+      <td>98.044</td>
+      <td>2.689</td>
+      <td>alta_alertas</td>
+    </tr>
+    <tr>
+      <td>Edificaciones</td>
+      <td>5928</td>
+      <td>5713</td>
+      <td>96.373</td>
+      <td>3027</td>
+      <td>2686</td>
+      <td>51.063</td>
+      <td>44.889</td>
+      <td>0.422</td>
+      <td>alta_reglas_clase</td>
+    </tr>
+    <tr>
+      <td>Pastos</td>
+      <td>1179</td>
+      <td>412</td>
+      <td>34.945</td>
+      <td>1</td>
+      <td>411</td>
+      <td>0.085</td>
+      <td>33.418</td>
+      <td>2.290</td>
+      <td>alta_alertas</td>
+    </tr>
+    <tr>
+      <td>Manglar</td>
+      <td>800</td>
+      <td>135</td>
+      <td>16.875</td>
+      <td>111</td>
+      <td>24</td>
+      <td>13.875</td>
+      <td>2.625</td>
+      <td>16.750</td>
+      <td>alta_valores_espectrales_raros</td>
+    </tr>
+    <tr>
+      <td>Bosque secundario</td>
+      <td>903</td>
+      <td>80</td>
+      <td>8.859</td>
+      <td>22</td>
+      <td>58</td>
+      <td>0.554</td>
+      <td>0.111</td>
+      <td>7.198</td>
+      <td>baja_sin_prioridad</td>
+    </tr>
+    <tr>
+      <td>Bosque secundario deciduo</td>
+      <td>1587</td>
+      <td>66</td>
+      <td>4.159</td>
+      <td>0</td>
+      <td>66</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4.159</td>
+      <td>baja_sin_prioridad</td>
+    </tr>
+    <tr>
+      <td>Agua</td>
+      <td>150</td>
+      <td>6</td>
+      <td>4.000</td>
+      <td>0</td>
+      <td>6</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4.000</td>
+      <td>baja_sin_prioridad</td>
+    </tr>
+    <tr>
+      <td>Bosque maduro</td>
+      <td>29</td>
+      <td>1</td>
+      <td>3.448</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3.448</td>
+      <td>baja_sin_prioridad</td>
+    </tr>
+    <tr>
+      <td>Cultivos</td>
+      <td>8489</td>
+      <td>146</td>
+      <td>1.720</td>
+      <td>18</td>
+      <td>128</td>
+      <td>0.000</td>
+      <td>1.543</td>
+      <td>0.224</td>
+      <td>baja_sin_prioridad</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Resultados por grupo XY</h2>
+    <p>Esta tabla resume los grupos espaciales con mayor prioridad espectral. Permite revisar por ubicación, manteniendo la independencia frente a los grupos XY del flujo original.</p>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>xy_group_id</th>
+      <th>Registros</th>
+      <th>Extract ID</th>
+      <th>Prioritarios</th>
+      <th>% prioritarios</th>
+      <th>Alerta máxima</th>
+      <th>Clases</th>
+      <th>Gran clases</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SRC10_CRI_2021__XY__0a4cd51d4d65</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__1170c26590af</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>media</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__28a65e64fbcd</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__2d25e4d87534</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__3811232e2a6b</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__495cd918a8bd</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__4c8d54f535b6</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__4cfd98fee065</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__595592f0a158</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__5e5b84fdecae</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__64333c0e8699</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__97eda9adf7a1</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__aee0ced1f437</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__c919b7df4635</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__de25aa256605</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__de81ffb1d026</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__e7e94abc72fa</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__e8f6ba322f3f</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__f38c7603af4e</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__002256d98148</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>media</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__005dc0480585</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__005efce95da7</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__006037e80b3a</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__006812f6477b</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>media</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__006c84ebfddb</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>media</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__008486db51c7</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__0087517f0de5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__00acef761b88</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__00b76ca0ebd5</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>alta</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>SRC10_CRI_2021__XY__00bcf6c6fe2c</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>media</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Scoring multicriterio</h2>
+    <p>El score total integra criterios temporal, espacial, temático/semántico, espectral, confiabilidad, representatividad y fuente. Las categorías son comparables metodológicamente con el cierre del flujo original, pero adaptadas a <code>Clase</code>/<code>GranClase</code> y a una fuente monoanual.</p>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>categoria_aptitud</th>
+      <th>n_xy_groups</th>
+      <th>score_mean</th>
+      <th>pct_xy_groups</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>entrenamiento_alta</td>
+      <td>16291</td>
+      <td>96.759</td>
+      <td>83.737</td>
+    </tr>
+    <tr>
+      <td>entrenamiento_condicionado</td>
+      <td>3145</td>
+      <td>70.004</td>
+      <td>16.166</td>
+    </tr>
+    <tr>
+      <td>referencia_contextual</td>
+      <td>19</td>
+      <td>57.861</td>
+      <td>0.098</td>
+    </tr>
+  </tbody>
+</table></div>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>statistic</th>
+      <th>score_temporal</th>
+      <th>score_espacial</th>
+      <th>score_tematico</th>
+      <th>score_espectral</th>
+      <th>score_confiabilidad</th>
+      <th>score_representatividad</th>
+      <th>score_fuente</th>
+      <th>score_aptitud_raw</th>
+      <th>score_aptitud_total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td>19455.0</td>
+      <td>19455.000</td>
+      <td>19455.000</td>
+      <td>19455.000</td>
+      <td>19455.000</td>
+      <td>19455.00</td>
+      <td>19455.0</td>
+      <td>19455.000</td>
+      <td>19455.000</td>
+    </tr>
+    <tr>
+      <td>min</td>
+      <td>100.0</td>
+      <td>0.000</td>
+      <td>55.500</td>
+      <td>30.000</td>
+      <td>70.000</td>
+      <td>40.00</td>
+      <td>85.0</td>
+      <td>55.350</td>
+      <td>55.350</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>100.0</td>
+      <td>99.902</td>
+      <td>99.805</td>
+      <td>80.845</td>
+      <td>86.748</td>
+      <td>99.48</td>
+      <td>85.0</td>
+      <td>94.941</td>
+      <td>92.396</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>100.0</td>
+      <td>100.000</td>
+      <td>100.000</td>
+      <td>100.000</td>
+      <td>90.000</td>
+      <td>100.00</td>
+      <td>85.0</td>
+      <td>98.250</td>
+      <td>98.250</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>100.0</td>
+      <td>100.000</td>
+      <td>100.000</td>
+      <td>100.000</td>
+      <td>90.000</td>
+      <td>100.00</td>
+      <td>85.0</td>
+      <td>98.250</td>
+      <td>98.250</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Control mensual de observaciones limpias</h2>
+    <p>Los meses con mayor proporción de filas sin observaciones limpias fueron agosto, mayo y octubre. Aun así, el porcentaje mensual máximo fue 4.040%.</p>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Mes</th>
+      <th>Filas</th>
+      <th>Extract ID</th>
+      <th>Filas sin obs limpias</th>
+      <th>Mediana obs limpias</th>
+      <th>Máx obs limpias</th>
+      <th>% sin obs limpias</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>10</td>
+      <td>4.0</td>
+      <td>6</td>
+      <td>0.0514</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>11</td>
+      <td>4.0</td>
+      <td>6</td>
+      <td>0.0565</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>7</td>
+      <td>5.0</td>
+      <td>6</td>
+      <td>0.0360</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>24</td>
+      <td>3.0</td>
+      <td>4</td>
+      <td>0.1234</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>604</td>
+      <td>2.0</td>
+      <td>4</td>
+      <td>3.1046</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>39</td>
+      <td>3.0</td>
+      <td>5</td>
+      <td>0.2005</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>68</td>
+      <td>3.0</td>
+      <td>5</td>
+      <td>0.3495</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>786</td>
+      <td>2.0</td>
+      <td>5</td>
+      <td>4.0401</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>264</td>
+      <td>3.0</td>
+      <td>6</td>
+      <td>1.3570</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>411</td>
+      <td>3.0</td>
+      <td>5</td>
+      <td>2.1126</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>6</td>
+      <td>3.0</td>
+      <td>6</td>
+      <td>0.0308</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>19455</td>
+      <td>19455</td>
+      <td>0</td>
+      <td>5.0</td>
+      <td>6</td>
+      <td>0.0000</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Distribución temática de la fuente</h2>
+    <p>La fuente está dominada por Cultivos y Edificaciones, seguidos por bosque secundario deciduo y Pastos. Esta composición influye en el balance de alertas: clases grandes con reglas sensibles generan muchos registros prioritarios.</p>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Gran clase</th>
+      <th>Nombre gran clase</th>
+      <th>Clase</th>
+      <th>Nombre clase</th>
+      <th>Registros/unidades</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>9</td>
+      <td>Cultivos</td>
+      <td>9</td>
+      <td>Cultivos</td>
+      <td>8489</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>Edificaciones</td>
+      <td>16</td>
+      <td>Edificaciones</td>
+      <td>5928</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Forestal</td>
+      <td>4</td>
+      <td>Bosque secundario deciduo</td>
+      <td>1587</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Pastos</td>
+      <td>8</td>
+      <td>Pastos</td>
+      <td>1179</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Forestal</td>
+      <td>2</td>
+      <td>Bosque secundario</td>
+      <td>903</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Forestal</td>
+      <td>6</td>
+      <td>Manglar</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Humedal Palustre</td>
+      <td>11</td>
+      <td>Humedal Palustre</td>
+      <td>409</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Agua</td>
+      <td>10</td>
+      <td>Agua</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Forestal</td>
+      <td>1</td>
+      <td>Bosque maduro</td>
+      <td>29</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Interpretación de hallazgos principales</h2>
+    <div class="two-col">
+      <div class="panel danger">
+        <h3>Alertas altas</h3>
+        <p>Las alertas altas se activan por reglas fuertes de clase, por ausencia de datos espectrales o por combinación de conflicto temático con rareza/regla espectral. En este resultado predominan reglas fuertes para Edificaciones y, en menor medida, Manglar.</p>
+      </div>
+      <div class="panel warning">
+        <h3>Alertas medias</h3>
+        <p>Las alertas medias recogen señales fuera de expectativa pero menos concluyentes. Son útiles para revisión masiva o para seleccionar muestras de control, especialmente en Humedal Palustre y Pastos.</p>
+      </div>
+    </div>
+
+    <h2>Reglas usadas como referencia</h2>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>class_code</th>
+      <th>class_name</th>
+      <th>expected_signal_group</th>
+      <th>medium_rule</th>
+      <th>high_rule</th>
+      <th>note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Bosque maduro</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Misma regla que bosque secundario para evitar falsa precisión en esta versión piloto.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Bosque secundario</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Misma regla que bosque maduro.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Bosque secundario deciduo</td>
+      <td>vegetacion_forestal_estacional</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.07</td>
+      <td>NDVI &lt; 0.22 o NDRE &lt; 0.04</td>
+      <td>Regla conservadora por estacionalidad del bosque deciduo en trópico seco.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Manglar</td>
+      <td>vegetacion_humeda_mixta</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.08</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.05</td>
+      <td>Tolera mezcla con agua/borde, pero prioriza señales vegetales muy bajas.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Pastos</td>
+      <td>vegetacion_herbacea_estacional</td>
+      <td>NDVI &lt; 0.25 o NDVI &gt; 0.70 o NDVI &gt; 0.65 y NDRE &gt; 0.18</td>
+      <td>NDVI &lt; 0.18</td>
+      <td>Regla conservadora por variabilidad estacional y manejo ganadero.</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Cultivos</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.15 o NDVI &gt; 0.85 o NDRE &lt; 0.02</td>
+      <td>No aplica por umbral fijo; alta si conflicto temático + rareza/extremo.</td>
+      <td>Clase variable por ciclos agrícolas, suelo preparado, cosecha y barbecho.</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Agua</td>
+      <td>agua_baja_vegetacion</td>
+      <td>NDVI &gt; 0.20 o NDRE &gt; 0.04</td>
+      <td>NDVI &gt; 0.35 o NDRE &gt; 0.08</td>
+      <td>Señal vegetal alta sugiere borde, humedal, manglar, mezcla o error temático.</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Humedal Palustre</td>
+      <td>humedal_mixto</td>
+      <td>NDVI &lt; 0.05 o NDVI &gt; 0.75 o NDRE &gt; 0.20</td>
+      <td>No aplica por umbral fijo; alta si conflicto temático + extremo/rareza.</td>
+      <td>Clase mixta agua-vegetación; se detectan extremos, no una señal única esperada.</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>Edificaciones</td>
+      <td>no_vegetacion_esperada</td>
+      <td>NDVI &gt; 0.40 o NDRE &gt; 0.12</td>
+      <td>NDVI &gt; 0.55 o NDVI &gt; 0.50 y NDRE &gt; 0.12</td>
+      <td>Puede haber mezcla a 20 m con árboles, jardines o bordes urbanos.</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Productos generados</h2>
+    <div class="panel">
+      <ul>
+        <li><code>data/processed/a3_auditorias_nuevas_fuentes/spectral_class_audit/s2sr_spectral_class_audit_sinac_src10_2021_outputs.gpkg</code></li>
+        <li><code>data/processed/a3_auditorias_nuevas_fuentes/xy_groups/sinac_src10_2021_xy_groups_outputs.gpkg</code></li>
+        <li><code>data/processed/a3_auditorias_nuevas_fuentes/quality_scoring/sinac_src10_2021_quality_scoring_outputs.gpkg</code></li>
+        <li><code>outputs/tables/a3_auditorias_nuevas_fuentes/xy_groups</code></li>
+        <li><code>outputs/tables/a3_auditorias_nuevas_fuentes/spectral_class_audit</code></li>
+        <li><code>outputs/tables/a3_auditorias_nuevas_fuentes/quality_scoring</code></li>
+        <li><code>outputs/reports/a3_auditorias_nuevas_fuentes/xy_groups/xy_groups_sinac_src10_2021_report.md</code></li>
+        <li><code>outputs/reports/a3_auditorias_nuevas_fuentes/quality_scoring/quality_scoring_sinac_src10_2021_report.md</code></li>
+        <li><code>outputs/reports/a3_auditorias_nuevas_fuentes/spectral_class_audit/s2sr_spectral_class_audit_sinac_src10_2021_report.md</code></li>
+      </ul>
+    </div>
+    
+    <footer>Documento generado a partir de scripts, YAML, GeoPackages y CSV de control del piloto SINAC SRC10 2021.</footer>
+  </main>
+</body>
+</html>

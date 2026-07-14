@@ -1,0 +1,10 @@
+﻿class_code,class_name,expected_signal_group,medium_rule,high_rule,note
+1,Bosque maduro,vegetacion_forestal_esperada,NDVI < 0.40 o NDRE < 0.10,NDVI < 0.30 o NDRE < 0.06,Misma regla que bosque secundario para evitar falsa precisión en esta versión piloto.
+2,Bosque secundario,vegetacion_forestal_esperada,NDVI < 0.40 o NDRE < 0.10,NDVI < 0.30 o NDRE < 0.06,Misma regla que bosque maduro.
+4,Bosque secundario deciduo,vegetacion_forestal_estacional,NDVI < 0.30 o NDRE < 0.07,NDVI < 0.22 o NDRE < 0.04,Regla conservadora por estacionalidad del bosque deciduo en trópico seco.
+6,Manglar,vegetacion_humeda_mixta,NDVI < 0.40 o NDRE < 0.08,NDVI < 0.30 o NDRE < 0.05,"Tolera mezcla con agua/borde, pero prioriza señales vegetales muy bajas."
+8,Pastos,vegetacion_herbacea_estacional,NDVI < 0.25 o NDVI > 0.70 o NDVI > 0.65 y NDRE > 0.18,NDVI < 0.18,Regla conservadora por variabilidad estacional y manejo ganadero.
+9,Cultivos,vegetacion_agricola_variable,NDVI < 0.15 o NDVI > 0.85 o NDRE < 0.02,No aplica por umbral fijo; alta si conflicto temático + rareza/extremo.,"Clase variable por ciclos agrícolas, suelo preparado, cosecha y barbecho."
+10,Agua,agua_baja_vegetacion,NDVI > 0.20 o NDRE > 0.04,NDVI > 0.35 o NDRE > 0.08,"Señal vegetal alta sugiere borde, humedal, manglar, mezcla o error temático."
+11,Humedal Palustre,humedal_mixto,NDVI < 0.05 o NDVI > 0.75 o NDRE > 0.20,No aplica por umbral fijo; alta si conflicto temático + extremo/rareza.,"Clase mixta agua-vegetación; se detectan extremos, no una señal única esperada."
+16,Edificaciones,no_vegetacion_esperada,NDVI > 0.40 o NDRE > 0.12,NDVI > 0.55 o NDVI > 0.50 y NDRE > 0.12,"Puede haber mezcla a 20 m con árboles, jardines o bordes urbanos."

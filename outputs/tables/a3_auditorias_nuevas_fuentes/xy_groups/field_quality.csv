@@ -1,0 +1,13 @@
+﻿logical_field,field,present,nulls,empty_strings,pct_null_or_empty
+id,id_registro,True,0,0,0.0
+source,Fuente,True,0,0,0.0
+source_id,id_fuente,True,0,0,0.0
+year,Año,True,0,0,0.0
+country,Pais_es,True,0,0,0.0
+country_code,Pais_cod3,True,0,0,0.0
+longitude,Longitud,True,0,0,0.0
+latitude,Latitud,True,0,0,0.0
+class_code,Clase,True,0,0,0.0
+class_group_code,GranClase,True,0,0,0.0
+class_name,nombre_clase,True,0,0,0.0
+class_group_name,nombre_gran_clase,True,0,0,0.0

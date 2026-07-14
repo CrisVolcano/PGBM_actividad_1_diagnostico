@@ -1,0 +1,2 @@
+﻿timestamp,input_gpkg,input_layer,output_gpkg,records,xy_groups,xy_year_groups,xy_class_groups,id_namespace,coordinate_precision
+2026-07-14 09:41:48,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/processed/a3_auditorias_nuevas_fuentes/preparacion/preparacion_datos_sinac_auditoria_espectral.gpkg,preparacion_datos_sinac_auditoria_espectral,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/processed/a3_auditorias_nuevas_fuentes/xy_groups/sinac_src10_2021_xy_groups_outputs.gpkg,19474,19455,19455,19474,SRC10_CRI_2021,6

@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metodología de auditoría espectral SINAC SRC10 2021</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --ink: #1f2933;
+      --muted: #5f6b76;
+      --line: #d9ded6;
+      --panel: #ffffff;
+      --accent: #1f7a6d;
+      --accent-2: #9d5c2e;
+      --soft: #edf6f2;
+      --warn: #fff5df;
+      --danger: #fae7e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      background: #153f3a;
+      color: white;
+      padding: 46px clamp(20px, 6vw, 72px) 38px;
+    }
+    header p { max-width: 960px; color: #d7ebe6; font-size: 1.06rem; margin: 10px 0 0; }
+    h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1.08; letter-spacing: 0; }
+    h2 { margin-top: 40px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    h3 { margin-top: 28px; }
+    main { max-width: 1180px; margin: 0 auto; padding: 30px clamp(16px, 4vw, 44px) 70px; }
+    .meta { color: #d7ebe6; font-size: .92rem; margin-top: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 20px 0; }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 120px;
+    }
+    .metric strong { display: block; font-size: 1.8rem; color: var(--accent); line-height: 1.1; }
+    .metric p { margin: 8px 0 0; color: var(--ink); font-weight: 650; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); font-size: .9rem; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .note { background: var(--soft); border-left: 5px solid var(--accent); }
+    .warning { background: var(--warn); border-left: 5px solid var(--accent-2); }
+    .danger { background: var(--danger); border-left: 5px solid #b6463a; }
+    code {
+      background: #eef1ee;
+      border: 1px solid #dce2dd;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: .92em;
+    }
+    pre {
+      overflow: auto;
+      background: #172421;
+      color: #e7f2ef;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    ul, ol { padding-left: 1.25rem; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin: 14px 0 24px;
+      font-size: .92rem;
+    }
+    .data-table th, .data-table td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    .data-table th { background: #eef4ef; font-weight: 750; }
+    .table-wrap { overflow-x: auto; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 230px) 1fr minmax(120px, 160px);
+      gap: 12px;
+      align-items: center;
+      margin: 9px 0;
+    }
+    .bar-track { height: 12px; background: #e2e8e3; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); }
+    .bar-label { font-weight: 650; }
+    .bar-value { text-align: right; font-variant-numeric: tabular-nums; }
+    .bar-value span { color: var(--muted); }
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+    footer { color: var(--muted); font-size: .9rem; margin-top: 44px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Metodología de auditoría espectral SINAC SRC10 2021</h1>
+    <p>Descripción del flujo usado en Piloto_auditoria_espectral_nuevas_fuentes y criterios para adaptarlo a otros datos.</p>
+    <div class="meta">Generado: 2026-07-14 09:43:59 · Carpeta base: PGBM_actividad_1_diagnostico</div>
+  </header>
+  <main>
+    
+    <section class="panel note">
+      <h2>Resumen ejecutivo</h2>
+      <p>Esta carpeta implementa un flujo reproducible para auditar una nueva fuente puntual SINAC con datos Sentinel-2 Surface Reflectance. El flujo normaliza puntos, genera grupos XY estables, genera unidades únicas de extracción, exporta métricas mensuales desde Google Earth Engine, une los resultados espectrales con los registros originales y aplica una auditoría exploratoria por clase temática.</p>
+      <p>La unidad central de integración es <code>extract_id</code>, construida a partir de <code>Longitud + Latitud + Año</code>. Esta decisión evita extraer varias veces el mismo punto-año cuando hay registros temáticos repetidos o superpuestos.</p>
+      <p>La unidad espacial de auditoría es <code>xy_group_id</code>, con namespace propio para evitar colisiones con grupos XY del flujo original.</p>
+    </section>
+
+    <h2>Arquitectura del proyecto</h2>
+    <div class="two-col">
+      <div class="panel">
+        <h3>Carpetas principales</h3>
+        <ul>
+          <li><code>src/actividad_3/a3_auditorias_nuevas_fuentes/</code>: pasos Python del flujo.</li>
+          <li><code>config/</code>: YAML del piloto y rutas relativas.</li>
+          <li><code>gee/</code>: JavaScript usado en Google Earth Engine.</li>
+          <li><code>data/processed/a3_auditorias_nuevas_fuentes/raw/</code>: datos originales.</li>
+          <li><code>data/processed/a3_auditorias_nuevas_fuentes/</code>: datos normalizados intermedios.</li>
+          <li><code>data/processed/a3_auditorias_nuevas_fuentes/gee_exports/</code>: CSV descargados desde GEE.</li>
+          <li><code>outputs/</code>: productos analíticos y tablas de control.</li>
+          <li><code>outputs/reports/a3_auditorias_nuevas_fuentes/</code>: reportes Markdown y HTML.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Orden lógico del flujo</h3>
+        <ol>
+          <li>Normalización de fuente SINAC.</li>
+          <li>Creación de grupos XY independientes.</li>
+          <li>Preparación de insumos GEE con trazabilidad XY.</li>
+          <li>Extracción mensual Sentinel-2 SR en GEE.</li>
+          <li>Control del CSV exportado.</li>
+          <li>Unión registros originales + métricas espectrales.</li>
+          <li>Auditoría espectral preliminar por clase y por grupo XY.</li>
+          <li>Auditorías integradas y scoring multicriterio por <code>xy_group_id</code>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h2>Decisiones metodológicas</h2>
+    <div class="panel">
+      <h3>Normalización de fuente</h3>
+      <p>Los datos SINAC se transformaron a un esquema mínimo y consistente con campos de fuente, país, año, coordenadas, clase y geometría. La geometría se reproyectó a <code>EPSG:4326</code> y las coordenadas se recalcularon desde la geometría para evitar valores heredados inconsistentes.</p>
+      <p>Campos esperados: <code>Fuente</code>, <code>id_fuente</code>, <code>Pais_es</code>, <code>Pais_cod3</code>, <code>Año</code>, <code>Longitud</code>, <code>Latitud</code>, <code>Clase</code>, <code>GranClase</code>, <code>nombre_clase</code>, <code>nombre_gran_clase</code> y <code>geometry</code>.</p>
+    </div>
+    <div class="panel">
+      <h3>Grupos XY para nuevas fuentes</h3>
+      <p>Antes de preparar GEE se generan tres identificadores estables: <code>xy_group_id</code> para <code>Longitud + Latitud</code>, <code>xy_year_group_id</code> para <code>Longitud + Latitud + Año</code> y <code>xy_class_group_id</code> para <code>Longitud + Latitud + Año + Clase + GranClase</code>. Estos IDs usan el namespace configurado en YAML, por lo que pueden convivir con grupos XY del flujo original sin duplicarse.</p>
+    </div>
+    <div class="panel">
+      <h3>Unidad única de extracción</h3>
+      <p>La extracción se definió por <code>Longitud + Latitud + Año</code>, no por registro original. Esta decisión redujo redundancia: varios registros pueden compartir una misma unidad espectral. Para conservar trazabilidad, el <code>extract_id</code> se devuelve a cada registro original.</p>
+    </div>
+    <div class="panel">
+      <h3>Extracción Sentinel-2 SR</h3>
+      <p>El JavaScript de GEE usa <code>COPERNICUS/S2_SR_HARMONIZED</code> y <code>COPERNICUS/S2_CLOUD_PROBABILITY</code>. Se calcularon métricas mensuales para bandas Sentinel-2 e índices <code>NDVI</code>, <code>NDVI8A</code> y <code>NDRE</code>. La extracción usa escala de 20 m, buffer de 60 m y máscara s2cloudless con exclusión de clases SCL problemáticas.</p>
+    </div>
+    <div class="panel">
+      <h3>Unión y resumen anual</h3>
+      <p>Los CSV de GEE llegan en formato largo: una fila por <code>extract_id</code> y mes. El paso de unión transforma esos datos a formato ancho, agrega columnas mensuales <code>s2_*</code> y métricas anuales <code>s2yr_*</code>, y genera cuatro capas: completa, reducida, anual por registro y anual por unidad única.</p>
+    </div>
+
+    <h2>Reglas de evaluación por clase</h2>
+    <p>Las reglas son exploratorias. Buscan priorizar revisión, no confirmar o descartar definitivamente una clase. La señal base usa principalmente <code>NDVI</code> y <code>NDRE</code> medianos anuales.</p>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>class_code</th>
+      <th>class_name</th>
+      <th>expected_signal_group</th>
+      <th>medium_rule</th>
+      <th>high_rule</th>
+      <th>note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Bosque maduro</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Misma regla que bosque secundario para evitar falsa precisión en esta versión piloto.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Bosque secundario</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Misma regla que bosque maduro.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Bosque secundario deciduo</td>
+      <td>vegetacion_forestal_estacional</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.07</td>
+      <td>NDVI &lt; 0.22 o NDRE &lt; 0.04</td>
+      <td>Regla conservadora por estacionalidad del bosque deciduo en trópico seco.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Manglar</td>
+      <td>vegetacion_humeda_mixta</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.08</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.05</td>
+      <td>Tolera mezcla con agua/borde, pero prioriza señales vegetales muy bajas.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Pastos</td>
+      <td>vegetacion_herbacea_estacional</td>
+      <td>NDVI &lt; 0.25 o NDVI &gt; 0.70 o NDVI &gt; 0.65 y NDRE &gt; 0.18</td>
+      <td>NDVI &lt; 0.18</td>
+      <td>Regla conservadora por variabilidad estacional y manejo ganadero.</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Cultivos</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.15 o NDVI &gt; 0.85 o NDRE &lt; 0.02</td>
+      <td>No aplica por umbral fijo; alta si conflicto temático + rareza/extremo.</td>
+      <td>Clase variable por ciclos agrícolas, suelo preparado, cosecha y barbecho.</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Agua</td>
+      <td>agua_baja_vegetacion</td>
+      <td>NDVI &gt; 0.20 o NDRE &gt; 0.04</td>
+      <td>NDVI &gt; 0.35 o NDRE &gt; 0.08</td>
+      <td>Señal vegetal alta sugiere borde, humedal, manglar, mezcla o error temático.</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Humedal Palustre</td>
+      <td>humedal_mixto</td>
+      <td>NDVI &lt; 0.05 o NDVI &gt; 0.75 o NDRE &gt; 0.20</td>
+      <td>No aplica por umbral fijo; alta si conflicto temático + extremo/rareza.</td>
+      <td>Clase mixta agua-vegetación; se detectan extremos, no una señal única esperada.</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>Edificaciones</td>
+      <td>no_vegetacion_esperada</td>
+      <td>NDVI &gt; 0.40 o NDRE &gt; 0.12</td>
+      <td>NDVI &gt; 0.55 o NDVI &gt; 0.50 y NDRE &gt; 0.12</td>
+      <td>Puede haber mezcla a 20 m con árboles, jardines o bordes urbanos.</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Parámetros de auditoría</h2>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>parameter</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MIN_VALID_MONTHS</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>MIN_TOTAL_OBS</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>CLOUD_PROB_HIGH</td>
+      <td>60.0</td>
+    </tr>
+    <tr>
+      <td>MIN_GROUP_SIZE_FOR_RARENESS</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <td>IQR_FACTOR</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <td>HIGH_GAP_PCT</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <td>HIGH_RARE_PCT</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <td>HIGH_ALERT_PCT</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Banderas generadas por la auditoría</h2>
+    <div class="panel">
+      <ul>
+        <li><code>flag_no_spectral_data</code>: no hay datos espectrales útiles.</li>
+        <li><code>flag_low_months_obs</code>: menos meses observados que el mínimo configurado.</li>
+        <li><code>flag_low_total_obs</code>: bajo total anual de observaciones limpias.</li>
+        <li><code>flag_high_cloudprob</code>: probabilidad mediana anual de nube alta.</li>
+        <li><code>flag_class_rule_high</code> y <code>flag_class_rule_medium</code>: activación de reglas temático-espectrales.</li>
+        <li><code>flag_rare_spectral_value</code>: rareza estadística por clase, país y año usando IQR.</li>
+        <li><code>flag_context_thematic_conflict</code>: más de una clase o gran clase asociada al mismo <code>extract_id</code>.</li>
+      </ul>
+    </div>
+
+    <h2>Scoring multicriterio</h2>
+    <div class="panel">
+      <p>El cierre metodológico adapta el scoring del flujo original usando la misma lógica de criterios: temporal, espacial, temático, espectral, confiabilidad, representatividad y fuente. La unidad de decisión es <code>xy_group_id</code>.</p>
+      <p>Para esta fuente monoanual, el componente temporal evalúa la coincidencia con 2021. El componente temático usa <code>Clase</code> y <code>GranClase</code>, y el componente semántico marca clases residuales o ambiguas mediante palabras clave configuradas.</p>
+    </div>
+
+    <h2>Cómo reutilizar este flujo con otros datos</h2>
+    <div class="panel warning">
+      <p>El flujo puede aplicarse a otras fuentes puntuales si se ajustan las columnas de entrada y las reglas temáticas. Lo indispensable es que la fuente pueda normalizarse a un esquema equivalente.</p>
+      <ol>
+        <li>Actualizar el YAML en <code>config/</code> con rutas, capa de entrada, CRS esperado y nombres de campos.</li>
+        <li>Mapear los campos de clase: código de clase, gran clase, nombre de clase y nombre de gran clase.</li>
+        <li>Definir el año de referencia y la fuente (<code>source_id</code>, país, descripción).</li>
+        <li>Definir un namespace único para <code>xy_group_id</code> y revisar la precisión de coordenadas.</li>
+        <li>Revisar si la unidad <code>Longitud + Latitud + Año</code> sigue siendo válida o si otra llave es más apropiada.</li>
+        <li>Ajustar el JavaScript de GEE si cambia el país, lote, colección, rango temporal, escala o prefijo de exportación.</li>
+        <li>Modificar las reglas de auditoría por clase cuando las clases, ecosistemas o umbrales esperados no correspondan al caso SINAC.</li>
+      </ol>
+    </div>
+
+    <h2>Comandos de reproducción</h2>
+    <pre><code>conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/01_preparar_sinac_auditoria_espectral.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/02_xy_groups_nuevas_fuentes.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/03_s2_sr_gee_input_nuevas_fuentes_caso_SINAC.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/04_generate_gee_export_report_sinac_src10_2021.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/05_join_s2sr_to_sinac_src10_2021_records.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/06_s2sr_spectral_class_audit_sinac_src10_2021.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/08_scoring_integral_nuevas_fuentes.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/07_generate_project_html_docs_sinac_src10_2021.py</code></pre>
+    
+    <footer>Documento generado a partir de scripts, YAML, GeoPackages y CSV de control del piloto SINAC SRC10 2021.</footer>
+  </main>
+</body>
+</html>

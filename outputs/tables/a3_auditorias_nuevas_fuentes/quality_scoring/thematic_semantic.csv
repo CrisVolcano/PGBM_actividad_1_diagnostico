@@ -1,0 +1,10 @@
+﻿GranClase,nombre_gran_clase,Clase,nombre_clase,records,percentage,representativity_state,flag_semantic_residual,semantic_clarity_state
+9,Cultivos,9,Cultivos,8489,43.591,suficiente,0,clara
+16,Edificaciones,16,Edificaciones,5928,30.441,suficiente,0,clara
+1,Forestal,4,Bosque secundario deciduo,1587,8.149,suficiente,0,clara
+8,Pastos,8,Pastos,1179,6.054,suficiente,0,clara
+1,Forestal,2,Bosque secundario,903,4.637,suficiente,0,clara
+1,Forestal,6,Manglar,800,4.108,suficiente,0,clara
+11,Humedal Palustre,11,Humedal Palustre,409,2.1,moderado,0,clara
+10,Agua,10,Agua,150,0.77,moderado,0,clara
+1,Forestal,1,Bosque maduro,29,0.149,critico,0,clara

@@ -1,0 +1,10 @@
+﻿Clase,nombre_clase,n_class_groups,class_groups,hierarchy_consistent
+1,Bosque maduro,1,1,1
+2,Bosque secundario,1,1,1
+4,Bosque secundario deciduo,1,1,1
+6,Manglar,1,1,1
+8,Pastos,1,8,1
+9,Cultivos,1,9,1
+10,Agua,1,10,1
+11,Humedal Palustre,1,11,1
+16,Edificaciones,1,16,1
