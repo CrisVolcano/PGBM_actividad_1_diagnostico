@@ -1,0 +1,73 @@
+# Actividad 4.4 — Normalización de predictores extraídos en puntos piloto
+# ----------------------------------------------------------------------
+# Este YAML controla la importación local de CSV exportados desde GEE/Drive
+# en A4.2. La salida conserva las tablas A4 separadas y crea tablas de
+# predictores separadas por asset/predictor.
+
+paths:
+  pilot_gpkg: data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_extraction_normalized.gpkg
+  predictor_catalog_csv: data/processed/a4_2_predictor_extraction/predictor_catalog.csv
+  drive_exports_dir: data/raw/datos_extraidos_predictores
+
+  output_dir: data/processed/a4_4_predictor_normalization
+  output_gpkg: data/processed/a4_4_predictor_normalization/gpkg/a4_4_point_predictors_normalized.gpkg
+
+inputs:
+  pilot_points_layer: pilot_xy_point
+  assignment_table: xy_pilot_quadrant
+  score_table: xy_score
+  action_table: xy_accion
+
+fields:
+  key: xy_group_id
+  quadrant: id_cuadrante
+
+  pilot_point_fields:
+    - xy_group_id
+    - lon
+    - lat
+    - id_pais_grupo
+    - id_0
+    - id_1
+    - id_2
+
+  score_fields:
+    - xy_group_id
+    - score_aptitud_total
+
+  action_fields:
+    - xy_group_id
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - definicion_categoria_aptitud
+    - accion_recomendada
+    - razon_categoria_aptitud
+
+  export_properties:
+    - xy_group_id
+    - id_cuadrante
+
+csv_import:
+  glob: "*.csv"
+  recursive: true
+  encoding: utf-8-sig
+  filename_regex: "^a4_2_(?P<predictor_id>.+)_batch_(?P<batch_id>\\d+)\\.csv$"
+  ignore_unmatched_files: true
+  ignore_columns:
+    - system:index
+    - .geo
+    - geo
+    - id_cuadrante
+
+validation:
+  key_as_text: true
+  require_complete_point_universe: true
+
+outputs:
+  overwrite_output_gpkg: true
+  predictor_name_separator: "::"
+  predictor_table_prefix: xy_pred_
+
+  write_wide_model_matrix: true
+  write_model_matrix_to_gpkg: true
+  model_matrix_csv: pilot_model_matrix.csv
