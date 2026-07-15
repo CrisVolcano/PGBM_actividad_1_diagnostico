@@ -114,14 +114,24 @@ def limpiar_nombre_archivo(value: object) -> str:
     return text[:80] if text else "NA"
 
 
-def crear_carpetas(base_dir: Path, tables_dir: Path) -> dict[str, Path]:
+def crear_carpetas(
+    base_dir: Path,
+    tables_dir: Path,
+    report_md: Path | None = None,
+    logs_dir: Path | None = None,
+) -> dict[str, Path]:
     """Create output directory structure."""
+    reports_dir = (
+        report_md.parent
+        if report_md is not None
+        else PROJECT_DIR / "outputs" / "reports" / "a3_auditorias_nuevas_fuentes" / "gee_input"
+    )
     dirs = {
         "base": base_dir,
         "batches": base_dir / "batches",
         "tables": tables_dir,
-        "reports": PROJECT_DIR / "outputs" / "reports" / "a3_auditorias_nuevas_fuentes" / "gee_input",
-        "logs": PROJECT_DIR / "logs" / "a3_auditorias_nuevas_fuentes",
+        "reports": reports_dir,
+        "logs": logs_dir or PROJECT_DIR / "logs" / "a3_auditorias_nuevas_fuentes",
     }
 
     for path in dirs.values():
@@ -242,6 +252,16 @@ def validar_config(config: dict[str, Any], project_root: Path) -> dict[str, Any]
         "eligible_gpkg": str(outputs.get("eligible_gpkg", "puntos_con_extract_id.gpkg")),
         "eligible_layer": str(outputs.get("eligible_layer", "puntos_con_extract_id")),
         "units_csv": str(outputs.get("units_csv", "s2_sr_extract_units.csv")),
+        "report_md": (
+            resolver_ruta(outputs["report_md"], project_root)
+            if outputs.get("report_md")
+            else None
+        ),
+        "logs_dir": (
+            resolver_ruta(outputs["logs_dir"], project_root)
+            if outputs.get("logs_dir")
+            else None
+        ),
         "overwrite": bool(outputs.get("overwrite", True)),
     }
 
@@ -811,7 +831,12 @@ def main() -> None:
     if args.output_dir:
         norm_cfg["output_base_dir"] = resolver_ruta(args.output_dir, project_root)
 
-    dirs = crear_carpetas(norm_cfg["output_base_dir"], norm_cfg["output_tables_dir"])
+    dirs = crear_carpetas(
+        norm_cfg["output_base_dir"],
+        norm_cfg["output_tables_dir"],
+        report_md=norm_cfg.get("report_md"),
+        logs_dir=norm_cfg.get("logs_dir"),
+    )
 
     registrar_log(dirs["logs"], "Inicio de preparación de nueva fuente puntual para GEE.")
 
@@ -946,7 +971,7 @@ def main() -> None:
         print("\nSe omitió la exportación del GeoPackage por --skip-gpkg.")
 
     print("\nGenerando reporte Markdown...")
-    report_path = dirs["reports"] / "s2_sr_gee_input_nueva_fuente.md"
+    report_path = norm_cfg.get("report_md") or dirs["reports"] / "s2_sr_gee_input_nueva_fuente.md"
     generar_reporte(
         report_path=report_path,
         config_path=config_path,
@@ -993,7 +1018,12 @@ if __name__ == "__main__":
             config = cargar_yaml(config_path)
             project_root = resolver_project_root(config, config_path)
             norm_cfg = validar_config(config, project_root)
-            dirs = crear_carpetas(norm_cfg["output_base_dir"], norm_cfg["output_tables_dir"])
+            dirs = crear_carpetas(
+                norm_cfg["output_base_dir"],
+                norm_cfg["output_tables_dir"],
+                report_md=norm_cfg.get("report_md"),
+                logs_dir=norm_cfg.get("logs_dir"),
+            )
             registrar_log(
                 dirs["logs"],
                 "Error durante la preparación de nueva fuente puntual. "

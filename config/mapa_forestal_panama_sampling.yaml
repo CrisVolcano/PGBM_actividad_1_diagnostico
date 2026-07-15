@@ -1,0 +1,79 @@
+project:
+  name: "PGBM - A3 sampling mapa forestal Panama"
+  source_name: "ForestCoverLandUse_2021_25k_mangle_recorte"
+  base_year: 2021
+  country: "Panama"
+
+inputs:
+  raster:
+    path: "data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif"
+    band: 1
+    nodata: 0
+    vat_dbf: "data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif.vat.dbf"
+    vat_cpg: "data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif.vat.cpg"
+    fields:
+      raster_value: "Value"
+      class_value: "Classvalue"
+      class_name: "Class_name"
+      class_name_en: "Name_Eng"
+      red: "Red"
+      green: "Green"
+      blue: "Blue"
+
+  clip_vector:
+    path: "data/raw/Panama/ejemplo_Panama_mangle.gpkg"
+    layer: "ejemplo_panama_mangle"
+
+crs:
+  # El TIFF recortado esta en UTM 17N, metros.
+  processing_crs: "EPSG:32617"
+  output_crs: "EPSG:4326"
+
+sampling:
+  # Malla de candidatos sobre el TIFF recortado. Se conservan solo pixeles validos.
+  candidate_spacing_m: 250
+
+  class_representation:
+    enabled: true
+    class_field: "stratum_id"
+    minimum_points_per_class: 1
+    priority_classes:
+      enabled: true
+      field: "class_name"
+      values:
+        - "Bosque de mangle"
+      minimum_points_per_class: 10
+    keep_protected_points_even_if_close: true
+
+  thinning_distances_m:
+    - 250
+    - 500
+    - 1000
+    - 2000
+    - 3000
+
+  selection_order:
+    - "class_area_desc"
+    - "candidate_id_asc"
+
+outputs:
+  geodata_dir: "data/processed/a3_sampling_nuevas_fuentes/mapa_forestal_panama/gpkg"
+  tables_dir: "outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama"
+  reports_dir: "outputs/reports/a3_sampling_nuevas_fuentes/mapa_forestal_panama"
+  logs_dir: "logs/a3_sampling_nuevas_fuentes/mapa_forestal_panama"
+  gpkg_name: "mapa_forestal_panama_sampling.gpkg"
+  log_name: "mapa_forestal_panama_sampling.log"
+  report_name: "mapa_forestal_panama_sampling_reporte.md"
+  point_id_prefix: "PAN_FCL"
+  export_csv: true
+  layers:
+    raster_footprint: "mapa_forestal_panama_raster_footprint"
+    candidate_points: "mapa_forestal_panama_puntos_candidatos"
+    selected_prefix: "mapa_forestal_panama_puntos_d"
+    class_catalog: "mapa_forestal_panama_catalogo_clases"
+    candidate_summary: "mapa_forestal_panama_resumen_candidatos"
+    distance_summary: "mapa_forestal_panama_resumen_distancias"
+    class_summary: "mapa_forestal_panama_resumen_clases"
+    class_representation_summary: "mapa_forestal_panama_resumen_representacion_clases"
+    selection_audit: "mapa_forestal_panama_auditoria_seleccion"
+    run_metadata: "mapa_forestal_panama_run_metadata"

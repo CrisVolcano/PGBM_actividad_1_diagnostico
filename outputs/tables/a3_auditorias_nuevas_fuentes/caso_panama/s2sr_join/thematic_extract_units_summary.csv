@@ -1,0 +1,24 @@
+﻿GranClase,nombre_gran_clase,Clase,nombre_clase,extract_units_or_records
+3,Pasto,26,Pasto,4564
+1,Bosque y vegetación natural,2,Bosque latifoliado mixto secundario,2893
+1,Bosque y vegetación natural,9,Rastrojo y vegetación arbustiva,1571
+1,Bosque y vegetación natural,3,Bosque de mangle,1122
+1,Bosque y vegetación natural,1,Bosque latifoliado mixto maduro,787
+4,Agua y acuicultura,27,Superficie de agua,366
+6,Urbano e infraestructura,28,Área poblada,279
+1,Bosque y vegetación natural,8,Bosque plantado de latifoliadas,206
+1,Bosque y vegetación natural,10,Vegetación herbácea,145
+2,Cultivos,16,Palma aceitera,143
+2,Cultivos,19,Arroz,115
+6,Urbano e infraestructura,29,Infraestructura,102
+2,Cultivos,20,Caña de azúcar,79
+2,Cultivos,24,Otro cultivo anual,52
+5,Suelo desnudo y rasgos naturales,13,Playa y arenal natural,42
+2,Cultivos,23,Piña,24
+2,Cultivos,18,Otro cultivo permanente,24
+5,Suelo desnudo y rasgos naturales,12,Afloramiento rocoso y tierra desnuda,20
+1,Bosque y vegetación natural,11,Vegetación baja inundable,6
+2,Cultivos,15,Cítrico,5
+1,Bosque y vegetación natural,7,Bosque plantado de coníferas,4
+4,Agua y acuicultura,31,Estanque para acuicultura,1
+2,Cultivos,25,Área heterogénea de producción agropecuaria,1

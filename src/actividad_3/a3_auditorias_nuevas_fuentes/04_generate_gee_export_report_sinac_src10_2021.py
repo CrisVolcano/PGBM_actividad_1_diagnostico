@@ -471,6 +471,11 @@ def generate_report(
     raw_export_dir: Path,
     csv_pattern: str,
     report_path: Path,
+    source_name: str = SOURCE_NAME,
+    source_id: str = SOURCE_ID,
+    source_code: str = SOURCE_CODE,
+    country_code: str = COUNTRY_CODE,
+    year_ref: str = YEAR_REF,
 ) -> str:
     """Generate Markdown report."""
     js_text = read_text(js_path)
@@ -511,11 +516,11 @@ def generate_report(
         md_table(
             ["Elemento", "Valor"],
             [
-                ["Fuente", SOURCE_NAME],
-                ["Código fuente", SOURCE_CODE],
-                ["`source_id`", SOURCE_ID],
-                ["País", COUNTRY_CODE],
-                ["Año de referencia", YEAR_REF],
+                ["Fuente", source_name],
+                ["Código fuente", source_code],
+                ["`source_id`", source_id],
+                ["País", country_code],
+                ["Año de referencia", year_ref],
                 ["Fecha de generación del reporte", generated_at],
                 ["Script GEE documentado", f"`{rel(js_path)}`"],
                 ["Hash SHA256 del JS", f"`{script_hash}`"],
@@ -773,6 +778,41 @@ def parse_args() -> argparse.Namespace:
         help="Ruta del reporte Markdown de salida.",
     )
 
+    parser.add_argument(
+        "--source-name",
+        type=str,
+        default=SOURCE_NAME,
+        help="Nombre de la fuente para el reporte.",
+    )
+
+    parser.add_argument(
+        "--source-id",
+        type=str,
+        default=SOURCE_ID,
+        help="source_id para el reporte.",
+    )
+
+    parser.add_argument(
+        "--source-code",
+        type=str,
+        default=SOURCE_CODE,
+        help="Código corto de fuente para el reporte.",
+    )
+
+    parser.add_argument(
+        "--country-code",
+        type=str,
+        default=COUNTRY_CODE,
+        help="Código de país para el reporte.",
+    )
+
+    parser.add_argument(
+        "--year-ref",
+        type=str,
+        default=YEAR_REF,
+        help="Año de referencia para el reporte.",
+    )
+
     return parser.parse_args()
 
 
@@ -790,6 +830,11 @@ def main() -> None:
         raw_export_dir=raw_dir,
         csv_pattern=args.csv_pattern,
         report_path=output_path,
+        source_name=args.source_name,
+        source_id=args.source_id,
+        source_code=args.source_code,
+        country_code=args.country_code,
+        year_ref=args.year_ref,
     )
 
     output_path.write_text(report, encoding="utf-8")

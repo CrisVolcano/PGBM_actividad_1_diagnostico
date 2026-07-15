@@ -476,7 +476,7 @@ def save_outputs(
             "",
             "## Alcance",
             "",
-            "Este módulo adapta metodológicamente el cierre del flujo original a la fuente SINAC SRC10 2021.",
+            "Este módulo adapta metodológicamente el cierre del flujo original a la fuente configurada.",
             "La unidad de decisión es `xy_group_id` y el score total combina criterios temporal, espacial, temático/semántico, espectral, confiabilidad, representatividad y fuente.",
             "",
             "## Configuración",

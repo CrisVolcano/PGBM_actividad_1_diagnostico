@@ -839,7 +839,7 @@ def build_spectral_audit(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
         ["alta_sin_datos", "alta", "media"]
     ).astype("int8")
 
-    audit["audit_scope"] = "Auditoría espectral preliminar SINAC SRC10 2021"
+    audit["audit_scope"] = f"Auditoría espectral preliminar {SOURCE_CODE} {YEAR_REF_EXPECTED}"
     audit["audit_interpretation"] = (
         "Alerta exploratoria; no constituye validación temática definitiva"
     )
@@ -1275,13 +1275,13 @@ def generar_reporte_markdown(
 
     content = "\n".join(
         [
-            "# Auditoría espectral preliminar por clase - SINAC SRC10 2021",
+            f"# Auditoría espectral preliminar por clase - {SOURCE_CODE} {YEAR_REF_EXPECTED}",
             "",
             f"Fecha de ejecución: {fecha}",
             "",
             "## Propósito",
             "",
-            "Este reporte resume la auditoría espectral preliminar aplicada a los registros SINAC SRC10 2021 con valores anuales Sentinel-2 SR.",
+            f"Este reporte resume la auditoría espectral preliminar aplicada a los registros de {SOURCE_NAME} con valores anuales Sentinel-2 SR.",
             "",
             "La auditoría identifica vacíos satelitales, baja disponibilidad, valores espectrales raros y señales potencialmente inconsistentes con la clase temática.",
             "",
@@ -1355,7 +1355,7 @@ def generar_reporte_markdown(
             "",
             "## Nota metodológica",
             "",
-            "El bosque maduro y el bosque secundario usan la misma regla de coherencia espectral. El bosque secundario deciduo conserva una regla más conservadora por estacionalidad. Manglar y humedal palustre se tratan como clases mixtas con cautela por mezcla agua-vegetación y borde a 20 m.",
+            f"Las reglas temático-espectrales documentadas corresponden a {SOURCE_CODE} {YEAR_REF_EXPECTED}. Son criterios exploratorios y deben interpretarse junto con disponibilidad satelital, rareza por clase y contexto temático.",
             "",
             "La rareza espectral se calcula por país, año y clase usando IQR cuando el grupo tiene tamaño suficiente.",
             "",
@@ -1372,8 +1372,8 @@ def generar_reporte_markdown(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Ejecuta una auditoría espectral preliminar por clase para "
-            "SINAC SRC10 2021 usando el GPKG unido con Sentinel-2 SR."
+            "Ejecuta una auditoría espectral preliminar por clase usando "
+            "el GPKG unido con Sentinel-2 SR."
         )
     )
 
@@ -1381,7 +1381,7 @@ def parse_args() -> argparse.Namespace:
         "--input",
         type=str,
         default=None,
-        help="Ruta al GeoPackage de entrada sinac_src10_2021_s2sr_join_outputs.gpkg.",
+        help="Ruta al GeoPackage de entrada unido con Sentinel-2 SR.",
     )
 
     parser.add_argument(
@@ -1426,7 +1426,7 @@ def main() -> None:
     crear_carpetas(output_dir, tables_dir, reports_dir)
 
     print("============================================================")
-    print("PGBM - Auditoría espectral por clase - SINAC SRC10 2021")
+    print(f"PGBM - Auditoría espectral por clase - {SOURCE_CODE} {YEAR_REF_EXPECTED}")
     print("============================================================")
     print("Input GPKG:", input_gpkg)
     print("Output GPKG:", output_gpkg)

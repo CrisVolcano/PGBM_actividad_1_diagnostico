@@ -1,0 +1,18 @@
+﻿key,value
+project_name,PGBM - A3 sampling mapa forestal Panama
+source_name,ForestCoverLandUse_2021_25k_mangle_recorte
+base_year,2021
+country,Panama
+run_utc,2026-07-14T21:43:20.273962+00:00
+config_path,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/config/mapa_forestal_panama_sampling.yaml
+raster_path,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif
+raster_crs,EPSG:32617
+raster_width,6864
+raster_height,5278
+raster_resolution_x,10.0
+raster_resolution_y,10.0
+processing_crs,EPSG:32617
+output_crs,EPSG:4326
+candidate_spacing_m,250
+thinning_distances_m,"250,500,1000,2000,3000"
+configuration_json,"{""project"": {""name"": ""PGBM - A3 sampling mapa forestal Panama"", ""source_name"": ""ForestCoverLandUse_2021_25k_mangle_recorte"", ""base_year"": 2021, ""country"": ""Panama""}, ""inputs"": {""raster"": {""path"": ""data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif"", ""band"": 1, ""nodata"": 0, ""vat_dbf"": ""data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif.vat.dbf"", ""vat_cpg"": ""data/raw/Panama/ForestCoverLandUse_2021_25k_mangle_recorte.tif.vat.cpg"", ""fields"": {""raster_value"": ""Value"", ""class_value"": ""Classvalue"", ""class_name"": ""Class_name"", ""class_name_en"": ""Name_Eng"", ""red"": ""Red"", ""green"": ""Green"", ""blue"": ""Blue""}}, ""clip_vector"": {""path"": ""data/raw/Panama/ejemplo_Panama_mangle.gpkg"", ""layer"": ""ejemplo_panama_mangle""}}, ""crs"": {""processing_crs"": ""EPSG:32617"", ""output_crs"": ""EPSG:4326""}, ""sampling"": {""candidate_spacing_m"": 250, ""class_representation"": {""enabled"": true, ""class_field"": ""stratum_id"", ""minimum_points_per_class"": 1, ""priority_classes"": {""enabled"": true, ""field"": ""class_name"", ""values"": [""Bosque de mangle""], ""minimum_points_per_class"": 10}, ""keep_protected_points_even_if_close"": true}, ""thinning_distances_m"": [250, 500, 1000, 2000, 3000], ""selection_order"": [""class_area_desc"", ""candidate_id_asc""]}, ""outputs"": {""geodata_dir"": ""data/processed/a3_sampling_nuevas_fuentes/mapa_forestal_panama/gpkg"", ""tables_dir"": ""outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama"", ""reports_dir"": ""outputs/reports/a3_sampling_nuevas_fuentes/mapa_forestal_panama"", ""logs_dir"": ""logs/a3_sampling_nuevas_fuentes/mapa_forestal_panama"", ""gpkg_name"": ""mapa_forestal_panama_sampling.gpkg"", ""log_name"": ""mapa_forestal_panama_sampling.log"", ""report_name"": ""mapa_forestal_panama_sampling_reporte.md"", ""point_id_prefix"": ""PAN_FCL"", ""export_csv"": true, ""layers"": {""raster_footprint"": ""mapa_forestal_panama_raster_footprint"", ""candidate_points"": ""mapa_forestal_panama_puntos_candidatos"", ""selected_prefix"": ""mapa_forestal_panama_puntos_d"", ""class_catalog"": ""mapa_forestal_panama_catalogo_clases"", ""candidate_summary"": ""mapa_forestal_panama_resumen_candidatos"", ""distance_summary"": ""mapa_forestal_panama_resumen_distancias"", ""class_summary"": ""mapa_forestal_panama_resumen_clases"", ""class_representation_summary"": ""mapa_forestal_panama_resumen_representacion_clases"", ""selection_audit"": ""mapa_forestal_panama_auditoria_seleccion"", ""run_metadata"": ""mapa_forestal_panama_run_metadata""}}}"

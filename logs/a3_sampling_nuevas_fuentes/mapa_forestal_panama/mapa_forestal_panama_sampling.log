@@ -1,0 +1,39 @@
+2026-07-14 15:43:15 | INFO | Puntos candidatos generados: 50,691 | clases=23
+2026-07-14 15:43:15 | INFO | Candidatos protegidos por clase: 32
+2026-07-14 15:43:15 | INFO | Aplicando separacion minima global: 250 m
+2026-07-14 15:43:16 | INFO | Escenario 250 m | seleccionados=50,691 | rechazados=0
+2026-07-14 15:43:16 | INFO | Aplicando separacion minima global: 500 m
+2026-07-14 15:43:17 | INFO | Escenario 500 m | seleccionados=12,551 | rechazados=38,140
+2026-07-14 15:43:17 | INFO | Aplicando separacion minima global: 1,000 m
+2026-07-14 15:43:18 | INFO | Escenario 1,000 m | seleccionados=3,107 | rechazados=47,584
+2026-07-14 15:43:18 | INFO | Aplicando separacion minima global: 2,000 m
+2026-07-14 15:43:19 | INFO | Escenario 2,000 m | seleccionados=851 | rechazados=49,840
+2026-07-14 15:43:19 | INFO | Aplicando separacion minima global: 3,000 m
+2026-07-14 15:43:19 | INFO | Escenario 3,000 m | seleccionados=391 | rechazados=50,300
+2026-07-14 15:43:20 | INFO | Exportando capa: mapa_forestal_panama_raster_footprint | objetos=1
+2026-07-14 15:43:20 | INFO | Exportando capa: mapa_forestal_panama_puntos_candidatos | objetos=50,691
+2026-07-14 15:43:22 | INFO | Exportando capa: mapa_forestal_panama_puntos_d0250 | objetos=50,691
+2026-07-14 15:43:24 | INFO | Exportando capa: mapa_forestal_panama_puntos_d0500 | objetos=12,551
+2026-07-14 15:43:26 | INFO | Exportando capa: mapa_forestal_panama_puntos_d1000 | objetos=3,107
+2026-07-14 15:43:27 | INFO | Exportando capa: mapa_forestal_panama_puntos_d2000 | objetos=851
+2026-07-14 15:43:27 | INFO | Exportando capa: mapa_forestal_panama_puntos_d3000 | objetos=391
+2026-07-14 15:43:28 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_catalogo_clases | filas=33
+2026-07-14 15:43:29 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_resumen_candidatos | filas=1
+2026-07-14 15:43:29 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_resumen_distancias | filas=5
+2026-07-14 15:43:29 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_resumen_clases | filas=115
+2026-07-14 15:43:29 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_resumen_representacion_clases | filas=115
+2026-07-14 15:43:30 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_auditoria_seleccion | filas=253,455
+2026-07-14 15:43:33 | INFO | Exportando tabla GeoPackage: mapa_forestal_panama_run_metadata | filas=17
+2026-07-14 15:43:33 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_catalogo_clases.csv
+2026-07-14 15:43:33 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_resumen_candidatos.csv
+2026-07-14 15:43:33 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_resumen_distancias.csv
+2026-07-14 15:43:33 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_resumen_clases.csv
+2026-07-14 15:43:33 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_resumen_representacion_clases.csv
+2026-07-14 15:43:33 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_auditoria_seleccion.csv
+2026-07-14 15:43:34 | INFO | Exportando CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_run_metadata.csv
+2026-07-14 15:43:34 | INFO | Reporte Markdown exportado: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/reports/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_sampling_reporte.md
+2026-07-14 15:43:34 | INFO | Proceso finalizado correctamente.
+2026-07-14 15:43:34 | INFO | GeoPackage: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/processed/a3_sampling_nuevas_fuentes/mapa_forestal_panama/gpkg/mapa_forestal_panama_sampling.gpkg
+2026-07-14 15:43:34 | INFO | Tablas CSV: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/tables/a3_sampling_nuevas_fuentes/mapa_forestal_panama
+2026-07-14 15:43:34 | INFO | Reporte: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/outputs/reports/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_sampling_reporte.md
+2026-07-14 15:43:34 | INFO | Log: /media/estb/PGB_disco/PGBM_actividad_1_diagnostico/logs/a3_sampling_nuevas_fuentes/mapa_forestal_panama/mapa_forestal_panama_sampling.log

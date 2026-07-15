@@ -1,0 +1,25 @@
+﻿class_code,class_name,expected_signal_group,medium_rule,high_rule,note
+1,Broadleaf Evergreen Mature Forest,vegetacion_forestal_esperada,NDVI < 0.40 o NDRE < 0.10,NDVI < 0.30 o NDRE < 0.06,Bosque maduro: se espera vegetacion persistente con senal fotosintetica alta.
+2,Broadleaf Evergreen Secondary Forest,vegetacion_forestal_esperada,NDVI < 0.40 o NDRE < 0.10,NDVI < 0.30 o NDRE < 0.06,Bosque secundario: misma regla piloto que bosque maduro.
+3,Mangrove Forest,vegetacion_humeda_mixta,NDVI < 0.40 o NDRE < 0.08,NDVI < 0.30 o NDRE < 0.05,Manglar: tolera mezcla agua-vegetacion y borde a 20 m.
+7,Coniferous Plantation,vegetacion_forestal_esperada,NDVI < 0.40 o NDRE < 0.10,NDVI < 0.30 o NDRE < 0.06,Plantacion forestal: se evalua como vegetacion arborea esperada.
+8,Broadleaf Plantation,vegetacion_forestal_esperada,NDVI < 0.40 o NDRE < 0.10,NDVI < 0.30 o NDRE < 0.06,Plantacion latifoliada: se evalua como vegetacion arborea esperada.
+9,Shrubs,vegetacion_natural_baja,NDVI < 0.20 o NDRE < 0.03 o NDVI > 0.85,NDVI < 0.10,"Arbustos: clase natural baja, potencialmente heterogenea."
+10,Herbaceous Vegetation,vegetacion_herbacea_estacional,NDVI < 0.18 o NDVI > 0.82,NDVI < 0.08,Vegetacion herbacea: umbrales conservadores por estacionalidad.
+11,Low Flooded Vegetation,vegetacion_humeda_mixta,NDVI < 0.05 o NDVI > 0.80 o NDRE > 0.20,No aplica por umbral fijo,Vegetacion inundable: clase mixta agua-vegetacion.
+12,Rocks And Natural Bare Soil,no_vegetacion_esperada,NDVI > 0.30 o NDRE > 0.08,NDVI > 0.45 o NDRE > 0.12,Suelo desnudo natural: senal vegetal alta sugiere mezcla o cambio.
+13,Beaches And Sand,no_vegetacion_esperada,NDVI > 0.30 o NDRE > 0.08,NDVI > 0.45 o NDRE > 0.12,Playas y arena: senal vegetal alta sugiere borde o inconsistencia.
+14,Coffee,vegetacion_agricola_variable,NDVI < 0.15 o NDVI > 0.90 o NDRE < 0.01,NDVI < 0.05,Cultivo permanente: regla conservadora por manejo y sombra.
+15,Citrus,vegetacion_agricola_variable,NDVI < 0.15 o NDVI > 0.90 o NDRE < 0.01,NDVI < 0.05,Cultivo permanente: regla conservadora.
+16,Oil Palm,vegetacion_agricola_variable,NDVI < 0.20 o NDRE < 0.03,NDVI < 0.10,Palma aceitera: se espera senal vegetal persistente.
+18,Other Permanent Crop,vegetacion_agricola_variable,NDVI < 0.15 o NDVI > 0.90 o NDRE < 0.01,NDVI < 0.05,Cultivo permanente variable.
+19,Rice,vegetacion_agricola_estacional,NDVI < 0.10 o NDVI > 0.90,No aplica por umbral fijo,"Arroz: alta variabilidad por inundacion, crecimiento y cosecha."
+20,Sugar Cane,vegetacion_agricola_estacional,NDVI < 0.10 o NDVI > 0.90,No aplica por umbral fijo,Cana de azucar: variabilidad por ciclo y cosecha.
+23,Pineapple,vegetacion_agricola_variable,NDVI < 0.10 o NDVI > 0.90,No aplica por umbral fijo,Pina: cobertura agricola variable y estructura baja.
+24,Other Annual Crop,vegetacion_agricola_estacional,NDVI < 0.10 o NDVI > 0.90,No aplica por umbral fijo,Cultivo anual: clase dependiente del calendario agricola.
+25,Heterogeneous Agricultural Area,vegetacion_agricola_variable,NDVI < 0.10 o NDVI > 0.90,No aplica por umbral fijo,Mosaico agricola heterogeneo.
+26,Pasture,vegetacion_herbacea_estacional,NDVI < 0.25 o NDVI > 0.75,NDVI < 0.18,Pasto: regla conservadora por manejo ganadero y estacionalidad.
+27,Water,agua_baja_vegetacion,NDVI > 0.20 o NDRE > 0.04,NDVI > 0.35 o NDRE > 0.08,"Agua: senal vegetal alta sugiere borde, humedal o mezcla."
+28,Populated Area,no_vegetacion_urbana,NDVI > 0.40 o NDRE > 0.12,NDVI > 0.55 o NDVI > 0.50 y NDRE > 0.12,"Urbano: puede haber mezcla con arbolado, jardines o bordes."
+29,Infrastructure,no_vegetacion_urbana,NDVI > 0.40 o NDRE > 0.12,NDVI > 0.55 o NDVI > 0.50 y NDRE > 0.12,Infraestructura: puede mezclar vegetacion de borde.
+31,Aquaculture Pond,agua_baja_vegetacion,NDVI > 0.20 o NDRE > 0.04,NDVI > 0.35 o NDRE > 0.08,Estanque acuicola: senal vegetal alta sugiere borde o vegetacion flotante.

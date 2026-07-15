@@ -1,0 +1,116 @@
+﻿distance_m,raster_value,class_value,class_name,class_name_en,stratum_id,n_points,n_protected,class_area_ha
+250,1,1,Bosque latifoliado mixto maduro,Mature Broadleaf Forest,1 | Bosque latifoliado mixto maduro,3195,1,20102.95
+250,2,2,Bosque latifoliado mixto secundario,Secondary Mixed Broadleaf Forest,2 | Bosque latifoliado mixto secundario,11744,1,73495.42
+250,3,3,Bosque de mangle,Mangrove Forest,3 | Bosque de mangle,4467,10,27792.84
+250,7,7,Bosque plantado de coníferas,Coniferous Forest,7 | Bosque plantado de coníferas,19,1,102.85000000000001
+250,8,8,Bosque plantado de latifoliadas,Broadleaf Forest,8 | Bosque plantado de latifoliadas,886,1,5579.09
+250,9,9,Rastrojo y vegetación arbustiva,Shrubs and Bushes,9 | Rastrojo y vegetación arbustiva,6301,1,39050.94
+250,10,10,Vegetación herbácea,Herbaceous Vegetation,10 | Vegetación herbácea,597,1,3847.41
+250,11,11,Vegetación baja inundable,Flooded Vegetation,11 | Vegetación baja inundable,18,1,110.62
+250,12,12,Afloramiento rocoso y tierra desnuda,Rocks and Bare Soils,12 | Afloramiento rocoso y tierra desnuda,82,1,494.09000000000003
+250,13,13,Playa y arenal natural,Sand Beaches,13 | Playa y arenal natural,145,1,838.4200000000001
+250,15,15,Cítrico,Citrus,15 | Cítrico,19,1,119.56
+250,16,16,Palma aceitera,Oil Palm,16 | Palma aceitera,596,1,3721.1800000000003
+250,18,18,Otro cultivo permanente,Permanent Crops,18 | Otro cultivo permanente,90,1,541.57
+250,19,19,Arroz,Rice,19 | Arroz,451,1,2744.92
+250,20,20,Caña de azúcar,Sugar Cane,20 | Caña de azúcar,291,1,1839.57
+250,23,23,Piña,Pineapple,23 | Piña,91,1,575.6
+250,24,24,Otro cultivo anual,Other Annual Crops,24 | Otro cultivo anual,225,1,1368.8500000000001
+250,25,25,Área heterogénea de producción agropecuaria,Heterogeneous Area Agricultural Production,25 | Área heterogénea de producción agropecuaria,4,1,11.25
+250,26,26,Pasto,Pasture,26 | Pasto,18545,1,116298.08
+250,27,27,Superficie de agua,Water Bodies,27 | Superficie de agua,1413,1,9100.77
+250,28,28,Área poblada,Urban Areas,28 | Área poblada,1057,1,6580.89
+250,29,29,Infraestructura,Infrastructure,29 | Infraestructura,454,1,2810.73
+250,31,31,Estanque para acuicultura,Aquaculture Ponds,31 | Estanque para acuicultura,1,1,5.8
+500,1,1,Bosque latifoliado mixto maduro,Mature Broadleaf Forest,1 | Bosque latifoliado mixto maduro,787,1,20102.95
+500,2,2,Bosque latifoliado mixto secundario,Secondary Mixed Broadleaf Forest,2 | Bosque latifoliado mixto secundario,2893,1,73495.42
+500,3,3,Bosque de mangle,Mangrove Forest,3 | Bosque de mangle,1122,10,27792.84
+500,7,7,Bosque plantado de coníferas,Coniferous Forest,7 | Bosque plantado de coníferas,4,1,102.85000000000001
+500,8,8,Bosque plantado de latifoliadas,Broadleaf Forest,8 | Bosque plantado de latifoliadas,206,1,5579.09
+500,9,9,Rastrojo y vegetación arbustiva,Shrubs and Bushes,9 | Rastrojo y vegetación arbustiva,1571,1,39050.94
+500,10,10,Vegetación herbácea,Herbaceous Vegetation,10 | Vegetación herbácea,145,1,3847.41
+500,11,11,Vegetación baja inundable,Flooded Vegetation,11 | Vegetación baja inundable,6,1,110.62
+500,12,12,Afloramiento rocoso y tierra desnuda,Rocks and Bare Soils,12 | Afloramiento rocoso y tierra desnuda,20,1,494.09000000000003
+500,13,13,Playa y arenal natural,Sand Beaches,13 | Playa y arenal natural,42,1,838.4200000000001
+500,15,15,Cítrico,Citrus,15 | Cítrico,5,1,119.56
+500,16,16,Palma aceitera,Oil Palm,16 | Palma aceitera,143,1,3721.1800000000003
+500,18,18,Otro cultivo permanente,Permanent Crops,18 | Otro cultivo permanente,24,1,541.57
+500,19,19,Arroz,Rice,19 | Arroz,115,1,2744.92
+500,20,20,Caña de azúcar,Sugar Cane,20 | Caña de azúcar,79,1,1839.57
+500,23,23,Piña,Pineapple,23 | Piña,24,1,575.6
+500,24,24,Otro cultivo anual,Other Annual Crops,24 | Otro cultivo anual,52,1,1368.8500000000001
+500,25,25,Área heterogénea de producción agropecuaria,Heterogeneous Area Agricultural Production,25 | Área heterogénea de producción agropecuaria,1,1,11.25
+500,26,26,Pasto,Pasture,26 | Pasto,4564,1,116298.08
+500,27,27,Superficie de agua,Water Bodies,27 | Superficie de agua,366,1,9100.77
+500,28,28,Área poblada,Urban Areas,28 | Área poblada,279,1,6580.89
+500,29,29,Infraestructura,Infrastructure,29 | Infraestructura,102,1,2810.73
+500,31,31,Estanque para acuicultura,Aquaculture Ponds,31 | Estanque para acuicultura,1,1,5.8
+1000,1,1,Bosque latifoliado mixto maduro,Mature Broadleaf Forest,1 | Bosque latifoliado mixto maduro,196,1,20102.95
+1000,2,2,Bosque latifoliado mixto secundario,Secondary Mixed Broadleaf Forest,2 | Bosque latifoliado mixto secundario,721,1,73495.42
+1000,3,3,Bosque de mangle,Mangrove Forest,3 | Bosque de mangle,281,10,27792.84
+1000,7,7,Bosque plantado de coníferas,Coniferous Forest,7 | Bosque plantado de coníferas,2,1,102.85000000000001
+1000,8,8,Bosque plantado de latifoliadas,Broadleaf Forest,8 | Bosque plantado de latifoliadas,56,1,5579.09
+1000,9,9,Rastrojo y vegetación arbustiva,Shrubs and Bushes,9 | Rastrojo y vegetación arbustiva,386,1,39050.94
+1000,10,10,Vegetación herbácea,Herbaceous Vegetation,10 | Vegetación herbácea,37,1,3847.41
+1000,11,11,Vegetación baja inundable,Flooded Vegetation,11 | Vegetación baja inundable,2,1,110.62
+1000,12,12,Afloramiento rocoso y tierra desnuda,Rocks and Bare Soils,12 | Afloramiento rocoso y tierra desnuda,7,1,494.09000000000003
+1000,13,13,Playa y arenal natural,Sand Beaches,13 | Playa y arenal natural,21,1,838.4200000000001
+1000,15,15,Cítrico,Citrus,15 | Cítrico,3,1,119.56
+1000,16,16,Palma aceitera,Oil Palm,16 | Palma aceitera,36,1,3721.1800000000003
+1000,18,18,Otro cultivo permanente,Permanent Crops,18 | Otro cultivo permanente,3,1,541.57
+1000,19,19,Arroz,Rice,19 | Arroz,27,1,2744.92
+1000,20,20,Caña de azúcar,Sugar Cane,20 | Caña de azúcar,22,1,1839.57
+1000,23,23,Piña,Pineapple,23 | Piña,6,1,575.6
+1000,24,24,Otro cultivo anual,Other Annual Crops,24 | Otro cultivo anual,15,1,1368.8500000000001
+1000,25,25,Área heterogénea de producción agropecuaria,Heterogeneous Area Agricultural Production,25 | Área heterogénea de producción agropecuaria,1,1,11.25
+1000,26,26,Pasto,Pasture,26 | Pasto,1080,1,116298.08
+1000,27,27,Superficie de agua,Water Bodies,27 | Superficie de agua,105,1,9100.77
+1000,28,28,Área poblada,Urban Areas,28 | Área poblada,72,1,6580.89
+1000,29,29,Infraestructura,Infrastructure,29 | Infraestructura,27,1,2810.73
+1000,31,31,Estanque para acuicultura,Aquaculture Ponds,31 | Estanque para acuicultura,1,1,5.8
+2000,1,1,Bosque latifoliado mixto maduro,Mature Broadleaf Forest,1 | Bosque latifoliado mixto maduro,54,1,20102.95
+2000,2,2,Bosque latifoliado mixto secundario,Secondary Mixed Broadleaf Forest,2 | Bosque latifoliado mixto secundario,202,1,73495.42
+2000,3,3,Bosque de mangle,Mangrove Forest,3 | Bosque de mangle,88,10,27792.84
+2000,7,7,Bosque plantado de coníferas,Coniferous Forest,7 | Bosque plantado de coníferas,1,1,102.85000000000001
+2000,8,8,Bosque plantado de latifoliadas,Broadleaf Forest,8 | Bosque plantado de latifoliadas,13,1,5579.09
+2000,9,9,Rastrojo y vegetación arbustiva,Shrubs and Bushes,9 | Rastrojo y vegetación arbustiva,94,1,39050.94
+2000,10,10,Vegetación herbácea,Herbaceous Vegetation,10 | Vegetación herbácea,9,1,3847.41
+2000,11,11,Vegetación baja inundable,Flooded Vegetation,11 | Vegetación baja inundable,2,1,110.62
+2000,12,12,Afloramiento rocoso y tierra desnuda,Rocks and Bare Soils,12 | Afloramiento rocoso y tierra desnuda,6,1,494.09000000000003
+2000,13,13,Playa y arenal natural,Sand Beaches,13 | Playa y arenal natural,6,1,838.4200000000001
+2000,15,15,Cítrico,Citrus,15 | Cítrico,2,1,119.56
+2000,16,16,Palma aceitera,Oil Palm,16 | Palma aceitera,12,1,3721.1800000000003
+2000,18,18,Otro cultivo permanente,Permanent Crops,18 | Otro cultivo permanente,2,1,541.57
+2000,19,19,Arroz,Rice,19 | Arroz,7,1,2744.92
+2000,20,20,Caña de azúcar,Sugar Cane,20 | Caña de azúcar,8,1,1839.57
+2000,23,23,Piña,Pineapple,23 | Piña,2,1,575.6
+2000,24,24,Otro cultivo anual,Other Annual Crops,24 | Otro cultivo anual,3,1,1368.8500000000001
+2000,25,25,Área heterogénea de producción agropecuaria,Heterogeneous Area Agricultural Production,25 | Área heterogénea de producción agropecuaria,1,1,11.25
+2000,26,26,Pasto,Pasture,26 | Pasto,291,1,116298.08
+2000,27,27,Superficie de agua,Water Bodies,27 | Superficie de agua,20,1,9100.77
+2000,28,28,Área poblada,Urban Areas,28 | Área poblada,22,1,6580.89
+2000,29,29,Infraestructura,Infrastructure,29 | Infraestructura,5,1,2810.73
+2000,31,31,Estanque para acuicultura,Aquaculture Ponds,31 | Estanque para acuicultura,1,1,5.8
+3000,1,1,Bosque latifoliado mixto maduro,Mature Broadleaf Forest,1 | Bosque latifoliado mixto maduro,22,1,20102.95
+3000,2,2,Bosque latifoliado mixto secundario,Secondary Mixed Broadleaf Forest,2 | Bosque latifoliado mixto secundario,85,1,73495.42
+3000,3,3,Bosque de mangle,Mangrove Forest,3 | Bosque de mangle,45,10,27792.84
+3000,7,7,Bosque plantado de coníferas,Coniferous Forest,7 | Bosque plantado de coníferas,1,1,102.85000000000001
+3000,8,8,Bosque plantado de latifoliadas,Broadleaf Forest,8 | Bosque plantado de latifoliadas,3,1,5579.09
+3000,9,9,Rastrojo y vegetación arbustiva,Shrubs and Bushes,9 | Rastrojo y vegetación arbustiva,48,1,39050.94
+3000,10,10,Vegetación herbácea,Herbaceous Vegetation,10 | Vegetación herbácea,4,1,3847.41
+3000,11,11,Vegetación baja inundable,Flooded Vegetation,11 | Vegetación baja inundable,1,1,110.62
+3000,12,12,Afloramiento rocoso y tierra desnuda,Rocks and Bare Soils,12 | Afloramiento rocoso y tierra desnuda,3,1,494.09000000000003
+3000,13,13,Playa y arenal natural,Sand Beaches,13 | Playa y arenal natural,6,1,838.4200000000001
+3000,15,15,Cítrico,Citrus,15 | Cítrico,1,1,119.56
+3000,16,16,Palma aceitera,Oil Palm,16 | Palma aceitera,3,1,3721.1800000000003
+3000,18,18,Otro cultivo permanente,Permanent Crops,18 | Otro cultivo permanente,3,1,541.57
+3000,19,19,Arroz,Rice,19 | Arroz,5,1,2744.92
+3000,20,20,Caña de azúcar,Sugar Cane,20 | Caña de azúcar,3,1,1839.57
+3000,23,23,Piña,Pineapple,23 | Piña,1,1,575.6
+3000,24,24,Otro cultivo anual,Other Annual Crops,24 | Otro cultivo anual,2,1,1368.8500000000001
+3000,25,25,Área heterogénea de producción agropecuaria,Heterogeneous Area Agricultural Production,25 | Área heterogénea de producción agropecuaria,1,1,11.25
+3000,26,26,Pasto,Pasture,26 | Pasto,130,1,116298.08
+3000,27,27,Superficie de agua,Water Bodies,27 | Superficie de agua,12,1,9100.77
+3000,28,28,Área poblada,Urban Areas,28 | Área poblada,9,1,6580.89
+3000,29,29,Infraestructura,Infrastructure,29 | Infraestructura,2,1,2810.73
+3000,31,31,Estanque para acuicultura,Aquaculture Ponds,31 | Estanque para acuicultura,1,1,5.8

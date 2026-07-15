@@ -1,0 +1,116 @@
+﻿distance_m,class_field,class_value_text,n_selected,n_protected,n_selected_protected,n_candidates,class_area_ha,missing_after_selection
+250,stratum_id,1 | Bosque latifoliado mixto maduro,3195,1,1,3195,20102.95,0
+250,stratum_id,10 | Vegetación herbácea,597,1,1,597,3847.41,0
+250,stratum_id,11 | Vegetación baja inundable,18,1,1,18,110.62,0
+250,stratum_id,12 | Afloramiento rocoso y tierra desnuda,82,1,1,82,494.09000000000003,0
+250,stratum_id,13 | Playa y arenal natural,145,1,1,145,838.4200000000001,0
+250,stratum_id,15 | Cítrico,19,1,1,19,119.56,0
+250,stratum_id,16 | Palma aceitera,596,1,1,596,3721.1800000000003,0
+250,stratum_id,18 | Otro cultivo permanente,90,1,1,90,541.57,0
+250,stratum_id,19 | Arroz,451,1,1,451,2744.92,0
+250,stratum_id,2 | Bosque latifoliado mixto secundario,11744,1,1,11744,73495.42,0
+250,stratum_id,20 | Caña de azúcar,291,1,1,291,1839.57,0
+250,stratum_id,23 | Piña,91,1,1,91,575.6,0
+250,stratum_id,24 | Otro cultivo anual,225,1,1,225,1368.8500000000001,0
+250,stratum_id,25 | Área heterogénea de producción agropecuaria,4,1,1,4,11.25,0
+250,stratum_id,26 | Pasto,18545,1,1,18545,116298.08,0
+250,stratum_id,27 | Superficie de agua,1413,1,1,1413,9100.77,0
+250,stratum_id,28 | Área poblada,1057,1,1,1057,6580.89,0
+250,stratum_id,29 | Infraestructura,454,1,1,454,2810.73,0
+250,stratum_id,3 | Bosque de mangle,4467,10,10,4467,27792.84,0
+250,stratum_id,31 | Estanque para acuicultura,1,1,1,1,5.8,0
+250,stratum_id,7 | Bosque plantado de coníferas,19,1,1,19,102.85000000000001,0
+250,stratum_id,8 | Bosque plantado de latifoliadas,886,1,1,886,5579.09,0
+250,stratum_id,9 | Rastrojo y vegetación arbustiva,6301,1,1,6301,39050.94,0
+500,stratum_id,1 | Bosque latifoliado mixto maduro,787,1,1,3195,20102.95,0
+500,stratum_id,10 | Vegetación herbácea,145,1,1,597,3847.41,0
+500,stratum_id,11 | Vegetación baja inundable,6,1,1,18,110.62,0
+500,stratum_id,12 | Afloramiento rocoso y tierra desnuda,20,1,1,82,494.09000000000003,0
+500,stratum_id,13 | Playa y arenal natural,42,1,1,145,838.4200000000001,0
+500,stratum_id,15 | Cítrico,5,1,1,19,119.56,0
+500,stratum_id,16 | Palma aceitera,143,1,1,596,3721.1800000000003,0
+500,stratum_id,18 | Otro cultivo permanente,24,1,1,90,541.57,0
+500,stratum_id,19 | Arroz,115,1,1,451,2744.92,0
+500,stratum_id,2 | Bosque latifoliado mixto secundario,2893,1,1,11744,73495.42,0
+500,stratum_id,20 | Caña de azúcar,79,1,1,291,1839.57,0
+500,stratum_id,23 | Piña,24,1,1,91,575.6,0
+500,stratum_id,24 | Otro cultivo anual,52,1,1,225,1368.8500000000001,0
+500,stratum_id,25 | Área heterogénea de producción agropecuaria,1,1,1,4,11.25,0
+500,stratum_id,26 | Pasto,4564,1,1,18545,116298.08,0
+500,stratum_id,27 | Superficie de agua,366,1,1,1413,9100.77,0
+500,stratum_id,28 | Área poblada,279,1,1,1057,6580.89,0
+500,stratum_id,29 | Infraestructura,102,1,1,454,2810.73,0
+500,stratum_id,3 | Bosque de mangle,1122,10,10,4467,27792.84,0
+500,stratum_id,31 | Estanque para acuicultura,1,1,1,1,5.8,0
+500,stratum_id,7 | Bosque plantado de coníferas,4,1,1,19,102.85000000000001,0
+500,stratum_id,8 | Bosque plantado de latifoliadas,206,1,1,886,5579.09,0
+500,stratum_id,9 | Rastrojo y vegetación arbustiva,1571,1,1,6301,39050.94,0
+1000,stratum_id,1 | Bosque latifoliado mixto maduro,196,1,1,3195,20102.95,0
+1000,stratum_id,10 | Vegetación herbácea,37,1,1,597,3847.41,0
+1000,stratum_id,11 | Vegetación baja inundable,2,1,1,18,110.62,0
+1000,stratum_id,12 | Afloramiento rocoso y tierra desnuda,7,1,1,82,494.09000000000003,0
+1000,stratum_id,13 | Playa y arenal natural,21,1,1,145,838.4200000000001,0
+1000,stratum_id,15 | Cítrico,3,1,1,19,119.56,0
+1000,stratum_id,16 | Palma aceitera,36,1,1,596,3721.1800000000003,0
+1000,stratum_id,18 | Otro cultivo permanente,3,1,1,90,541.57,0
+1000,stratum_id,19 | Arroz,27,1,1,451,2744.92,0
+1000,stratum_id,2 | Bosque latifoliado mixto secundario,721,1,1,11744,73495.42,0
+1000,stratum_id,20 | Caña de azúcar,22,1,1,291,1839.57,0
+1000,stratum_id,23 | Piña,6,1,1,91,575.6,0
+1000,stratum_id,24 | Otro cultivo anual,15,1,1,225,1368.8500000000001,0
+1000,stratum_id,25 | Área heterogénea de producción agropecuaria,1,1,1,4,11.25,0
+1000,stratum_id,26 | Pasto,1080,1,1,18545,116298.08,0
+1000,stratum_id,27 | Superficie de agua,105,1,1,1413,9100.77,0
+1000,stratum_id,28 | Área poblada,72,1,1,1057,6580.89,0
+1000,stratum_id,29 | Infraestructura,27,1,1,454,2810.73,0
+1000,stratum_id,3 | Bosque de mangle,281,10,10,4467,27792.84,0
+1000,stratum_id,31 | Estanque para acuicultura,1,1,1,1,5.8,0
+1000,stratum_id,7 | Bosque plantado de coníferas,2,1,1,19,102.85000000000001,0
+1000,stratum_id,8 | Bosque plantado de latifoliadas,56,1,1,886,5579.09,0
+1000,stratum_id,9 | Rastrojo y vegetación arbustiva,386,1,1,6301,39050.94,0
+2000,stratum_id,1 | Bosque latifoliado mixto maduro,54,1,1,3195,20102.95,0
+2000,stratum_id,10 | Vegetación herbácea,9,1,1,597,3847.41,0
+2000,stratum_id,11 | Vegetación baja inundable,2,1,1,18,110.62,0
+2000,stratum_id,12 | Afloramiento rocoso y tierra desnuda,6,1,1,82,494.09000000000003,0
+2000,stratum_id,13 | Playa y arenal natural,6,1,1,145,838.4200000000001,0
+2000,stratum_id,15 | Cítrico,2,1,1,19,119.56,0
+2000,stratum_id,16 | Palma aceitera,12,1,1,596,3721.1800000000003,0
+2000,stratum_id,18 | Otro cultivo permanente,2,1,1,90,541.57,0
+2000,stratum_id,19 | Arroz,7,1,1,451,2744.92,0
+2000,stratum_id,2 | Bosque latifoliado mixto secundario,202,1,1,11744,73495.42,0
+2000,stratum_id,20 | Caña de azúcar,8,1,1,291,1839.57,0
+2000,stratum_id,23 | Piña,2,1,1,91,575.6,0
+2000,stratum_id,24 | Otro cultivo anual,3,1,1,225,1368.8500000000001,0
+2000,stratum_id,25 | Área heterogénea de producción agropecuaria,1,1,1,4,11.25,0
+2000,stratum_id,26 | Pasto,291,1,1,18545,116298.08,0
+2000,stratum_id,27 | Superficie de agua,20,1,1,1413,9100.77,0
+2000,stratum_id,28 | Área poblada,22,1,1,1057,6580.89,0
+2000,stratum_id,29 | Infraestructura,5,1,1,454,2810.73,0
+2000,stratum_id,3 | Bosque de mangle,88,10,10,4467,27792.84,0
+2000,stratum_id,31 | Estanque para acuicultura,1,1,1,1,5.8,0
+2000,stratum_id,7 | Bosque plantado de coníferas,1,1,1,19,102.85000000000001,0
+2000,stratum_id,8 | Bosque plantado de latifoliadas,13,1,1,886,5579.09,0
+2000,stratum_id,9 | Rastrojo y vegetación arbustiva,94,1,1,6301,39050.94,0
+3000,stratum_id,1 | Bosque latifoliado mixto maduro,22,1,1,3195,20102.95,0
+3000,stratum_id,10 | Vegetación herbácea,4,1,1,597,3847.41,0
+3000,stratum_id,11 | Vegetación baja inundable,1,1,1,18,110.62,0
+3000,stratum_id,12 | Afloramiento rocoso y tierra desnuda,3,1,1,82,494.09000000000003,0
+3000,stratum_id,13 | Playa y arenal natural,6,1,1,145,838.4200000000001,0
+3000,stratum_id,15 | Cítrico,1,1,1,19,119.56,0
+3000,stratum_id,16 | Palma aceitera,3,1,1,596,3721.1800000000003,0
+3000,stratum_id,18 | Otro cultivo permanente,3,1,1,90,541.57,0
+3000,stratum_id,19 | Arroz,5,1,1,451,2744.92,0
+3000,stratum_id,2 | Bosque latifoliado mixto secundario,85,1,1,11744,73495.42,0
+3000,stratum_id,20 | Caña de azúcar,3,1,1,291,1839.57,0
+3000,stratum_id,23 | Piña,1,1,1,91,575.6,0
+3000,stratum_id,24 | Otro cultivo anual,2,1,1,225,1368.8500000000001,0
+3000,stratum_id,25 | Área heterogénea de producción agropecuaria,1,1,1,4,11.25,0
+3000,stratum_id,26 | Pasto,130,1,1,18545,116298.08,0
+3000,stratum_id,27 | Superficie de agua,12,1,1,1413,9100.77,0
+3000,stratum_id,28 | Área poblada,9,1,1,1057,6580.89,0
+3000,stratum_id,29 | Infraestructura,2,1,1,454,2810.73,0
+3000,stratum_id,3 | Bosque de mangle,45,10,10,4467,27792.84,0
+3000,stratum_id,31 | Estanque para acuicultura,1,1,1,1,5.8,0
+3000,stratum_id,7 | Bosque plantado de coníferas,1,1,1,19,102.85000000000001,0
+3000,stratum_id,8 | Bosque plantado de latifoliadas,3,1,1,886,5579.09,0
+3000,stratum_id,9 | Rastrojo y vegetación arbustiva,48,1,1,6301,39050.94,0

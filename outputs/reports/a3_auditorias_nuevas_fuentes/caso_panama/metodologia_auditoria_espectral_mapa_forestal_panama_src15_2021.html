@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metodología de auditoría espectral - Mapa Forestal Panamá SRC15 2021</title>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --ink: #1f2933;
+      --muted: #5f6b76;
+      --line: #d9ded6;
+      --panel: #ffffff;
+      --accent: #1f7a6d;
+      --accent-2: #9d5c2e;
+      --soft: #edf6f2;
+      --warn: #fff5df;
+      --danger: #fae7e5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      background: #153f3a;
+      color: white;
+      padding: 44px clamp(20px, 6vw, 72px) 36px;
+    }
+    header p { max-width: 980px; color: #d7ebe6; font-size: 1.06rem; margin: 10px 0 0; }
+    h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.08; letter-spacing: 0; }
+    h2 { margin-top: 38px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    h3 { margin-top: 24px; }
+    main { max-width: 1180px; margin: 0 auto; padding: 30px clamp(16px, 4vw, 44px) 70px; }
+    .meta { color: #d7ebe6; font-size: .92rem; margin-top: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 20px 0; }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 120px;
+    }
+    .metric strong { display: block; font-size: 1.75rem; color: var(--accent); line-height: 1.1; }
+    .metric p { margin: 8px 0 0; color: var(--ink); font-weight: 650; }
+    .metric span { display: block; margin-top: 8px; color: var(--muted); font-size: .9rem; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .note { background: var(--soft); border-left: 5px solid var(--accent); }
+    .warning { background: var(--warn); border-left: 5px solid var(--accent-2); }
+    .danger { background: var(--danger); border-left: 5px solid #b6463a; }
+    code { background: #eef1ee; border: 1px solid #dce2dd; border-radius: 5px; padding: 1px 5px; font-size: .92em; }
+    pre { overflow: auto; background: #172421; color: #e7f2ef; border-radius: 8px; padding: 14px; }
+    ul, ol { padding-left: 1.25rem; }
+    .data-table { width: 100%; border-collapse: collapse; background: white; margin: 14px 0 24px; font-size: .92rem; }
+    .data-table th, .data-table td { border: 1px solid var(--line); padding: 8px 10px; vertical-align: top; text-align: left; }
+    .data-table th { background: #eef4ef; font-weight: 750; }
+    .table-wrap { overflow-x: auto; }
+    .bar-row { display: grid; grid-template-columns: minmax(120px, 230px) 1fr minmax(120px, 160px); gap: 12px; align-items: center; margin: 9px 0; }
+    .bar-track { height: 12px; background: #e2e8e3; border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); }
+    .bar-label { font-weight: 650; }
+    .bar-value { text-align: right; font-variant-numeric: tabular-nums; }
+    .bar-value span { color: var(--muted); }
+    .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+    footer { color: var(--muted); font-size: .9rem; margin-top: 44px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Metodología de auditoría espectral - Mapa Forestal Panamá SRC15 2021</h1>
+    <p>Flujo reproducible de preparación, extracción Sentinel-2 SR, auditoría espectral y scoring para la fuente MIAMBIENTE.</p>
+    <div class="meta">Generado: 2026-07-14 23:40:18 · Carpeta base: PGBM_actividad_1_diagnostico</div>
+  </header>
+  <main>
+    
+    <section class="panel note">
+      <h2>Resumen ejecutivo</h2>
+      <p>Este flujo documenta la auditoría espectral y el scoring multicriterio del caso <strong>MIAMBIENTE - Cultivos Mapa Panamá</strong>, identificado como <code>SRC15</code> e <code>id_fuente=15</code>. El año de referencia es 2021.</p>
+      <p>El proceso parte del muestreo d500 sobre el raster recortado del mapa forestal de Panamá, normaliza los puntos, genera grupos XY, extrae métricas Sentinel-2 SR, une la respuesta espectral con los registros y produce alertas exploratorias por clase temática.</p>
+    </section>
+
+    <h2>Orden lógico del flujo</h2>
+    <div class="panel">
+      <ol>
+        <li>Preparación de puntos del mapa forestal de Panamá para auditoría.</li>
+        <li>Creación de <code>xy_group_id</code>, <code>xy_year_group_id</code> y <code>xy_class_group_id</code>.</li>
+        <li>Preparación del CSV de unidades únicas para Google Earth Engine.</li>
+        <li>Extracción mensual Sentinel-2 SR con s2cloudless en GEE.</li>
+        <li>Control del CSV exportado y unión mensual/anual con registros originales.</li>
+        <li>Auditoría espectral preliminar por clase y grupo XY.</li>
+        <li>Scoring multicriterio por <code>xy_group_id</code>.</li>
+        <li>Generación de documentación HTML trazable.</li>
+      </ol>
+    </div>
+
+    <h2>Unidades de análisis</h2>
+    <div class="two-col">
+      <div class="panel">
+        <h3>Unidad espacial</h3>
+        <p><code>xy_group_id</code> representa una coordenada única. En este caso se usa el namespace <code>SRC15_PAN_2021</code>, compatible con el flujo de nuevas fuentes y aislado de otros casos.</p>
+      </div>
+      <div class="panel">
+        <h3>Unidad espectral</h3>
+        <p><code>extract_id</code> representa <code>Longitud + Latitud + Año</code>. Así se evita repetir extracciones Sentinel-2 cuando varios registros comparten punto y año.</p>
+      </div>
+    </div>
+
+    <h2>Reglas temático-espectrales</h2>
+    <p>Las reglas son concordantes con las auditorías de Actividad 1 y SINAC en indicadores, severidad y umbrales base, pero adaptadas a los <code>Class_value</code> del mapa forestal de Panamá.</p>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>class_code</th>
+      <th>class_name</th>
+      <th>expected_signal_group</th>
+      <th>medium_rule</th>
+      <th>high_rule</th>
+      <th>note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Broadleaf Evergreen Mature Forest</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Bosque maduro: se espera vegetacion persistente con senal fotosintetica alta.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Broadleaf Evergreen Secondary Forest</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Bosque secundario: misma regla piloto que bosque maduro.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Mangrove Forest</td>
+      <td>vegetacion_humeda_mixta</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.08</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.05</td>
+      <td>Manglar: tolera mezcla agua-vegetacion y borde a 20 m.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Coniferous Plantation</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Plantacion forestal: se evalua como vegetacion arborea esperada.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Broadleaf Plantation</td>
+      <td>vegetacion_forestal_esperada</td>
+      <td>NDVI &lt; 0.40 o NDRE &lt; 0.10</td>
+      <td>NDVI &lt; 0.30 o NDRE &lt; 0.06</td>
+      <td>Plantacion latifoliada: se evalua como vegetacion arborea esperada.</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Shrubs</td>
+      <td>vegetacion_natural_baja</td>
+      <td>NDVI &lt; 0.20 o NDRE &lt; 0.03 o NDVI &gt; 0.85</td>
+      <td>NDVI &lt; 0.10</td>
+      <td>Arbustos: clase natural baja, potencialmente heterogenea.</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Herbaceous Vegetation</td>
+      <td>vegetacion_herbacea_estacional</td>
+      <td>NDVI &lt; 0.18 o NDVI &gt; 0.82</td>
+      <td>NDVI &lt; 0.08</td>
+      <td>Vegetacion herbacea: umbrales conservadores por estacionalidad.</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Low Flooded Vegetation</td>
+      <td>vegetacion_humeda_mixta</td>
+      <td>NDVI &lt; 0.05 o NDVI &gt; 0.80 o NDRE &gt; 0.20</td>
+      <td>No aplica por umbral fijo</td>
+      <td>Vegetacion inundable: clase mixta agua-vegetacion.</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>Rocks And Natural Bare Soil</td>
+      <td>no_vegetacion_esperada</td>
+      <td>NDVI &gt; 0.30 o NDRE &gt; 0.08</td>
+      <td>NDVI &gt; 0.45 o NDRE &gt; 0.12</td>
+      <td>Suelo desnudo natural: senal vegetal alta sugiere mezcla o cambio.</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>Beaches And Sand</td>
+      <td>no_vegetacion_esperada</td>
+      <td>NDVI &gt; 0.30 o NDRE &gt; 0.08</td>
+      <td>NDVI &gt; 0.45 o NDRE &gt; 0.12</td>
+      <td>Playas y arena: senal vegetal alta sugiere borde o inconsistencia.</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>Coffee</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.15 o NDVI &gt; 0.90 o NDRE &lt; 0.01</td>
+      <td>NDVI &lt; 0.05</td>
+      <td>Cultivo permanente: regla conservadora por manejo y sombra.</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>Citrus</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.15 o NDVI &gt; 0.90 o NDRE &lt; 0.01</td>
+      <td>NDVI &lt; 0.05</td>
+      <td>Cultivo permanente: regla conservadora.</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>Oil Palm</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.20 o NDRE &lt; 0.03</td>
+      <td>NDVI &lt; 0.10</td>
+      <td>Palma aceitera: se espera senal vegetal persistente.</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>Other Permanent Crop</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.15 o NDVI &gt; 0.90 o NDRE &lt; 0.01</td>
+      <td>NDVI &lt; 0.05</td>
+      <td>Cultivo permanente variable.</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>Rice</td>
+      <td>vegetacion_agricola_estacional</td>
+      <td>NDVI &lt; 0.10 o NDVI &gt; 0.90</td>
+      <td>No aplica por umbral fijo</td>
+      <td>Arroz: alta variabilidad por inundacion, crecimiento y cosecha.</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>Sugar Cane</td>
+      <td>vegetacion_agricola_estacional</td>
+      <td>NDVI &lt; 0.10 o NDVI &gt; 0.90</td>
+      <td>No aplica por umbral fijo</td>
+      <td>Cana de azucar: variabilidad por ciclo y cosecha.</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td>Pineapple</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.10 o NDVI &gt; 0.90</td>
+      <td>No aplica por umbral fijo</td>
+      <td>Pina: cobertura agricola variable y estructura baja.</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>Other Annual Crop</td>
+      <td>vegetacion_agricola_estacional</td>
+      <td>NDVI &lt; 0.10 o NDVI &gt; 0.90</td>
+      <td>No aplica por umbral fijo</td>
+      <td>Cultivo anual: clase dependiente del calendario agricola.</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>Heterogeneous Agricultural Area</td>
+      <td>vegetacion_agricola_variable</td>
+      <td>NDVI &lt; 0.10 o NDVI &gt; 0.90</td>
+      <td>No aplica por umbral fijo</td>
+      <td>Mosaico agricola heterogeneo.</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>Pasture</td>
+      <td>vegetacion_herbacea_estacional</td>
+      <td>NDVI &lt; 0.25 o NDVI &gt; 0.75</td>
+      <td>NDVI &lt; 0.18</td>
+      <td>Pasto: regla conservadora por manejo ganadero y estacionalidad.</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td>Water</td>
+      <td>agua_baja_vegetacion</td>
+      <td>NDVI &gt; 0.20 o NDRE &gt; 0.04</td>
+      <td>NDVI &gt; 0.35 o NDRE &gt; 0.08</td>
+      <td>Agua: senal vegetal alta sugiere borde, humedal o mezcla.</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td>Populated Area</td>
+      <td>no_vegetacion_urbana</td>
+      <td>NDVI &gt; 0.40 o NDRE &gt; 0.12</td>
+      <td>NDVI &gt; 0.55 o NDVI &gt; 0.50 y NDRE &gt; 0.12</td>
+      <td>Urbano: puede haber mezcla con arbolado, jardines o bordes.</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td>Infrastructure</td>
+      <td>no_vegetacion_urbana</td>
+      <td>NDVI &gt; 0.40 o NDRE &gt; 0.12</td>
+      <td>NDVI &gt; 0.55 o NDVI &gt; 0.50 y NDRE &gt; 0.12</td>
+      <td>Infraestructura: puede mezclar vegetacion de borde.</td>
+    </tr>
+    <tr>
+      <td>31</td>
+      <td>Aquaculture Pond</td>
+      <td>agua_baja_vegetacion</td>
+      <td>NDVI &gt; 0.20 o NDRE &gt; 0.04</td>
+      <td>NDVI &gt; 0.35 o NDRE &gt; 0.08</td>
+      <td>Estanque acuicola: senal vegetal alta sugiere borde o vegetacion flotante.</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Parámetros de auditoría</h2>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>parameter</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MIN_VALID_MONTHS</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>MIN_TOTAL_OBS</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>CLOUD_PROB_HIGH</td>
+      <td>60.0</td>
+    </tr>
+    <tr>
+      <td>MIN_GROUP_SIZE_FOR_RARENESS</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <td>IQR_FACTOR</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <td>HIGH_GAP_PCT</td>
+      <td>25.0</td>
+    </tr>
+    <tr>
+      <td>HIGH_RARE_PCT</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <td>HIGH_ALERT_PCT</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Pesos del scoring</h2>
+    <div class="table-wrap"><table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>criterion</th>
+      <th>weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>temporal</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <td>spatial</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <td>thematic</td>
+      <td>0.20</td>
+    </tr>
+    <tr>
+      <td>spectral</td>
+      <td>0.15</td>
+    </tr>
+    <tr>
+      <td>confidence</td>
+      <td>0.10</td>
+    </tr>
+    <tr>
+      <td>representativity</td>
+      <td>0.10</td>
+    </tr>
+    <tr>
+      <td>source</td>
+      <td>0.05</td>
+    </tr>
+  </tbody>
+</table></div>
+
+    <h2>Comandos de reproducción</h2>
+    <pre><code>conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/01_preparar_mapa_forestal_panama_auditoria_espectral.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/02_xy_groups_mapa_forestal_panama.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/03_s2_sr_gee_input_mapa_forestal_panama.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/04_generate_gee_export_report_mapa_forestal_panama.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/05_join_s2sr_to_mapa_forestal_panama_records.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/06_s2sr_spectral_class_audit_mapa_forestal_panama.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/08_scoring_integral_mapa_forestal_panama.py
+conda run -n pgbm_actividad1 python src/actividad_3/a3_auditorias_nuevas_fuentes/caso_panama/07_generate_project_html_docs_mapa_forestal_panama.py</code></pre>
+    
+    <footer>Documento generado a partir de scripts, YAML, GeoPackages y CSV de control del caso mapa forestal de Panamá SRC15 2021.</footer>
+  </main>
+</body>
+</html>
