@@ -9,7 +9,7 @@
 # para cada grupo espacial.
 #
 # Tareas esperadas:
-#   5 grupos espaciales x 16 predictores = 80 tareas
+#   3 grupos espaciales x 16 predictores = 48 tareas
 
 paths:
   pilot_gpkg: data/processed/a4_pilot_quadrant_extraction/gpkg/pilot_quadrant_extraction_normalized.gpkg
@@ -22,6 +22,12 @@ inputs:
   region_source_layer: pilot_quadrant
   dissolve_by_field: id_zona
   region_id_field: id_zona
+
+  # Reanudación parcial: las zonas 1 y 2 ya están completas en Drive.
+  include_region_ids:
+    - 3
+    - 4
+    - 5
 
 registry:
   sheet: Hoja1

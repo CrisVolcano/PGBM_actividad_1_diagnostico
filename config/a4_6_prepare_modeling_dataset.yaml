@@ -1,0 +1,115 @@
+# Actividad 4.6 — Preparación del dataset tabular de modelado
+# ----------------------------------------------------------------------
+# Esta etapa no entrena modelos y no prepara cubos raster. Solo toma la
+# matriz derivada de A4.4, identifica contexto/objetivos/predictores y
+# genera un dataset tabular listo para el primer modelado piloto.
+
+paths:
+  # Base normalizada de A4.4.
+  modeling_gpkg: data/processed/a4_4_predictor_normalization/gpkg/a4_4_point_predictors_normalized.gpkg
+
+  # Fuente maestra A2.1 de las clases homologadas finales, resueltas con
+  # prioridad de la excepción por id_2 sobre la regla general por id_1.
+  homologation_gpkg: data/processed/a2_1_modelo_datos/gpkg/a2_1_xy_point.gpkg
+
+  # Carpeta de salida de esta etapa.
+  output_dir: data/processed/a4_6_modeling_dataset
+
+inputs:
+  model_matrix_table: pilot_model_matrix
+  predictor_source_table: predictor_source
+  predictor_band_table: predictor_band
+  homologation_final_table: xy_homologacion_final
+
+homologation:
+  enabled: true
+  require_complete: true
+  target_fields:
+    - id_0_propuesta
+    - id_1_propuesta
+  label_fields:
+    - nivel_0_propuesta
+    - nivel_1_propuesta
+
+fields:
+  key: xy_group_id
+  group: id_cuadrante
+
+  # Objetivo principal inicial recomendado para pruebas piloto.
+  # id_2 queda como diagnóstico/secundario hasta completar el llenado de clases.
+  primary_target: id_1_propuesta
+
+  targets:
+    - id_0_propuesta
+    - id_1_propuesta
+
+  # Campos conservados como contexto de modelado. No son variables predictoras.
+  context_fields:
+    - xy_group_id
+    - id_cuadrante
+    - lon
+    - lat
+    - id_pais_grupo
+    # Clases originales conservadas únicamente para trazabilidad y auditoría.
+    - id_0
+    - id_1
+    - id_2
+    - nivel_0_propuesta
+    - nivel_1_propuesta
+    - score_aptitud_total
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - definicion_categoria_aptitud
+    - accion_recomendada
+    - razon_categoria_aptitud
+
+features:
+  # El script buscará en predictor_band la columna física que corresponde
+  # a cada predictor dentro de pilot_model_matrix.
+  feature_column_fields:
+    - band_column
+    - band_output
+    - predictor_band_id
+
+  # Dejar vacío para usar todos los predictores disponibles.
+  include_predictor_ids: []
+
+  # Útil si luego decidimos excluir una fuente completa, por ejemplo
+  # una versión duplicada de WorldClim. Por ahora no se excluye nada.
+  exclude_predictor_ids: []
+
+  exclude_feature_columns: []
+  exclude_feature_regex: []
+
+quality:
+  fail_on_missing_feature_columns: true
+  fail_on_duplicate_feature_columns: true
+
+  # Para el primer dataset se excluyen columnas constantes si aparecieran.
+  drop_constant_features: true
+
+  # Fracción máxima de nulos permitida para usar una variable como predictor.
+  # 1.0 significa que no se excluye por nulos, salvo que sea constante o falte.
+  max_pct_null_to_use: 1.0
+
+row_filter:
+  # Por ahora no se filtra por xy_accion. La tabla completa se conserva para
+  # poder decidir después la estrategia exacta de entrenamiento/validación.
+  required_non_null_targets:
+    - id_1_propuesta
+
+  action_filter:
+    field: categoria_uso_actividad_1_8
+    allowed_values: null
+
+split_readiness:
+  group_field: id_cuadrante
+  requested_group_kfold_splits: 5
+  min_points_per_class: 30
+
+outputs:
+  write_parquet: true
+  write_csv: true
+
+  modeling_dataset_parquet: tables/modeling_dataset.parquet
+  modeling_dataset_csv: tables/modeling_dataset.csv

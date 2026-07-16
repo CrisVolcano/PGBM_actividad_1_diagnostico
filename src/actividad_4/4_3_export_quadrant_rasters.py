@@ -30,6 +30,7 @@ from __future__ import annotations
 import ast
 import json
 import logging
+import numbers
 import os
 import re
 import sys
@@ -399,6 +400,38 @@ def read_export_regions(config: dict[str, Any]) -> gpd.GeoDataFrame:
             raise ValueError(f"{layer} tiene {duplicated:,} valores duplicados en {id_field}.")
         regions = regions[[id_field, "geometry"]].copy()
 
+    include_region_ids = config.get("inputs", {}).get("include_region_ids")
+    if include_region_ids is not None:
+        if not isinstance(include_region_ids, list) or not include_region_ids:
+            raise ValueError("inputs.include_region_ids debe ser una lista no vacía.")
+
+        def canonical_region_id(value: Any) -> str:
+            if pd.isna(value):
+                return ""
+            if isinstance(value, numbers.Integral):
+                return str(int(value))
+            if isinstance(value, numbers.Real) and float(value).is_integer():
+                return str(int(value))
+            return str(value).strip()
+
+        requested_ids = {canonical_region_id(value) for value in include_region_ids}
+        observed_ids = regions[id_field].map(canonical_region_id)
+        available_ids = set(observed_ids)
+        missing_ids = sorted(requested_ids - available_ids)
+        if missing_ids:
+            raise ValueError(
+                "inputs.include_region_ids contiene zonas inexistentes: "
+                f"{missing_ids}. Disponibles: {sorted(available_ids)}"
+            )
+        before_filter = len(regions)
+        regions = regions.loc[observed_ids.isin(requested_ids)].copy()
+        LOGGER.info(
+            "Filtro de zonas aplicado: solicitadas=%s | grupos antes=%s | grupos después=%s",
+            sorted(requested_ids),
+            f"{before_filter:,}",
+            f"{len(regions):,}",
+        )
+
     simplify_m = float(config.get("export", {}).get("simplify_geometry_m", 0) or 0)
     if simplify_m > 0:
         metric_crs = regions.estimate_utm_crs()
@@ -720,7 +753,7 @@ def submit_quadrant_raster_exports(config: dict[str, Any]) -> None:
                     "output_bands": "|".join(spec.output_bands),
                     "scale_m": spec.scale_m,
                     "file_format": config["gee"].get("file_format", "GeoTIFF"),
-                    "run_type": "full_export_all_spatial_groups_all_predictors",
+                    "run_type": "selected_spatial_groups_all_predictors",
                     "status_at_submit": "SUBMITTED",
                 }
             )
