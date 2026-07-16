@@ -1,6 +1,6 @@
 # Unión de registros SINAC SRC10 2021 con valores espectrales Sentinel-2 SR
 
-Fecha de ejecución: 2026-07-14 09:42:44
+Fecha de ejecución: 2026-07-15 22:12:13
 
 ## 1. Propósito
 
@@ -12,17 +12,17 @@ La llave de unión es `extract_id`, que representa la unidad única de extracci�
 
 | Insumo | Ruta / valor |
 |---|---|
-| GPKG de registros con `extract_id` | `data/processed/a3_auditorias_nuevas_fuentes/gee_input/puntos_sinac_src10_2021_con_extract_id.gpkg` |
+| GPKG de registros con `extract_id` | `data/processed/a3_auditorias_nuevas_fuentes/caso_SINAC/gee_input/puntos_sinac_src10_2021_con_extract_id.gpkg` |
 | Capa de referencia | `puntos_sinac_src10_2021_con_extract_id` |
-| Carpeta de CSV GEE | `data/processed/a3_auditorias_nuevas_fuentes/gee_exports` |
+| Carpeta de CSV GEE | `data/processed/a3_auditorias_nuevas_fuentes/caso_SINAC/gee_exports` |
 | Prefijo de CSV procesados | `pgbm_s2sr_monthly_s2cloudless_sinac_src10_2021` |
 
 ## 3. Salidas principales
 
 | Producto | Ruta |
 |---|---|
-| GeoPackage final | `data/processed/a3_auditorias_nuevas_fuentes/s2sr_join/sinac_src10_2021_s2sr_join_outputs.gpkg` |
-| Tablas de control CSV | `outputs/tables/a3_auditorias_nuevas_fuentes/s2sr_join` |
+| GeoPackage final | `data/processed/a3_auditorias_nuevas_fuentes/caso_SINAC/s2sr_join/sinac_src10_2021_s2sr_join_outputs.gpkg` |
+| Tablas de control CSV | `outputs/tables/a3_auditorias_nuevas_fuentes/caso_SINAC/s2sr_join` |
 | Reporte Markdown | `outputs/reports/a3_auditorias_nuevas_fuentes/s2sr_join/join_s2sr_to_sinac_src10_2021_records_report.md` |
 
 ## 4. Capas y tablas generadas

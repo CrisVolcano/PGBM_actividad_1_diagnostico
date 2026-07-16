@@ -1,0 +1,20 @@
+source_id,source_name,Clase,GranClase,nombre_clase,nombre_gran_clase,nivel_0_codigo,nivel_0_homologado,nivel_1_codigo,nivel_1_homologado,nivel_2_codigo,nivel_2_homologado,tipo_equivalencia,confianza,requiere_revision,nota
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,1,1,Bosque maduro,Forestal,40,Tierras Forestales,41,Bosque latifoliado y mixto,411,Latifoliado maduro húmedo,semantica_directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,2,1,Bosque secundario,Forestal,40,Tierras Forestales,41,Bosque latifoliado y mixto,412,Latifoliado secundario húmedo,semantica_directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,3,1,Bosque maduro deciduo,Forestal,40,Tierras Forestales,41,Bosque latifoliado y mixto,414,Bosque seco o deciduo,semantica_directa,alta,0,A1 no separa maduro/secundario deciduo
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,4,1,Bosque secundario deciduo,Forestal,40,Tierras Forestales,41,Bosque latifoliado y mixto,414,Bosque seco o deciduo,semantica_directa,alta,0,A1 no separa maduro/secundario deciduo
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,5,1,Yolillal,Forestal,40,Tierras Forestales,44,Otros arbóreo en tierras no agrícola,445,Bosque de Palmas,semantica_directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,6,1,Manglar,Forestal,40,Tierras Forestales,43,Manglares,430,Manglares,agregacion,alta,0,No distingue manglar alto/bajo
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,7,1,Plantaciones forestales,Forestal,40,Tierras Forestales,44,Otros arbóreo en tierras no agrícola,442,Plantaciones forestales,directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,8,8,Pastos,Pastos,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",332,Pastizales naturales y cultivados,directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,9,9,Cultivos,Cultivos,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,315,Otros cultivos intensivos no arbóreos,agregacion,baja,1,Clase genérica; puede mezclar cultivos arbóreos y no arbóreos
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,10,10,Agua,Agua,20,Tierras húmedas y agua,21,Cuerpos de Agua,210,Cuerpos de Agua,agregacion,alta,0,No distingue natural/artificial
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,11,11,Humedal Palustre,Humedal Palustre,20,Tierras húmedas y agua,22,Humedales,220,Humedales,directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,12,12,Piña,Piña,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,314,Piña,directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,13,13,Palma,Palma,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,311,Palma aceitera,semantica_directa,media,1,Validar que Palma corresponde a palma aceitera y no palma natural
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,14,14,Banano,Banano,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,312,Bananeras,directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,15,15,Páramo,Páramo,90,Otras,91,Otras,910,Otras,sin_equivalencia,baja,1,A1 no contiene clase explícita de páramo
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,16,16,Edificaciones,Edificaciones,10,Artificializado y otra tierras,11,Urbano,110,Urbano,semantica_directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,17,17,salineras,salineras,20,Tierras húmedas y agua,21,Cuerpos de Agua,212,Cuerpos de agua artificial,semantica_parcial,media,1,Podría clasificarse como artificializado según uso final
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,18,18,Suelo desnudo,suelo desnudo,10,Artificializado y otra tierras,12,Otras tierras,122,"Suelo desnudo, arena, rocoso, lava, otros",directa,alta,0,
+10,SINAC - Malla de Entrenamientos del Mapa de Bosques 2021,19,19,Otras tierras,Otras tierras,90,Otras,91,Otras,910,Otras,residual_ambigua,baja,1,Clase residual; no usar para entrenamiento directo sin revisión

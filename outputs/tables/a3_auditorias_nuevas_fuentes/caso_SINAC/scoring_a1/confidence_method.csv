@@ -1,0 +1,2 @@
+﻿score,method,formula,note
+score_confiabilidad,derivado_a3_sin_conf_integrada,0.35*score_fuente + 0.25*score_claridad_semantica + 0.20*score_consistencia_clase + 0.20*score_espacial,No se publica conf_integrada nula; la modificación queda trazada en origen_score_confiabilidad.

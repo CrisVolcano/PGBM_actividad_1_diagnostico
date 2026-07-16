@@ -20,11 +20,11 @@ except Exception:  # pragma: no cover
 
 
 # =============================================================================
-# PGBM - Join SINAC SRC10 2021 records with Sentinel-2 SR monthly values
+# PGBM - Join de registros de nueva fuente con Sentinel-2 SR mensual
 # =============================================================================
 #
 # Propósito:
-#   Unir los registros originales/elegibles de la nueva fuente SINAC SRC10 2021
+#   Unir los registros originales/elegibles de una nueva fuente
 #   con los valores espectro-temporales mensuales Sentinel-2 SR exportados desde
 #   Google Earth Engine.
 #
@@ -939,6 +939,7 @@ def generate_report(
     settings.reports_dir.mkdir(parents=True, exist_ok=True)
 
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    source_label = f"{SOURCE_NAME} ({SOURCE_CODE} {COUNTRY_CODE} {YEAR_REF})"
 
     resumen_df = pd.DataFrame(
         [
@@ -998,13 +999,13 @@ def generate_report(
 
     contenido = "\n".join(
         [
-            "# Unión de registros SINAC SRC10 2021 con valores espectrales Sentinel-2 SR",
+            f"# Unión de registros {source_label} con valores espectrales Sentinel-2 SR",
             "",
             f"Fecha de ejecución: {fecha}",
             "",
             "## 1. Propósito",
             "",
-            "Este módulo une los registros originales/elegibles de la fuente SINAC SRC10 2021 con los valores espectro-temporales mensuales exportados desde Google Earth Engine.",
+            f"Este módulo une los registros originales/elegibles de la fuente {source_label} con los valores espectro-temporales mensuales exportados desde Google Earth Engine.",
             "",
             "La llave de unión es `extract_id`, que representa la unidad única de extracción definida como `Longitud + Latitud + Año`.",
             "",
@@ -1064,7 +1065,7 @@ def generate_report(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Une registros SINAC SRC10 2021 con valores espectrales mensuales/anuales "
+            "Une registros de una nueva fuente con valores espectrales mensuales/anuales "
             "de Sentinel-2 SR exportados desde Google Earth Engine."
         )
     )
@@ -1073,7 +1074,7 @@ def parse_args() -> argparse.Namespace:
         "--reference-gpkg",
         type=str,
         default=str(DEFAULT_REFERENCE_GPKG),
-        help="Ruta al GPKG con registros SINAC SRC10 2021 y extract_id.",
+        help="Ruta al GPKG con registros de referencia y extract_id.",
     )
     parser.add_argument(
         "--reference-layer",
@@ -1142,7 +1143,7 @@ def main() -> None:
     make_dirs(settings)
 
     print("============================================================")
-    print("PGBM - SINAC SRC10 2021 + Sentinel-2 SR")
+    print(f"PGBM - {SOURCE_CODE} {COUNTRY_CODE} {YEAR_REF} + Sentinel-2 SR")
     print("============================================================")
     print("Project dir:", PROJECT_DIR)
     print("GPKG referencia:", settings.reference_gpkg)

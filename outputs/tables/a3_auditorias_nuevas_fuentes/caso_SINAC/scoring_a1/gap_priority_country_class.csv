@@ -1,0 +1,8 @@
+﻿pais,clase,n_registros_2018_2022,n_fuentes,nivel,estado_pais_clase,score_necesidad_complementacion
+Costa Rica,Bosque latifoliado y mixto,2537,1,suficiente,suficiente,0
+Costa Rica,Cuerpos de Agua,150,1,moderado,moderado,40
+Costa Rica,"Cultivos extensivos, Pastizales y matorrales",1179,1,suficiente,suficiente,0
+Costa Rica,Cultivos intensivos No-Arbóreos,8471,1,suficiente,suficiente,0
+Costa Rica,Humedales,410,1,moderado,moderado,40
+Costa Rica,Manglares,799,1,suficiente,suficiente,0
+Costa Rica,Urbano,5928,1,suficiente,suficiente,0

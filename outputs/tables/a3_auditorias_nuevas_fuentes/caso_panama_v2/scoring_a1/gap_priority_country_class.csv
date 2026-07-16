@@ -1,0 +1,11 @@
+﻿pais,clase,n_registros_2018_2022,n_fuentes,nivel,estado_pais_clase,score_necesidad_complementacion
+Panamá,Bosque latifoliado y mixto,3680,1,suficiente,suficiente,0
+Panamá,Cuerpos de Agua,367,1,moderado,moderado,40
+Panamá,Cultivos Arbóreos,30,1,bajo,bajo,75
+Panamá,"Cultivos extensivos, Pastizales y matorrales",4876,1,suficiente,suficiente,0
+Panamá,Cultivos intensivos No-Arbóreos,246,1,moderado,moderado,40
+Panamá,Humedales,6,1,critico,critico,100
+Panamá,Manglares,1122,1,suficiente,suficiente,0
+Panamá,Otras tierras,164,1,moderado,moderado,40
+Panamá,Otros arbóreo en tierras no agrícola,1781,1,suficiente,suficiente,0
+Panamá,Urbano,279,1,moderado,moderado,40

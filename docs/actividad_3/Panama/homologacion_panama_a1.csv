@@ -1,0 +1,34 @@
+source_id,source_name,class_value,class_name,nivel_0_codigo,nivel_0_homologado,nivel_1_codigo,nivel_1_homologado,nivel_2_codigo,nivel_2_homologado,tipo_equivalencia,confianza,requiere_revision,nota
+15,MIAMBIENTE - Cultivos Mapa Panamá,1,Bosque latifoliado mixto maduro,40,Tierras Forestales,41,Bosque latifoliado y mixto,411,Latifoliado maduro húmedo,semantica_directa,alta,0,Nombre procesado usado en A3 Panamá
+15,MIAMBIENTE - Cultivos Mapa Panamá,2,Bosque latifoliado mixto secundario,40,Tierras Forestales,41,Bosque latifoliado y mixto,412,Latifoliado secundario húmedo,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,3,Bosque de mangle,40,Tierras Forestales,43,Manglares,430,Manglares,agregacion,alta,0,No distingue manglar alto/bajo
+15,MIAMBIENTE - Cultivos Mapa Panamá,4,Bosque de orey,40,Tierras Forestales,41,Bosque latifoliado y mixto,411,Latifoliado maduro húmedo,semantica_parcial,media,1,Bosque pantanoso específico no existe como clase A1
+15,MIAMBIENTE - Cultivos Mapa Panamá,5,Bosque de cativo,40,Tierras Forestales,41,Bosque latifoliado y mixto,411,Latifoliado maduro húmedo,semantica_parcial,media,1,Bosque pantanoso específico no existe como clase A1
+15,MIAMBIENTE - Cultivos Mapa Panamá,6,Bosque de rafia,40,Tierras Forestales,44,Otros arbóreo en tierras no agrícola,445,Bosque de Palmas,semantica_directa,media,1,Validar si rafia se tratará como bosque de palmas
+15,MIAMBIENTE - Cultivos Mapa Panamá,7,Bosque plantado de coníferas,40,Tierras Forestales,44,Otros arbóreo en tierras no agrícola,442,Plantaciones forestales,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,8,Bosque plantado de latifoliadas,40,Tierras Forestales,44,Otros arbóreo en tierras no agrícola,442,Plantaciones forestales,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,9,Rastrojo y vegetación arbustiva,40,Tierras Forestales,44,Otros arbóreo en tierras no agrícola,444,Regeneración forestal,semantica_parcial,media,1,Podría alternar con 333 Matorrales según criterio experto
+15,MIAMBIENTE - Cultivos Mapa Panamá,10,Vegetación herbácea,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",332,Pastizales naturales y cultivados,semantica_parcial,media,1,Vegetación herbácea natural no está separada en A1
+15,MIAMBIENTE - Cultivos Mapa Panamá,11,Vegetación baja inundable,20,Tierras húmedas y agua,22,Humedales,220,Humedales,semantica_directa,media,1,
+15,MIAMBIENTE - Cultivos Mapa Panamá,12,Afloramiento rocoso y tierra desnuda,10,Artificializado y otra tierras,12,Otras tierras,122,"Suelo desnudo, arena, rocoso, lava, otros",semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,13,Playa y arenal natural,10,Artificializado y otra tierras,12,Otras tierras,122,"Suelo desnudo, arena, rocoso, lava, otros",semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,14,Café,30,Tierras de Cultivo y Pastos,32,Cultivos Arbóreos,321,Café,directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,15,Cítrico,30,Tierras de Cultivo y Pastos,32,Cultivos Arbóreos,323,Frutales,agregacion,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,16,Palma aceitera,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,311,Palma aceitera,directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,17,Plátano/banano,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,312,Bananeras,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,18,Otro cultivo permanente,30,Tierras de Cultivo y Pastos,32,Cultivos Arbóreos,325,Otros sistemas agroforestales o silvopastoriles,semantica_parcial,media,1,Clase genérica permanente
+15,MIAMBIENTE - Cultivos Mapa Panamá,19,Arroz,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",331,Granos básicos y hortalizas y otros,agregacion,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,20,Caña de azúcar,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,313,Caña de azúcar,directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,21,Horticultura mixta,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",331,Granos básicos y hortalizas y otros,agregacion,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,22,Maíz,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",331,Granos básicos y hortalizas y otros,agregacion,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,23,Piña,30,Tierras de Cultivo y Pastos,31,Cultivos intensivos No-Arbóreos,314,Piña,directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,24,Otro cultivo anual,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",331,Granos básicos y hortalizas y otros,agregacion,media,1,Clase genérica anual
+15,MIAMBIENTE - Cultivos Mapa Panamá,25,Área heterogénea de producción agropecuaria,30,Tierras de Cultivo y Pastos,32,Cultivos Arbóreos,325,Otros sistemas agroforestales o silvopastoriles,semantica_parcial,baja,1,Mosaico agropecuario; requiere criterio experto
+15,MIAMBIENTE - Cultivos Mapa Panamá,26,Pasto,30,Tierras de Cultivo y Pastos,33,"Cultivos extensivos, Pastizales y matorrales",332,Pastizales naturales y cultivados,directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,27,Superficie de agua,20,Tierras húmedas y agua,21,Cuerpos de Agua,210,Cuerpos de Agua,agregacion,alta,0,No distingue natural/artificial
+15,MIAMBIENTE - Cultivos Mapa Panamá,28,Área poblada,10,Artificializado y otra tierras,11,Urbano,110,Urbano,agregacion,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,29,Infraestructura,10,Artificializado y otra tierras,12,Otras tierras,121,Otros artificializado,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,30,Explotación minera,10,Artificializado y otra tierras,12,Otras tierras,121,Otros artificializado,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,31,Estanque para acuicultura,20,Tierras húmedas y agua,21,Cuerpos de Agua,212,Cuerpos de agua artificial,semantica_directa,alta,0,
+15,MIAMBIENTE - Cultivos Mapa Panamá,32,Salinera,20,Tierras húmedas y agua,21,Cuerpos de Agua,212,Cuerpos de agua artificial,semantica_parcial,media,1,Salinera puede tratarse como cuerpo artificial o artificializado
+15,MIAMBIENTE - Cultivos Mapa Panamá,33,Albinas,10,Artificializado y otra tierras,12,Otras tierras,122,"Suelo desnudo, arena, rocoso, lava, otros",semantica_parcial,media,1,Validar definición local de albinas

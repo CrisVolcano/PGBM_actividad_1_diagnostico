@@ -1,0 +1,210 @@
+project:
+  name: "PGBM_actividad_1_diagnostico"
+  module: "A3 caso Panama v2 - replica A1 con homologacion tematica"
+  source_description: "MIAMBIENTE - Cultivos Mapa Panamá"
+  methodological_reference: "Actividad 1 - auditorias integradas y scoring multicriterio"
+
+paths:
+  project_root: "../../.."
+
+source:
+  id_fuente: 15
+  fuente_reporte: "MIAMBIENTE - Cultivos Mapa Panamá"
+  pais_es: "Panamá"
+  pais_cod3: "PAN"
+  anio: 2021
+
+preparation:
+  input_gpkg: "data/processed/a3_sampling_nuevas_fuentes/mapa_forestal_panama/gpkg/mapa_forestal_panama_sampling.gpkg"
+  input_layer: "mapa_forestal_panama_puntos_d0500"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/preparacion/preparacion_mapa_forestal_panama_2021.gpkg"
+  output_layer: "preparacion_mapa_forestal_panama_2021"
+  output_crs: "EPSG:4326"
+  coordinate_precision: 6
+  overwrite: true
+  fields:
+    original_id: "point_id"
+    candidate_id: "candidate_id"
+    class_code: "class_value"
+    class_name: "class_name"
+    class_name_en: "class_name_en"
+    raster_value: "raster_value"
+    stratum_id: "stratum_id"
+    distance_scenario_m: "distance_scenario_m"
+    selection_status: "selection_status"
+    protected: "protected"
+    nearest_neighbor_m: "nearest_neighbor_m"
+  class_groups:
+    - code: 1
+      name: "Bosque y vegetación natural"
+      class_values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    - code: 2
+      name: "Cultivos"
+      class_values: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    - code: 3
+      name: "Pasto"
+      class_values: [26]
+    - code: 4
+      name: "Agua y acuicultura"
+      class_values: [27, 31, 32]
+    - code: 5
+      name: "Suelo desnudo y rasgos naturales"
+      class_values: [12, 13, 33]
+    - code: 6
+      name: "Urbano e infraestructura"
+      class_values: [28, 29, 30]
+
+input_data:
+  gpkg_file: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/homologacion_a1/mapa_forestal_panama_src15_2021_homologado_a1.gpkg"
+  gpkg_layer: "mapa_forestal_panama_src15_2021_homologado_a1"
+
+fields:
+  id: "id_registro"
+  original_id: "id_muestra_original"
+  xy_group_id: "xy_group_id"
+  xy_year_group_id: "xy_year_group_id"
+  xy_class_group_id: "xy_class_group_id"
+  extract_id: "extract_id"
+  source: "Fuente"
+  source_id: "id_fuente"
+  year: "Año"
+  country: "Pais_es"
+  country_code: "Pais_cod3"
+  longitude: "Longitud"
+  latitude: "Latitud"
+  class_code: "Clase"
+  class_group_code: "GranClase"
+  class_name: "nombre_clase"
+  class_group_name: "nombre_gran_clase"
+  id_level_0: "id_nivel_0"
+  level_0: "nivel_0"
+  id_level_1: "id_nivel_1"
+  level_1: "nivel_1"
+  id_level_2: "id_nivel_2"
+  level_2: "nivel_2"
+
+settings:
+  expected_crs: "EPSG:4326"
+  coordinate_precision: 6
+  extract_id_prefix: "S2SR_SRC15_PAN_2021"
+  batch_size: 50000
+
+temporal:
+  year_min: 2021
+  year_max: 2021
+  target_year: 2021
+
+homologation_a1:
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/preparacion/preparacion_mapa_forestal_panama_2021.gpkg"
+  input_layer: "preparacion_mapa_forestal_panama_2021"
+  homologation_csv: "docs/actividad_3/Panama/homologacion_panama_a1.csv"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/homologacion_a1/mapa_forestal_panama_src15_2021_homologado_a1.gpkg"
+  output_layer: "mapa_forestal_panama_src15_2021_homologado_a1"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/caso_panama_v2/homologacion_a1"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/homologacion_a1/homologacion_mapa_forestal_panama_src15_2021_a1.md"
+  fail_on_unmatched: true
+
+outputs:
+  base_dir: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/gee_input"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/caso_panama_v2/gee_input"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/gee_input/s2_sr_gee_input_mapa_forestal_panama_src15_2021.md"
+  logs_dir: "logs/a3_auditorias_nuevas_fuentes/caso_panama_v2"
+  units_csv: "s2_sr_extract_units_mapa_forestal_panama_src15_2021.csv"
+  eligible_gpkg: "puntos_mapa_forestal_panama_src15_2021_con_extract_id.gpkg"
+  eligible_layer: "puntos_mapa_forestal_panama_src15_2021_con_extract_id"
+  overwrite: true
+
+xy_groups:
+  enabled: true
+  id_namespace: "SRC15_PAN_2021"
+  id_strategy: "hash"
+  hash_length: 12
+  coordinate_precision: 6
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/homologacion_a1/mapa_forestal_panama_src15_2021_homologado_a1.gpkg"
+  input_layer: "mapa_forestal_panama_src15_2021_homologado_a1"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/xy_groups/mapa_forestal_panama_src15_2021_xy_groups_outputs.gpkg"
+  output_layers:
+    records: "mapa_forestal_panama_src15_records_with_xy_groups"
+    xy_groups: "mapa_forestal_panama_src15_xy_groups"
+    xy_year_groups: "mapa_forestal_panama_src15_xy_year_groups"
+    xy_class_groups: "mapa_forestal_panama_src15_xy_class_groups"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/caso_panama_v2/xy_groups"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/xy_groups/xy_groups_mapa_forestal_panama_src15_2021_report.md"
+  use_for_gee_input: true
+
+s2sr_join:
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/gee_input/puntos_mapa_forestal_panama_src15_2021_con_extract_id.gpkg"
+  input_layer: "puntos_mapa_forestal_panama_src15_2021_con_extract_id"
+  gee_export_dir: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/gee_exports"
+  gee_export_prefix: "pgbm_s2sr_monthly_s2cloudless_mapa_forestal_panama_src15_2021"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/s2sr_join/mapa_forestal_panama_src15_2021_s2sr_join_outputs.gpkg"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/caso_panama_v2/s2sr_join"
+  reports_dir: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/s2sr_join"
+  report_name: "join_s2sr_to_mapa_forestal_panama_src15_2021_records_report.md"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/s2sr_join/join_s2sr_to_mapa_forestal_panama_src15_2021_records_report.md"
+  layers:
+    full: "mapa_forestal_panama_src15_records_s2sr_full"
+    reduced: "mapa_forestal_panama_src15_records_s2sr_reduced"
+    annual: "mapa_forestal_panama_src15_records_s2sr_annual"
+    extract_units_annual: "mapa_forestal_panama_src15_extract_units_s2sr_annual"
+
+spectral_class_audit:
+  input_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/s2sr_join/mapa_forestal_panama_src15_2021_s2sr_join_outputs.gpkg"
+  output_dir: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/spectral_class_audit"
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/spectral_class_audit/s2sr_spectral_class_audit_mapa_forestal_panama_src15_2021_outputs.gpkg"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/caso_panama_v2/spectral_class_audit"
+  reports_dir: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/spectral_class_audit"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/spectral_class_audit/s2sr_spectral_class_audit_mapa_forestal_panama_src15_2021_report.md"
+  input_layers:
+    original_annual: "mapa_forestal_panama_src15_records_s2sr_annual"
+    extract_units_annual: "mapa_forestal_panama_src15_extract_units_s2sr_annual"
+
+quality_scoring_a1:
+  output_gpkg: "data/processed/a3_auditorias_nuevas_fuentes/caso_panama_v2/scoring_a1/mapa_forestal_panama_src15_2021_scoring_a1_outputs.gpkg"
+  output_layer: "xy_group_aptitude_master"
+  tables_dir: "outputs/tables/a3_auditorias_nuevas_fuentes/caso_panama_v2/scoring_a1"
+  report_md: "outputs/reports/a3_auditorias_nuevas_fuentes/caso_panama_v2/scoring_a1/scoring_a1_mapa_forestal_panama_src15_2021_report.md"
+  target_year: 2021
+  source_base_score: 85
+  confidence_method: "derivado_a3_sin_conf_integrada"
+  confidence_formula:
+    source: 0.35
+    semantic_clarity: 0.25
+    class_consistency: 0.20
+    spatial: 0.20
+  min_records_moderate_class: 100
+  min_records_sufficient_class: 500
+  class_viability_scores:
+    suficiente: 100
+    moderado: 80
+    bajo: 55
+    critico: 25
+    sin_matriz: 70
+  weights_xy:
+    temporal: 0.20
+    spatial: 0.20
+    thematic: 0.20
+    spectral: 0.15
+    confidence: 0.10
+    representativity: 0.10
+    source: 0.05
+  representativity_scores:
+    suficiente: 100
+    moderado: 85
+    bajo: 65
+    critico: 40
+    sin_matriz: 70
+  caps:
+    spectral_alert_high: 70
+    spectral_no_data: 60
+    semantic_residual: 75
+  semantic_keywords:
+    residual:
+      - "otro"
+      - "otra"
+      - "otros"
+      - "otras"
+      - "sin clasificar"
+      - "no clasificado"
+      - "heterogénea"
+      - "heterogenea"

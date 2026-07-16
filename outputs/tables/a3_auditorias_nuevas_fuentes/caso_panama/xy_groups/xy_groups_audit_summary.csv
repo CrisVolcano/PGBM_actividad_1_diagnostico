@@ -1,2 +1,0 @@
-﻿timestamp,input_gpkg,input_layer,output_gpkg,records,xy_groups,xy_year_groups,xy_class_groups,id_namespace,coordinate_precision
-2026-07-14 22:28:06,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/processed/a3_auditorias_nuevas_fuentes/caso_panama/preparacion/preparacion_mapa_forestal_panama_2021_auditoria_espectral.gpkg,preparacion_mapa_forestal_panama_2021,/media/estb/PGB_disco/PGBM_actividad_1_diagnostico/data/processed/a3_auditorias_nuevas_fuentes/caso_panama/xy_groups/mapa_forestal_panama_src15_2021_xy_groups_outputs.gpkg,12551,12551,12551,12551,SRC15_PAN_2021,6

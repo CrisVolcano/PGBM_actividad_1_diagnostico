@@ -1,8 +1,0 @@
-﻿criterion,weight
-temporal,0.2
-spatial,0.2
-thematic,0.2
-spectral,0.15
-confidence,0.1
-representativity,0.1
-source,0.05
