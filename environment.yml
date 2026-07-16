@@ -45,3 +45,4 @@ dependencies:
       - geemap
       - ydata-profiling
       - openpyxl
+      - tabulate
