@@ -17,6 +17,8 @@ inputs:
   assignment_table: xy_pilot_quadrant
   score_table: xy_score
   action_table: xy_accion
+  homologation_table: xy_homologacion_final
+  point_source_table: xy_pilot_point_source
 
 fields:
   key: xy_group_id
@@ -43,6 +45,18 @@ fields:
     - accion_recomendada
     - razon_categoria_aptitud
 
+  homologation_fields:
+    - xy_group_id
+    - id_0_propuesta
+    - nivel_0_propuesta
+    - id_1_propuesta
+    - nivel_1_propuesta
+
+  point_source_fields:
+    - xy_group_id
+    - point_source_key
+    - point_source_gpkg
+
   export_properties:
     - xy_group_id
     - id_cuadrante
@@ -62,6 +76,19 @@ csv_import:
 validation:
   key_as_text: true
   require_complete_point_universe: true
+
+  # Compatibilidad con la salida A4.1 ya generada: si esa salida todavía no
+  # contiene xy_homologacion_final, A4.4 la arma leyendo la tabla propia de
+  # cada fuente indicada en xy_pilot_point_source. No requiere repetir A4.1.
+  build_homologation_from_point_provenance_if_missing: true
+
+  # sampleRegions omite puntos cuando el predictor no tiene un píxel válido.
+  # A4.4 conserva esos xy_group_id y materializa sus bandas como NULL.
+  materialize_missing_predictor_rows_as_null: true
+
+  # Control para no confundir un lote ausente con unos pocos píxeles sin dato.
+  # Si falta más de este porcentaje para un predictor, la ejecución se detiene.
+  max_missing_point_rows_pct_to_materialize: 1.0
 
 outputs:
   overwrite_output_gpkg: true

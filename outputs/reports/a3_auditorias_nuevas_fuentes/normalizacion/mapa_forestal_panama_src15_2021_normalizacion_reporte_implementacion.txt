@@ -1,0 +1,112 @@
+Actividad 3 — Normalización de auditorías y nuevas fuentes
+========================================================================
+Fecha de proceso: 2026-07-16T15:22:12
+ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
+CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a3_auditorias_nuevas_fuentes\config_normalizacion_nuevas_fuentes.yaml
+Fuente: mapa_forestal_panama_src15_2021
+Archivo de entrada: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\mapa_forestal_panama_src15_2021_scoring_a1_outputs.gpkg
+Capa de entrada: xy_group_aptitude_master
+Filas: 12551
+CRS: EPSG:4326
+
+Validación de campos
+------------------------------------------------------------------------
+Campos fuente requeridos desde Actividad 1: 86
+Campos de salida esperados, incluyendo xy_group_id: 77
+Campos analíticos de salida, excluyendo xy_group_id: 76
+Campos de salida generados/encontrados: 77
+Campos faltantes: 0
+Campos extra no asignados: 0
+Campos derivados de auditoría/scoring excluidos por diseño: 28
+Lista de campos excluidos por diseño: ['tipo_fuente_dominante', 'detalle_tipo_fuente_dominante', 'conf_integrada_promedio_observada', 'n_conf_integrada_observada', 'ids_fuente_presentes', 'fuentes_presentes', 'tipos_fuente_presentes', 'score_directitud_fuente_promedio', 'score_trazabilidad_fuente_promedio', 'score_temporal_metadata_fuente_promedio', 'score_fuente_promedio', 'score_fuente_minimo', 'score_fuente_maximo', 'n_fuentes_anio_inconsistente', 'n_fuentes_pais_inconsistente', 'pct_conf_integrada_observada', 'flag_confianza_imputada', 'score_confiabilidad_base', 'origen_score_confiabilidad', 'conf_integrada_promedio', 'score_prioridad_revision', 'score_consistencia_clase', 'score_viabilidad_clase', 'score_claridad_semantica', 'score_nivel_leyenda', 'score_aptitud_raw', 'score_cap', 'cap_reason']
+
+Validación de llave
+------------------------------------------------------------------------
+xy_group_id nulos: 0
+xy_group_id duplicados: 0
+
+Normalización de países y clases
+------------------------------------------------------------------------
+xy_point guarda las FKs de país y clase: id_pais_grupo, id_0, id_1, id_2.
+xy_core guarda id_pais_dominante; los nombres de país quedan solo en pais.
+id_0_propuesta e id_1_propuesta no se almacenan en xy_point; se resuelven mediante reglas N:1.
+Los labels de origen quedan solo en sus tablas de referencia:
+- clase_origen_nivel_0
+- clase_origen_nivel_1
+- clase_origen_nivel_2
+Homologación general de nivel 0 desde id_0 (N:1):
+- id_0 10 -> id_0_propuesta 2 (No Bosques)
+- id_0 20 -> id_0_propuesta 2 (No Bosques)
+- id_0 30 -> id_0_propuesta 2 (No Bosques)
+- id_0 40 -> id_0_propuesta 1 (Bosques/Tierras forestales)
+- id_0 90 -> id_0_propuesta 2 (No Bosques)
+- tabla de homologación: homologacion_nivel_0_origen_propuesta
+- catálogo propuesto: clase_propuesta_nivel_0
+- clases de origen sin homologación: []
+- conteos de auditoría: {'1': 6583, '2': 5968, 'registros_sin_id_0_o_sin_regla': 0, 'clases_observadas_sin_regla': 0}
+Homologación general de nivel 1 desde id_1 (N:1):
+- id_1 11 -> id_1_propuesta 23 (Construido)
+- id_1 12 -> id_1_propuesta 23 (Construido)
+- id_1 21 -> id_1_propuesta 24 (Cuerpos de agua)
+- id_1 22 -> id_1_propuesta 25 (Otras tierras)
+- id_1 31 -> id_1_propuesta 22 (Zonas agrícolas no arbóreas)
+- id_1 32 -> id_1_propuesta 21 (Cultivos arbóreos)
+- id_1 33 -> id_1_propuesta 22 (Zonas agrícolas no arbóreas)
+- id_1 41 -> id_1_propuesta 11 (Bosques latifoliados y mixtos)
+- id_1 42 -> id_1_propuesta 12 (Bosques de coníferas)
+- id_1 43 -> id_1_propuesta 13 (Bosques de mangle)
+- id_1 44 -> id_1_propuesta 11 (Bosques latifoliados y mixtos)
+- id_1 91 -> id_1_propuesta 25 (Otras tierras)
+- tabla de homologación: homologacion_nivel_1_origen_propuesta
+- catálogo propuesto: clase_propuesta_nivel_1
+- clases de origen sin homologación: []
+- conteos de auditoría: {'11': 5461, '12': 0, '13': 1122, '14': 0, '15': 0, '21': 30, '22': 5122, '23': 443, '24': 367, '25': 6, 'registros_sin_id_1_o_sin_regla': 0, 'clases_observadas_sin_regla': 0}
+Homologación override de nivel 1 desde id_2 (N:1):
+- id_2 122 -> id_1_propuesta 25 (Otras tierras)
+- id_2 311 -> id_1_propuesta 21 (Cultivos arbóreos)
+- id_2 414 -> id_1_propuesta 14 (Bosques secos)
+- id_2 442 -> id_1_propuesta 15 (Plantaciones forestales)
+- id_2 443 -> id_1_propuesta 25 (Otras tierras)
+- tabla de homologación: homologacion_nivel_2_excepcion_nivel_1_propuesta
+- catálogo propuesto: clase_propuesta_nivel_1
+- clases con excepción explícita: [122, 311, 414, 442, 443]
+- las demás clases utilizan la regla general de nivel 1
+- conteos de auditoría: {'11': 0, '12': 0, '13': 0, '14': 0, '15': 210, '21': 143, '22': 0, '23': 0, '24': 0, '25': 62, 'registros_con_excepcion': 415, 'registros_sin_excepcion_usan_regla_general': 12136, 'clases_observadas_con_excepcion': 3}
+Asignación propuesta final (nivel_1_final; excepción > general): {'11': 5251, '12': 0, '13': 1122, '14': 0, '15': 210, '21': 173, '22': 4979, '23': 381, '24': 367, '25': 68, 'registros_resueltos_por_excepcion': 415, 'registros_resueltos_por_regla_general': 12136, 'registros_sin_homologacion_final': 0}
+Filas-nivel sin equivalencia estricta dominante vs valores: 0
+Filas-nivel donde el dominante está incluido dentro de múltiples valores: 0
+Filas-nivel con diferencia crítica dominante/valores: 0
+Tabla final para QGIS: xy_homologacion_final | join 1:1 por xy_group_id | incluye id_0_propuesta, nivel_0_propuesta, id_1_propuesta y nivel_1_propuesta.
+
+Salidas
+------------------------------------------------------------------------
+GPKG espacial + tablas: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\gpkg\mapa_forestal_panama_src15_2021_normalizado.gpkg
+Tablas temáticas dentro del GPKG: True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_core.csv | filas=12551 | campos=9 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_temporal.csv | filas=12551 | campos=7 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_clase_resumen.csv | filas=12551 | campos=6 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_trazabilidad_fuente.csv | filas=12551 | campos=13 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_spectral.csv | filas=12551 | campos=23 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_score.csv | filas=12551 | campos=9 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_conflicto.csv | filas=12551 | campos=5 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_accion.csv | filas=12551 | campos=6 | cardinalidad=1:1 | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\clase_origen_nivel_0.csv | filas=5 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\clase_origen_nivel_1.csv | filas=12 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\clase_origen_nivel_2.csv | filas=40 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\pais.csv | filas=8 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\clase_propuesta_nivel_0.csv | filas=2 | campos=2 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\clase_propuesta_nivel_1.csv | filas=10 | campos=3 | cardinalidad=referencia_3nf | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\homologacion_nivel_0_origen_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\homologacion_nivel_1_origen_propuesta.csv | filas=12 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\homologacion_nivel_2_excepcion_nivel_1_propuesta.csv | filas=5 | campos=2 | cardinalidad=N:1_origen_a_propuesta | en_gpkg=True
+CSV: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_homologacion_final.csv | filas=12551 | campos=5 | cardinalidad=1:1_revision_qgis | en_gpkg=True
+Metadata: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\metadata\campo_mapeo.csv
+Metadata: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\metadata\field_audit.csv
+Metadata: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\metadata\table_summary.csv
+Metadata: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\metadata\column_name_normalization.csv
+Metadata: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\metadata\validacion_dominante_vs_valores.csv
+Metadata: data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\metadata\normalization_source.csv
+
+Advertencias
+------------------------------------------------------------------------
+Sin advertencias.

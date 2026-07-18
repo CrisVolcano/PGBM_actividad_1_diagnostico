@@ -309,6 +309,7 @@ def validate_base_tables(
         "xy_pilot_quadrant": inputs["assignment_table"],
         "xy_score": inputs["score_table"],
         "xy_accion": inputs["action_table"],
+        "xy_homologacion_final": inputs["homologation_table"],
     }
     table_summaries: list[dict[str, Any]] = []
     loaded: dict[str, pd.DataFrame] = {}
@@ -341,6 +342,64 @@ def validate_base_tables(
             }
         )
         loaded[label] = df
+
+    homologation = loaded.get("xy_homologacion_final")
+    if homologation is not None:
+        homologation_cfg = config.get("homologation", {}) or {}
+        target_fields = [str(field) for field in homologation_cfg.get("target_fields", [])]
+        label_fields = [str(field) for field in homologation_cfg.get("label_fields", [])]
+        if len(target_fields) != len(label_fields):
+            add_issue(
+                issues,
+                "critical",
+                "homologation_config",
+                inputs["homologation_table"],
+                "",
+                "Debe existir una etiqueta por cada objetivo homologado.",
+            )
+        required_fields = target_fields + label_fields
+        missing_fields = [
+            field for field in required_fields if field not in homologation.columns
+        ]
+        for field in missing_fields:
+            add_issue(
+                issues,
+                "critical",
+                "homologation_field_exists",
+                inputs["homologation_table"],
+                field,
+                f"Falta el campo homologado requerido {field}.",
+            )
+
+        if not missing_fields and bool(homologation_cfg.get("require_complete", True)):
+            for field in required_fields:
+                n_null = int(homologation[field].isna().sum())
+                if n_null:
+                    add_issue(
+                        issues,
+                        "critical",
+                        "homologation_complete",
+                        inputs["homologation_table"],
+                        field,
+                        f"El campo homologado {field} contiene valores nulos.",
+                        n_null,
+                    )
+
+        if len(target_fields) == len(label_fields) and not missing_fields:
+            for target_field, label_field in zip(target_fields, label_fields):
+                mapping = homologation[[target_field, label_field]].dropna().drop_duplicates()
+                ambiguous = mapping.groupby(target_field)[label_field].nunique()
+                ambiguous = ambiguous[ambiguous > 1]
+                if not ambiguous.empty:
+                    add_issue(
+                        issues,
+                        "critical",
+                        "homologation_label_deterministic",
+                        inputs["homologation_table"],
+                        label_field,
+                        f"{target_field} tiene más de una etiqueta homologada.",
+                        len(ambiguous),
+                    )
     return loaded, table_summaries
 
 
@@ -735,7 +794,10 @@ def summarize_class_readiness(
 
     key = config["fields"]["key"]
     group_field = config["fields"].get("quadrant", "id_cuadrante")
-    target_fields = config.get("model_readiness", {}).get("target_fields", ["id_0", "id_1", "id_2"])
+    target_fields = config.get("model_readiness", {}).get(
+        "target_fields",
+        ["id_0_propuesta", "id_1_propuesta"],
+    )
     min_points = int(config.get("thresholds", {}).get("min_points_per_class", 30))
     min_quadrants = int(config.get("thresholds", {}).get("min_quadrants_per_class", 2))
     requested_splits = int(config.get("model_readiness", {}).get("group_kfold_n_splits", 5))
@@ -852,6 +914,28 @@ def write_csv(dataframe: pd.DataFrame, path: Path) -> None:
     dataframe.to_csv(path, index=False, encoding="utf-8-sig")
 
 
+def dataframe_to_markdown(dataframe: pd.DataFrame) -> str:
+    """Renderiza una tabla Markdown sin depender del paquete opcional tabulate."""
+
+    def format_cell(value: Any) -> str:
+        try:
+            is_missing = bool(pd.isna(value))
+        except (TypeError, ValueError):
+            is_missing = False
+        if is_missing:
+            return ""
+        return str(value).replace("|", r"\|").replace("\r\n", "<br>").replace("\n", "<br>")
+
+    headers = [format_cell(column) for column in dataframe.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in dataframe.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(format_cell(value) for value in row) + " |")
+    return "\n".join(lines)
+
+
 def issues_to_dataframe(issues: list[Issue]) -> pd.DataFrame:
     return pd.DataFrame([issue.__dict__ for issue in issues])
 
@@ -892,7 +976,7 @@ def build_markdown_report(
         lines.append("No se generó resumen de integridad.")
     else:
         cols = [col for col in ["table", "n_rows", "n_columns", "missing_keys", "extra_keys", "exact_universe"] if col in table_integrity.columns]
-        lines.append(table_integrity[cols].to_markdown(index=False))
+        lines.append(dataframe_to_markdown(table_integrity[cols]))
     lines.append("")
 
     lines.append("## Predictores")
@@ -912,7 +996,7 @@ def build_markdown_report(
             "extra_keys",
         ]
         cols = [col for col in cols if col in predictor_summary.columns]
-        lines.append(predictor_summary[cols].to_markdown(index=False))
+        lines.append(dataframe_to_markdown(predictor_summary[cols]))
     lines.append("")
 
     lines.append("## Faltantes en bandas predictoras")
@@ -922,7 +1006,7 @@ def build_markdown_report(
     else:
         worst = missingness.sort_values("pct_null", ascending=False).head(20)
         cols = ["predictor_id", "band_column", "n_null", "pct_null", "n_unique", "severity"]
-        lines.append(worst[cols].to_markdown(index=False))
+        lines.append(dataframe_to_markdown(worst[cols]))
     lines.append("")
 
     lines.append("## Preparación de clases para validación espacial")
@@ -934,7 +1018,7 @@ def build_markdown_report(
         if problem.empty:
             lines.append("Todas las clases cumplen los umbrales configurados para puntos y cuadrantes.")
         else:
-            lines.append(problem.to_markdown(index=False))
+            lines.append(dataframe_to_markdown(problem))
     lines.append("")
 
     lines.append("## Matriz de modelado")
@@ -942,7 +1026,7 @@ def build_markdown_report(
     if matrix_validation.empty:
         lines.append("No se pudo validar la matriz de modelado.")
     else:
-        lines.append(matrix_validation.to_markdown(index=False))
+        lines.append(dataframe_to_markdown(matrix_validation))
     lines.append("")
 
     lines.append("## Incidencias")
@@ -951,14 +1035,34 @@ def build_markdown_report(
         lines.append("No se detectaron incidencias.")
     else:
         cols = ["severity", "check", "table", "field", "message", "n_affected"]
-        lines.append(issues_df[cols].to_markdown(index=False))
+        lines.append(dataframe_to_markdown(issues_df[cols]))
     lines.append("")
 
     ensure_dir(output_path.parent)
     output_path.write_text("\n".join(lines), encoding="utf-8")
 
 
+def validate_homologated_target_config(config: dict[str, Any]) -> None:
+    allowed = {
+        str(field)
+        for field in config.get("homologation", {}).get("target_fields", [])
+    }
+    configured = {
+        str(field)
+        for field in config.get("model_readiness", {}).get("target_fields", [])
+    }
+    if not configured:
+        raise ValueError("model_readiness.target_fields no declara objetivos.")
+    invalid = sorted(configured - allowed)
+    if invalid:
+        raise ValueError(
+            "A4.5 solo puede analizar clases homologadas. Objetivos no permitidos: "
+            f"{invalid}; homologados permitidos: {sorted(allowed)}"
+        )
+
+
 def run_validation(config: dict[str, Any]) -> None:
+    validate_homologated_target_config(config)
     output_dir = resolve_path(config["paths"]["output_dir"])
     ensure_dir(output_dir)
     configure_logger(output_dir)

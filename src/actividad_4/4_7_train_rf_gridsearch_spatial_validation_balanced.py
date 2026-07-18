@@ -5,13 +5,15 @@ Actividad 4.7 — Modelado tabular piloto con validación espacial
 
 Esta etapa entrena un modelo Random Forest base, pero separa explícitamente:
 
-1. Puntos excluidos por cercanía al borde de cuadrantes.
+1. Puntos opcionalmente excluidos por cercanía al borde de cuadrantes.
 2. Conjunto de desarrollo: usado para entrenamiento + validación interna.
 3. Validación interna mediante GroupKFold / StratifiedGroupKFold.
 4. Validación independiente: grupos/cuadrantes retenidos fuera de GridSearchCV.
 
 La validación independiente no se usa para buscar hiperparámetros. El modelo se
-selecciona con GridSearchCV usando únicamente el conjunto de desarrollo.
+selecciona con GridSearchCV usando únicamente el conjunto de desarrollo. Las
+métricas OOF de la validación interna se reportan como diagnóstico del ajuste y
+no sustituyen la evaluación del conjunto independiente.
 
 Entrada principal:
     - Dataset tabular preparado en A4.6.
@@ -22,13 +24,14 @@ Entrada principal:
 Salida principal:
     - particiones espaciales documentadas;
     - resultados de GridSearchCV;
-    - métricas de validación cruzada interna;
-    - métricas de validación independiente;
+    - métricas y matrices de confusión de entrenamiento;
+    - métricas y matrices de confusión de validación cruzada interna;
+    - métricas y matrices de confusión de validación independiente;
     - importancia de variables;
     - modelo RF seleccionado.
 
 Ejecución desde la raíz del repositorio:
-    python src/actividad_4/4_7_train_rf_gridsearch_spatial_validation.py
+    python src/actividad_4/4_7_train_rf_gridsearch_spatial_validation_balanced.py
 """
 
 from __future__ import annotations
@@ -72,11 +75,97 @@ DEFAULT_CONFIG = REPO_ROOT / "config" / "a4_7_train_rf_gridsearch_spatial_valida
 
 
 def dataframe_to_markdown(df: pd.DataFrame) -> str:
-    """Convierte un DataFrame a Markdown con fallback a texto simple."""
-    try:
-        return df.to_markdown(index=False)
-    except Exception:
-        return "```text\n" + df.to_string(index=False) + "\n```"
+    """Renderiza una tabla Markdown sin depender del paquete opcional tabulate."""
+
+    def format_cell(value: Any) -> str:
+        try:
+            is_missing = bool(pd.isna(value))
+        except (TypeError, ValueError):
+            is_missing = False
+        if is_missing:
+            return ""
+        if isinstance(value, (float, np.floating)):
+            return f"{float(value):.6f}"
+        return str(value).replace("|", r"\|").replace("\r\n", "<br>").replace("\n", "<br>")
+
+    if df.empty:
+        return "_Sin datos._"
+
+    headers = [format_cell(column) for column in df.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in df.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(format_cell(value) for value in row) + " |")
+    return "\n".join(lines)
+
+
+def confusion_matrix_for_report(confusion_long: pd.DataFrame) -> pd.DataFrame:
+    """Convierte la matriz larga de salida en una matriz legible para el reporte."""
+    if confusion_long.empty:
+        return pd.DataFrame()
+
+    required = {
+        "true_class",
+        "true_class_label",
+        "predicted_class",
+        "predicted_class_label",
+        "n",
+    }
+    missing = sorted(required - set(confusion_long.columns))
+    if missing:
+        raise ValueError(f"Faltan campos para construir la matriz de confusión: {missing}")
+
+    def class_display(class_id: Any, class_label: Any) -> str:
+        label_missing = pd.isna(class_label) or not str(class_label).strip()
+        return str(class_id) if label_missing else f"{class_id} - {class_label}"
+
+    work = confusion_long.copy()
+    work["clase_real"] = [
+        class_display(class_id, class_label)
+        for class_id, class_label in zip(work["true_class"], work["true_class_label"])
+    ]
+    work["clase_predicha"] = [
+        class_display(class_id, class_label)
+        for class_id, class_label in zip(
+            work["predicted_class"],
+            work["predicted_class_label"],
+        )
+    ]
+
+    class_order = list(dict.fromkeys(work["clase_real"].tolist() + work["clase_predicha"].tolist()))
+    matrix = work.pivot_table(
+        index="clase_real",
+        columns="clase_predicha",
+        values="n",
+        aggfunc="sum",
+        fill_value=0,
+    )
+    matrix = matrix.reindex(index=class_order, columns=class_order, fill_value=0)
+    matrix = matrix.astype(int).reset_index()
+    matrix.columns.name = None
+    matrix = matrix.rename(columns={"clase_real": "real \\ predicha"})
+    return matrix
+
+
+def best_gridsearch_train_validation_metrics(search: GridSearchCV) -> pd.DataFrame:
+    """Resume train y validación CV del mejor conjunto de hiperparámetros."""
+    best_result = pd.DataFrame(search.cv_results_).iloc[int(search.best_index_)]
+    scorers = list(search.scorer_) if isinstance(search.scorer_, dict) else ["score"]
+    rows: list[dict[str, Any]] = []
+    for metric in scorers:
+        validation_suffix = metric if metric != "score" else "score"
+        row = {
+            "metric": metric,
+            "mean_train_cv": best_result.get(f"mean_train_{validation_suffix}"),
+            "std_train_cv": best_result.get(f"std_train_{validation_suffix}"),
+            "mean_validation_cv": best_result.get(f"mean_test_{validation_suffix}"),
+            "std_validation_cv": best_result.get(f"std_test_{validation_suffix}"),
+            "rank_validation": best_result.get(f"rank_test_{validation_suffix}"),
+        }
+        rows.append(row)
+    return pd.DataFrame(rows)
 
 
 @dataclass(frozen=True)
@@ -334,6 +423,27 @@ def apply_border_filter(
         data = dataframe.copy()
         data["distance_to_quadrant_border_m"] = np.nan
         data["border_excluded"] = False
+        pd.DataFrame(
+            [
+                {
+                    "enabled": False,
+                    "method": "not_applied",
+                    "threshold_m": np.nan,
+                    "n_input": len(data),
+                    "n_excluded": 0,
+                    "pct_excluded": 0.0,
+                    "n_kept": len(data),
+                }
+            ]
+        ).to_csv(
+            output_dir / "tables" / "border_filter_summary.csv",
+            index=False,
+            encoding="utf-8-sig",
+        )
+        LOGGER.info(
+            "Filtro de borde desactivado por configuración: "
+            "spatial_filter.exclude_near_quadrant_border=false"
+        )
         return data
 
     try:
@@ -347,6 +457,8 @@ def apply_border_filter(
     key = config["fields"]["key"]
     group_field = config["fields"]["group"]
     threshold_m = float(spatial_cfg.get("border_distance_m", 1000))
+    if threshold_m <= 0:
+        raise ValueError("spatial_filter.border_distance_m debe ser mayor que 0 cuando el filtro está activo.")
     method = str(spatial_cfg.get("method", "own_quadrant_boundary"))
     if method != "own_quadrant_boundary":
         raise ValueError(
@@ -423,6 +535,7 @@ def apply_border_filter(
     pd.DataFrame(
         [
             {
+                "enabled": True,
                 "method": method,
                 "threshold_m": threshold_m,
                 "n_input": len(data),
@@ -501,7 +614,6 @@ def _candidate_holdout_metrics(
     group_field = config["fields"]["group"]
     target = config["fields"]["target"]
     iv_cfg = config.get("independent_validation", {})
-    opt_cfg = iv_cfg.get("optimization", {}) or {}
 
     y_all = data[target].astype(str).str.strip().to_numpy()
     y_ind = data.loc[mask, target].astype(str).str.strip().to_numpy()
@@ -528,23 +640,10 @@ def _candidate_holdout_metrics(
     row_fraction_error = abs(pct_rows - target_fraction) if np.isfinite(pct_rows) else np.inf
     group_fraction_error = abs(pct_groups - target_fraction) if np.isfinite(pct_groups) else np.inf
 
-    min_dev_points = int(opt_cfg.get("min_development_points_per_class", 1))
-    dev_counts = pd.Series(y_dev).value_counts()
-    dev_low_support = [str(cls) for cls in all_classes if int(dev_counts.get(cls, 0)) < min_dev_points]
-
-    min_ind_points = int(opt_cfg.get("min_independent_points_per_class", 1))
-    ind_counts = pd.Series(y_ind).value_counts()
-    ind_low_support = [str(cls) for cls in ind_classes if int(ind_counts.get(cls, 0)) < min_ind_points]
-
-    score = (
-        float(opt_cfg.get("distribution_weight", 1.0)) * distribution_error
-        + float(opt_cfg.get("row_fraction_weight", 2.0)) * row_fraction_error
-        + float(opt_cfg.get("group_fraction_weight", 1.0)) * group_fraction_error
-        + float(opt_cfg.get("missing_independent_class_weight", 2.0)) * len(missing_ind)
-        + float(opt_cfg.get("missing_development_class_weight", 100.0)) * len(missing_dev)
-        + float(opt_cfg.get("low_development_support_weight", 20.0)) * len(dev_low_support)
-        + float(opt_cfg.get("low_independent_support_weight", 1.0)) * len(ind_low_support)
-    )
+    # Criterio automático simple: semejanza de la distribución de clases y
+    # cercanía a la fracción de filas solicitada. No se asignan pesos distintos
+    # a clases, regiones, predictores ni cuadrantes.
+    score = distribution_error + row_fraction_error
 
     return {
         "candidate_id": candidate_id,
@@ -558,20 +657,15 @@ def _candidate_holdout_metrics(
         "n_development_classes": int(len(dev_classes)),
         "n_missing_independent_classes": int(len(missing_ind)),
         "n_missing_development_classes": int(len(missing_dev)),
-        "n_low_development_support_classes": int(len(dev_low_support)),
-        "n_low_independent_support_classes": int(len(ind_low_support)),
         "missing_independent_classes": "|".join(missing_ind),
         "missing_independent_class_labels": joined_class_labels(missing_ind, class_labels),
         "missing_development_classes": "|".join(missing_dev),
         "missing_development_class_labels": joined_class_labels(missing_dev, class_labels),
-        "low_development_support_classes": "|".join(sorted(dev_low_support)),
-        "low_development_support_class_labels": joined_class_labels(sorted(dev_low_support), class_labels),
-        "low_independent_support_classes": "|".join(sorted(ind_low_support)),
-        "low_independent_support_class_labels": joined_class_labels(sorted(ind_low_support), class_labels),
         "class_distribution_error": float(distribution_error),
         "row_fraction_error": float(row_fraction_error),
         "group_fraction_error": float(group_fraction_error),
         "selection_score": float(score),
+        "valid_for_modeling": bool(n_rows > 0 and len(y_dev) > 0 and not missing_dev),
         "holdout_group_ids": "|".join(sorted(ind_groups)),
         "selected": False,
     }
@@ -581,16 +675,24 @@ def select_independent_holdout(
     data: pd.DataFrame,
     config: dict[str, Any],
 ) -> tuple[pd.Series, pd.DataFrame]:
-    """Select whole quadrants for independent validation using balance criteria.
+    """Select whole quadrants for independent validation.
 
     The selection unit is always fields.group, i.e. id_cuadrante.  The default
-    strategy generates many StratifiedGroupKFold candidate holdouts with different
-    seeds and selects the candidate with the best class balance while keeping all
-    independent-validation classes present in development.
+    strategy generates StratifiedGroupKFold candidate holdouts and selects, among
+    the valid candidates, the one with the smallest class-distribution error plus
+    row-fraction error. A candidate is valid when every class present in its
+    holdout also exists in development. No geographic label is introduced.
     """
     group_field = config["fields"]["group"]
     target = config["fields"]["target"]
     iv_cfg = config.get("independent_validation", {})
+
+    if iv_cfg.get("optimization"):
+        LOGGER.warning(
+            "independent_validation.optimization está presente, pero sus pesos "
+            "ya no se usan. La selección aplica únicamente distribution_error + "
+            "row_fraction_error."
+        )
 
     if not bool(iv_cfg.get("enabled", True)):
         LOGGER.warning("independent_validation.enabled=false; no habrá validación independiente.")
@@ -621,12 +723,12 @@ def select_independent_holdout(
         LOGGER.info("Validación independiente por cuadrantes explícitos: %s", explicit_groups)
         return mask, pd.DataFrame([metrics])
 
-    method = str(iv_cfg.get("method", "optimized_stratified_group_holdout")).lower()
+    method = str(iv_cfg.get("method", "stratified_group_holdout")).lower()
     n_candidate_splits = int(iv_cfg.get("n_candidate_splits", 5))
     selected_candidate_id = iv_cfg.get("selected_candidate_id", None)
     random_state = int(iv_cfg.get("random_state", 42))
     shuffle = bool(iv_cfg.get("shuffle", True))
-    n_random_repeats = int(iv_cfg.get("n_random_repeats", 50))
+    n_random_repeats = int(iv_cfg.get("n_random_repeats", 1))
 
     if method not in ["optimized_stratified_group_holdout", "stratified_group_holdout", "group_holdout"]:
         raise ValueError(f"independent_validation.method no soportado: {method}")
@@ -661,18 +763,15 @@ def select_independent_holdout(
         raise ValueError("No se pudieron generar candidatos de validación independiente.")
 
     if selected_candidate_id is None:
-        order = candidates_df.sort_values(
-            [
-                "n_missing_development_classes",
-                "n_low_development_support_classes",
-                "selection_score",
-                "class_distribution_error",
-                "row_fraction_error",
-                "group_fraction_error",
-                "n_classes",
-                "n_rows",
-            ],
-            ascending=[True, True, True, True, True, True, False, False],
+        eligible = candidates_df[candidates_df["valid_for_modeling"].astype(bool)].copy()
+        if eligible.empty:
+            raise ValueError(
+                "Ningún candidato de holdout es válido: en todos aparece al menos "
+                "una clase que no existe en el conjunto de desarrollo."
+            )
+        order = eligible.sort_values(
+            ["selection_score", "class_distribution_error", "row_fraction_error", "candidate_id"],
+            ascending=[True, True, True, True],
         )
         selected_candidate_id = str(order.iloc[0]["candidate_id"])
     else:
@@ -718,13 +817,26 @@ def build_cv_splits(
     X_dummy = np.zeros((len(development), 1), dtype=np.int8)
     splits = list(splitter.split(X_dummy, y, groups=groups))
 
-    # Confirmación estricta: ningún grupo se comparte entre train y validation en un fold.
+    # Controles mínimos de validez. No se exige que todas las clases globales
+    # aparezcan en cada fold, porque su distribución espacial puede impedirlo.
+    # Sí se exige que una clase observada en validación haya sido vista durante
+    # el entrenamiento de ese fold.
     for fold_id, (train_idx, val_idx) in enumerate(splits, start=1):
         train_groups = set(groups[train_idx])
         val_groups = set(groups[val_idx])
         overlap = train_groups & val_groups
         if overlap:
             raise ValueError(f"Leakage espacial en fold {fold_id}: grupos compartidos {sorted(overlap)[:10]}")
+
+        train_classes = set(y[train_idx])
+        validation_classes = set(y[val_idx])
+        unseen_validation_classes = sorted(validation_classes - train_classes)
+        if unseen_validation_classes:
+            raise ValueError(
+                f"Fold {fold_id} inválido: contiene clases en validación ausentes "
+                f"del entrenamiento: {unseen_validation_classes}. Reducir n_splits, "
+                "cambiar la semilla o revisar la representación por cuadrante."
+            )
 
     LOGGER.info("CV interna preparada: method=%s | folds=%s | grupos_desarrollo=%s", method, n_splits, n_groups)
     return splits
@@ -1037,19 +1149,23 @@ def evaluate_best_model_cv(
         raise ValueError("No se generaron predicciones CV para todos los puntos de desarrollo.")
 
     fold_metrics = pd.DataFrame(fold_rows)
-    overall_cv = pd.DataFrame([metric_row(y_dev, predictions, label="cv_oof_development")])
+    # Estos resultados OOF describen el comportamiento interno de la
+    # configuración elegida. Como los hiperparámetros se escogieron usando los
+    # mismos folds, se reportan como diagnóstico de tuning, no como una segunda
+    # evaluación independiente.
+    overall_cv = pd.DataFrame([metric_row(y_dev, predictions, label="cv_oof_tuning_diagnostic")])
     class_metrics = classification_report_df(
         y_dev,
         predictions,
         encoder,
-        evaluation="cv_oof_development",
+        evaluation="cv_oof_tuning_diagnostic",
         class_labels=class_labels,
     )
     confusion = confusion_matrix_df(
         y_dev,
         predictions,
         encoder,
-        evaluation="cv_oof_development",
+        evaluation="cv_oof_tuning_diagnostic",
         class_labels=class_labels,
     )
     fold_predictions = pd.DataFrame(pred_rows)
@@ -1071,7 +1187,14 @@ def evaluate_independent(
     encoder: LabelEncoder,
     config: dict[str, Any],
     output_dir: Path,
-) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+) -> tuple[
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+]:
     target = config["fields"]["target"]
     key = config["fields"]["key"]
     group_field = config["fields"]["group"]
@@ -1082,11 +1205,33 @@ def evaluate_independent(
     estimator.fit(X_dev, y_dev)
 
     X_ind, y_ind, _ = prepare_xy(independent, feature_columns, target=target, encoder=encoder)
-    y_pred = estimator.predict(X_ind)
     class_labels = build_target_label_mapping(
         pd.concat([development, independent], ignore_index=True),
         config,
     )
+
+    # Desempeño aparente del modelo ya ajustado sobre el mismo desarrollo.
+    # Se reporta como diagnóstico de sobreajuste, no como validación independiente.
+    y_dev_pred = estimator.predict(X_dev)
+    training_metrics = pd.DataFrame(
+        [metric_row(y_dev, y_dev_pred, label="training_development_resubstitution")]
+    )
+    training_class_metrics = classification_report_df(
+        y_dev,
+        y_dev_pred,
+        encoder,
+        evaluation="training_development_resubstitution",
+        class_labels=class_labels,
+    )
+    training_confusion = confusion_matrix_df(
+        y_dev,
+        y_dev_pred,
+        encoder,
+        evaluation="training_development_resubstitution",
+        class_labels=class_labels,
+    )
+
+    y_pred = estimator.predict(X_ind)
     y_true_classes = encoder.inverse_transform(y_ind).astype(str)
     y_pred_classes = encoder.inverse_transform(y_pred).astype(str)
 
@@ -1118,6 +1263,17 @@ def evaluate_independent(
         }
     )
 
+    training_metrics.to_csv(output_dir / "tables" / "training_metrics.csv", index=False, encoding="utf-8-sig")
+    training_class_metrics.to_csv(
+        output_dir / "tables" / "training_class_metrics.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    training_confusion.to_csv(
+        output_dir / "tables" / "training_confusion_matrix.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
     metrics.to_csv(output_dir / "tables" / "independent_metrics.csv", index=False, encoding="utf-8-sig")
     class_metrics.to_csv(output_dir / "tables" / "independent_class_metrics.csv", index=False, encoding="utf-8-sig")
     confusion.to_csv(output_dir / "tables" / "independent_confusion_matrix.csv", index=False, encoding="utf-8-sig")
@@ -1166,7 +1322,14 @@ def evaluate_independent(
         )
         LOGGER.info("Modelo final entrenado en todo lo modelable guardado: %s", final_path)
 
-    return metrics, class_metrics, confusion
+    return (
+        training_metrics,
+        training_class_metrics,
+        training_confusion,
+        metrics,
+        class_metrics,
+        confusion,
+    )
 
 
 def write_feature_importance(search: GridSearchCV, feature_columns: list[str], output_dir: Path) -> None:
@@ -1220,12 +1383,26 @@ def write_report(
     partitions: PartitionData,
     search: GridSearchCV,
     cv_overall: pd.DataFrame,
+    cv_fold_metrics: pd.DataFrame,
+    cv_class_metrics: pd.DataFrame,
+    cv_confusion: pd.DataFrame,
+    training_metrics: pd.DataFrame,
+    training_class_metrics: pd.DataFrame,
+    training_confusion: pd.DataFrame,
     independent_metrics: pd.DataFrame,
+    independent_class_metrics: pd.DataFrame,
+    independent_confusion: pd.DataFrame,
 ) -> None:
     target = config["fields"]["target"]
     target_label = config.get("fields", {}).get("target_label")
     group_field = config["fields"]["group"]
     spatial_cfg = config.get("spatial_filter", {})
+    border_filter_enabled = bool(spatial_cfg.get("exclude_near_quadrant_border", False))
+    border_threshold_display = (
+        f"{spatial_cfg.get('border_distance_m', 'NA')} m"
+        if border_filter_enabled
+        else "no aplicado"
+    )
     class_labels = build_target_label_mapping(partitions.dataframe_all, config)
     label_column = str(target_label or "class_label")
     class_catalog = pd.DataFrame(
@@ -1243,6 +1420,15 @@ def write_report(
     n_excluded = int((partitions.split_assignments["split_role"] == "excluded_border").sum())
     n_dev = len(partitions.dataframe_development)
     n_ind = len(partitions.dataframe_independent)
+    grid_train_validation = best_gridsearch_train_validation_metrics(search)
+    grid_train_validation.to_csv(
+        output_dir / "tables" / "best_gridsearch_train_validation_metrics.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    training_confusion_report = confusion_matrix_for_report(training_confusion)
+    cv_confusion_report = confusion_matrix_for_report(cv_confusion)
+    independent_confusion_report = confusion_matrix_for_report(independent_confusion)
 
     lines = [
         "# Actividad 4.7 — Modelo piloto RF con validación espacial y GridSearch",
@@ -1251,8 +1437,9 @@ def write_report(
         "",
         "La validación independiente se separa antes de GridSearchCV y no participa en la búsqueda de hiperparámetros.",
         "La unidad espacial de partición es el cuadrante (`id_cuadrante`), no la zona.",
-        "La validación interna se realiza dentro del conjunto de desarrollo mediante GroupKFold/StratifiedGroupKFold por cuadrante.",
-        "La selección de cuadrantes para validación independiente se optimiza por balance de clases y tamaño del holdout.",
+        "La validación interna se usa para ajustar y seleccionar la configuración mediante GroupKFold/StratifiedGroupKFold por cuadrante.",
+        "No se exige que todas las clases aparezcan en cada fold; solamente que toda clase observada en validación exista en el entrenamiento correspondiente.",
+        "La selección automática del holdout usa un criterio simple: distribución de clases y fracción de filas, siempre con cuadrantes completos.",
         "",
         "## Configuración principal",
         "",
@@ -1260,8 +1447,8 @@ def write_report(
         f"- Label del target: `{target_label}`",
         f"- Grupo espacial / unidad de partición: `{group_field}`",
         f"- Predictores usados: **{len(feature_columns):,}**",
-        f"- Filtro de borde activo: **{bool(spatial_cfg.get('exclude_near_quadrant_border', False))}**",
-        f"- Umbral borde: **{spatial_cfg.get('border_distance_m', 'NA')} m**",
+        f"- Filtro de borde activo: **{border_filter_enabled}**",
+        f"- Umbral borde: **{border_threshold_display}**",
         "",
         "## Particiones",
         "",
@@ -1280,19 +1467,69 @@ def write_report(
         f"- Mejor score interno: `{search.best_score_}`",
         f"- Mejores hiperparámetros: `{json.dumps(search.best_params_, ensure_ascii=False)}`",
         "",
-        "## Métricas principales",
+        "### Comparación train–validación del mejor resultado",
         "",
-        "### Validación cruzada interna, OOF sobre desarrollo",
+        dataframe_to_markdown(grid_train_validation),
+        "",
+        "## Desempeño sobre entrenamiento/desarrollo",
+        "",
+        "Estas métricas se calculan sobre los mismos datos usados para ajustar el modelo. Son un diagnóstico de sobreajuste y no sustituyen la validación OOF ni la independiente.",
+        "",
+        "### Métricas generales de entrenamiento",
+        "",
+        dataframe_to_markdown(training_metrics),
+        "",
+        "### Métricas de entrenamiento por clase",
+        "",
+        dataframe_to_markdown(training_class_metrics),
+        "",
+        "### Matriz de confusión de entrenamiento",
+        "",
+        "Filas: clase real. Columnas: clase predicha.",
+        "",
+        dataframe_to_markdown(training_confusion_report),
+        "",
+        "## Validación cruzada interna para ajuste sobre desarrollo",
+        "",
+        "Los hiperparámetros se seleccionan usando estos mismos folds. Por ello, las métricas OOF siguientes son un diagnóstico interno del tuning y no sustituyen la validación independiente.",
+        "",
+        "### Métricas generales OOF de diagnóstico",
         "",
         dataframe_to_markdown(cv_overall),
         "",
-        "### Validación independiente",
+        "### Métricas de validación por fold",
+        "",
+        dataframe_to_markdown(cv_fold_metrics),
+        "",
+        "### Métricas OOF de diagnóstico por clase",
+        "",
+        dataframe_to_markdown(cv_class_metrics),
+        "",
+        "### Matriz de confusión OOF de diagnóstico",
+        "",
+        "Filas: clase real. Columnas: clase predicha.",
+        "",
+        dataframe_to_markdown(cv_confusion_report),
+        "",
+        "## Validación independiente",
+        "",
+        "### Métricas generales independientes",
         "",
         dataframe_to_markdown(independent_metrics),
         "",
+        "### Métricas independientes por clase",
+        "",
+        dataframe_to_markdown(independent_class_metrics),
+        "",
+        "### Matriz de confusión independiente",
+        "",
+        "Filas: clase real. Columnas: clase predicha.",
+        "",
+        dataframe_to_markdown(independent_confusion_report),
+        "",
         "## Nota metodológica",
         "",
-        "Este modelo es una línea base piloto. Las clases faltantes de CR/Panamá podrán modificar la distribución y la partición final cuando sean incorporadas.",
+        "El modelo usa las clases homologadas. La validación independiente permanece fuera de GridSearchCV y del ajuste del modelo de desarrollo; por ello constituye la estimación principal de generalización espacial dentro del diseño por cuadrantes. El filtro de borde es opcional y no se incorpora ningún criterio adicional de autocorrelación ni etiquetas regionales.",
     ]
     report_path.write_text("\n".join(lines), encoding="utf-8")
     LOGGER.info("Reporte escrito: %s", report_path)
@@ -1322,7 +1559,7 @@ def main() -> None:
             config=config,
             output_dir=output_dir,
         )
-        cv_overall, _fold_metrics, _cv_class_metrics, _cv_confusion = evaluate_best_model_cv(
+        cv_overall, fold_metrics, cv_class_metrics, cv_confusion = evaluate_best_model_cv(
             search=search,
             development=partitions.dataframe_development,
             X_dev=X_dev,
@@ -1332,7 +1569,14 @@ def main() -> None:
             config=config,
             output_dir=output_dir,
         )
-        independent_metrics, _ind_class_metrics, _ind_confusion = evaluate_independent(
+        (
+            training_metrics,
+            training_class_metrics,
+            training_confusion,
+            independent_metrics,
+            independent_class_metrics,
+            independent_confusion,
+        ) = evaluate_independent(
             search=search,
             development=partitions.dataframe_development,
             independent=partitions.dataframe_independent,
@@ -1342,7 +1586,23 @@ def main() -> None:
             output_dir=output_dir,
         )
         write_feature_importance(search, features, output_dir)
-        write_report(config, output_dir, features, partitions, search, cv_overall, independent_metrics)
+        write_report(
+            config=config,
+            output_dir=output_dir,
+            feature_columns=features,
+            partitions=partitions,
+            search=search,
+            cv_overall=cv_overall,
+            cv_fold_metrics=fold_metrics,
+            cv_class_metrics=cv_class_metrics,
+            cv_confusion=cv_confusion,
+            training_metrics=training_metrics,
+            training_class_metrics=training_class_metrics,
+            training_confusion=training_confusion,
+            independent_metrics=independent_metrics,
+            independent_class_metrics=independent_class_metrics,
+            independent_confusion=independent_confusion,
+        )
 
     LOGGER.info("Actividad 4.7 finalizada correctamente.")
 

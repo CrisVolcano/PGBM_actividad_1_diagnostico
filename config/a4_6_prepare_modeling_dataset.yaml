@@ -8,8 +8,8 @@ paths:
   # Base normalizada de A4.4.
   modeling_gpkg: data/processed/a4_4_predictor_normalization/gpkg/a4_4_point_predictors_normalized.gpkg
 
-  # Fuente maestra A2.1 de las clases homologadas finales, resueltas con
-  # prioridad de la excepción por id_2 sobre la regla general por id_1.
+  # Fuente de compatibilidad para corridas antiguas. En el flujo actual no se
+  # usa: pilot_model_matrix debe traer la homologación unificada desde A4.4.
   homologation_gpkg: data/processed/a2_1_modelo_datos/gpkg/a2_1_xy_point.gpkg
 
   # Carpeta de salida de esta etapa.
@@ -23,6 +23,9 @@ inputs:
 
 homologation:
   enabled: true
+  # La matriz A4.4 debe traer la homologación unificada desde A4.1.
+  # No se permite volver a resolver únicamente contra la fuente regional A2.1.
+  require_in_model_matrix: true
   require_complete: true
   target_fields:
     - id_0_propuesta
@@ -35,8 +38,7 @@ fields:
   key: xy_group_id
   group: id_cuadrante
 
-  # Objetivo principal inicial recomendado para pruebas piloto.
-  # id_2 queda como diagnóstico/secundario hasta completar el llenado de clases.
+  # Objetivo principal homologado para el modelado piloto.
   primary_target: id_1_propuesta
 
   targets:

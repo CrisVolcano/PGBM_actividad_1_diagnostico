@@ -17,10 +17,20 @@ inputs:
   assignment_table: xy_pilot_quadrant
   score_table: xy_score
   action_table: xy_accion
+  homologation_table: xy_homologacion_final
 
 catalogs:
   predictor_source_table: predictor_source
   predictor_band_table: predictor_band
+
+homologation:
+  require_complete: true
+  target_fields:
+    - id_0_propuesta
+    - id_1_propuesta
+  label_fields:
+    - nivel_0_propuesta
+    - nivel_1_propuesta
 
 fields:
   key: xy_group_id
@@ -35,6 +45,10 @@ fields:
     - id_0
     - id_1
     - id_2
+    - id_0_propuesta
+    - nivel_0_propuesta
+    - id_1_propuesta
+    - nivel_1_propuesta
     - id_cuadrante
     - score_aptitud_total
     - categoria_aptitud_preliminar
@@ -50,11 +64,11 @@ fields:
     - accion_recomendada
 
 model_readiness:
-  # Se revisa preparación para modelado en los tres niveles.
+  # Se revisa únicamente la preparación de las clases homologadas.
+  # id_0/id_1/id_2 originales se conservan solo para trazabilidad.
   target_fields:
-    - id_0
-    - id_1
-    - id_2
+    - id_0_propuesta
+    - id_1_propuesta
 
   # No crea el split; solo evalúa si una validación espacial por cuadrantes
   # sería viable. El split real vendría en A5.1.

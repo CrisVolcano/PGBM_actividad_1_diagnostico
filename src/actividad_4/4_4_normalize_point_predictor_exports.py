@@ -7,7 +7,9 @@ Este script toma los CSV exportados desde Google Earth Engine en A4.2 y los
 integra a la base de cuadrantes/puntos A4 sin desnormalizar las tablas base.
 
 Entrada principal:
-    - GeoPackage A4 con pilot_xy_point, xy_pilot_quadrant, xy_score y xy_accion.
+    - GeoPackage A4 con pilot_xy_point, xy_pilot_quadrant, xy_score, xy_accion
+      y xy_homologacion_final; si la salida existente aún no contiene esta
+      última tabla, se reconstruye desde xy_pilot_point_source y las fuentes.
     - predictor_catalog.csv generado por A4.2.
     - Carpeta local con los CSV descargados desde Drive.
 
@@ -17,6 +19,7 @@ Salida principal:
         xy_pilot_quadrant       # tabla A4 copiada como relación separada
         xy_score                # tabla A4 copiada como relación separada
         xy_accion               # tabla A4 copiada como relación separada
+        xy_homologacion_final   # objetivos y etiquetas homologadas
         predictor_source        # catálogo de assets/predictores
         predictor_band          # catálogo de bandas y tabla destino
         xy_pred_<predictor_id>  # una tabla por predictor, 1 fila por xy_group_id
@@ -27,6 +30,10 @@ Decisión de diseño:
     - Los valores se separan por predictor/asset para mantener tablas manejables.
     - Las tablas base A4 se preservan separadas; xy_accion no se mezcla dentro de
       las tablas de predictores.
+    - La homologación faltante en una salida A4.1 previa se lee desde la fuente
+      propia de cada punto; no exige repetir A4.1 ni volver a exportar en GEE.
+    - Si Earth Engine omite pocos puntos por píxeles enmascarados, se conserva
+      su xy_group_id y las bandas del predictor se materializan como NULL.
     - pilot_model_matrix es derivada para modelado, no reemplaza la normalización.
 
 Ejecución desde la raíz del repositorio:
@@ -109,6 +116,20 @@ def table_columns(gpkg_path: Path, table_name: str) -> list[str]:
     return [row[1] for row in rows]
 
 
+def table_exists(gpkg_path: Path, table_name: str) -> bool:
+    with sqlite3.connect(gpkg_path) as connection:
+        row = connection.execute(
+            """
+            SELECT 1
+            FROM sqlite_master
+            WHERE type IN ('table', 'view') AND name = ?
+            LIMIT 1
+            """,
+            (table_name,),
+        ).fetchone()
+    return row is not None
+
+
 def require_fields(columns: list[str], fields: list[str], label: str) -> None:
     missing = [field for field in fields if field not in columns]
     if missing:
@@ -182,6 +203,7 @@ def create_common_indexes(connection: sqlite3.Connection, config: dict[str, Any]
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_xy_pilot_quadrant_key ON "{inputs["assignment_table"]}" ("{key}")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_xy_score_key ON "{inputs["score_table"]}" ("{key}")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_xy_accion_key ON "{inputs["action_table"]}" ("{key}")',
+        f'CREATE UNIQUE INDEX IF NOT EXISTS ux_xy_homologacion_final_key ON "{inputs["homologation_table"]}" ("{key}")',
         'CREATE UNIQUE INDEX IF NOT EXISTS ux_predictor_source_id ON predictor_source (predictor_id)',
         'CREATE UNIQUE INDEX IF NOT EXISTS ux_predictor_band_id ON predictor_band (predictor_band_id)',
         'CREATE INDEX IF NOT EXISTS idx_predictor_band_predictor ON predictor_band (predictor_id)',
@@ -201,6 +223,159 @@ def normalize_key_column(dataframe: pd.DataFrame, key: str, key_as_text: bool) -
     if key_as_text and key in out.columns:
         out[key] = out[key].astype("string").str.strip()
     return out
+
+
+def validate_homologation(
+    dataframe: pd.DataFrame,
+    fields: list[str],
+    key: str,
+    label: str,
+) -> None:
+    validate_unique(dataframe, key, label)
+
+    null_counts = dataframe[fields].isna().sum()
+    incomplete = {
+        field: int(count)
+        for field, count in null_counts.items()
+        if int(count) > 0
+    }
+    if incomplete:
+        raise ValueError(f"{label} contiene campos nulos: {incomplete}")
+
+    id_label_pairs = [
+        ("id_0_propuesta", "nivel_0_propuesta"),
+        ("id_1_propuesta", "nivel_1_propuesta"),
+    ]
+    for id_field, label_field in id_label_pairs:
+        if id_field not in dataframe.columns or label_field not in dataframe.columns:
+            continue
+        labels_per_id = dataframe.groupby(id_field, dropna=False)[label_field].nunique(dropna=False)
+        ids_per_label = dataframe.groupby(label_field, dropna=False)[id_field].nunique(dropna=False)
+        if bool((labels_per_id > 1).any()) or bool((ids_per_label > 1).any()):
+            raise ValueError(
+                f"{label} no tiene una correspondencia unívoca entre "
+                f"{id_field} y {label_field}."
+            )
+
+
+def build_homologation_from_point_provenance(
+    config: dict[str, Any],
+    pilot_gpkg: Path,
+    base_keys: set[str],
+    homologation_fields: list[str],
+) -> pd.DataFrame:
+    """Reconstruye la homologación sin repetir A4.1 ni modificar las fuentes."""
+    inputs = config["inputs"]
+    fields = config["fields"]
+    key = fields["key"]
+    key_as_text = bool(config.get("validation", {}).get("key_as_text", True))
+    point_source_table = inputs["point_source_table"]
+    point_source_fields = list(fields.get("point_source_fields", []))
+    required_provenance = [key, "point_source_key", "point_source_gpkg"]
+    for field in required_provenance:
+        if field not in point_source_fields:
+            point_source_fields.append(field)
+
+    provenance = read_attribute_table(
+        pilot_gpkg,
+        point_source_table,
+        point_source_fields,
+    )
+    provenance = normalize_key_column(provenance, key, key_as_text)
+    validate_unique(provenance, key, point_source_table)
+
+    provenance_nulls = provenance[required_provenance].isna().sum()
+    incomplete_provenance = {
+        field: int(count)
+        for field, count in provenance_nulls.items()
+        if int(count) > 0
+    }
+    if incomplete_provenance:
+        raise ValueError(
+            f"{point_source_table} contiene campos nulos: {incomplete_provenance}"
+        )
+
+    provenance_keys = set(provenance[key].astype(str))
+    if provenance_keys != base_keys:
+        raise ValueError(
+            f"{point_source_table} no tiene el mismo universo de puntos que "
+            f"{inputs['pilot_points_layer']}: faltan={len(base_keys - provenance_keys):,}, "
+            f"sobran={len(provenance_keys - base_keys):,}."
+        )
+
+    parts: list[pd.DataFrame] = []
+    group_fields = ["point_source_key", "point_source_gpkg"]
+    for (source_key, source_gpkg_value), source_rows in provenance.groupby(
+        group_fields,
+        sort=True,
+        dropna=False,
+    ):
+        source_gpkg = resolve_path(str(source_gpkg_value).strip())
+        if not source_gpkg.exists():
+            raise FileNotFoundError(
+                f"No existe el GPKG de la fuente {source_key}: {source_gpkg}"
+            )
+
+        source_homologation = read_attribute_table(
+            source_gpkg,
+            inputs["homologation_table"],
+            homologation_fields,
+        )
+        source_homologation = normalize_key_column(
+            source_homologation,
+            key,
+            key_as_text,
+        )
+        validate_unique(
+            source_homologation,
+            key,
+            f"{inputs['homologation_table']} de {source_key}",
+        )
+
+        requested_keys = set(source_rows[key].astype(str))
+        selected = source_homologation[
+            source_homologation[key].astype(str).isin(requested_keys)
+        ].copy()
+        selected_keys = set(selected[key].astype(str))
+        missing = requested_keys - selected_keys
+        if missing:
+            raise ValueError(
+                f"{inputs['homologation_table']} de {source_key} no contiene "
+                f"{len(missing):,} puntos requeridos. Ejemplos: {sorted(missing)[:5]}"
+            )
+
+        LOGGER.info(
+            "Homologación recuperada desde %s: %s puntos",
+            source_key,
+            f"{len(selected):,}",
+        )
+        parts.append(selected[homologation_fields])
+
+    if not parts:
+        raise ValueError(
+            f"{point_source_table} no contiene fuentes para reconstruir la homologación."
+        )
+
+    homologation = pd.concat(parts, ignore_index=True)
+    validate_homologation(
+        homologation,
+        homologation_fields,
+        key,
+        "Homologación reconstruida desde la trazabilidad A4.1",
+    )
+    homologation_keys = set(homologation[key].astype(str))
+    if homologation_keys != base_keys:
+        raise ValueError(
+            "La homologación reconstruida no cubre exactamente los puntos piloto: "
+            f"faltan={len(base_keys - homologation_keys):,}, "
+            f"sobran={len(homologation_keys - base_keys):,}."
+        )
+
+    LOGGER.info(
+        "Homologación reconstruida desde xy_pilot_point_source: %s puntos",
+        f"{len(homologation):,}",
+    )
+    return homologation
 
 
 def load_predictor_catalog(path: Path, separator: str, table_prefix: str) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, str]]:
@@ -310,6 +485,16 @@ def read_a4_base_tables(config: dict[str, Any]) -> dict[str, pd.DataFrame]:
         point_fields.insert(0, key)
 
     pilot_xy_point_attrs = read_attribute_table(pilot_gpkg, inputs["pilot_points_layer"], point_fields)
+    pilot_xy_point_attrs = normalize_key_column(
+        pilot_xy_point_attrs,
+        key,
+        key_as_text,
+    )
+    validate_unique(pilot_xy_point_attrs, key, inputs["pilot_points_layer"])
+    if bool(pilot_xy_point_attrs[key].isna().any()):
+        raise ValueError(f"{inputs['pilot_points_layer']} contiene {key} nulos.")
+    base_keys = set(pilot_xy_point_attrs[key].astype(str))
+
     xy_pilot_quadrant = read_attribute_table(pilot_gpkg, inputs["assignment_table"], [key, quadrant])
 
     score_fields = list(fields.get("score_fields", []))
@@ -322,18 +507,75 @@ def read_a4_base_tables(config: dict[str, Any]) -> dict[str, pd.DataFrame]:
         action_fields.insert(0, key)
     xy_accion = read_attribute_table(pilot_gpkg, inputs["action_table"], action_fields)
 
+    homologation_fields = list(fields.get("homologation_fields", []))
+    if key not in homologation_fields:
+        homologation_fields.insert(0, key)
+    if table_exists(pilot_gpkg, inputs["homologation_table"]):
+        xy_homologacion_final = read_attribute_table(
+            pilot_gpkg,
+            inputs["homologation_table"],
+            homologation_fields,
+        )
+        xy_homologacion_final = normalize_key_column(
+            xy_homologacion_final,
+            key,
+            key_as_text,
+        )
+        LOGGER.info(
+            "Usando %s incluida en el GPKG A4.1.",
+            inputs["homologation_table"],
+        )
+    elif bool(
+        config.get("validation", {}).get(
+            "build_homologation_from_point_provenance_if_missing",
+            False,
+        )
+    ):
+        LOGGER.info(
+            "%s no está en el GPKG A4.1; se reconstruirá desde %s sin repetir A4.1.",
+            inputs["homologation_table"],
+            inputs["point_source_table"],
+        )
+        xy_homologacion_final = build_homologation_from_point_provenance(
+            config,
+            pilot_gpkg,
+            base_keys,
+            homologation_fields,
+        )
+    else:
+        raise ValueError(
+            f"No existe {inputs['homologation_table']} en {pilot_gpkg} y está "
+            "desactivada su reconstrucción desde la trazabilidad A4.1."
+        )
+
+    validate_homologation(
+        xy_homologacion_final,
+        homologation_fields,
+        key,
+        inputs["homologation_table"],
+    )
+
     tables = {
-        inputs["pilot_points_layer"]: normalize_key_column(pilot_xy_point_attrs, key, key_as_text),
+        inputs["pilot_points_layer"]: pilot_xy_point_attrs,
         inputs["assignment_table"]: normalize_key_column(xy_pilot_quadrant, key, key_as_text),
         inputs["score_table"]: normalize_key_column(xy_score, key, key_as_text),
         inputs["action_table"]: normalize_key_column(xy_accion, key, key_as_text),
+        inputs["homologation_table"]: normalize_key_column(
+            xy_homologacion_final,
+            key,
+            key_as_text,
+        ),
     }
 
     for name, dataframe in tables.items():
         validate_unique(dataframe, key, name)
 
-    base_keys = set(tables[inputs["pilot_points_layer"]][key].astype(str))
-    for name in [inputs["assignment_table"], inputs["score_table"], inputs["action_table"]]:
+    for name in [
+        inputs["assignment_table"],
+        inputs["score_table"],
+        inputs["action_table"],
+        inputs["homologation_table"],
+    ]:
         current_keys = set(tables[name][key].astype(str))
         if current_keys != base_keys:
             raise ValueError(
@@ -520,17 +762,65 @@ def build_predictor_tables(
                 "Probablemente mezclaste corridas o batches superpuestos."
             )
 
-        if require_complete:
-            current_keys = set(predictor_table[key].astype(str))
-            missing_keys = base_keys - current_keys
-            extra_keys = current_keys - base_keys
-            if missing_keys or extra_keys:
+        current_keys = set(predictor_table[key].astype(str))
+        missing_keys = base_keys - current_keys
+        extra_keys = current_keys - base_keys
+        if extra_keys:
+            raise ValueError(
+                f"El predictor {predictor_id} contiene {len(extra_keys):,} llaves "
+                "que no existen en el universo A4. "
+                f"Ejemplos: {sorted(extra_keys)[:5]}"
+            )
+
+        validation_cfg = config.get("validation", {})
+        materialize_nulls = bool(
+            validation_cfg.get("materialize_missing_predictor_rows_as_null", False)
+        )
+        max_missing_pct = float(
+            validation_cfg.get("max_missing_point_rows_pct_to_materialize", 0.0)
+        )
+        if not 0.0 <= max_missing_pct <= 100.0:
+            raise ValueError(
+                "validation.max_missing_point_rows_pct_to_materialize debe estar "
+                "entre 0 y 100."
+            )
+
+        if missing_keys and materialize_nulls:
+            missing_pct = 100.0 * len(missing_keys) / len(base_keys) if base_keys else 0.0
+            if missing_pct > max_missing_pct:
                 raise ValueError(
-                    f"El predictor {predictor_id} no conserva el universo exacto de puntos A4: "
-                    f"esperados={len(base_keys):,}, observados={len(current_keys):,}, "
-                    f"faltan={len(missing_keys):,}, sobran={len(extra_keys):,}. "
-                    f"Ejemplos faltantes: {sorted(missing_keys)[:5]}"
+                    f"El predictor {predictor_id} omite {len(missing_keys):,} puntos "
+                    f"({missing_pct:.6f}%), por encima del máximo permitido de "
+                    f"{max_missing_pct:.6f}% para materializarlos como NULL. "
+                    "Revise si falta un batch de exportación."
                 )
+
+            null_rows = pd.DataFrame(
+                {key: pd.Series(sorted(missing_keys), dtype="string")}
+            )
+            for band_column in band_output_to_column.values():
+                null_rows[band_column] = float("nan")
+            predictor_table = pd.concat(
+                [predictor_table, null_rows],
+                ignore_index=True,
+            )
+            LOGGER.warning(
+                "Predictor %s: %s puntos sin píxel válido (%.6f%%); "
+                "se conservaron con bandas NULL.",
+                predictor_id,
+                f"{len(missing_keys):,}",
+                missing_pct,
+            )
+
+        final_keys = set(predictor_table[key].astype(str))
+        final_missing = base_keys - final_keys
+        if require_complete and final_missing:
+            raise ValueError(
+                f"El predictor {predictor_id} no conserva el universo exacto de puntos A4: "
+                f"esperados={len(base_keys):,}, observados={len(final_keys):,}, "
+                f"faltan={len(final_missing):,}, sobran=0. "
+                f"Ejemplos faltantes: {sorted(final_missing)[:5]}"
+            )
 
         predictor_table = predictor_table.sort_values(key).reset_index(drop=True)
         out_tables[predictor_id] = predictor_table
@@ -547,7 +837,12 @@ def build_model_matrix(
     key = config["fields"]["key"]
     matrix = a4_tables[inputs["pilot_points_layer"]].copy()
 
-    for table_name in [inputs["assignment_table"], inputs["score_table"], inputs["action_table"]]:
+    for table_name in [
+        inputs["assignment_table"],
+        inputs["score_table"],
+        inputs["action_table"],
+        inputs["homologation_table"],
+    ]:
         matrix = matrix.merge(a4_tables[table_name], on=key, how="left", validate="one_to_one")
 
     for predictor_id in sorted(predictor_value_tables):
@@ -615,6 +910,12 @@ def write_outputs(config: dict[str, Any]) -> None:
             a4_tables[inputs["action_table"]],
             inputs["action_table"],
             "Tabla A4 de acción/uso filtrada al universo piloto.",
+        )
+        write_attribute_table(
+            connection,
+            a4_tables[inputs["homologation_table"]],
+            inputs["homologation_table"],
+            "Clases homologadas finales del universo piloto.",
         )
         write_attribute_table(
             connection,

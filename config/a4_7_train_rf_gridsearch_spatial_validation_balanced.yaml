@@ -1,9 +1,13 @@
-# Actividad 4.7 — Modelo piloto RF con validación espacial por cuadrantes y GridSearch
-# --------------------------------------------------------------------------------------
+# Actividad 4.7 — Modelo piloto RF con evaluación espacial por cuadrantes y GridSearch
+# -----------------------------------------------------------------------------------
+# Objetivo: evaluar el desempeño predictivo del modelo, no la exactitud del producto
+# cartográfico.
+#
 # Esta etapa separa explícitamente:
-#   1) puntos excluidos por cercanía al borde de cuadrantes;
+#   1) puntos opcionalmente excluidos por cercanía al borde de cuadrantes;
 #   2) conjunto de desarrollo para entrenamiento + validación cruzada interna;
-#   3) validación independiente por cuadrantes completos retenidos fuera de GridSearchCV.
+#   3) holdout independiente formado por cuadrantes completos y retenido fuera
+#      de GridSearchCV.
 #
 # Unidad espacial de agrupamiento: id_cuadrante. No se usa zona como unidad de split.
 # La validación independiente NO participa en la búsqueda de hiperparámetros.
@@ -31,6 +35,7 @@ fields:
   group: id_cuadrante
   target: id_1_propuesta
   target_label: nivel_1_propuesta
+
   homologated_target_fields:
     - id_0_propuesta
     - id_1_propuesta
@@ -67,58 +72,54 @@ row_filter:
   allowed_action_values: []
 
 spatial_filter:
-  # Filtro conservador para reducir leakage espacial entre cuadrantes vecinos.
-  exclude_near_quadrant_border: true
+  # INTERRUPTOR DEL UMBRAL DE BORDE:
+  #   true  = aplica el umbral indicado en border_distance_m;
+  #   false = no calcula distancias y no excluye puntos por cercanía al borde.
+  #
+  # El filtro se conserva como opción de sensibilidad. El valor de 1 km no se
+  # interpreta como una distancia de autocorrelación demostrada.
+  exclude_near_quadrant_border: false
+
+  # Solo se utiliza cuando exclude_near_quadrant_border es true.
   border_distance_m: 1000
 
-  # Excluye puntos a menos de border_distance_m del borde del cuadrante propio.
-  # La unidad espacial sigue siendo id_cuadrante.
+  # Excluye puntos situados a menos de border_distance_m del borde de su
+  # cuadrante propio. La unidad espacial sigue siendo id_cuadrante.
   method: own_quadrant_boundary
 
-  # auto estima un CRS UTM local desde los puntos. También puede usarse EPSG:xxxx.
+  # auto estima un CRS UTM desde los puntos. También puede usarse EPSG:xxxx.
   metric_crs: auto
 
 independent_validation:
   enabled: true
 
-  # Método recomendado para pilotos:
-  # genera múltiples candidatos por StratifiedGroupKFold usando id_cuadrante como grupo
-  # y selecciona el holdout con mejor balance de clases y tamaño.
-  method: optimized_stratified_group_holdout
+  # Genera cinco candidatos mediante StratifiedGroupKFold, manteniendo cada
+  # cuadrante completo. Selecciona el candidato válido con la distribución de
+  # clases y fracción de puntos más próximas al conjunto total.
+  method: stratified_group_holdout
 
-  # Si se llena, estos cuadrantes quedan como validación independiente y se ignora la optimización.
+  # Si se especifican cuadrantes, se utilizan directamente como holdout y se
+  # omite la selección automática.
   explicit_group_ids: []
 
-  # Si se define, usa directamente ese candidato generado, por ejemplo: seed_42_fold_3.
+  # Permite congelar uno de los candidatos generados, por ejemplo:
+  # seed_42_fold_3. Con null, el código selecciona automáticamente.
   selected_candidate_id: null
 
-  # Fracción deseada aproximada de puntos/cuadrantes para validación independiente.
+  # Fracción aproximada deseada para el holdout.
   holdout_fraction: 0.20
 
-  # Número de folds candidatos por semilla. Un fold completo queda como validación independiente.
+  # Con cinco particiones, cada candidato representa aproximadamente 20 %.
   n_candidate_splits: 5
-
-  # Número de repeticiones con semillas consecutivas. Candidatos totales aprox = repeats × n_candidate_splits.
-  n_random_repeats: 50
   shuffle: true
   random_state: 42
-
-  optimization:
-    distribution_weight: 1.0
-    row_fraction_weight: 2.0
-    group_fraction_weight: 1.0
-    missing_independent_class_weight: 2.0
-    missing_development_class_weight: 100.0
-    low_development_support_weight: 20.0
-    low_independent_support_weight: 1.0
-    min_development_points_per_class: 1
-    min_independent_points_per_class: 1
 
 inner_cv:
   # Validación interna usada por GridSearchCV dentro del conjunto de desarrollo.
   # Entrenamiento y validación se separan por cuadrantes completos.
   method: stratified_group_kfold
-  # Prueba rápida. Para la corrida definitiva puede volver a 5.
+
+  # PRUEBA RÁPIDA. Cambiar a 5 para la corrida definitiva.
   n_splits: 3
   shuffle: true
   random_state: 42
@@ -132,43 +133,48 @@ model:
   oob_score: false
 
 grid_search:
-  enabled: true
   scoring:
     accuracy: accuracy
     balanced_accuracy: balanced_accuracy
     f1_macro: f1_macro
     f1_weighted: f1_weighted
+
+  # Métrica principal para seleccionar la mejor combinación.
   refit: f1_macro
+
   n_jobs: -1
   verbose: 2
   return_train_score: true
   error_score: raise
 
-  # Modo prueba: una sola combinación, evaluada con los 3 folds anteriores.
-  # Esto permite comprobar el flujo completo sin lanzar una búsqueda costosa.
+  # MODO PRUEBA: una sola combinación evaluada con los tres folds anteriores.
+  # Sirve para comprobar el flujo completo sin lanzar una búsqueda costosa.
   param_grid:
     clf__n_estimators: [30]
     clf__max_depth: [15]
     clf__min_samples_split: [2]
     clf__min_samples_leaf: [1]
-    clf__max_features: [sqrt]
+    clf__max_features: ["sqrt"]
 
-  # Malla amplia de referencia para una corrida posterior:
+  # MALLA AMPLIA PARA LA CORRIDA DEFINITIVA:
+  # Sustituir el bloque param_grid anterior por este bloque y cambiar
+  # inner_cv.n_splits a 5.
+  #
   # param_grid:
   #   clf__n_estimators: [300, 500]
   #   clf__max_depth: [null, 20, 40]
   #   clf__min_samples_split: [2, 8]
   #   clf__min_samples_leaf: [1, 3]
-  #   clf__max_features: [sqrt, 0.5]
+  #   clf__max_features: ["sqrt", 0.5]
 
 outputs:
   report_md: reports/a4_7_rf_gridsearch_spatial_validation_report.md
 
-  # Modelo usado para reportar la validación independiente.
-  # Está entrenado SOLO con el conjunto de desarrollo.
+  # Modelo utilizado para reportar la evaluación independiente. Está entrenado
+  # exclusivamente con el conjunto de desarrollo.
   model_development_path: models/rf_id_1_propuesta_best_development.joblib
 
-  # Opcional: después de evaluar la validación independiente, entrenar otro modelo con todo lo modelable.
-  # Este modelo NO debe usarse para reportar la validación independiente.
+  # Opcional: después de evaluar el holdout, entrenar otro modelo con todos los
+  # datos modelables. Este modelo no se usa para reportar el holdout.
   train_final_model_on_modelable_after_independent_eval: false
   model_all_modelable_path: models/rf_id_1_propuesta_best_all_modelable.joblib

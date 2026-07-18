@@ -17,7 +17,35 @@ inputs:
   points_layer: xy_point
   action_table: xy_accion
   score_table: xy_score
+  homologation_table: xy_homologacion_final
   quadrants_layer: zonas_cuadrantes
+
+# Selección de fuentes completas para A4.1.
+# - enabled=false: todos los puntos se leen de A2.1.
+# - enabled=true: A2.1 aporta los demás países y A3 aporta registros completos
+#   para Costa Rica y Panamá.
+# Este mecanismo no actualiza campos, no traslada valores entre xy_group_id y
+# no modifica ninguno de los GeoPackage de entrada.
+point_source_selection:
+  enabled: true
+  country_field: id_pais_grupo
+  base_source_key: a2_1_original
+  require_base_country_candidates: true
+  require_selected_source_candidates: true
+  require_selected_source_final_points: true
+  compare_attributes_with_base: true
+  provenance_fields:
+    source_key: point_source_key
+    source_role: point_source_role
+    selected_country_id: selected_country_id
+    source_gpkg: point_source_gpkg
+  sources:
+    - country_id: 2
+      source_key: sinac_src10_2021
+      points_gpkg: data/processed/3_auditorias_nuevas_fuentes/normalizacion/sinac_src10_2021/gpkg/sinac_src10_2021_normalizado.gpkg
+    - country_id: 8
+      source_key: mapa_forestal_panama_src15_2021
+      points_gpkg: data/processed/3_auditorias_nuevas_fuentes/normalizacion/mapa_forestal_panama_src15_2021/gpkg/mapa_forestal_panama_src15_2021_normalizado.gpkg
 
 fields:
   key: xy_group_id
@@ -48,6 +76,34 @@ fields:
     - accion_recomendada
     - razon_categoria_aptitud
 
+  homologation:
+    - xy_group_id
+    - id_0_propuesta
+    - nivel_0_propuesta
+    - id_1_propuesta
+    - nivel_1_propuesta
+
+  point_source:
+    - xy_group_id
+    - point_source_key
+    - point_source_role
+    - selected_country_id
+    - point_source_gpkg
+
+  point_attribute_check:
+    - point_source_key
+    - selected_country_id
+    - attribute_name
+    - reference_dtype
+    - source_dtype
+    - type_compatible
+    - reference_null_count
+    - source_null_count
+    - reference_null_pct
+    - source_null_pct
+    - check_status
+    - check_note
+
 outputs:
   layers:
     pilot_xy_point: pilot_xy_point
@@ -59,8 +115,11 @@ outputs:
     pilot_buffer_run: pilot_buffer_run
     pilot_assignment_run: pilot_assignment_run
     xy_pilot_quadrant: xy_pilot_quadrant
+    xy_pilot_point_source: xy_pilot_point_source
+    xy_pilot_point_attribute_check: xy_pilot_point_attribute_check
     xy_score: xy_score
     xy_accion: xy_accion
+    xy_homologacion_final: xy_homologacion_final
     xy_pilot_quadrant_conflict: xy_pilot_quadrant_conflict
     xy_pilot_quadrant_conflict_match: xy_pilot_quadrant_conflict_match
 
@@ -223,6 +282,10 @@ relationships:
     child_field: id_cuadrante
     parent_table: pilot_quadrant
     parent_field: id_cuadrante
+  - child_table: xy_pilot_point_source
+    child_field: xy_group_id
+    parent_table: pilot_xy_point
+    parent_field: xy_group_id
   - child_table: xy_score
     child_field: xy_group_id
     parent_table: pilot_xy_point
@@ -231,6 +294,18 @@ relationships:
     child_field: xy_group_id
     parent_table: pilot_xy_point
     parent_field: xy_group_id
+  - child_table: xy_homologacion_final
+    child_field: xy_group_id
+    parent_table: pilot_xy_point
+    parent_field: xy_group_id
+  - child_table: xy_homologacion_final
+    child_field: id_0_propuesta
+    parent_table: homologacion_nivel_0_origen_propuesta
+    parent_field: id_0_propuesta
+  - child_table: xy_homologacion_final
+    child_field: id_1_propuesta
+    parent_table: homologacion_nivel_1_origen_propuesta
+    parent_field: id_1_propuesta
   - child_table: xy_pilot_quadrant_conflict_match
     child_field: id_cuadrante
     parent_table: pilot_quadrant

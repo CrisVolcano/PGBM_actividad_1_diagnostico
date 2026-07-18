@@ -896,6 +896,24 @@
         <mxCell id="a21-country-concept-core-edge" edge="1" parent="1" source="ugVXd4SQC104tHsh0kpo-16" target="a21-country-concept-table" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#788AA3;fontColor=#46495D;strokeWidth=2;fontSize=13;fontStyle=1;labelBackgroundColor=#ffffff;" value="n:1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="a3-new-sources-concept-input" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;fontColor=#1f3a5f;fontSize=15;align=center;verticalAlign=middle;spacing=8;" value="&lt;b&gt;A3 · fuentes nuevas&lt;/b&gt;&lt;br/&gt;SINAC (SRC10) + Panamá (SRC15)&lt;br/&gt;xy_group_aptitude_master" vertex="1">
+          <mxGeometry height="90" width="350" x="1690" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="a3-new-sources-concept-normalizer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ffe6cc;strokeColor=#d79b00;strokeWidth=2;fontColor=#664d03;fontSize=15;align=center;verticalAlign=middle;spacing=8;" value="&lt;b&gt;Normalizador A3 parametrizado&lt;/b&gt;&lt;br/&gt;código independiente · configuración por fuente&lt;br/&gt;procesamiento y validación separados" vertex="1">
+          <mxGeometry height="90" width="470" x="2110" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="a3-new-sources-concept-output" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;fontColor=#274e13;fontSize=15;align=center;verticalAlign=middle;spacing=8;" value="&lt;b&gt;Modelo normalizado A2.1&lt;/b&gt;&lt;br/&gt;mismas tablas y relaciones&lt;br/&gt;con source_key / id_fuente" vertex="1">
+          <mxGeometry height="90" width="480" x="2650" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="a3-new-sources-concept-edge-input" edge="1" parent="1" source="a3-new-sources-concept-input" target="a3-new-sources-concept-normalizer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#788AA3;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3-new-sources-concept-edge-output" edge="1" parent="1" source="a3-new-sources-concept-normalizer" target="a3-new-sources-concept-output" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#788AA3;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3-new-sources-concept-scope" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=1.5;fontColor=#5f4b00;fontSize=14;align=left;verticalAlign=middle;spacing=10;" value="&lt;b&gt;Alcance A3:&lt;/b&gt; se parte de los GeoPackage finales. Los scores se preservan como fueron entregados y no se recalculan. Se conservan las clases originales y homologadas disponibles; la trazabilidad no recuperable se documenta explícitamente." vertex="1">
+          <mxGeometry height="100" width="1440" x="1690" y="1040" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

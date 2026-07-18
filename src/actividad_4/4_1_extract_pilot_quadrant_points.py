@@ -3,7 +3,12 @@
 Actividad 4 — extracción normalizada de puntos por cuadrantes piloto
 ===================================================================
 
-Extensión 3NF que asigna puntos XY normalizados de A2.1 a cuadrantes piloto.
+Extensión 3NF que asigna puntos XY normalizados a cuadrantes piloto.
+
+Opcionalmente, A4.1 puede seleccionar registros completos de A3 para Costa
+Rica y Panamá y conservar A2.1 como fuente de los demás países. Las fuentes
+son de solo lectura: no se actualizan atributos ni se trasladan valores entre
+registros.
 
 La configuración operativa vive en YAML, por defecto:
 
@@ -17,10 +22,12 @@ Ejecución desde la raíz del repositorio:
 El script sigue la hoja 4 del modelo:
 
 - genera la extensión normalizada para cuadrantes piloto;
-- conserva una proyección materializada de los puntos seleccionados de A2.1;
+- conserva una proyección materializada de los puntos seleccionados;
+- registra la fuente original de cada punto y la comparación de atributos;
 - copia solo las tablas de referencia/catálogos indicadas en el YAML;
 - exporta xy_score mínimo: xy_group_id + score_aptitud_total;
 - exporta xy_accion filtrado al subconjunto piloto;
+- exporta xy_homologacion_final desde la fuente propia de cada punto;
 - no genera capas planas tipo pilot_quadrant_points o vw_pilot_quadrant_points;
 - no exporta tablas temáticas de A2.1 que no estén declaradas en el YAML.
 """
@@ -149,11 +156,28 @@ def validate_config(cfg: dict[str, Any]) -> None:
     for key in required_paths:
         get_required(cfg, "paths", key)
 
-    required_inputs = ["points_layer", "action_table", "score_table", "quadrants_layer"]
+    required_inputs = [
+        "points_layer",
+        "action_table",
+        "score_table",
+        "homologation_table",
+        "quadrants_layer",
+    ]
     for key in required_inputs:
         get_required(cfg, "inputs", key)
 
-    required_fields = ["key", "zone", "quadrant", "quadrant_fields", "pilot_xy_point", "score", "action"]
+    required_fields = [
+        "key",
+        "zone",
+        "quadrant",
+        "quadrant_fields",
+        "pilot_xy_point",
+        "score",
+        "action",
+        "homologation",
+        "point_source",
+        "point_attribute_check",
+    ]
     for key in required_fields:
         get_required(cfg, "fields", key)
 
@@ -165,8 +189,11 @@ def validate_config(cfg: dict[str, Any]) -> None:
         "pilot_buffer_run",
         "pilot_assignment_run",
         "xy_pilot_quadrant",
+        "xy_pilot_point_source",
+        "xy_pilot_point_attribute_check",
         "xy_score",
         "xy_accion",
+        "xy_homologacion_final",
         "xy_pilot_quadrant_conflict",
         "xy_pilot_quadrant_conflict_match",
     ]
@@ -199,6 +226,164 @@ def validate_config(cfg: dict[str, Any]) -> None:
     score_fields = as_list(get_required(cfg, "fields", "score"), "fields.score")
     if key_field not in score_fields:
         raise ValueError(f"fields.score debe contener {key_field}.")
+
+    homologation_fields = as_list(
+        get_required(cfg, "fields", "homologation"),
+        "fields.homologation",
+    )
+    if key_field not in homologation_fields:
+        raise ValueError(f"fields.homologation debe contener {key_field}.")
+
+    point_source_fields = as_list(
+        get_required(cfg, "fields", "point_source"),
+        "fields.point_source",
+    )
+    if key_field not in point_source_fields:
+        raise ValueError(f"fields.point_source debe contener {key_field}.")
+
+    attribute_check_fields = as_list(
+        get_required(cfg, "fields", "point_attribute_check"),
+        "fields.point_attribute_check",
+    )
+    required_attribute_check_fields = [
+        "point_source_key",
+        "selected_country_id",
+        "attribute_name",
+        "reference_dtype",
+        "source_dtype",
+        "type_compatible",
+        "reference_null_count",
+        "source_null_count",
+        "reference_null_pct",
+        "source_null_pct",
+        "check_status",
+        "check_note",
+    ]
+    require_fields(
+        attribute_check_fields,
+        required_attribute_check_fields,
+        "fields.point_attribute_check",
+    )
+    unexpected_check_fields = sorted(
+        set(attribute_check_fields) - set(required_attribute_check_fields)
+    )
+    if unexpected_check_fields or len(attribute_check_fields) != len(
+        required_attribute_check_fields
+    ):
+        raise ValueError(
+            "fields.point_attribute_check debe contener exactamente los campos "
+            f"de auditoría esperados; campos inesperados={unexpected_check_fields}."
+        )
+
+    selection = get_optional(cfg, "point_source_selection", default={})
+    if not isinstance(selection, dict):
+        raise ValueError("point_source_selection debe ser un diccionario.")
+    enabled = selection.get("enabled", False)
+    if not isinstance(enabled, bool):
+        raise ValueError("point_source_selection.enabled debe ser true o false.")
+
+    boolean_options = [
+        "require_base_country_candidates",
+        "require_selected_source_candidates",
+        "require_selected_source_final_points",
+        "compare_attributes_with_base",
+    ]
+    for option_name in boolean_options:
+        option_value = selection.get(option_name, True)
+        if not isinstance(option_value, bool):
+            raise ValueError(
+                f"point_source_selection.{option_name} debe ser true o false."
+            )
+
+    country_field = selection.get("country_field", "id_pais_grupo")
+    if not isinstance(country_field, str) or not country_field.strip():
+        raise ValueError("point_source_selection.country_field debe ser un campo válido.")
+    pilot_fields = as_list(
+        get_required(cfg, "fields", "pilot_xy_point"),
+        "fields.pilot_xy_point",
+    )
+    if country_field not in pilot_fields:
+        raise ValueError(
+            f"point_source_selection.country_field='{country_field}' debe estar "
+            "en fields.pilot_xy_point."
+        )
+
+    base_source_key = selection.get("base_source_key", "a2_1_original")
+    if not isinstance(base_source_key, str) or not base_source_key.strip():
+        raise ValueError("point_source_selection.base_source_key debe ser un texto no vacío.")
+
+    provenance_fields = selection.get("provenance_fields", {})
+    required_provenance = [
+        "source_key",
+        "source_role",
+        "selected_country_id",
+        "source_gpkg",
+    ]
+    if not isinstance(provenance_fields, dict):
+        raise ValueError(
+            "point_source_selection.provenance_fields debe ser un diccionario."
+        )
+    provenance_names: list[str] = []
+    for semantic_name in required_provenance:
+        field_name = provenance_fields.get(semantic_name)
+        if not isinstance(field_name, str) or not field_name:
+            raise ValueError(
+                "point_source_selection.provenance_fields no define "
+                f"{semantic_name}."
+            )
+        if field_name not in point_source_fields:
+            raise ValueError(
+                f"El campo de procedencia '{field_name}' debe estar en "
+                "fields.point_source."
+            )
+        provenance_names.append(field_name)
+    if len(provenance_names) != len(set(provenance_names)):
+        raise ValueError("Los campos de procedencia deben tener nombres distintos.")
+    if key_field in provenance_names:
+        raise ValueError(f"Los campos de procedencia no pueden reutilizar {key_field}.")
+    expected_point_source_fields = [key_field] + provenance_names
+    if set(point_source_fields) != set(expected_point_source_fields) or len(
+        point_source_fields
+    ) != len(expected_point_source_fields):
+        raise ValueError(
+            "fields.point_source debe contener únicamente la llave y los cuatro "
+            "campos declarados en provenance_fields."
+        )
+
+    sources = selection.get("sources", [])
+    if not isinstance(sources, list):
+        raise ValueError("point_source_selection.sources debe ser una lista.")
+    if enabled and not sources:
+        raise ValueError(
+            "point_source_selection.enabled=true requiere al menos una fuente A3."
+        )
+
+    country_ids: list[int] = []
+    source_keys: list[str] = []
+    for index, source in enumerate(sources):
+        if not isinstance(source, dict):
+            raise ValueError(
+                f"point_source_selection.sources[{index}] debe ser un diccionario."
+            )
+        for field in ["country_id", "source_key", "points_gpkg"]:
+            if source.get(field) in (None, ""):
+                raise ValueError(
+                    f"point_source_selection.sources[{index}] no define {field}."
+                )
+        try:
+            country_ids.append(int(source["country_id"]))
+        except (TypeError, ValueError) as error:
+            raise ValueError(
+                f"point_source_selection.sources[{index}].country_id debe ser entero."
+            ) from error
+        source_keys.append(str(source["source_key"]))
+
+    if len(country_ids) != len(set(country_ids)):
+        raise ValueError("Hay country_id duplicados en point_source_selection.sources.")
+    if len(source_keys) != len(set(source_keys)):
+        raise ValueError("Hay source_key duplicados en point_source_selection.sources.")
+    if base_source_key in source_keys:
+        raise ValueError("base_source_key no puede coincidir con una fuente A3.")
 
     reference_tables = get_required(cfg, "reference_tables")
     if not isinstance(reference_tables, dict) or not reference_tables:
@@ -597,45 +782,517 @@ def read_table_subset(
     return subset
 
 
-def read_xy_score_subset(
+def read_source_tables_for_points(
     cfg: dict[str, Any],
-    points_gpkg: Path,
-    selected_keys: pd.Series,
-) -> pd.DataFrame:
-    score_table = get_required(cfg, "inputs", "score_table")
-    score_fields = as_list(get_required(cfg, "fields", "score"), "fields.score")
-    return read_table_subset(cfg, points_gpkg, score_table, score_fields, selected_keys, "xy_score")
-
-
-def read_xy_accion_subset(
-    cfg: dict[str, Any],
-    actions: pd.DataFrame,
-    selected_keys: pd.Series,
-) -> pd.DataFrame:
+    source_gpkg: Path,
+    points: gpd.GeoDataFrame,
+    source_label: str,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Lee las relaciones propias de los puntos, sin combinar valores entre fuentes."""
     key_field = get_required(cfg, "fields", "key")
     action_table = get_required(cfg, "inputs", "action_table")
+    score_table = get_required(cfg, "inputs", "score_table")
+    homologation_table = get_required(cfg, "inputs", "homologation_table")
     action_fields = as_list(get_required(cfg, "fields", "action"), "fields.action")
+    score_fields = as_list(get_required(cfg, "fields", "score"), "fields.score")
+    homologation_fields = as_list(
+        get_required(cfg, "fields", "homologation"),
+        "fields.homologation",
+    )
 
-    selected_key_values = set(selected_keys.astype("string").dropna().tolist())
-    if not selected_key_values:
-        raise ValueError("No hay xy_group_id seleccionados para extraer xy_accion.")
-
-    require_fields(list(actions.columns), action_fields, action_table)
-    validate_unique_key(actions, key_field, action_table)
-
-    out = actions[action_fields].copy()
-    out[key_field] = out[key_field].astype("string")
-    subset = out[out[key_field].isin(selected_key_values)].copy()
-    subset = subset[action_fields].sort_values(key_field).reset_index(drop=True)
-
-    missing = selected_key_values - set(subset[key_field].astype("string"))
-    if missing:
-        examples = sorted(missing)[:5]
-        raise ValueError(
-            f"{action_table} no contiene acción para {len(missing):,} puntos piloto. "
-            f"Ejemplos: {examples}"
+    if points.empty:
+        return (
+            pd.DataFrame(columns=action_fields),
+            pd.DataFrame(columns=score_fields),
+            pd.DataFrame(columns=homologation_fields),
         )
-    return subset
+
+    keys = points[key_field]
+    actions = read_table_subset(
+        cfg,
+        source_gpkg,
+        action_table,
+        action_fields,
+        keys,
+        f"xy_accion de {source_label}",
+    )
+    scores = read_table_subset(
+        cfg,
+        source_gpkg,
+        score_table,
+        score_fields,
+        keys,
+        f"xy_score de {source_label}",
+    )
+    homologation = read_table_subset(
+        cfg,
+        source_gpkg,
+        homologation_table,
+        homologation_fields,
+        keys,
+        f"xy_homologacion_final de {source_label}",
+    )
+    return actions, scores, homologation
+
+
+def build_point_source_table(
+    cfg: dict[str, Any],
+    points: gpd.GeoDataFrame,
+    source_key: str,
+    source_role: str,
+    source_gpkg: Path,
+    selected_country_id: int | None,
+) -> pd.DataFrame:
+    key_field = get_required(cfg, "fields", "key")
+    selection = get_optional(cfg, "point_source_selection", default={})
+    provenance = selection["provenance_fields"]
+    fields = as_list(get_required(cfg, "fields", "point_source"), "fields.point_source")
+    keys = points[key_field].astype("string").reset_index(drop=True)
+
+    data = pd.DataFrame(
+        {
+            key_field: keys,
+            provenance["source_key"]: str(source_key),
+            provenance["source_role"]: str(source_role),
+            provenance["selected_country_id"]: selected_country_id,
+            provenance["source_gpkg"]: str(source_gpkg),
+        }
+    )
+    return data[fields]
+
+
+def series_type_family(series: pd.Series) -> str:
+    if pd.api.types.is_bool_dtype(series.dtype):
+        return "boolean"
+    if pd.api.types.is_numeric_dtype(series.dtype):
+        return "numeric"
+    if pd.api.types.is_datetime64_any_dtype(series.dtype):
+        return "datetime"
+    return "text"
+
+
+def empty_point_attribute_check(cfg: dict[str, Any]) -> pd.DataFrame:
+    fields = as_list(
+        get_required(cfg, "fields", "point_attribute_check"),
+        "fields.point_attribute_check",
+    )
+    return pd.DataFrame(columns=fields)
+
+
+def compare_point_attributes(
+    cfg: dict[str, Any],
+    reference_points: gpd.GeoDataFrame,
+    source_points: gpd.GeoDataFrame,
+    source_key: str,
+    country_id: int,
+) -> pd.DataFrame:
+    """Compara estructura y nulos; no modifica ningún atributo de los puntos."""
+    if reference_points.empty:
+        raise ValueError(
+            "No hay puntos A2.1 de los cuadrantes para comparar los atributos "
+            f"de {source_key}."
+        )
+    if source_points.empty:
+        return empty_point_attribute_check(cfg)
+
+    point_fields = as_list(
+        get_required(cfg, "fields", "pilot_xy_point"),
+        "fields.pilot_xy_point",
+    )
+    output_fields = as_list(
+        get_required(cfg, "fields", "point_attribute_check"),
+        "fields.point_attribute_check",
+    )
+    rows: list[dict[str, Any]] = []
+
+    for field_name in point_fields + ["geometry"]:
+        reference_series = reference_points[field_name]
+        source_series = source_points[field_name]
+
+        if field_name == "geometry":
+            reference_types = sorted(reference_series.dropna().geom_type.unique())
+            source_types = sorted(source_series.dropna().geom_type.unique())
+            reference_dtype = "|".join(reference_types) or "sin_geometría"
+            source_dtype = "|".join(source_types) or "sin_geometría"
+            type_compatible = bool(source_types) and set(source_types).issubset(
+                set(reference_types)
+            )
+            reference_null_count = int(
+                reference_series.isna().sum() + reference_series.is_empty.sum()
+            )
+            source_null_count = int(
+                source_series.isna().sum() + source_series.is_empty.sum()
+            )
+        else:
+            reference_dtype = str(reference_series.dtype)
+            source_dtype = str(source_series.dtype)
+            type_compatible = (
+                series_type_family(reference_series) == series_type_family(source_series)
+            )
+            reference_null_count = int(reference_series.isna().sum())
+            source_null_count = int(source_series.isna().sum())
+
+        reference_null_pct = 100.0 * reference_null_count / len(reference_points)
+        source_null_pct = 100.0 * source_null_count / len(source_points)
+
+        if not type_compatible:
+            status = "error"
+            note = "tipo incompatible con los puntos A2.1 de referencia"
+        elif source_null_pct > reference_null_pct:
+            status = "warning"
+            note = "mayor porcentaje de nulos que la referencia"
+        else:
+            status = "ok"
+            note = "atributo compatible"
+
+        rows.append(
+            {
+                "point_source_key": source_key,
+                "selected_country_id": country_id,
+                "attribute_name": field_name,
+                "reference_dtype": reference_dtype,
+                "source_dtype": source_dtype,
+                "type_compatible": int(type_compatible),
+                "reference_null_count": reference_null_count,
+                "source_null_count": source_null_count,
+                "reference_null_pct": round(reference_null_pct, 6),
+                "source_null_pct": round(source_null_pct, 6),
+                "check_status": status,
+                "check_note": note,
+            }
+        )
+
+    report = pd.DataFrame(rows)[output_fields]
+    errors = report.loc[report["check_status"] == "error", "attribute_name"].tolist()
+    if errors:
+        raise ValueError(
+            f"La fuente {source_key} tiene atributos incompatibles: {errors}. "
+            "No se modificó ningún dato."
+        )
+
+    warnings = report.loc[report["check_status"] == "warning", "attribute_name"].tolist()
+    if warnings:
+        LOGGER.warning(
+            "Comparación de atributos de %s con advertencias: %s",
+            source_key,
+            warnings,
+        )
+    else:
+        LOGGER.info("Comparación de atributos de %s: compatible.", source_key)
+    return report
+
+
+def validate_selected_point_universe(
+    cfg: dict[str, Any],
+    points: gpd.GeoDataFrame,
+    actions: pd.DataFrame,
+    scores: pd.DataFrame,
+    homologation: pd.DataFrame,
+    point_sources: pd.DataFrame,
+) -> None:
+    key_field = get_required(cfg, "fields", "key")
+    homologation_fields = as_list(
+        get_required(cfg, "fields", "homologation"),
+        "fields.homologation",
+    )
+    validate_not_null(
+        homologation,
+        homologation_fields,
+        "clases homologadas de sus fuentes",
+    )
+    datasets: dict[str, pd.DataFrame] = {
+        "puntos seleccionados": points,
+        "acciones de sus fuentes": actions,
+        "scores de sus fuentes": scores,
+        "clases homologadas de sus fuentes": homologation,
+        "procedencia de puntos": point_sources,
+    }
+    key_sets: dict[str, set[str]] = {}
+
+    for label, dataframe in datasets.items():
+        validate_unique_key(dataframe, key_field, label)
+        validate_not_null(dataframe, [key_field], label)
+        key_sets[label] = set(dataframe[key_field].astype("string"))
+
+    point_keys = key_sets["puntos seleccionados"]
+    for label, keys in key_sets.items():
+        if keys != point_keys:
+            missing = point_keys - keys
+            extra = keys - point_keys
+            raise ValueError(
+                f"El universo de {label} no coincide con los puntos: "
+                f"faltan={len(missing):,}, sobran={len(extra):,}."
+            )
+
+
+def load_selected_point_sources(
+    cfg: dict[str, Any],
+    base_points_gpkg: Path,
+    quadrant_buffer: gpd.GeoDataFrame,
+) -> tuple[
+    gpd.GeoDataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    dict[str, Any],
+]:
+    """Selecciona filas completas por fuente, sin actualizar valores."""
+    key_field = get_required(cfg, "fields", "key")
+    selection = get_optional(cfg, "point_source_selection", default={})
+    enabled = bool(selection.get("enabled", False))
+    country_field = selection.get("country_field", "id_pais_grupo")
+    base_source_key = str(selection.get("base_source_key", "a2_1_original"))
+    selected_sources = selection.get("sources", [])
+
+    base_candidates_all = read_points_in_quadrants_bbox(
+        cfg,
+        base_points_gpkg,
+        quadrant_buffer,
+    )
+    base_count_all = len(base_candidates_all)
+    comparison_reference_points = base_candidates_all
+    selected_country_ids = [int(item["country_id"]) for item in selected_sources]
+
+    if enabled:
+        base_country = pd.to_numeric(
+            base_candidates_all[country_field],
+            errors="coerce",
+        )
+        if selection.get("require_base_country_candidates", True):
+            missing_countries = [
+                country_id
+                for country_id in selected_country_ids
+                if not (base_country == country_id).any()
+            ]
+            if missing_countries:
+                raise ValueError(
+                    "A2.1 no contiene candidatos de referencia para los países "
+                    f"configurados: {missing_countries}."
+                )
+        source_country_mask = base_country.isin(selected_country_ids)
+        base_points = base_candidates_all.loc[~source_country_mask].copy()
+        base_not_selected_count = int(source_country_mask.sum())
+    else:
+        base_points = base_candidates_all
+        base_not_selected_count = 0
+
+    point_frames: list[gpd.GeoDataFrame] = [base_points]
+    action_frames: list[pd.DataFrame] = []
+    score_frames: list[pd.DataFrame] = []
+    homologation_frames: list[pd.DataFrame] = []
+    provenance_frames: list[pd.DataFrame] = []
+    check_frames: list[pd.DataFrame] = []
+    source_counts: dict[str, int] = {}
+
+    base_actions, base_scores, base_homologation = read_source_tables_for_points(
+        cfg,
+        base_points_gpkg,
+        base_points,
+        base_source_key,
+    )
+    action_frames.append(base_actions)
+    score_frames.append(base_scores)
+    homologation_frames.append(base_homologation)
+    provenance_frames.append(
+        build_point_source_table(
+            cfg,
+            base_points,
+            source_key=base_source_key,
+            source_role="a2_1",
+            source_gpkg=base_points_gpkg,
+            selected_country_id=None,
+        )
+    )
+
+    if enabled:
+        for source in selected_sources:
+            country_id = int(source["country_id"])
+            source_key = str(source["source_key"])
+            source_gpkg = resolve_path(source["points_gpkg"])
+            require_path(source_gpkg, f"GeoPackage A3 de {source_key}")
+
+            source_points = read_points_in_quadrants_bbox(
+                cfg,
+                source_gpkg,
+                quadrant_buffer,
+            )
+            if source_points.empty and selection.get(
+                "require_selected_source_candidates",
+                True,
+            ):
+                raise ValueError(
+                    f"La fuente {source_key} no aporta puntos candidatos a A4.1."
+                )
+
+            observed_country = pd.to_numeric(
+                source_points[country_field],
+                errors="coerce",
+            )
+            invalid_country = observed_country.isna() | (observed_country != country_id)
+            if invalid_country.any():
+                raise ValueError(
+                    f"La fuente {source_key} contiene {int(invalid_country.sum()):,} "
+                    f"puntos cuyo {country_field} no es {country_id}."
+                )
+
+            if source_points.crs != base_candidates_all.crs:
+                raise ValueError(
+                    f"La fuente {source_key} usa CRS {source_points.crs}, pero A2.1 "
+                    f"usa {base_candidates_all.crs}. No se reproyectaron ni modificaron "
+                    "los puntos."
+                )
+
+            if selection.get("compare_attributes_with_base", True):
+                check_frames.append(
+                    compare_point_attributes(
+                        cfg,
+                        comparison_reference_points,
+                        source_points,
+                        source_key,
+                        country_id,
+                    )
+                )
+
+            source_actions, source_scores, source_homologation = (
+                read_source_tables_for_points(
+                    cfg,
+                    source_gpkg,
+                    source_points,
+                    source_key,
+                )
+            )
+            point_frames.append(source_points)
+            action_frames.append(source_actions)
+            score_frames.append(source_scores)
+            homologation_frames.append(source_homologation)
+            provenance_frames.append(
+                build_point_source_table(
+                    cfg,
+                    source_points,
+                    source_key=source_key,
+                    source_role="a3_selected",
+                    source_gpkg=source_gpkg,
+                    selected_country_id=country_id,
+                )
+            )
+            source_counts[source_key] = len(source_points)
+
+    points = gpd.GeoDataFrame(
+        pd.concat(point_frames, ignore_index=True),
+        geometry="geometry",
+        crs=base_candidates_all.crs,
+    )
+    actions = pd.concat(action_frames, ignore_index=True)
+    scores = pd.concat(score_frames, ignore_index=True)
+    homologation = pd.concat(homologation_frames, ignore_index=True)
+    point_sources = pd.concat(provenance_frames, ignore_index=True)
+    attribute_checks = (
+        pd.concat(check_frames, ignore_index=True)
+        if check_frames
+        else empty_point_attribute_check(cfg)
+    )
+
+    points[key_field] = points[key_field].astype("string")
+    actions[key_field] = actions[key_field].astype("string")
+    scores[key_field] = scores[key_field].astype("string")
+    homologation[key_field] = homologation[key_field].astype("string")
+    point_sources[key_field] = point_sources[key_field].astype("string")
+    validate_selected_point_universe(
+        cfg,
+        points,
+        actions,
+        scores,
+        homologation,
+        point_sources,
+    )
+
+    warning_count = int(
+        (attribute_checks.get("check_status", pd.Series(dtype="string")) == "warning").sum()
+    )
+    stats = {
+        "a3_sources_enabled": enabled,
+        "base_candidate_count_all": base_count_all,
+        "base_candidate_count_selected": len(base_points),
+        "base_country_points_not_selected": base_not_selected_count,
+        "a3_candidate_count_selected": sum(source_counts.values()),
+        "selected_source_keys": "|".join(source_counts),
+        "selected_source_counts": "|".join(
+            f"{source_key}:{count}" for source_key, count in source_counts.items()
+        ),
+        "attribute_check_status": (
+            "not_applicable"
+            if not enabled
+            else "passed_with_warnings"
+            if warning_count
+            else "passed"
+        ),
+        "attribute_warning_count": warning_count,
+    }
+    LOGGER.info(
+        "Selección de fuentes A4.1 | A3=%s | A2.1 seleccionados=%s | "
+        "A3 seleccionados=%s | total=%s",
+        enabled,
+        f"{len(base_points):,}",
+        f"{stats['a3_candidate_count_selected']:,}",
+        f"{len(points):,}",
+    )
+    return (
+        points,
+        actions,
+        scores,
+        homologation,
+        point_sources,
+        attribute_checks,
+        stats,
+    )
+
+
+def subset_loaded_table(
+    cfg: dict[str, Any],
+    dataframe: pd.DataFrame,
+    fields: list[str],
+    selected_keys: pd.Series,
+    label: str,
+) -> pd.DataFrame:
+    key_field = get_required(cfg, "fields", "key")
+    require_fields(list(dataframe.columns), fields, label)
+    validate_unique_key(dataframe, key_field, label)
+    selected = set(selected_keys.astype("string").dropna())
+
+    out = dataframe[fields].copy()
+    out[key_field] = out[key_field].astype("string")
+    out = out[out[key_field].isin(selected)].sort_values(key_field).reset_index(drop=True)
+    missing = selected - set(out[key_field])
+    if missing:
+        raise ValueError(
+            f"{label} no contiene {len(missing):,} llaves seleccionadas. "
+            f"Ejemplos: {sorted(missing)[:5]}"
+        )
+    return out
+
+
+def validate_selected_sources_in_final_points(
+    cfg: dict[str, Any],
+    point_sources: pd.DataFrame,
+) -> None:
+    selection = get_optional(cfg, "point_source_selection", default={})
+    if not selection.get("enabled", False) or not selection.get(
+        "require_selected_source_final_points",
+        True,
+    ):
+        return
+
+    source_field = selection["provenance_fields"]["source_key"]
+    expected = {str(item["source_key"]) for item in selection.get("sources", [])}
+    observed = set(point_sources[source_field].dropna().astype(str))
+    missing = sorted(expected - observed)
+    if missing:
+        raise ValueError(
+            "Estas fuentes A3 no aportaron puntos finales después de la "
+            f"asignación espacial y el filtro de uso: {missing}."
+        )
 
 
 def read_reference_tables(cfg: dict[str, Any], points_gpkg: Path) -> dict[str, pd.DataFrame]:
@@ -713,6 +1370,7 @@ def build_assignment_run_table(
     extracted_assignment_count: int,
     conflict_point_count: int,
     excluded_by_use_count: int,
+    point_source_stats: dict[str, Any],
 ) -> pd.DataFrame:
     return pd.DataFrame(
         [
@@ -729,6 +1387,34 @@ def build_assignment_run_table(
                 "quadrants_layer": get_required(cfg, "inputs", "quadrants_layer"),
                 "output_gpkg": str(output_gpkg),
                 "a2_1_reference_policy": "diagram_reference_tables_from_yaml_xy_score_minimal_and_xy_accion_filtered",
+                "point_input_policy": "complete_source_records_no_field_overwrite",
+                "a3_point_sources_enabled": int(
+                    bool(point_source_stats["a3_sources_enabled"])
+                ),
+                "base_bbox_candidate_points_all": point_source_stats[
+                    "base_candidate_count_all"
+                ],
+                "base_bbox_candidate_points_selected": point_source_stats[
+                    "base_candidate_count_selected"
+                ],
+                "base_country_points_not_selected": point_source_stats[
+                    "base_country_points_not_selected"
+                ],
+                "a3_bbox_candidate_points_selected": point_source_stats[
+                    "a3_candidate_count_selected"
+                ],
+                "selected_a3_source_keys": point_source_stats[
+                    "selected_source_keys"
+                ],
+                "selected_a3_source_counts": point_source_stats[
+                    "selected_source_counts"
+                ],
+                "point_attribute_check_status": point_source_stats[
+                    "attribute_check_status"
+                ],
+                "point_attribute_warning_count": point_source_stats[
+                    "attribute_warning_count"
+                ],
                 "spatial_predicate": get_required(cfg, "spatial", "predicate"),
                 "multiple_match_policy": get_required(cfg, "spatial", "multiple_match_policy"),
                 "quadrants_count": quadrants_count,
@@ -798,8 +1484,11 @@ def create_indexes(cfg: dict[str, Any], connection: sqlite3.Connection) -> None:
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["pilot_assignment_run"]}_id ON "{tables["pilot_assignment_run"]}" ("assignment_run_id")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_pilot_quadrant"]}_{key_field} ON "{tables["xy_pilot_quadrant"]}" ("{key_field}")',
         f'CREATE INDEX IF NOT EXISTS idx_{tables["xy_pilot_quadrant"]}_{quadrant_field} ON "{tables["xy_pilot_quadrant"]}" ("{quadrant_field}")',
+        f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_pilot_point_source"]}_{key_field} ON "{tables["xy_pilot_point_source"]}" ("{key_field}")',
+        f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_pilot_point_attribute_check"]}_source_attribute ON "{tables["xy_pilot_point_attribute_check"]}" ("point_source_key", "attribute_name")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_score"]}_{key_field} ON "{tables["xy_score"]}" ("{key_field}")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_accion"]}_{key_field} ON "{tables["xy_accion"]}" ("{key_field}")',
+        f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_homologacion_final"]}_{key_field} ON "{tables["xy_homologacion_final"]}" ("{key_field}")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_pilot_quadrant_conflict"]}_{key_field} ON "{tables["xy_pilot_quadrant_conflict"]}" ("{key_field}")',
         f'CREATE UNIQUE INDEX IF NOT EXISTS ux_{tables["xy_pilot_quadrant_conflict_match"]}_{key_field}_{quadrant_field} ON "{tables["xy_pilot_quadrant_conflict_match"]}" ("{key_field}", "{quadrant_field}")',
     ]
@@ -828,8 +1517,11 @@ def write_outputs(
     buffer_run: pd.DataFrame,
     assignment_run: pd.DataFrame,
     xy_pilot_quadrant: pd.DataFrame,
+    xy_pilot_point_source: pd.DataFrame,
+    xy_pilot_point_attribute_check: pd.DataFrame,
     xy_score: pd.DataFrame,
     xy_accion: pd.DataFrame,
+    xy_homologacion_final: pd.DataFrame,
     reference_tables: dict[str, pd.DataFrame],
     conflicts: pd.DataFrame,
     conflict_matches: pd.DataFrame,
@@ -863,8 +1555,26 @@ def write_outputs(
     write_table_to_gpkg(buffer_run, output_gpkg, tables["pilot_buffer_run"], "Ejecución del buffer negativo.")
     write_table_to_gpkg(assignment_run, output_gpkg, tables["pilot_assignment_run"], "Ejecución de asignación punto-cuadrante.")
     write_table_to_gpkg(xy_pilot_quadrant, output_gpkg, tables["xy_pilot_quadrant"], "Relación normalizada entre puntos XY y cuadrantes piloto.")
+    write_table_to_gpkg(
+        xy_pilot_point_source,
+        output_gpkg,
+        tables["xy_pilot_point_source"],
+        "Fuente completa de origen de cada punto utilizado por A4.1.",
+    )
+    write_table_to_gpkg(
+        xy_pilot_point_attribute_check,
+        output_gpkg,
+        tables["xy_pilot_point_attribute_check"],
+        "Comparación de atributos A3 contra puntos A2.1 de los cuadrantes piloto.",
+    )
     write_table_to_gpkg(xy_score, output_gpkg, tables["xy_score"], "Tabla mínima A4: xy_group_id y score_aptitud_total.")
     write_table_to_gpkg(xy_accion, output_gpkg, tables["xy_accion"], "Tabla A4 de acción filtrada al subconjunto piloto.")
+    write_table_to_gpkg(
+        xy_homologacion_final,
+        output_gpkg,
+        tables["xy_homologacion_final"],
+        "Clases homologadas finales tomadas del GeoPackage de origen de cada punto.",
+    )
 
     for table_name, dataframe in reference_tables.items():
         write_table_to_gpkg(
@@ -954,22 +1664,39 @@ def main() -> None:
     LOGGER.info("Iniciando extracción normalizada A4 de puntos por cuadrantes piloto.")
     LOGGER.info("CONFIG: %s", config_path)
     LOGGER.info("Ambiente Python: %s", sys.prefix)
+    LOGGER.info(
+        "Uso de fuentes A3 completas para Costa Rica y Panamá: %s",
+        bool(
+            get_optional(cfg, "point_source_selection", default={}).get(
+                "enabled",
+                False,
+            )
+        ),
+    )
 
     quadrants = read_quadrants(cfg, quadrants_gpkg)
     pilot_zone = build_pilot_zone(cfg, quadrants)
     pilot_quadrant = build_pilot_quadrant(cfg, quadrants)
     pilot_quadrant_buffer, metric_crs_text = build_quadrant_buffer(cfg, quadrants)
 
-    points = read_points_in_quadrants_bbox(cfg, points_gpkg, pilot_quadrant_buffer)
+    (
+        points,
+        actions,
+        scores,
+        homologation,
+        point_sources,
+        point_attribute_checks,
+        point_source_stats,
+    ) = load_selected_point_sources(
+        cfg=cfg,
+        base_points_gpkg=points_gpkg,
+        quadrant_buffer=pilot_quadrant_buffer,
+    )
     assignments_before_use, conflicts, conflict_matches, raw_match_count = assign_quadrants(
         cfg=cfg,
         points=points,
         quadrant_buffer=pilot_quadrant_buffer,
     )
-
-    action_table = get_required(cfg, "inputs", "action_table")
-    action_fields = as_list(get_required(cfg, "fields", "action"), "fields.action")
-    actions = read_attribute_table(points_gpkg, action_table, action_fields)
 
     assignments, excluded_by_use_count = filter_assignments_by_use(cfg, assignments_before_use, actions)
     if assignments.empty:
@@ -980,8 +1707,38 @@ def main() -> None:
     selected_keys = assignments[key_field]
 
     pilot_xy_point = subset_pilot_xy_point(cfg, points, selected_keys)
-    xy_score = read_xy_score_subset(cfg, points_gpkg, selected_keys)
-    xy_accion = read_xy_accion_subset(cfg, actions, selected_keys)
+    xy_score = subset_loaded_table(
+        cfg,
+        scores,
+        as_list(get_required(cfg, "fields", "score"), "fields.score"),
+        selected_keys,
+        "scores de las fuentes seleccionadas",
+    )
+    xy_accion = subset_loaded_table(
+        cfg,
+        actions,
+        as_list(get_required(cfg, "fields", "action"), "fields.action"),
+        selected_keys,
+        "acciones de las fuentes seleccionadas",
+    )
+    xy_homologacion_final = subset_loaded_table(
+        cfg,
+        homologation,
+        as_list(
+            get_required(cfg, "fields", "homologation"),
+            "fields.homologation",
+        ),
+        selected_keys,
+        "clases homologadas de las fuentes seleccionadas",
+    )
+    xy_pilot_point_source = subset_loaded_table(
+        cfg,
+        point_sources,
+        as_list(get_required(cfg, "fields", "point_source"), "fields.point_source"),
+        selected_keys,
+        "procedencia de los puntos seleccionados",
+    )
+    validate_selected_sources_in_final_points(cfg, xy_pilot_point_source)
     reference_tables = read_reference_tables(cfg, points_gpkg)
 
     layers = get_required(cfg, "outputs", "layers")
@@ -992,8 +1749,11 @@ def main() -> None:
         layers["pilot_quadrant"]: pilot_quadrant,
         layers["pilot_quadrant_buffer"]: pilot_quadrant_buffer,
         output_tables["xy_pilot_quadrant"]: assignments,
+        output_tables["xy_pilot_point_source"]: xy_pilot_point_source,
+        output_tables["xy_pilot_point_attribute_check"]: point_attribute_checks,
         output_tables["xy_score"]: xy_score,
         output_tables["xy_accion"]: xy_accion,
+        output_tables["xy_homologacion_final"]: xy_homologacion_final,
         output_tables["xy_pilot_quadrant_conflict"]: conflicts,
         output_tables["xy_pilot_quadrant_conflict_match"]: conflict_matches,
     }
@@ -1016,6 +1776,7 @@ def main() -> None:
         extracted_assignment_count=len(assignments),
         conflict_point_count=len(conflicts),
         excluded_by_use_count=excluded_by_use_count,
+        point_source_stats=point_source_stats,
     )
 
     write_outputs(
@@ -1028,8 +1789,11 @@ def main() -> None:
         buffer_run=buffer_run,
         assignment_run=assignment_run,
         xy_pilot_quadrant=assignments,
+        xy_pilot_point_source=xy_pilot_point_source,
+        xy_pilot_point_attribute_check=point_attribute_checks,
         xy_score=xy_score,
         xy_accion=xy_accion,
+        xy_homologacion_final=xy_homologacion_final,
         reference_tables=reference_tables,
         conflicts=conflicts,
         conflict_matches=conflict_matches,

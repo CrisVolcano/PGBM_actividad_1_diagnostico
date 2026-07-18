@@ -1,0 +1,38 @@
+2026-07-16 15:22:00,595 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
+2026-07-16 15:22:00,595 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a3_auditorias_nuevas_fuentes\config_normalizacion_nuevas_fuentes.yaml
+2026-07-16 15:22:00,595 | INFO | SOURCE_KEY: mapa_forestal_panama_src15_2021
+2026-07-16 15:22:00,595 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\logs\a3_auditorias_nuevas_fuentes\normalizacion\a3_normalizacion_nuevas_fuentes_mapa_forestal_panama_src15_2021.log
+2026-07-16 15:22:00,597 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021
+2026-07-16 15:22:00,683 | WARNING | Cannot find header.dxf (GDAL_DATA is not defined)
+2026-07-16 15:22:00,702 | INFO | Leyendo GeoPackage: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\mapa_forestal_panama_src15_2021_scoring_a1_outputs.gpkg
+2026-07-16 15:22:00,702 | INFO | Capa seleccionada: xy_group_aptitude_master
+2026-07-16 15:22:02,885 | INFO | Campos derivados de auditoría/scoring excluidos por diseño del modelo 3NF: ['tipo_fuente_dominante', 'detalle_tipo_fuente_dominante', 'conf_integrada_promedio_observada', 'n_conf_integrada_observada', 'ids_fuente_presentes', 'fuentes_presentes', 'tipos_fuente_presentes', 'score_directitud_fuente_promedio', 'score_trazabilidad_fuente_promedio', 'score_temporal_metadata_fuente_promedio', 'score_fuente_promedio', 'score_fuente_minimo', 'score_fuente_maximo', 'n_fuentes_anio_inconsistente', 'n_fuentes_pais_inconsistente', 'pct_conf_integrada_observada', 'flag_confianza_imputada', 'score_confiabilidad_base', 'origen_score_confiabilidad', 'conf_integrada_promedio', 'score_prioridad_revision', 'score_consistencia_clase', 'score_viabilidad_clase', 'score_claridad_semantica', 'score_nivel_leyenda', 'score_aptitud_raw', 'score_cap', 'cap_reason']
+2026-07-16 15:22:02,958 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:04,373 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:07,453 | INFO | Escribiendo capa espacial: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\gpkg\mapa_forestal_panama_src15_2021_normalizado.gpkg
+2026-07-16 15:22:07,691 | INFO | Created 12,551 records
+2026-07-16 15:22:07,935 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_core.csv
+2026-07-16 15:22:08,084 | INFO | Tabla no espacial añadida al GPKG: xy_core
+2026-07-16 15:22:08,217 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_temporal.csv
+2026-07-16 15:22:08,344 | INFO | Tabla no espacial añadida al GPKG: xy_temporal
+2026-07-16 15:22:08,438 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_clase_resumen.csv
+2026-07-16 15:22:08,556 | INFO | Tabla no espacial añadida al GPKG: xy_clase_resumen
+2026-07-16 15:22:08,784 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_trazabilidad_fuente.csv
+2026-07-16 15:22:08,970 | INFO | Tabla no espacial añadida al GPKG: xy_trazabilidad_fuente
+2026-07-16 15:22:09,339 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_spectral.csv
+2026-07-16 15:22:09,501 | INFO | Tabla no espacial añadida al GPKG: xy_spectral
+2026-07-16 15:22:09,657 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_score.csv
+2026-07-16 15:22:09,775 | INFO | Tabla no espacial añadida al GPKG: xy_score
+2026-07-16 15:22:09,883 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_conflicto.csv
+2026-07-16 15:22:09,997 | INFO | Tabla no espacial añadida al GPKG: xy_conflicto
+2026-07-16 15:22:10,150 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021\tables\xy_accion.csv
+2026-07-16 15:22:10,288 | INFO | Tabla no espacial añadida al GPKG: xy_accion
+2026-07-16 15:22:10,617 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:10,754 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:11,010 | INFO | Tabla final de homologación creada: xy_homologacion_final
+2026-07-16 15:22:11,075 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:12,043 | INFO | Tablas de metadata añadidas al GPKG.
+2026-07-16 15:22:12,084 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:12,146 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:12,167 | INFO | Reporte creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\a3_auditorias_nuevas_fuentes\normalizacion\mapa_forestal_panama_src15_2021_normalizacion_reporte_implementacion.txt
+2026-07-16 15:22:12,167 | INFO | Proceso finalizado correctamente.

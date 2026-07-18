@@ -1,0 +1,39 @@
+2026-07-16 15:21:51,339 | INFO | ROOT: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico
+2026-07-16 15:21:51,339 | INFO | CONFIG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\config\a3_auditorias_nuevas_fuentes\config_normalizacion_nuevas_fuentes.yaml
+2026-07-16 15:21:51,341 | INFO | SOURCE_KEY: sinac_src10_2021
+2026-07-16 15:21:51,341 | INFO | LOG: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\logs\a3_auditorias_nuevas_fuentes\normalizacion\a3_normalizacion_nuevas_fuentes_sinac_src10_2021.log
+2026-07-16 15:21:51,343 | INFO | Eliminando salida anterior: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021
+2026-07-16 15:21:51,491 | WARNING | Cannot find header.dxf (GDAL_DATA is not defined)
+2026-07-16 15:21:51,524 | INFO | Leyendo GeoPackage: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\sinac_src10_2021_scoring_a1_outputs.gpkg
+2026-07-16 15:21:51,528 | INFO | Capa seleccionada: xy_group_aptitude_master
+2026-07-16 15:21:52,901 | INFO | Campos derivados de auditoría/scoring excluidos por diseño del modelo 3NF: ['tipo_fuente_dominante', 'detalle_tipo_fuente_dominante', 'conf_integrada_promedio_observada', 'n_conf_integrada_observada', 'ids_fuente_presentes', 'fuentes_presentes', 'tipos_fuente_presentes', 'score_directitud_fuente_promedio', 'score_trazabilidad_fuente_promedio', 'score_temporal_metadata_fuente_promedio', 'score_fuente_promedio', 'score_fuente_minimo', 'score_fuente_maximo', 'n_fuentes_anio_inconsistente', 'n_fuentes_pais_inconsistente', 'pct_conf_integrada_observada', 'flag_confianza_imputada', 'score_confiabilidad_base', 'origen_score_confiabilidad', 'conf_integrada_promedio', 'score_prioridad_revision', 'score_consistencia_clase', 'score_viabilidad_clase', 'score_claridad_semantica', 'score_nivel_leyenda', 'score_aptitud_raw', 'score_cap', 'cap_reason']
+2026-07-16 15:21:52,951 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:21:54,283 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:21:56,117 | INFO | Validación dominante vs valores: 56 filas-nivel no son equivalencia estricta; 56 corresponden a dominante incluido dentro de múltiples valores del grupo XY. Se documentan en metadata/validacion_dominante_vs_valores.csv sin tratarse como error.
+2026-07-16 15:21:56,524 | INFO | Escribiendo capa espacial: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\gpkg\sinac_src10_2021_normalizado.gpkg
+2026-07-16 15:21:56,755 | INFO | Created 19,455 records
+2026-07-16 15:21:56,973 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_core.csv
+2026-07-16 15:21:57,200 | INFO | Tabla no espacial añadida al GPKG: xy_core
+2026-07-16 15:21:57,317 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_temporal.csv
+2026-07-16 15:21:57,433 | INFO | Tabla no espacial añadida al GPKG: xy_temporal
+2026-07-16 15:21:57,481 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_clase_resumen.csv
+2026-07-16 15:21:57,566 | INFO | Tabla no espacial añadida al GPKG: xy_clase_resumen
+2026-07-16 15:21:57,733 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_trazabilidad_fuente.csv
+2026-07-16 15:21:57,866 | INFO | Tabla no espacial añadida al GPKG: xy_trazabilidad_fuente
+2026-07-16 15:21:58,183 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_spectral.csv
+2026-07-16 15:21:58,333 | INFO | Tabla no espacial añadida al GPKG: xy_spectral
+2026-07-16 15:21:58,467 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_score.csv
+2026-07-16 15:21:58,605 | INFO | Tabla no espacial añadida al GPKG: xy_score
+2026-07-16 15:21:58,726 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_conflicto.csv
+2026-07-16 15:21:58,831 | INFO | Tabla no espacial añadida al GPKG: xy_conflicto
+2026-07-16 15:21:58,964 | INFO | CSV creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\data\processed\3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021\tables\xy_accion.csv
+2026-07-16 15:21:59,149 | INFO | Tabla no espacial añadida al GPKG: xy_accion
+2026-07-16 15:21:59,361 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:21:59,435 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:21:59,629 | INFO | Tabla final de homologación creada: xy_homologacion_final
+2026-07-16 15:21:59,661 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:00,453 | INFO | Tablas de metadata añadidas al GPKG.
+2026-07-16 15:22:00,469 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:00,507 | INFO | nivel_1_excepciones: excepciones que cruzan dominio nivel 0 detectadas y permitidas: [(443, 25, 1, 2)]
+2026-07-16 15:22:00,519 | INFO | Reporte creado: C:\Users\jesus\Work\CR\Github\PGBM_actividad_1_diagnostico\outputs\reports\a3_auditorias_nuevas_fuentes\normalizacion\sinac_src10_2021_normalizacion_reporte_implementacion.txt
+2026-07-16 15:22:00,519 | INFO | Proceso finalizado correctamente.

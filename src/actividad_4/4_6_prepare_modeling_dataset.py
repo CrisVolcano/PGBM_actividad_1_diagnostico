@@ -104,13 +104,7 @@ def attach_homologated_targets(
     modeling_gpkg: Path,
     config: dict[str, Any],
 ) -> pd.DataFrame:
-    """Attach the final A2.1 homologation using a strict one-to-one key join.
-
-    The source ``id_0``/``id_1``/``id_2`` fields remain available for audit,
-    but model targets must come from ``xy_homologacion_final``.  Reading the
-    homologation through a SQL join avoids loading the full regional table when
-    only the pilot universe is needed.
-    """
+    """Garantiza objetivos homologados; las clases originales quedan para auditoría."""
     hom_cfg = config.get("homologation", {}) or {}
     if not bool(hom_cfg.get("enabled", True)):
         return matrix
@@ -122,16 +116,72 @@ def attach_homologated_targets(
     label_fields = [str(field) for field in as_list(hom_cfg.get("label_fields"))]
     selected_fields = [key] + target_fields + label_fields
 
-    if not source_gpkg.exists():
-        raise FileNotFoundError(f"No existe la base con clases homologadas: {source_gpkg}")
     if not target_fields:
         raise ValueError("homologation.target_fields debe declarar al menos un objetivo homologado.")
-    duplicated_output = sorted(set(selected_fields) & (set(matrix.columns) - {key}))
-    if duplicated_output:
+    if label_fields and len(label_fields) != len(target_fields):
         raise ValueError(
-            "La matriz ya contiene campos reservados para la homologación final: "
-            f"{duplicated_output}"
+            "homologation.label_fields debe declarar una etiqueta por cada target homologado."
         )
+
+    configured_targets = {
+        str(field) for field in as_list(config.get("fields", {}).get("targets"))
+    }
+    primary_target = str(config.get("fields", {}).get("primary_target", ""))
+    allowed_targets = set(target_fields)
+    invalid_targets = sorted(configured_targets - allowed_targets)
+    if primary_target and primary_target not in allowed_targets:
+        invalid_targets.append(primary_target)
+    if invalid_targets:
+        raise ValueError(
+            "A4.6 solo puede preparar objetivos homologados. Objetivos no permitidos: "
+            f"{sorted(set(invalid_targets))}; permitidos: {sorted(allowed_targets)}"
+        )
+
+    matrix_homologation_fields = target_fields + label_fields
+    present_fields = [field for field in matrix_homologation_fields if field in matrix.columns]
+    missing_matrix_fields = [
+        field for field in matrix_homologation_fields if field not in matrix.columns
+    ]
+    if present_fields and missing_matrix_fields:
+        raise ValueError(
+            "La matriz contiene una homologación parcial: "
+            f"presentes={present_fields}, faltantes={missing_matrix_fields}."
+        )
+
+    if not missing_matrix_fields:
+        null_counts = matrix[matrix_homologation_fields].isna().sum()
+        incomplete = {
+            field: int(count)
+            for field, count in null_counts.items()
+            if int(count) > 0
+        }
+        if incomplete and bool(hom_cfg.get("require_complete", True)):
+            raise ValueError(f"Hay campos sin homologación final: {incomplete}")
+
+        for target_field, label_field in zip(target_fields, label_fields):
+            mapping = matrix[[target_field, label_field]].dropna().drop_duplicates()
+            ambiguous_ids = mapping.groupby(target_field)[label_field].nunique()
+            ambiguous_ids = ambiguous_ids[ambiguous_ids > 1]
+            if not ambiguous_ids.empty:
+                raise ValueError(
+                    f"{target_field} tiene IDs asociados a más de una etiqueta en "
+                    f"{label_field}: {ambiguous_ids.index.astype(str).tolist()[:5]}"
+                )
+
+        LOGGER.info(
+            "Homologación unificada ya presente en pilot_model_matrix: %s",
+            matrix_homologation_fields,
+        )
+        return matrix
+
+    if bool(hom_cfg.get("require_in_model_matrix", False)):
+        raise ValueError(
+            "pilot_model_matrix no contiene la homologación unificada requerida: "
+            f"{missing_matrix_fields}. Vuelva a ejecutar A4.1 y A4.4 actualizados."
+        )
+
+    if not source_gpkg.exists():
+        raise FileNotFoundError(f"No existe la base con clases homologadas: {source_gpkg}")
 
     quoted_fields = ", ".join(f'h."{field}"' for field in selected_fields)
     with sqlite3.connect(source_gpkg) as connection:
@@ -579,6 +629,28 @@ def safe_write_parquet(dataframe: pd.DataFrame, path: Path) -> bool:
         return False
 
 
+def dataframe_to_markdown(dataframe: pd.DataFrame) -> str:
+    """Renderiza una tabla Markdown sin depender del paquete opcional tabulate."""
+
+    def format_cell(value: Any) -> str:
+        try:
+            is_missing = bool(pd.isna(value))
+        except (TypeError, ValueError):
+            is_missing = False
+        if is_missing:
+            return ""
+        return str(value).replace("|", r"\|").replace("\r\n", "<br>").replace("\n", "<br>")
+
+    headers = [format_cell(column) for column in dataframe.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in dataframe.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(format_cell(value) for value in row) + " |")
+    return "\n".join(lines)
+
+
 def write_report(
     config: dict[str, Any],
     output_dir: Path,
@@ -600,15 +672,15 @@ def write_report(
     if not target_distribution.empty:
         primary_dist = target_distribution[target_distribution["target_field"] == primary_target].copy()
         if not primary_dist.empty:
-            target_summary = primary_dist.head(20).to_markdown(index=False)
+            target_summary = dataframe_to_markdown(primary_dist.head(20))
         else:
-            target_summary = target_distribution.head(20).to_markdown(index=False)
+            target_summary = dataframe_to_markdown(target_distribution.head(20))
 
     warning_table = ""
     if not split_readiness.empty:
         warnings = split_readiness[split_readiness["severity"] != "ok"].copy()
         if not warnings.empty:
-            warning_table = warnings.to_markdown(index=False)
+            warning_table = dataframe_to_markdown(warnings)
 
     content = f"""# Actividad 4.6 — Preparación del dataset tabular de modelado
 
@@ -648,8 +720,8 @@ def write_report(
 
 Esta etapa no crea particiones finales de entrenamiento/validación. Solo prepara el
 insumo tabular y diagnostica la viabilidad preliminar de una partición espacial por
-cuadrantes. Las particiones definitivas deben generarse después de incorporar el
-llenado pendiente de clases para Costa Rica y Panamá.
+cuadrantes. Los objetivos usados son las clases homologadas incorporadas en A4.4;
+las particiones definitivas se generan en la etapa de modelado.
 """
     report_path.write_text(content, encoding="utf-8")
     return report_path
