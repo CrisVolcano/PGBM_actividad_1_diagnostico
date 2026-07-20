@@ -1,0 +1,82 @@
+# Actividad 4.7 — Diagnóstico espacial de predictores mediante variogramas
+# -------------------------------------------------------------------------
+# Objetivo: estimar la escala de autocorrelación de cada predictor y comparar
+# su rango efectivo con el tamaño actual de los cuadrantes (20 km).
+#
+# Esta etapa es diagnóstica. No modifica el dataset, los folds ni el modelo RF.
+
+paths:
+  modeling_dataset_parquet: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.parquet
+  modeling_dataset_csv: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.csv
+  feature_columns_txt: data/processed/a4_6_modeling_dataset/tables/selected_feature_columns.txt
+  output_dir: data/processed/a4_6_1A_predictor_spatial_variograms
+
+fields:
+  group: id_cuadrante
+  longitude: lon
+  latitude: lat
+
+sampling:
+  # Fracción usada por Stock (2025). Se aplica dentro de cada cuadrante para
+  # asegurar que todos los bloques aporten observaciones. doi: 10.3389/frsen.2025.1531097
+  fraction_per_group: 0.05
+  min_rows_per_group: 2
+
+  # null = sin límite. Puede fijarse si el 5 % produce una muestra demasiado grande.
+  max_rows_total: null
+  random_state: 42
+
+coordinates:
+  source_crs: EPSG:4326
+
+  # auto_aeqd crea una proyección azimutal equidistante centrada en los datos.
+  # También puede indicarse un CRS métrico explícito, por ejemplo EPSG:xxxx.
+  metric_crs: auto_aeqd
+
+variogram:
+  # Pares aleatorios compartidos entre variables. Evita construir una matriz
+  # completa n x n, que sería costosa para 96 predictores.
+  max_pairs: 2000000
+  n_distance_bins: 30
+
+  # Distancia máxima analizada. 0.50 significa el percentil 50 de las distancias
+  # entre los pares generados; también puede darse una distancia fija en km.
+  max_lag_method: pair_distance_quantile
+  max_lag_quantile: 0.50
+  max_lag_km: null
+
+  # quadratic concentra más intervalos en distancias cortas, necesario para
+  # examinar con detalle el entorno de 20 km en una ROI extensa.
+  distance_bin_spacing: quadratic
+
+  min_pairs_per_bin: 100
+  min_non_null_values: 100
+  min_unique_values: 2
+
+  # Se ajustan ambos modelos y se conserva el de menor AIC.
+  candidate_models:
+    - spherical
+    - exponential
+
+block_assessment:
+  # Tamaño que queremos contrastar empíricamente.
+  reference_block_size_km: 20.0
+
+  # Tolerancia descriptiva; no es un criterio de aceptación estadística.
+  approximately_equal_relative_tolerance: 0.20
+
+plots:
+  enabled: true
+  dpi: 180
+  format: png
+  # Muestra 20 km como referencia visual. No interviene en el ajuste.
+  show_reference_block_size: true
+  show_nugget_and_sill: true
+
+outputs:
+  summary_csv: tables/predictor_variogram_summary.csv
+  empirical_bins_csv: tables/predictor_variogram_empirical_bins.csv
+  sampled_points_csv: tables/variogram_sampled_points.csv
+  report_md: reports/predictor_spatial_variograms_report.md
+  plots_dir: plots/by_predictor
+  ranges_summary_plot: plots/predictor_effective_ranges_summary.png
