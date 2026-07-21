@@ -1,0 +1,506 @@
+# Actividad 4.8 - Configuracion consolidada del flujo SVM
+# ----------------------------------------------------------------------
+# YAML maestro para las etapas SVM. Los scripts leen por defecto la seccion que
+# les corresponde. Los YAML individuales previos quedan como respaldo de
+# corridas especificas, pero este archivo es la entrada operativa principal.
+
+prepare_dataset:
+  paths:
+    modeling_dataset_parquet: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.parquet
+    modeling_dataset_csv: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.csv
+    selected_feature_columns_txt: data/processed/a4_6_modeling_dataset/tables/selected_feature_columns.txt
+    target_columns_txt: data/processed/a4_6_modeling_dataset/tables/target_columns.txt
+    output_dir: data/processed/a4_8_svm/01_prepare_dataset
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    primary_target: id_1_propuesta
+    target_label: nivel_1_propuesta
+    targets:
+      - id_0_propuesta
+      - id_1_propuesta
+    context_fields:
+      - xy_group_id
+      - id_cuadrante
+      - lon
+      - lat
+      - id_pais_grupo
+      - id_0
+      - id_1
+      - id_2
+      - nivel_0_propuesta
+      - nivel_1_propuesta
+      - score_aptitud_total
+      - categoria_aptitud_preliminar
+      - categoria_uso_actividad_1_8
+      - definicion_categoria_aptitud
+      - accion_recomendada
+      - razon_categoria_aptitud
+
+  row_filter:
+    required_non_null_targets:
+      - id_1_propuesta
+    action_filter:
+      enabled: false
+      field: categoria_uso_actividad_1_8
+      allowed_values: []
+
+  features:
+    include_feature_columns: []
+    exclude_feature_columns: []
+    exclude_feature_regex: []
+
+  quality:
+    fail_on_missing_feature_columns: true
+    fail_on_duplicate_feature_columns: true
+    fail_on_missing_required_fields: true
+    max_feature_null_pct_to_use: 0.05
+    drop_constant_features: true
+    drop_near_constant_features: false
+    near_constant_dominant_pct: 0.995
+    coerce_features_to_numeric: true
+    fail_on_numeric_conversion_nulls: false
+
+  outputs:
+    write_parquet: true
+    write_csv: false
+    prepared_dataset_parquet: tables/svm_modeling_dataset.parquet
+    prepared_dataset_csv: tables/svm_modeling_dataset.csv
+    selected_features_txt: tables/svm_selected_feature_columns.txt
+    excluded_features_csv: tables/svm_excluded_features.csv
+    feature_diagnostics_csv: tables/svm_feature_diagnostics.csv
+    dataset_schema_csv: tables/svm_dataset_schema.csv
+    target_distribution_csv: tables/svm_target_distribution.csv
+    class_by_group_csv: tables/svm_class_by_group.csv
+    report_md: reports/a4_8_1_prepare_svm_dataset_report.md
+
+spatial_splits:
+  paths:
+    prepared_dataset_parquet: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_modeling_dataset.parquet
+    prepared_dataset_csv: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_modeling_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    output_dir: data/processed/a4_8_svm/02_spatial_splits
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  independent_validation:
+    enabled: true
+    method: stratified_group_holdout
+    explicit_group_ids: []
+    selected_candidate_id: null
+    holdout_fraction: 0.20
+    n_candidate_splits: 5
+    shuffle: true
+    random_state: 42
+
+  inner_cv:
+    method: stratified_group_kfold
+    n_splits: 3
+    shuffle: true
+    random_state: 42
+
+  validation:
+    fail_on_missing_required_fields: true
+    fail_on_duplicate_keys: true
+    fail_on_group_leakage: true
+    fail_on_unseen_validation_classes: true
+
+  outputs:
+    write_partitioned_parquet: true
+    write_partitioned_csv: false
+    development_dataset_parquet: tables/svm_development_dataset.parquet
+    independent_dataset_parquet: tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: tables/svm_development_dataset.csv
+    independent_dataset_csv: tables/svm_independent_validation_dataset.csv
+    split_assignments_csv: tables/svm_split_assignments.csv
+    cv_fold_assignments_csv: tables/svm_cv_fold_assignments.csv
+    group_split_assignments_csv: tables/svm_group_split_assignments.csv
+    independent_candidates_csv: tables/svm_independent_validation_candidates.csv
+    selected_independent_quadrants_csv: tables/svm_selected_independent_quadrants.csv
+    quadrant_class_profile_csv: tables/svm_quadrant_class_profile.csv
+    split_summary_csv: tables/svm_split_summary.csv
+    split_class_balance_csv: tables/svm_split_class_balance.csv
+    cv_fold_class_balance_csv: tables/svm_cv_fold_class_balance.csv
+    class_catalog_csv: tables/svm_class_catalog.csv
+    report_md: reports/a4_8_2_create_svm_spatial_splits_report.md
+
+linear_svm_gridsearch:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    output_dir: data/processed/a4_8_svm/03_train_linear_svm_gridsearch
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  model:
+    algorithm: linear_svm
+    implementation: sklearn.svm.LinearSVC
+    random_state: 42
+    imputer_strategy: median
+    scaler: standard
+    max_iter: 20000
+    tol: 0.0001
+    dual: false
+    loss: squared_hinge
+    multi_class: ovr
+    fit_intercept: true
+
+  grid_search:
+    scoring:
+      accuracy: accuracy
+      balanced_accuracy: balanced_accuracy
+      f1_macro: f1_macro
+      f1_weighted: f1_weighted
+    refit: f1_macro
+    n_jobs: -1
+    verbose: 2
+    return_train_score: true
+    error_score: raise
+    param_grid:
+      clf__C: [0.003, 0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0]
+      clf__class_weight: [balanced, null]
+
+  outputs:
+    report_md: reports/a4_8_3_train_linear_svm_report.md
+    model_development_path: models/linear_svm_id_1_propuesta_best_development.joblib
+    label_encoder_path: models/linear_svm_id_1_propuesta_label_encoder.joblib
+    feature_columns_path: models/linear_svm_feature_columns.txt
+    gridsearch_results_csv: tables/linear_svm_gridsearch_results.csv
+    best_params_json: tables/linear_svm_best_params.json
+    training_metrics_csv: tables/linear_svm_training_metrics.csv
+    training_class_metrics_csv: tables/linear_svm_training_class_metrics.csv
+    training_confusion_csv: tables/linear_svm_training_confusion_matrix.csv
+    cv_overall_metrics_csv: tables/linear_svm_cv_overall_metrics.csv
+    cv_fold_metrics_csv: tables/linear_svm_cv_fold_metrics.csv
+    cv_class_metrics_csv: tables/linear_svm_cv_class_metrics.csv
+    cv_confusion_csv: tables/linear_svm_cv_confusion_matrix.csv
+    cv_fold_predictions_csv: tables/linear_svm_cv_fold_predictions.csv
+    independent_metrics_csv: tables/linear_svm_independent_metrics.csv
+    independent_class_metrics_csv: tables/linear_svm_independent_class_metrics.csv
+    independent_confusion_csv: tables/linear_svm_independent_confusion_matrix.csv
+    independent_predictions_csv: tables/linear_svm_independent_predictions.csv
+    feature_coefficients_csv: tables/linear_svm_feature_coefficients.csv
+    class_catalog_csv: tables/linear_svm_class_catalog.csv
+
+linear_svm_refined_c:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    output_dir: data/processed/a4_8_svm/03_train_linear_svm_refined_c
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  model:
+    algorithm: linear_svm
+    implementation: sklearn.svm.LinearSVC
+    random_state: 42
+    imputer_strategy: median
+    scaler: standard
+    max_iter: 30000
+    tol: 0.0001
+    dual: false
+    loss: squared_hinge
+    multi_class: ovr
+    fit_intercept: true
+
+  grid_search:
+    scoring:
+      accuracy: accuracy
+      balanced_accuracy: balanced_accuracy
+      f1_macro: f1_macro
+      f1_weighted: f1_weighted
+    refit: f1_macro
+    n_jobs: -1
+    verbose: 2
+    return_train_score: true
+    error_score: raise
+    param_grid:
+      clf__C: [1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0]
+      clf__class_weight: [null]
+
+  outputs:
+    report_md: reports/a4_8_3_train_linear_svm_report.md
+    model_development_path: models/linear_svm_id_1_propuesta_best_development.joblib
+    label_encoder_path: models/linear_svm_id_1_propuesta_label_encoder.joblib
+    feature_columns_path: models/linear_svm_feature_columns.txt
+    gridsearch_results_csv: tables/linear_svm_gridsearch_results.csv
+    best_params_json: tables/linear_svm_best_params.json
+    training_metrics_csv: tables/linear_svm_training_metrics.csv
+    training_class_metrics_csv: tables/linear_svm_training_class_metrics.csv
+    training_confusion_csv: tables/linear_svm_training_confusion_matrix.csv
+    cv_overall_metrics_csv: tables/linear_svm_cv_overall_metrics.csv
+    cv_fold_metrics_csv: tables/linear_svm_cv_fold_metrics.csv
+    cv_class_metrics_csv: tables/linear_svm_cv_class_metrics.csv
+    cv_confusion_csv: tables/linear_svm_cv_confusion_matrix.csv
+    cv_fold_predictions_csv: tables/linear_svm_cv_fold_predictions.csv
+    independent_metrics_csv: tables/linear_svm_independent_metrics.csv
+    independent_class_metrics_csv: tables/linear_svm_independent_class_metrics.csv
+    independent_confusion_csv: tables/linear_svm_independent_confusion_matrix.csv
+    independent_predictions_csv: tables/linear_svm_independent_predictions.csv
+    feature_coefficients_csv: tables/linear_svm_feature_coefficients.csv
+    class_catalog_csv: tables/linear_svm_class_catalog.csv
+
+nystroem_rbf_svm:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    output_dir: data/processed/a4_8_svm/04_train_nystroem_rbf_svm
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  model:
+    algorithm: nystroem_rbf_linear_svm
+    implementation: sklearn.kernel_approximation.Nystroem + sklearn.svm.LinearSVC
+    random_state: 42
+    imputer_strategy: median
+    scaler: standard
+    max_iter: 30000
+    tol: 0.0001
+    dual: false
+    loss: squared_hinge
+    multi_class: ovr
+    fit_intercept: true
+    kernel_approximation:
+      enabled: true
+      method: nystroem
+      kernel: rbf
+      gamma: 0.01
+      n_components: 300
+
+  grid_search:
+    scoring:
+      accuracy: accuracy
+      balanced_accuracy: balanced_accuracy
+      f1_macro: f1_macro
+      f1_weighted: f1_weighted
+    refit: f1_macro
+    n_jobs: -1
+    verbose: 2
+    return_train_score: true
+    error_score: raise
+    param_grid:
+      kernel__gamma: [0.001, 0.01]
+      kernel__n_components: [300]
+      clf__C: [10.0, 30.0]
+      clf__class_weight: [null]
+
+  outputs:
+    report_title: Actividad 4.8.4 - Entrenamiento SVM no lineal aproximado Nystroem RBF
+    report_md: reports/a4_8_4_train_nystroem_rbf_svm_report.md
+    model_development_path: models/nystroem_rbf_svm_id_1_propuesta_best_development.joblib
+    label_encoder_path: models/nystroem_rbf_svm_id_1_propuesta_label_encoder.joblib
+    feature_columns_path: models/nystroem_rbf_svm_feature_columns.txt
+    gridsearch_results_csv: tables/nystroem_rbf_svm_gridsearch_results.csv
+    best_params_json: tables/nystroem_rbf_svm_best_params.json
+    training_metrics_csv: tables/nystroem_rbf_svm_training_metrics.csv
+    training_class_metrics_csv: tables/nystroem_rbf_svm_training_class_metrics.csv
+    training_confusion_csv: tables/nystroem_rbf_svm_training_confusion_matrix.csv
+    cv_overall_metrics_csv: tables/nystroem_rbf_svm_cv_overall_metrics.csv
+    cv_fold_metrics_csv: tables/nystroem_rbf_svm_cv_fold_metrics.csv
+    cv_class_metrics_csv: tables/nystroem_rbf_svm_cv_class_metrics.csv
+    cv_confusion_csv: tables/nystroem_rbf_svm_cv_confusion_matrix.csv
+    cv_fold_predictions_csv: tables/nystroem_rbf_svm_cv_fold_predictions.csv
+    independent_metrics_csv: tables/nystroem_rbf_svm_independent_metrics.csv
+    independent_class_metrics_csv: tables/nystroem_rbf_svm_independent_class_metrics.csv
+    independent_confusion_csv: tables/nystroem_rbf_svm_independent_confusion_matrix.csv
+    independent_predictions_csv: tables/nystroem_rbf_svm_independent_predictions.csv
+    feature_coefficients_csv: tables/nystroem_rbf_svm_component_coefficients.csv
+    class_catalog_csv: tables/nystroem_rbf_svm_class_catalog.csv
+
+nystroem_rbf_svm_refined:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    output_dir: data/processed/a4_8_svm/04_train_nystroem_rbf_svm_refined
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  model:
+    algorithm: nystroem_rbf_linear_svm_refined
+    implementation: sklearn.kernel_approximation.Nystroem + sklearn.svm.LinearSVC
+    random_state: 42
+    imputer_strategy: median
+    scaler: standard
+    max_iter: 30000
+    tol: 0.0001
+    dual: false
+    loss: squared_hinge
+    multi_class: ovr
+    fit_intercept: true
+    kernel_approximation:
+      enabled: true
+      method: nystroem
+      kernel: rbf
+      gamma: 0.001
+      n_components: 300
+
+  grid_search:
+    scoring:
+      accuracy: accuracy
+      balanced_accuracy: balanced_accuracy
+      f1_macro: f1_macro
+      f1_weighted: f1_weighted
+    refit: f1_macro
+    n_jobs: -1
+    verbose: 2
+    return_train_score: true
+    error_score: raise
+    param_grid:
+      kernel__gamma: [0.0003, 0.001, 0.003]
+      kernel__n_components: [300, 600]
+      clf__C: [10.0, 30.0]
+      clf__class_weight: [null]
+
+  outputs:
+    report_title: Actividad 4.8.4 - Refinamiento SVM no lineal aproximado Nystroem RBF
+    report_md: reports/a4_8_4_train_nystroem_rbf_svm_refined_report.md
+    model_development_path: models/nystroem_rbf_svm_refined_id_1_propuesta_best_development.joblib
+    label_encoder_path: models/nystroem_rbf_svm_refined_id_1_propuesta_label_encoder.joblib
+    feature_columns_path: models/nystroem_rbf_svm_refined_feature_columns.txt
+    gridsearch_results_csv: tables/nystroem_rbf_svm_refined_gridsearch_results.csv
+    best_params_json: tables/nystroem_rbf_svm_refined_best_params.json
+    training_metrics_csv: tables/nystroem_rbf_svm_refined_training_metrics.csv
+    training_class_metrics_csv: tables/nystroem_rbf_svm_refined_training_class_metrics.csv
+    training_confusion_csv: tables/nystroem_rbf_svm_refined_training_confusion_matrix.csv
+    cv_overall_metrics_csv: tables/nystroem_rbf_svm_refined_cv_overall_metrics.csv
+    cv_fold_metrics_csv: tables/nystroem_rbf_svm_refined_cv_fold_metrics.csv
+    cv_class_metrics_csv: tables/nystroem_rbf_svm_refined_cv_class_metrics.csv
+    cv_confusion_csv: tables/nystroem_rbf_svm_refined_cv_confusion_matrix.csv
+    cv_fold_predictions_csv: tables/nystroem_rbf_svm_refined_cv_fold_predictions.csv
+    independent_metrics_csv: tables/nystroem_rbf_svm_refined_independent_metrics.csv
+    independent_class_metrics_csv: tables/nystroem_rbf_svm_refined_independent_class_metrics.csv
+    independent_confusion_csv: tables/nystroem_rbf_svm_refined_independent_confusion_matrix.csv
+    independent_predictions_csv: tables/nystroem_rbf_svm_refined_independent_predictions.csv
+    feature_coefficients_csv: tables/nystroem_rbf_svm_refined_component_coefficients.csv
+    class_catalog_csv: tables/nystroem_rbf_svm_refined_class_catalog.csv
+
+final_report:
+  paths:
+    output_dir: data/processed/a4_8_svm/reports
+    target_distribution_csv: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_target_distribution.csv
+    split_summary_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_split_summary.csv
+
+  fields:
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  models:
+    - model_id: linear_parsimonious
+      model_name: SVM lineal parsimonioso
+      configuration: LinearSVC(C=10.0, class_weight=None)
+      result_dir: data/processed/a4_8_svm/03_train_linear_svm_gridsearch
+      best_params_json: tables/linear_svm_best_params.json
+      cv_overall_metrics_csv: tables/linear_svm_cv_overall_metrics.csv
+      independent_metrics_csv: tables/linear_svm_independent_metrics.csv
+      independent_class_metrics_csv: tables/linear_svm_independent_class_metrics.csv
+      independent_confusion_csv: tables/linear_svm_independent_confusion_matrix.csv
+      model_path: models/linear_svm_id_1_propuesta_best_development.joblib
+      recommendation_role: lineal_base
+
+    - model_id: linear_refined_c
+      model_name: SVM lineal refinado C
+      configuration: LinearSVC(C=30.0, class_weight=None)
+      result_dir: data/processed/a4_8_svm/03_train_linear_svm_refined_c
+      best_params_json: tables/linear_svm_best_params.json
+      cv_overall_metrics_csv: tables/linear_svm_cv_overall_metrics.csv
+      independent_metrics_csv: tables/linear_svm_independent_metrics.csv
+      independent_class_metrics_csv: tables/linear_svm_independent_class_metrics.csv
+      independent_confusion_csv: tables/linear_svm_independent_confusion_matrix.csv
+      model_path: models/linear_svm_id_1_propuesta_best_development.joblib
+      recommendation_role: lineal_refinado
+
+    - model_id: nystroem_rbf_initial
+      model_name: SVM Nystroem RBF inicial
+      configuration: Nystroem(RBF, gamma=0.001, n_components=300) + LinearSVC(C=30.0)
+      result_dir: data/processed/a4_8_svm/04_train_nystroem_rbf_svm
+      best_params_json: tables/nystroem_rbf_svm_best_params.json
+      cv_overall_metrics_csv: tables/nystroem_rbf_svm_cv_overall_metrics.csv
+      independent_metrics_csv: tables/nystroem_rbf_svm_independent_metrics.csv
+      independent_class_metrics_csv: tables/nystroem_rbf_svm_independent_class_metrics.csv
+      independent_confusion_csv: tables/nystroem_rbf_svm_independent_confusion_matrix.csv
+      model_path: models/nystroem_rbf_svm_id_1_propuesta_best_development.joblib
+      recommendation_role: costo_beneficio
+
+    - model_id: nystroem_rbf_refined
+      model_name: SVM Nystroem RBF refinado
+      configuration: Nystroem(RBF, gamma=0.003, n_components=600) + LinearSVC(C=30.0)
+      result_dir: data/processed/a4_8_svm/04_train_nystroem_rbf_svm_refined
+      best_params_json: tables/nystroem_rbf_svm_refined_best_params.json
+      cv_overall_metrics_csv: tables/nystroem_rbf_svm_refined_cv_overall_metrics.csv
+      independent_metrics_csv: tables/nystroem_rbf_svm_refined_independent_metrics.csv
+      independent_class_metrics_csv: tables/nystroem_rbf_svm_refined_independent_class_metrics.csv
+      independent_confusion_csv: tables/nystroem_rbf_svm_refined_independent_confusion_matrix.csv
+      model_path: models/nystroem_rbf_svm_refined_id_1_propuesta_best_development.joblib
+      recommendation_role: mejor_desempeno
+
+  recommendation:
+    best_model_id: nystroem_rbf_refined
+    cost_benefit_model_id: nystroem_rbf_initial
+    linear_baseline_model_id: linear_parsimonious
+
+  outputs:
+    final_report_md: a4_8_svm_final_report.md
+    model_comparison_csv: a4_8_svm_model_comparison.csv
+    recommended_class_metrics_csv: a4_8_svm_recommended_class_metrics.csv
+    recommended_top_confusions_csv: a4_8_svm_recommended_top_confusions.csv
