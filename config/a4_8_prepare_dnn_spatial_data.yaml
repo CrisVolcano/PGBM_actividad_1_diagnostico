@@ -1,0 +1,80 @@
+# A4.8 — Preparación de datos para DNN PyTorch
+# ---------------------------------------------------------------
+# Esta etapa NO entrena modelos y NO ajusta imputadores/escaladores.
+# Congela exactamente las mismas filas, folds y validación independiente
+# utilizados por el RF.
+#
+# FUNDAMENTO DE LA COMPARACIÓN CONTROLADA RF–DNN
+# ---------------------------------------------------------------
+# Gorishniy et al. (2021), "Revisiting Deep Learning Models for Tabular Data",
+# sección 4.2 "Datasets", p. 5:
+#   "For each dataset, there is exactly one train-validation-test split,
+#    so all algorithms use the same splits."
+# https://arxiv.org/pdf/2106.11959
+#
+# Aplicación en A4.8: RF y DNN usan los mismos puntos modelables, predictores,
+# grupos espaciales, asignación de folds y holdout independiente. Así, una
+# diferencia de desempeño no puede atribuirse a particiones distintas.
+#
+# Roberts et al. (2017), "Cross-validation strategies for data with temporal,
+# spatial, hierarchical, or phylogenetic structure", Step 4, p. 926:
+#   "Cross-validations may be performed for model comparison (and thus
+#    selection), error estimation, or both."
+# https://doi.org/10.1111/ecog.02881
+#
+# Stock et al. (2025), "Choosing blocks for spatial cross-validation",
+# Abstract y sección 4.1:
+#   - la validación espacial retiene bloques completos para prueba;
+#   - el tamaño de bloque fue más influyente que forma, número de folds o
+#     asignación de bloques en su caso de estudio.
+# https://doi.org/10.3389/frsen.2025.1531097
+#
+# Alcance de estas citas: sustentan usar un protocolo común y bloques
+# espaciales. Ningún paper prescribe nuestros nombres de archivo, nuestros
+# cuadrantes concretos ni split_assignments.csv; esa es la implementación
+# reproducible del principio metodológico.
+
+paths:
+  modeling_dataset_parquet: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.parquet
+  modeling_dataset_csv: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.csv
+  feature_columns_txt: data/processed/a4_6_modeling_dataset/tables/selected_feature_columns.txt
+
+  # Debe corresponder a la corrida del RF que se usará en la comparación.
+  # No se regeneran splits para la DNN: se reutiliza exactamente la asignación
+  # del RF, siguiendo la comparación con splits comunes de Gorishniy et al.
+  rf_split_assignments_csv: data/processed/a4_7_rf_gridsearch_spatial_validation/tables/split_assignments.csv
+
+  output_dir: data/processed/a4_8_dnn_prepared_data
+
+fields:
+  key: xy_group_id
+  group: id_cuadrante
+  target: id_1_propuesta
+  target_label: nivel_1_propuesta
+
+  non_predictor_fields:
+    - xy_group_id
+    - id_cuadrante
+    - lon
+    - lat
+    - id_pais_grupo
+    - id_0
+    - id_1
+    - id_2
+    - id_0_propuesta
+    - nivel_0_propuesta
+    - id_1_propuesta
+    - nivel_1_propuesta
+    - score_aptitud_total
+    - categoria_aptitud_preliminar
+    - categoria_uso_actividad_1_8
+    - definicion_categoria_aptitud
+    - accion_recomendada
+    - razon_categoria_aptitud
+    - distance_to_quadrant_border_m
+    - border_excluded
+
+preparation:
+  # Se infiere del archivo del RF. No crea folds nuevos ni los reasigna.
+  # Puede fijarse en 3 o 5 únicamente como verificación del número esperado.
+  expected_cv_folds: null

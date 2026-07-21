@@ -1,0 +1,86 @@
+# A4.8 — DNN PyTorch con validación espacial idéntica al RF
+# -----------------------------------------------------------------
+# Requiere ejecutar primero 4_8_prepare_dnn_spatial_data.py.
+# No crea ni modifica splits espaciales.
+#
+# FUNDAMENTO DEL PROTOCOLO
+# -----------------------------------------------------------------
+# Gorishniy et al. (2021), sección 3, p. 3, separan Dtrain, Dval y Dtest:
+# entrenamiento; early stopping/ajuste; y evaluación final, respectivamente.
+# En sección 4.2, p. 5, indican que todos los algoritmos usan los mismos splits.
+# https://arxiv.org/pdf/2106.11959
+#
+# En este flujo:
+#   - desarrollo/folds espaciales: entrenamiento y selección de la DNN;
+#   - holdout independiente: evaluación final, nunca ajuste;
+#   - puntos, predictores, folds, holdout y métricas: los mismos que en RF.
+#
+# La estandarización sí es específica de la DNN. Gorishniy et al., sección 4.3,
+# p. 5, señalan que el preprocesamiento es vital para modelos DL y documentan
+# estandarización en conjuntos numéricos concretos. Esto no implica que todos
+# los algoritmos deban usar el mismo escalado; exige que el escalador de la DNN
+# se ajuste sin información de validación o del holdout.
+
+paths:
+  prepared_data_dir: data/processed/a4_8_dnn_prepared_data
+  output_dir: data/processed/a4_8_dnn_pytorch_spatial_validation
+
+runtime:
+  # auto utiliza CUDA, luego MPS y finalmente CPU.
+  device: auto
+  num_workers: 0
+  pin_memory: true
+  torch_num_threads: null
+
+preprocessing:
+  # Ambos transformadores se ajustan dentro de cada fold usando solo sus
+  # cuadrantes de entrenamiento; luego transforman validación. Para el modelo
+  # final se ajustan solo con desarrollo y después se transforma el holdout.
+  imputer_strategy: median
+  scaler: standard
+
+model:
+  algorithm: dense_neural_network
+  framework: pytorch
+
+  # Arquitectura basada en Abdi (2020): seis capas de 200 neuronas.
+  hidden_units: [200, 200, 200, 200, 200, 200]
+  activation: tanh
+  initializer: xavier_uniform
+
+  # La última capa entrega logits. Softmax se aplica al generar probabilidades.
+  output: multiclass_logits
+
+training:
+  random_state: 42
+  deterministic: true
+  optimizer: adamw
+  weight_decay: 0.0001
+  batch_size: 256
+  prediction_batch_size: 4096
+
+  # Se entrena una trayectoria hasta 500 y se conservan estos tres estados.
+  max_epochs: 50
+  evaluation_epochs: [10, 20, 30, 40, 50]
+
+  # Permite continuar la misma combinación/fold después de una interrupción.
+  resume: true
+  checkpoint_every_n_epochs: 10
+  log_every_n_epochs: 10
+  gradient_clip_norm: null
+
+search:
+  # Búsqueda deliberadamente pequeña: la arquitectura permanece fija.
+  learning_rates: [0.001, 0.0003]
+  dropouts: [0.0, 0.10, 0.20]
+
+  # Misma métrica principal usada para seleccionar el RF. Las métricas deben
+  # calcularse sobre las mismas observaciones de cada fold y del holdout.
+  refit: f1_macro
+
+outputs:
+  report_md: reports/a4_8_dnn_pytorch_spatial_validation_report.md
+
+  # Solo puede ocurrir después de guardar la evaluación independiente.
+  # Este modelo no se utiliza para reportar esa evaluación.
+  train_model_on_all_modelable_after_evaluation: false
