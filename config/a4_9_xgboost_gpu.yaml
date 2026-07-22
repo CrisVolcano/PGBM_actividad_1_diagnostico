@@ -1,0 +1,180 @@
+# Actividad 4.9 GPU - XGBoost multiclase con validacion espacial
+# --------------------------------------------------------------
+# Replica controlada del flujo XGBoost CPU, usando el ambiente `pgbm_gpu` y
+# XGBoost con `device: cuda`. Reutiliza exactamente los mismos datos, predictores
+# y folds espaciales para aislar la diferencia computacional CPU/GPU.
+
+validate_inputs:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    split_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_split_assignments.csv
+    split_summary_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_split_summary.csv
+    selected_independent_quadrants_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_selected_independent_quadrants.csv
+    output_dir: data/processed/a4_9_xgboost_gpu/01_validate_inputs
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  validation:
+    fail_on_missing_required_fields: true
+    fail_on_missing_feature_columns: true
+    fail_on_duplicate_keys: true
+    fail_on_key_overlap: true
+    fail_on_group_leakage: true
+    fail_on_unseen_independent_classes: true
+    fail_on_cv_group_leakage: true
+    fail_on_unseen_cv_validation_classes: true
+    fail_on_unassigned_development_keys: true
+    warn_feature_null_pct: 0.05
+    warn_feature_non_numeric_pct: 0.0
+
+  outputs:
+    report_md: reports/a4_9_gpu_1_validate_xgboost_inputs_report.md
+    input_inventory_csv: tables/xgboost_gpu_input_inventory.csv
+    class_balance_csv: tables/xgboost_gpu_class_balance.csv
+    cv_fold_summary_csv: tables/xgboost_gpu_cv_fold_summary.csv
+    feature_quality_csv: tables/xgboost_gpu_feature_quality_summary.csv
+    validation_issues_csv: tables/xgboost_gpu_validation_issues.csv
+
+base_model:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    output_dir: data/processed/a4_9_xgboost_gpu/02_train_base_model
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  model:
+    algorithm: xgboost_gpu
+    implementation: xgboost.XGBClassifier
+    objective: multi:softprob
+    eval_metric: mlogloss
+    tree_method: hist
+    device: cuda
+    random_state: 42
+    n_jobs: -1
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 1
+    gamma: 0
+    reg_alpha: 0
+    reg_lambda: 1
+
+  outputs:
+    report_md: reports/a4_9_gpu_2_train_xgboost_base_model_report.md
+    model_development_path: models/xgboost_gpu_id_1_propuesta_base_development.joblib
+    label_encoder_path: models/xgboost_gpu_id_1_propuesta_label_encoder.joblib
+    feature_columns_path: models/xgboost_gpu_feature_columns.txt
+    class_catalog_csv: tables/xgboost_gpu_class_catalog.csv
+    training_metrics_csv: tables/xgboost_gpu_training_metrics.csv
+    training_class_metrics_csv: tables/xgboost_gpu_training_class_metrics.csv
+    training_confusion_csv: tables/xgboost_gpu_training_confusion_matrix.csv
+    cv_overall_metrics_csv: tables/xgboost_gpu_cv_overall_metrics.csv
+    cv_fold_metrics_csv: tables/xgboost_gpu_cv_fold_metrics.csv
+    cv_class_metrics_csv: tables/xgboost_gpu_cv_class_metrics.csv
+    cv_confusion_csv: tables/xgboost_gpu_cv_confusion_matrix.csv
+    cv_fold_predictions_csv: tables/xgboost_gpu_cv_fold_predictions.csv
+    independent_metrics_csv: tables/xgboost_gpu_independent_metrics.csv
+    independent_class_metrics_csv: tables/xgboost_gpu_independent_class_metrics.csv
+    independent_confusion_csv: tables/xgboost_gpu_independent_confusion_matrix.csv
+    independent_predictions_csv: tables/xgboost_gpu_independent_predictions.csv
+    feature_importance_csv: tables/xgboost_gpu_feature_importance.csv
+
+gridsearch:
+  paths:
+    development_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.parquet
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    development_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_development_dataset.csv
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    cv_fold_assignments_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_cv_fold_assignments.csv
+    output_dir: data/processed/a4_9_xgboost_gpu/03_train_xgboost_gridsearch
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    key: xy_group_id
+    group: id_cuadrante
+    target: id_1_propuesta
+    target_label: nivel_1_propuesta
+
+  model:
+    algorithm: xgboost_gpu
+    implementation: xgboost.XGBClassifier
+    objective: multi:softprob
+    eval_metric: mlogloss
+    tree_method: hist
+    device: cuda
+    random_state: 42
+    n_jobs: -1
+
+  grid_search:
+    scoring:
+      accuracy: accuracy
+      balanced_accuracy: balanced_accuracy
+      f1_macro: f1_macro
+      f1_weighted: f1_weighted
+    refit: f1_macro
+    n_jobs: 1
+    verbose: 2
+    return_train_score: true
+    error_score: raise
+    param_grid:
+      clf__n_estimators: [200, 400]
+      clf__max_depth: [3, 5]
+      clf__learning_rate: [0.03, 0.05]
+      clf__subsample: [0.8]
+      clf__colsample_bytree: [0.8]
+      clf__min_child_weight: [1, 5]
+
+  outputs:
+    report_md: reports/a4_9_gpu_3_train_xgboost_gridsearch_report.md
+    model_development_path: models/xgboost_gpu_id_1_propuesta_best_development.joblib
+    label_encoder_path: models/xgboost_gpu_id_1_propuesta_label_encoder.joblib
+    feature_columns_path: models/xgboost_gpu_feature_columns.txt
+    gridsearch_results_csv: tables/xgboost_gpu_gridsearch_results.csv
+    best_params_json: tables/xgboost_gpu_best_params.json
+    best_gridsearch_train_validation_metrics_csv: tables/xgboost_gpu_best_gridsearch_train_validation_metrics.csv
+    class_catalog_csv: tables/xgboost_gpu_class_catalog.csv
+    training_metrics_csv: tables/xgboost_gpu_training_metrics.csv
+    training_class_metrics_csv: tables/xgboost_gpu_training_class_metrics.csv
+    training_confusion_csv: tables/xgboost_gpu_training_confusion_matrix.csv
+    cv_overall_metrics_csv: tables/xgboost_gpu_cv_overall_metrics.csv
+    cv_fold_metrics_csv: tables/xgboost_gpu_cv_fold_metrics.csv
+    cv_class_metrics_csv: tables/xgboost_gpu_cv_class_metrics.csv
+    cv_confusion_csv: tables/xgboost_gpu_cv_confusion_matrix.csv
+    cv_fold_predictions_csv: tables/xgboost_gpu_cv_fold_predictions.csv
+    independent_metrics_csv: tables/xgboost_gpu_independent_metrics.csv
+    independent_class_metrics_csv: tables/xgboost_gpu_independent_class_metrics.csv
+    independent_confusion_csv: tables/xgboost_gpu_independent_confusion_matrix.csv
+    independent_predictions_csv: tables/xgboost_gpu_independent_predictions.csv
+    feature_importance_csv: tables/xgboost_gpu_feature_importance.csv
