@@ -26,8 +26,9 @@ paths:
   output_dir: data/processed/a4_8_dnn_pytorch_spatial_validation
 
 runtime:
-  # auto utiliza CUDA, luego MPS y finalmente CPU.
-  device: auto
+  # CUDA obligatorio: el script falla si PyTorch no detecta la GPU, en vez de
+  # ejecutar accidentalmente toda la búsqueda en CPU.
+  device: cuda
   num_workers: 0
   pin_memory: true
   torch_num_threads: null
@@ -54,14 +55,13 @@ model:
 training:
   random_state: 42
   deterministic: true
-  optimizer: adamw
   weight_decay: 0.0001
   batch_size: 256
   prediction_batch_size: 4096
 
-  # Se entrena una trayectoria hasta 500 y se conservan estos tres estados.
+  # Prueba corta inicial. Para el experimento definitivo puede volver a 500.
   max_epochs: 50
-  evaluation_epochs: [10, 20, 30, 40, 50]
+  evaluation_epochs: [10, 25, 50]
 
   # Permite continuar la misma combinación/fold después de una interrupción.
   resume: true
@@ -70,9 +70,17 @@ training:
   gradient_clip_norm: null
 
 search:
-  # Búsqueda deliberadamente pequeña: la arquitectura permanece fija.
-  learning_rates: [0.001, 0.0003]
-  dropouts: [0.0, 0.10, 0.20]
+  # Optimizadores habituales para clasificación con redes densas. Adam/AdamW
+  # suelen ser puntos de partida fuertes; Adagrad puede favorecer parámetros
+  # con gradientes poco frecuentes; RMSprop adapta la escala del gradiente; SGD
+  # sirve como referencia clásica. No se presupone que todos converjan igual.
+  optimizers: [adam, adamw, adagrad, rmsprop, sgd]
+
+  # 0.1 y 0.01 se añaden por solicitud experimental. Son tasas agresivas para
+  # Adam/AdamW y pueden producir curvas inestables; esa respuesta forma parte
+  # del resultado y no debe interpretarse como un error del programa.
+  learning_rates: [0.1, 0.01, 0.001]
+  dropouts: [0.10, 0.20]
 
   # Misma métrica principal usada para seleccionar el RF. Las métricas deben
   # calcularse sobre las mismas observaciones de cada fold y del holdout.
@@ -80,6 +88,16 @@ search:
 
 outputs:
   report_md: reports/a4_8_dnn_pytorch_spatial_validation_report.md
+
+  # Durante la búsqueda no se generan plots por combinación/fold. Los CSV
+  # conservan loss y F1 por época como evidencia de configuraciones no aptas.
+  save_learning_history_csv: true
+
+  # Solo se genera una curva para el modelo finalmente seleccionado y entrenado
+  # con todo desarrollo. SVG evita el fallo raster de FreeType observado en PNG.
+  save_final_learning_curve: true
+  final_learning_curve_format: svg
+  learning_curves_dir: plots/learning_curves
 
   # Solo puede ocurrir después de guardar la evaluación independiente.
   # Este modelo no se utiliza para reportar esa evaluación.

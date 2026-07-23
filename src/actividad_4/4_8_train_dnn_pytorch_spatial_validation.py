@@ -45,6 +45,7 @@ REPO_ROOT = SCRIPT_PATH.parents[2] if len(SCRIPT_PATH.parents) >= 3 else Path.cw
 DEFAULT_CONFIG = REPO_ROOT / "config" / "a4_8_train_dnn_pytorch_spatial_validation.yaml"
 
 
+
 @dataclass
 class PreparedData:
     X: np.ndarray
@@ -61,13 +62,18 @@ class PreparedData:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
+    parser.add_argument(
+        "--report-only",
+        action="store_true",
+        help=(
+            "Regenera el Markdown y las tablas derivadas usando los CSV existentes; "
+            "no entrena, no ejecuta inferencia y no carga PyTorch."
+        ),
+    )
     return parser.parse_args()
 
 
 def read_yaml(path: Path) -> dict[str, Any]:
-    path = resolve_path(path)
-    if not path.exists():
-        raise FileNotFoundError(f"No existe el YAML de configuración: {path}")
     with path.open("r", encoding="utf-8") as stream:
         config = yaml.safe_load(stream)
     if not isinstance(config, dict):
@@ -76,10 +82,7 @@ def read_yaml(path: Path) -> dict[str, Any]:
 
 
 def resolve_path(value: str | Path) -> Path:
-    path = Path(value)
-    if path.is_absolute():
-        return path.expanduser().resolve()
-    return (REPO_ROOT / path).expanduser().resolve()
+    return Path(value).expanduser().resolve()
 
 
 def configure_logger(output_dir: Path) -> None:
@@ -291,15 +294,162 @@ def make_model(nn: Any, input_dim: int, n_classes: int, config: dict[str, Any], 
     return model
 
 
-def make_optimizer(torch: Any, model: Any, config: dict[str, Any], learning_rate: float):
+def make_optimizer(
+    torch: Any,
+    model: Any,
+    config: dict[str, Any],
+    optimizer_name: str,
+    learning_rate: float,
+):
     training = config["training"]
-    name = str(training.get("optimizer", "adamw")).lower()
+    name = str(optimizer_name).lower()
     weight_decay = float(training.get("weight_decay", 0.0))
     if name == "adamw":
         return torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
     if name == "adam":
         return torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    if name == "adagrad":
+        return torch.optim.Adagrad(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    if name == "rmsprop":
+        return torch.optim.RMSprop(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    if name == "sgd":
+        return torch.optim.SGD(
+            model.parameters(), lr=learning_rate, momentum=0.9, weight_decay=weight_decay
+        )
     raise ValueError(f"Optimizador no soportado: {name}")
+
+
+def validation_epoch_metrics(
+    torch: Any,
+    DataLoader: Any,
+    TensorDataset: Any,
+    model: Any,
+    criterion: Any,
+    X_val: np.ndarray,
+    y_val: np.ndarray,
+    batch_size: int,
+    device: Any,
+) -> tuple[float, float]:
+    loader = make_loader(
+        torch, DataLoader, TensorDataset, X_val, y_val, batch_size,
+        False, None, 0, bool(device.type == "cuda"),
+    )
+    total_loss = 0.0
+    total_rows = 0
+    predictions: list[np.ndarray] = []
+    model.eval()
+    with torch.no_grad():
+        for X_batch, y_batch in loader:
+            X_batch = X_batch.to(device, non_blocking=device.type == "cuda")
+            y_batch = y_batch.to(device, non_blocking=device.type == "cuda")
+            logits = model(X_batch)
+            loss = criterion(logits, y_batch)
+            rows = int(y_batch.shape[0])
+            total_loss += float(loss.detach().cpu()) * rows
+            total_rows += rows
+            predictions.append(torch.argmax(logits, dim=1).cpu().numpy())
+    y_pred = np.concatenate(predictions)
+    return total_loss / max(total_rows, 1), float(
+        f1_score(y_val, y_pred, average="macro", zero_division=0)
+    )
+
+
+def save_learning_curve(
+    history: pd.DataFrame,
+    run_dir: Path,
+    config: dict[str, Any],
+    render_plot: bool,
+) -> None:
+    outputs = config.get("outputs", {})
+    run_dir.mkdir(parents=True, exist_ok=True)
+    if bool(outputs.get("save_learning_history_csv", True)):
+        history.to_csv(
+            run_dir / "learning_history.csv",
+            index=False,
+            encoding="utf-8-sig",
+        )
+    if not render_plot or not bool(outputs.get("save_final_learning_curve", True)):
+        return
+
+    figure = None
+    pyplot = None
+    try:
+        import matplotlib
+
+        matplotlib.use("Agg")
+        import matplotlib.pyplot as plt
+
+        pyplot = plt
+        has_validation = bool(
+            history["validation_loss"].notna().any()
+            or history["validation_f1_macro"].notna().any()
+        )
+        n_panels = 2 if has_validation else 1
+        figure, axes = plt.subplots(1, n_panels, figsize=(12 if has_validation else 7, 4.5))
+        axes_array = np.atleast_1d(axes)
+        axes_array[0].plot(
+            history["epoch"],
+            history["training_loss"],
+            label="Entrenamiento",
+        )
+        if history["validation_loss"].notna().any():
+            axes_array[0].plot(
+                history["epoch"],
+                history["validation_loss"],
+                label="Validación",
+            )
+        axes_array[0].set(xlabel="Época", ylabel="Loss", title="Curva de pérdida")
+        axes_array[0].legend()
+        axes_array[0].grid(alpha=0.25)
+        if has_validation:
+            axes_array[1].plot(
+                history["epoch"],
+                history["validation_f1_macro"],
+                color="#2a9d8f",
+            )
+            axes_array[1].set(
+                xlabel="Época",
+                ylabel="F1 macro",
+                title="Aprendizaje en validación",
+            )
+            axes_array[1].grid(alpha=0.25)
+        figure.suptitle(run_dir.parent.name + " | " + run_dir.name)
+        figure.tight_layout()
+
+        # run_dir = output_dir/checkpoints/config_id/fold_id
+        output_dir = run_dir.parents[2]
+        relative_plot_dir = Path(
+            outputs.get("learning_curves_dir", "plots/learning_curves")
+        )
+        plot_format = str(outputs.get("final_learning_curve_format", "svg")).lower()
+        if plot_format not in {"svg", "png", "pdf"}:
+            raise ValueError(
+                "outputs.final_learning_curve_format debe ser svg, png o pdf."
+            )
+        plot_path = (
+            output_dir
+            / relative_plot_dir
+            / run_dir.parent.name
+            / f"{run_dir.name}.{plot_format}"
+        )
+        plot_path.parent.mkdir(parents=True, exist_ok=True)
+        save_kwargs: dict[str, Any] = {
+            "format": plot_format,
+            "bbox_inches": "tight",
+        }
+        if plot_format == "png":
+            save_kwargs["dpi"] = int(outputs.get("learning_curve_dpi", 180))
+        figure.savefig(plot_path, **save_kwargs)
+        LOGGER.info("Curva de aprendizaje final guardada: %s", plot_path)
+    except Exception as error:
+        LOGGER.warning(
+            "No se pudo generar la curva de aprendizaje final; el entrenamiento "
+            "y los checkpoints continúan. Error=%s",
+            error,
+        )
+    finally:
+        if figure is not None and pyplot is not None:
+            pyplot.close(figure)
 
 
 def balanced_class_weights(torch: Any, y_train: np.ndarray, n_classes: int, device: Any):
@@ -388,10 +538,17 @@ def restore_checkpoint(
     optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
     random.setstate(checkpoint["python_random_state"])
     np.random.set_state(checkpoint["numpy_random_state"])
-    torch.set_rng_state(checkpoint["torch_rng_state"])
-    loader_generator.set_state(checkpoint["loader_generator_state"])
+    # ``map_location=device`` también mueve estos estados a CUDA. Tanto el
+    # generador global de CPU como el generador del DataLoader exigen aquí un
+    # torch.ByteTensor residente en CPU.
+    torch.set_rng_state(checkpoint["torch_rng_state"].detach().cpu())
+    loader_generator.set_state(
+        checkpoint["loader_generator_state"].detach().cpu()
+    )
     if torch.cuda.is_available() and "torch_cuda_rng_state_all" in checkpoint:
-        torch.cuda.set_rng_state_all(checkpoint["torch_cuda_rng_state_all"])
+        torch.cuda.set_rng_state_all(
+            [state.detach().cpu() for state in checkpoint["torch_cuda_rng_state_all"]]
+        )
     return int(checkpoint["epoch"])
 
 
@@ -404,6 +561,7 @@ def train_trajectory(
     y_train: np.ndarray,
     input_dim: int,
     n_classes: int,
+    optimizer_name: str,
     learning_rate: float,
     dropout: float,
     fold_id: str,
@@ -411,6 +569,9 @@ def train_trajectory(
     config: dict[str, Any],
     device: Any,
     seed: int,
+    X_validation: np.ndarray | None = None,
+    y_validation: np.ndarray | None = None,
+    render_learning_curve: bool = False,
 ) -> None:
     training = config["training"]
     max_epochs = int(training["max_epochs"])
@@ -424,7 +585,7 @@ def train_trajectory(
 
     seed_everything(torch, seed, bool(training.get("deterministic", True)))
     model = make_model(nn, input_dim, n_classes, config, dropout).to(device)
-    optimizer = make_optimizer(torch, model, config, learning_rate)
+    optimizer = make_optimizer(torch, model, config, optimizer_name, learning_rate)
     weights_tensor, weights_array = balanced_class_weights(torch, y_train, n_classes, device)
     criterion = nn.CrossEntropyLoss(weight=weights_tensor)
     loader_generator = torch.Generator()
@@ -446,6 +607,7 @@ def train_trajectory(
     )
     signature = {
         "fold_id": str(fold_id),
+        "optimizer": str(optimizer_name).lower(),
         "learning_rate": float(learning_rate),
         "dropout": float(dropout),
         "hidden_units": [int(value) for value in config["model"]["hidden_units"]],
@@ -461,6 +623,12 @@ def train_trajectory(
         start_epoch = restore_checkpoint(
             torch, checkpoint, model, optimizer, signature, loader_generator
         )
+        if start_epoch > max_epochs:
+            raise ValueError(
+                f"El checkpoint está en la época {start_epoch}, superior al nuevo "
+                f"max_epochs={max_epochs}. Desactive resume o retire el checkpoint "
+                f"de esta ejecución: {resume_path}"
+            )
         LOGGER.info("Reanudando %s desde época %s", run_dir, start_epoch)
 
     missing_milestones = [
@@ -468,6 +636,14 @@ def train_trajectory(
     ]
     if not missing_milestones and start_epoch >= max_epochs:
         return
+
+    history_path = run_dir / "learning_history.csv"
+    history_rows = (
+        pd.read_csv(history_path).to_dict("records")
+        if start_epoch > 0 and history_path.exists()
+        else []
+    )
+    history_rows = [row for row in history_rows if int(row["epoch"]) <= start_epoch]
 
     gradient_clip = training.get("gradient_clip_norm")
     for epoch in range(start_epoch + 1, max_epochs + 1):
@@ -488,22 +664,46 @@ def train_trajectory(
             total_loss += float(loss.detach().cpu()) * rows
             total_rows += rows
 
+        mean_training_loss = total_loss / max(total_rows, 1)
+        validation_loss = np.nan
+        validation_f1 = np.nan
+        if X_validation is not None and y_validation is not None:
+            validation_loss, validation_f1 = validation_epoch_metrics(
+                torch, DataLoader, TensorDataset, model, criterion,
+                X_validation, y_validation,
+                int(training.get("prediction_batch_size", 4096)), device,
+            )
+        history_rows.append({
+            "epoch": epoch,
+            "training_loss": mean_training_loss,
+            "validation_loss": validation_loss,
+            "validation_f1_macro": validation_f1,
+        })
+        history = pd.DataFrame(history_rows)
+        log_every = max(1, int(training.get("log_every_n_epochs", 10)))
+        save_learning_curve(
+            history,
+            run_dir,
+            config,
+            render_plot=bool(render_learning_curve and epoch == max_epochs),
+        )
+
         payload = checkpoint_payload(
             torch, model, optimizer, epoch, signature, loader_generator
         )
         if epoch in milestones:
             payload["class_weights"] = weights_array
-            payload["mean_training_loss"] = total_loss / max(total_rows, 1)
+            payload["mean_training_loss"] = mean_training_loss
             atomic_torch_save(torch, payload, run_dir / f"epoch_{epoch:04d}.pt")
         if checkpoint_every > 0 and (epoch % checkpoint_every == 0 or epoch == max_epochs):
             atomic_torch_save(torch, payload, resume_path)
-        if epoch == 1 or epoch % max(1, int(training.get("log_every_n_epochs", 10))) == 0:
+        if epoch == 1 or epoch % log_every == 0:
             LOGGER.info(
                 "%s | epoch=%s/%s | loss=%.6f",
                 run_dir.name,
                 epoch,
                 max_epochs,
-                total_loss / max(total_rows, 1),
+                mean_training_loss,
             )
 
 
@@ -567,10 +767,10 @@ def metric_row(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
     }
 
 
-def config_id(learning_rate: float, dropout: float) -> str:
+def config_id(optimizer_name: str, learning_rate: float, dropout: float) -> str:
     lr_text = f"{learning_rate:.8g}".replace(".", "p")
     dropout_text = f"{dropout:.4g}".replace(".", "p")
-    return f"lr_{lr_text}__dropout_{dropout_text}"
+    return f"opt_{optimizer_name.lower()}__lr_{lr_text}__dropout_{dropout_text}"
 
 
 def run_spatial_search(
@@ -585,6 +785,7 @@ def run_spatial_search(
     device: Any,
 ) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, Any]]:
     search_cfg = config["search"]
+    optimizers = [str(value).lower() for value in search_cfg.get("optimizers", ["adamw"])]
     learning_rates = [float(value) for value in search_cfg["learning_rates"]]
     dropouts = [float(value) for value in search_cfg["dropouts"]]
     milestones = sorted({int(value) for value in config["training"]["evaluation_epochs"]})
@@ -603,15 +804,16 @@ def run_spatial_search(
         y_train = data.y[train_idx]
         y_val = data.y[val_idx]
 
-        for trajectory_position, (learning_rate, dropout) in enumerate(
-            itertools.product(learning_rates, dropouts), start=1
+        for trajectory_position, (optimizer_name, learning_rate, dropout) in enumerate(
+            itertools.product(optimizers, learning_rates, dropouts), start=1
         ):
-            current_id = config_id(learning_rate, dropout)
+            current_id = config_id(optimizer_name, learning_rate, dropout)
             run_dir = output_dir / "checkpoints" / current_id / f"fold_{fold_id:02d}"
             seed = base_seed + fold_position * 10_000 + trajectory_position
             LOGGER.info(
-                "Entrenando fold=%s | lr=%s | dropout=%s | device=%s",
+                "Entrenando fold=%s | optimizer=%s | lr=%s | dropout=%s | device=%s",
                 fold_id,
+                optimizer_name,
                 learning_rate,
                 dropout,
                 device,
@@ -625,6 +827,7 @@ def run_spatial_search(
                 y_train,
                 input_dim,
                 n_classes,
+                optimizer_name,
                 learning_rate,
                 dropout,
                 str(fold_id),
@@ -632,6 +835,8 @@ def run_spatial_search(
                 config,
                 device,
                 seed,
+                X_val,
+                y_val,
             )
             for epoch in milestones:
                 checkpoint_path = run_dir / f"epoch_{epoch:04d}.pt"
@@ -668,6 +873,7 @@ def run_spatial_search(
                 row: dict[str, Any] = {
                     "config_id": current_id,
                     "fold_id": fold_id,
+                    "optimizer": optimizer_name,
                     "learning_rate": learning_rate,
                     "dropout": dropout,
                     "epochs": epoch,
@@ -694,7 +900,7 @@ def run_spatial_search(
             aggregations[f"{prefix}_{metric}"] = ["mean", "std"]
     summary = (
         fold_results.groupby(
-            ["config_id", "learning_rate", "dropout", "epochs"], as_index=False
+            ["config_id", "optimizer", "learning_rate", "dropout", "epochs"], as_index=False
         )
         .agg(aggregations)
     )
@@ -716,6 +922,7 @@ def run_spatial_search(
     summary.to_csv(tables_dir / "dnn_search_summary.csv", index=False, encoding="utf-8-sig")
     best = {
         "config_id": str(summary.loc[0, "config_id"]),
+        "optimizer": str(summary.loc[0, "optimizer"]),
         "learning_rate": float(summary.loc[0, "learning_rate"]),
         "dropout": float(summary.loc[0, "dropout"]),
         "epochs": int(summary.loc[0, "epochs"]),
@@ -782,6 +989,99 @@ def confusion_table(
                 }
             )
     return pd.DataFrame(rows)
+
+
+def class_error_table(
+    class_metrics: pd.DataFrame,
+    confusion: pd.DataFrame,
+) -> pd.DataFrame:
+    """Resume errores de omisión y comisión para cada clase homologada."""
+    metric_fields = {
+        "evaluation",
+        "encoded_class",
+        "original_class",
+        "class_label",
+        "precision",
+        "recall",
+        "f1_score",
+        "support",
+    }
+    confusion_fields = {
+        "evaluation",
+        "true_encoded_class",
+        "predicted_encoded_class",
+        "n",
+    }
+    missing_metrics = sorted(metric_fields - set(class_metrics.columns))
+    missing_confusion = sorted(confusion_fields - set(confusion.columns))
+    if missing_metrics or missing_confusion:
+        raise ValueError(
+            "No se pueden calcular errores por clase. "
+            f"Faltan en class_metrics={missing_metrics}; "
+            f"faltan en confusion={missing_confusion}."
+        )
+
+    matrix = confusion.copy()
+    matrix["true_encoded_class"] = pd.to_numeric(
+        matrix["true_encoded_class"], errors="raise"
+    ).astype(int)
+    matrix["predicted_encoded_class"] = pd.to_numeric(
+        matrix["predicted_encoded_class"], errors="raise"
+    ).astype(int)
+    matrix["n"] = pd.to_numeric(matrix["n"], errors="raise").astype(int)
+
+    rows: list[dict[str, Any]] = []
+    for _, class_row in class_metrics.iterrows():
+        encoded = int(class_row["encoded_class"])
+        true_rows = matrix[matrix["true_encoded_class"] == encoded]
+        predicted_rows = matrix[matrix["predicted_encoded_class"] == encoded]
+        support_real = int(true_rows["n"].sum())
+        predicted_total = int(predicted_rows["n"].sum())
+        true_positive = int(
+            true_rows.loc[
+                true_rows["predicted_encoded_class"] == encoded,
+                "n",
+            ].sum()
+        )
+        reported_support = int(class_row["support"])
+        if reported_support != support_real:
+            raise ValueError(
+                f"Soporte inconsistente para encoded_class={encoded}: "
+                f"class_metrics={reported_support}, confusion={support_real}."
+            )
+
+        false_negatives = support_real - true_positive
+        false_positives = predicted_total - true_positive
+        omission_error_rate = (
+            false_negatives / support_real if support_real else np.nan
+        )
+        commission_error_rate = (
+            false_positives / predicted_total if predicted_total else np.nan
+        )
+        rows.append(
+            {
+                "evaluation": class_row["evaluation"],
+                "encoded_class": encoded,
+                "original_class": class_row["original_class"],
+                "class_label": class_row["class_label"],
+                "support_real": support_real,
+                "correct": true_positive,
+                "false_negatives": false_negatives,
+                "omission_error_rate": float(omission_error_rate),
+                "predicted_total": predicted_total,
+                "false_positives": false_positives,
+                "commission_error_rate": float(commission_error_rate),
+                "precision": float(class_row["precision"]),
+                "recall": float(class_row["recall"]),
+                "f1_score": float(class_row["f1_score"]),
+            }
+        )
+
+    return pd.DataFrame(rows).sort_values(
+        ["omission_error_rate", "commission_error_rate", "support_real"],
+        ascending=[False, False, False],
+        na_position="last",
+    ).reset_index(drop=True)
 
 
 def write_prediction_table(
@@ -915,7 +1215,7 @@ def train_final_development_model(
     final_config = json.loads(json.dumps(config))
     final_config["training"]["max_epochs"] = int(best["epochs"])
     final_config["training"]["evaluation_epochs"] = [int(best["epochs"])]
-    final_run = output_dir / "checkpoints" / "final_development"
+    final_run = output_dir / "checkpoints" / "final_development" / str(best["config_id"])
     seed = int(config["training"].get("random_state", 42))
     train_trajectory(
         torch,
@@ -926,6 +1226,7 @@ def train_final_development_model(
         data.y[development],
         data.X.shape[1],
         len(data.classes),
+        str(best["optimizer"]),
         float(best["learning_rate"]),
         float(best["dropout"]),
         "final_development",
@@ -933,6 +1234,7 @@ def train_final_development_model(
         final_config,
         device,
         seed,
+        render_learning_curve=True,
     )
     checkpoint_path = final_run / f"epoch_{int(best['epochs']):04d}.pt"
     model, checkpoint = load_model_at_checkpoint(
@@ -961,6 +1263,7 @@ def train_final_development_model(
         "hidden_units": [int(value) for value in config["model"]["hidden_units"]],
         "activation": str(config["model"].get("activation", "tanh")),
         "dropout": float(best["dropout"]),
+        "optimizer": str(best["optimizer"]),
         "learning_rate": float(best["learning_rate"]),
         "epochs": int(best["epochs"]),
         "feature_columns": data.features,
@@ -1038,7 +1341,7 @@ def train_optional_all_modelable(
     final_config = json.loads(json.dumps(config))
     final_config["training"]["max_epochs"] = int(best["epochs"])
     final_config["training"]["evaluation_epochs"] = [int(best["epochs"])]
-    run_dir = output_dir / "checkpoints" / "final_all_modelable"
+    run_dir = output_dir / "checkpoints" / "final_all_modelable" / str(best["config_id"])
     train_trajectory(
         torch,
         nn,
@@ -1048,6 +1351,7 @@ def train_optional_all_modelable(
         data.y,
         data.X.shape[1],
         len(data.classes),
+        str(best["optimizer"]),
         float(best["learning_rate"]),
         float(best["dropout"]),
         "final_all_modelable",
@@ -1068,6 +1372,7 @@ def train_optional_all_modelable(
         "hidden_units": [int(value) for value in config["model"]["hidden_units"]],
         "activation": str(config["model"].get("activation", "tanh")),
         "dropout": float(best["dropout"]),
+        "optimizer": str(best["optimizer"]),
         "learning_rate": float(best["learning_rate"]),
         "epochs": int(best["epochs"]),
         "feature_columns": data.features,
@@ -1080,10 +1385,26 @@ def train_optional_all_modelable(
 def dataframe_to_markdown(dataframe: pd.DataFrame) -> str:
     if dataframe.empty:
         return "_Sin datos._"
-    try:
-        return dataframe.to_markdown(index=False)
-    except ImportError:
-        return "```text\n" + dataframe.to_string(index=False) + "\n```"
+
+    def format_cell(value: Any) -> str:
+        try:
+            is_missing = bool(pd.isna(value))
+        except (TypeError, ValueError):
+            is_missing = False
+        if is_missing:
+            return ""
+        if isinstance(value, (float, np.floating)):
+            return f"{float(value):.6f}"
+        return str(value).replace("|", r"\|").replace("\r\n", "<br>").replace("\n", "<br>")
+
+    headers = [format_cell(column) for column in dataframe.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in dataframe.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(format_cell(value) for value in row) + " |")
+    return "\n".join(lines)
 
 
 def write_report(
@@ -1102,6 +1423,44 @@ def write_report(
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
     architecture = " → ".join(str(value) for value in config["model"]["hidden_units"])
+    cv_class_errors = class_error_table(oof["class_metrics"], oof["confusion"])
+    training_class_errors = class_error_table(
+        final["training_class"],
+        final["training_confusion"],
+    )
+    independent_class_errors = class_error_table(
+        final["independent_class"],
+        final["independent_confusion"],
+    )
+    tables_dir = output_dir / "tables"
+    tables_dir.mkdir(parents=True, exist_ok=True)
+    cv_class_errors.to_csv(
+        tables_dir / "dnn_cv_class_errors.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    training_class_errors.to_csv(
+        tables_dir / "dnn_training_class_errors.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    independent_class_errors.to_csv(
+        tables_dir / "dnn_independent_class_errors.csv",
+        index=False,
+        encoding="utf-8-sig",
+    )
+    error_report_fields = [
+        "original_class",
+        "class_label",
+        "support_real",
+        "correct",
+        "false_negatives",
+        "omission_error_rate",
+        "predicted_total",
+        "false_positives",
+        "commission_error_rate",
+        "f1_score",
+    ]
     lines = [
         "# A4.8 — DNN PyTorch con validación espacial",
         "",
@@ -1129,15 +1488,29 @@ def write_report(
         "",
         dataframe_to_markdown(oof["overall"]),
         "",
+        "### Errores por clase en validación OOF",
+        "",
+        "`false_negatives` y `omission_error_rate` indican clases reales no detectadas; `false_positives` y `commission_error_rate` indican asignaciones incorrectas hacia la clase.",
+        "",
+        dataframe_to_markdown(cv_class_errors[error_report_fields]),
+        "",
         "## Entrenamiento sobre desarrollo",
         "",
         "Estas métricas son diagnósticas y no estiman generalización.",
         "",
         dataframe_to_markdown(final["training_metrics"]),
         "",
+        "### Errores por clase en entrenamiento",
+        "",
+        dataframe_to_markdown(training_class_errors[error_report_fields]),
+        "",
         "## Validación independiente",
         "",
         dataframe_to_markdown(final["independent_metrics"]),
+        "",
+        "### Errores por clase en validación independiente",
+        "",
+        dataframe_to_markdown(independent_class_errors[error_report_fields]),
         "",
         "## Nota",
         "",
@@ -1170,6 +1543,57 @@ def copy_reproducibility_metadata(
     )
 
 
+def load_existing_report_results(
+    output_dir: Path,
+) -> tuple[
+    pd.DataFrame,
+    dict[str, Any],
+    dict[str, pd.DataFrame],
+    dict[str, pd.DataFrame],
+]:
+    """Carga resultados terminados para regenerar el reporte sin entrenar."""
+    tables = output_dir / "tables"
+    metadata = output_dir / "metadata"
+    paths = {
+        "search_summary": tables / "dnn_search_summary.csv",
+        "best": metadata / "best_hyperparameters.json",
+        "cv_overall": tables / "dnn_cv_overall_metrics.csv",
+        "cv_fold_metrics": tables / "dnn_cv_fold_metrics.csv",
+        "cv_class_metrics": tables / "dnn_cv_class_metrics.csv",
+        "cv_confusion": tables / "dnn_cv_confusion_matrix.csv",
+        "training_metrics": tables / "dnn_training_metrics.csv",
+        "independent_metrics": tables / "dnn_independent_metrics.csv",
+        "training_class": tables / "dnn_training_class_metrics.csv",
+        "independent_class": tables / "dnn_independent_class_metrics.csv",
+        "training_confusion": tables / "dnn_training_confusion_matrix.csv",
+        "independent_confusion": tables / "dnn_independent_confusion_matrix.csv",
+    }
+    missing = [str(path) for path in paths.values() if not path.exists()]
+    if missing:
+        raise FileNotFoundError(
+            "No se puede regenerar el reporte sin entrenamiento; faltan resultados: "
+            f"{missing}"
+        )
+
+    search_summary = pd.read_csv(paths["search_summary"], encoding="utf-8-sig")
+    best = json.loads(paths["best"].read_text(encoding="utf-8"))
+    oof = {
+        "overall": pd.read_csv(paths["cv_overall"], encoding="utf-8-sig"),
+        "fold_metrics": pd.read_csv(paths["cv_fold_metrics"], encoding="utf-8-sig"),
+        "class_metrics": pd.read_csv(paths["cv_class_metrics"], encoding="utf-8-sig"),
+        "confusion": pd.read_csv(paths["cv_confusion"], encoding="utf-8-sig"),
+    }
+    final = {
+        "training_metrics": pd.read_csv(paths["training_metrics"], encoding="utf-8-sig"),
+        "independent_metrics": pd.read_csv(paths["independent_metrics"], encoding="utf-8-sig"),
+        "training_class": pd.read_csv(paths["training_class"], encoding="utf-8-sig"),
+        "independent_class": pd.read_csv(paths["independent_class"], encoding="utf-8-sig"),
+        "training_confusion": pd.read_csv(paths["training_confusion"], encoding="utf-8-sig"),
+        "independent_confusion": pd.read_csv(paths["independent_confusion"], encoding="utf-8-sig"),
+    }
+    return search_summary, best, oof, final
+
+
 def main() -> None:
     args = parse_args()
     config_path = args.config.resolve()
@@ -1178,14 +1602,7 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     configure_logger(output_dir)
 
-    torch, nn, DataLoader, TensorDataset = import_torch()
     runtime = config.get("runtime", {})
-    requested_threads = runtime.get("torch_num_threads")
-    if requested_threads is not None:
-        torch.set_num_threads(int(requested_threads))
-    device = choose_device(torch, str(runtime.get("device", "auto")))
-    LOGGER.info("PyTorch=%s | dispositivo=%s", torch.__version__, device)
-
     prepared_dir = resolve_path(config["paths"]["prepared_data_dir"])
     data = load_prepared_data(prepared_dir)
     fold_ids = validate_frozen_splits(data)
@@ -1195,6 +1612,38 @@ def main() -> None:
         len(data.classes),
         fold_ids,
     )
+
+    if args.report_only:
+        search_summary, best, oof, final = load_existing_report_results(output_dir)
+        report_device = f"{runtime.get('device', 'auto')} (reporte regenerado)"
+        write_report(
+            data,
+            fold_ids,
+            best,
+            search_summary,
+            oof,
+            final,
+            config,
+            output_dir,
+            report_device,
+        )
+        LOGGER.info(
+            "Reporte DNN regenerado desde resultados existentes; no se ejecutó entrenamiento."
+        )
+        return
+
+    torch, nn, DataLoader, TensorDataset = import_torch()
+    requested_threads = runtime.get("torch_num_threads")
+    if requested_threads is not None:
+        torch.set_num_threads(int(requested_threads))
+    device = choose_device(torch, str(runtime.get("device", "auto")))
+    LOGGER.info("PyTorch=%s | dispositivo=%s", torch.__version__, device)
+    if device.type == "cuda":
+        LOGGER.info(
+            "GPU=%s | VRAM=%.2f GiB",
+            torch.cuda.get_device_name(device),
+            torch.cuda.get_device_properties(device).total_memory / (1024**3),
+        )
 
     _, search_summary, best = run_spatial_search(
         torch,

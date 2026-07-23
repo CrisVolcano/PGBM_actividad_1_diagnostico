@@ -59,7 +59,25 @@ def dataframe_to_markdown(dataframe: pd.DataFrame, max_rows: int | None = None) 
     display = dataframe.copy()
     if max_rows is not None and len(display) > max_rows:
         display = display.head(max_rows).copy()
-    return display.to_markdown(index=False)
+
+    def format_cell(value: Any) -> str:
+        try:
+            if bool(pd.isna(value)):
+                return ""
+        except (TypeError, ValueError):
+            pass
+        if isinstance(value, float):
+            return f"{value:.6f}"
+        return str(value).replace("|", r"\|").replace("\n", "<br>")
+
+    headers = [format_cell(column) for column in display.columns]
+    lines = [
+        "| " + " | ".join(headers) + " |",
+        "| " + " | ".join("---" for _ in headers) + " |",
+    ]
+    for row in display.itertuples(index=False, name=None):
+        lines.append("| " + " | ".join(format_cell(value) for value in row) + " |")
+    return "\n".join(lines)
 
 
 def read_csv(path: Path, label: str) -> pd.DataFrame:
@@ -88,24 +106,76 @@ def metric_record(metrics: pd.DataFrame) -> dict[str, Any]:
     }
 
 
-def load_model_results(config: dict[str, Any]) -> tuple[pd.DataFrame, dict[str, dict[str, pd.DataFrame]]]:
+def actual_configuration(model_cfg: dict[str, Any], best_params: dict[str, Any]) -> str:
+    """Describe la configuración efectiva usando la salida de GridSearchCV."""
+    c_value = best_params.get("clf__C")
+    class_weight = best_params.get("clf__class_weight")
+    if "kernel__gamma" in best_params or "kernel__n_components" in best_params:
+        gamma = best_params.get("kernel__gamma")
+        n_components = best_params.get("kernel__n_components")
+        return (
+            f"Nystroem(RBF, gamma={gamma}, n_components={n_components}) + "
+            f"LinearSVC(C={c_value}, class_weight={class_weight})"
+        )
+    if c_value is not None:
+        return f"LinearSVC(C={c_value}, class_weight={class_weight})"
+    return str(model_cfg.get("configuration", "Configuración no descrita"))
+
+
+def relative_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
+
+
+def load_model_results(
+    config: dict[str, Any],
+) -> tuple[pd.DataFrame, dict[str, dict[str, pd.DataFrame]], pd.DataFrame]:
     rows: list[dict[str, Any]] = []
     detail_tables: dict[str, dict[str, pd.DataFrame]] = {}
+    skipped_rows: list[dict[str, Any]] = []
 
     for model_cfg in config.get("models", []):
         result_dir = resolve_path(model_cfg["result_dir"])
-        best_params = read_json(result_dir / model_cfg["best_params_json"])
-        cv_metrics = read_csv(result_dir / model_cfg["cv_overall_metrics_csv"], f"cv metrics {model_cfg['model_id']}")
+        required_paths = {
+            "best_params_json": result_dir / model_cfg["best_params_json"],
+            "cv_overall_metrics_csv": result_dir / model_cfg["cv_overall_metrics_csv"],
+            "independent_metrics_csv": result_dir / model_cfg["independent_metrics_csv"],
+            "independent_class_metrics_csv": result_dir
+            / model_cfg["independent_class_metrics_csv"],
+            "independent_confusion_csv": result_dir
+            / model_cfg["independent_confusion_csv"],
+            "model_path": result_dir / model_cfg["model_path"],
+        }
+        missing_paths = [path for path in required_paths.values() if not path.exists()]
+        if missing_paths:
+            skipped_rows.append(
+                {
+                    "model_id": model_cfg["model_id"],
+                    "model_name": model_cfg["model_name"],
+                    "result_dir": relative_path(result_dir),
+                    "missing_file_count": len(missing_paths),
+                    "missing_files": "; ".join(relative_path(path) for path in missing_paths),
+                }
+            )
+            continue
+
+        best_params = read_json(required_paths["best_params_json"])
+        cv_metrics = read_csv(
+            required_paths["cv_overall_metrics_csv"],
+            f"cv metrics {model_cfg['model_id']}",
+        )
         independent_metrics = read_csv(
-            result_dir / model_cfg["independent_metrics_csv"],
+            required_paths["independent_metrics_csv"],
             f"independent metrics {model_cfg['model_id']}",
         )
         class_metrics = read_csv(
-            result_dir / model_cfg["independent_class_metrics_csv"],
+            required_paths["independent_class_metrics_csv"],
             f"class metrics {model_cfg['model_id']}",
         )
         confusion = read_csv(
-            result_dir / model_cfg["independent_confusion_csv"],
+            required_paths["independent_confusion_csv"],
             f"confusion {model_cfg['model_id']}",
         )
 
@@ -115,7 +185,7 @@ def load_model_results(config: dict[str, Any]) -> tuple[pd.DataFrame, dict[str, 
             {
                 "model_id": model_cfg["model_id"],
                 "model_name": model_cfg["model_name"],
-                "configuration": model_cfg["configuration"],
+                "configuration": actual_configuration(model_cfg, best_params),
                 "recommendation_role": model_cfg.get("recommendation_role", ""),
                 "best_params": json.dumps(best_params, ensure_ascii=False),
                 "cv_accuracy": cv["accuracy"],
@@ -128,8 +198,8 @@ def load_model_results(config: dict[str, Any]) -> tuple[pd.DataFrame, dict[str, 
                 "ind_f1_macro": independent["f1_macro"],
                 "ind_f1_weighted": independent["f1_weighted"],
                 "ind_kappa": independent["kappa"],
-                "model_path": str((result_dir / model_cfg["model_path"]).relative_to(REPO_ROOT)),
-                "result_dir": str(result_dir.relative_to(REPO_ROOT)),
+                "model_path": relative_path(required_paths["model_path"]),
+                "result_dir": relative_path(result_dir),
             }
         )
         detail_tables[model_cfg["model_id"]] = {
@@ -137,9 +207,19 @@ def load_model_results(config: dict[str, Any]) -> tuple[pd.DataFrame, dict[str, 
             "confusion": confusion,
         }
 
+    if not rows:
+        missing_summary = "\n".join(
+            f"- {row['model_id']}: {row['missing_files']}" for row in skipped_rows
+        )
+        raise FileNotFoundError(
+            "No se encontró ninguna ejecución SVM completa configurada para el informe.\n"
+            + missing_summary
+        )
+
     comparison = pd.DataFrame(rows).sort_values("ind_f1_macro", ascending=False).reset_index(drop=True)
     comparison.insert(0, "rank_ind_f1_macro", range(1, len(comparison) + 1))
-    return comparison, detail_tables
+    skipped = pd.DataFrame(skipped_rows)
+    return comparison, detail_tables, skipped
 
 
 def top_confusions(confusion: pd.DataFrame, class_metrics: pd.DataFrame, max_rows: int = 12) -> pd.DataFrame:
@@ -188,11 +268,25 @@ def strong_class_table(class_metrics: pd.DataFrame, min_f1: float = 0.75) -> pd.
 def selected_rows(comparison: pd.DataFrame, config: dict[str, Any]) -> tuple[pd.Series, pd.Series, pd.Series]:
     rec = config["recommendation"]
     by_id = comparison.set_index("model_id")
-    return (
-        by_id.loc[rec["best_model_id"]],
-        by_id.loc[rec["cost_benefit_model_id"]],
-        by_id.loc[rec["linear_baseline_model_id"]],
-    )
+
+    best_id = rec.get("best_model_id")
+    best = by_id.loc[best_id] if best_id in by_id.index else by_id.iloc[0]
+
+    cost_id = rec.get("cost_benefit_model_id")
+    if cost_id in by_id.index:
+        cost_benefit = by_id.loc[cost_id]
+    else:
+        candidates = by_id[by_id["recommendation_role"] == "costo_beneficio"]
+        cost_benefit = candidates.iloc[0] if not candidates.empty else best
+
+    linear_id = rec.get("linear_baseline_model_id")
+    if linear_id in by_id.index:
+        linear = by_id.loc[linear_id]
+    else:
+        candidates = by_id[by_id["recommendation_role"] == "lineal_base"]
+        linear = candidates.iloc[0] if not candidates.empty else best
+
+    return best, cost_benefit, linear
 
 
 def build_report(config: dict[str, Any]) -> Path:
@@ -205,7 +299,7 @@ def build_report(config: dict[str, Any]) -> Path:
         "target_distribution_csv",
     )
     split_summary = read_csv(resolve_path(config["paths"]["split_summary_csv"]), "split_summary_csv")
-    comparison, detail_tables = load_model_results(config)
+    comparison, detail_tables, skipped_models = load_model_results(config)
 
     best_row, cost_benefit_row, linear_row = selected_rows(comparison, config)
     recommended_classes = detail_tables[str(best_row.name)]["class_metrics"]
@@ -215,6 +309,11 @@ def build_report(config: dict[str, Any]) -> Path:
     confusions = top_confusions(recommended_confusion, recommended_classes)
 
     comparison.to_csv(output_dir / outputs.get("model_comparison_csv", "a4_8_svm_model_comparison.csv"), index=False, encoding="utf-8-sig")
+    skipped_models.to_csv(
+        output_dir / outputs.get("skipped_models_csv", "a4_8_svm_skipped_models.csv"),
+        index=False,
+        encoding="utf-8-sig",
+    )
     recommended_classes.to_csv(
         output_dir / outputs.get("recommended_class_metrics_csv", "a4_8_svm_recommended_class_metrics.csv"),
         index=False,
@@ -244,6 +343,28 @@ def build_report(config: dict[str, Any]) -> Path:
     target_table = target_distribution[target_distribution["target_field"].astype(str) == target_field].copy()
     target_table = target_table[["class_id", "n_points", "pct_points", "n_groups"]].sort_values("n_points", ascending=False)
 
+    same_cost_benefit_model = str(cost_benefit_row.name) == str(best_row.name)
+    if same_cost_benefit_model:
+        cost_benefit_explanation = (
+            "Con las ejecuciones completas disponibles, esta alternativa coincide con el modelo "
+            "recomendado por desempeño."
+        )
+    else:
+        cost_benefit_explanation = (
+            "Esta alternativa se conserva como referencia de costo/beneficio entre las "
+            "ejecuciones completas disponibles."
+        )
+
+    interpretation_lines = [
+        "- La comparación y la recomendación consideran únicamente ejecuciones con todos los archivos requeridos.",
+        "- La validación independiente se mantuvo separada de la selección de hiperparámetros, por lo que sus métricas son la principal evidencia de generalización espacial.",
+    ]
+    if not skipped_models.empty:
+        skipped_ids = ", ".join(skipped_models["model_id"].astype(str))
+        interpretation_lines.append(
+            f"- Se omitieron configuraciones sin salida completa: `{skipped_ids}`; no se imputaron ni supusieron métricas."
+        )
+
     report_path = output_dir / outputs.get("final_report_md", "a4_8_svm_final_report.md")
     lines = [
         "# Informe final SVM - Actividad 4.8",
@@ -270,6 +391,10 @@ def build_report(config: dict[str, Any]) -> Path:
         "",
         dataframe_to_markdown(comparison_report),
         "",
+        "## Configuraciones omitidas por no tener salida completa",
+        "",
+        dataframe_to_markdown(skipped_models),
+        "",
         "## Modelo recomendado por desempeno",
         "",
         f"- Modelo: **{best_row['model_name']}**",
@@ -289,7 +414,7 @@ def build_report(config: dict[str, Any]) -> Path:
         f"- Configuracion: `{cost_benefit_row['configuration']}`",
         f"- Modelo guardado: `{cost_benefit_row['model_path']}`",
         "",
-        "Esta alternativa fue menos costosa porque uso 300 componentes Nystroem en lugar de 600, con una perdida pequena de `f1_macro` independiente.",
+        cost_benefit_explanation,
         "",
         "## Linea base lineal",
         "",
@@ -317,11 +442,7 @@ def build_report(config: dict[str, Any]) -> Path:
         "",
         "## Lectura metodologica",
         "",
-        "- El salto principal de desempeno ocurrio al pasar del SVM lineal al SVM no lineal aproximado con Nystroem RBF.",
-        "- El refinamiento de 300 a 600 componentes mejoro el desempeno independiente, pero con mayor costo computacional.",
-        "- `class_weight=balanced` no fue seleccionado en las mejores configuraciones observadas.",
-        "- Las clases `plantaciones forestales` y `otras tierras` siguen siendo los puntos mas debiles del flujo SVM.",
-        "- La validacion independiente se mantuvo separada de la seleccion de hiperparametros, por lo que sus metricas son la principal evidencia de generalizacion espacial.",
+        *interpretation_lines,
         "",
         "## Recomendacion final",
         "",

@@ -108,7 +108,7 @@ spatial_splits:
 
   inner_cv:
     method: stratified_group_kfold
-    n_splits: 3
+    n_splits: 5
     shuffle: true
     random_state: 42
 
@@ -448,7 +448,7 @@ final_report:
   models:
     - model_id: linear_parsimonious
       model_name: SVM lineal parsimonioso
-      configuration: LinearSVC(C=10.0, class_weight=None)
+      configuration: LinearSVC(C=0.3, class_weight=None)
       result_dir: data/processed/a4_8_svm/03_train_linear_svm_gridsearch
       best_params_json: tables/linear_svm_best_params.json
       cv_overall_metrics_csv: tables/linear_svm_cv_overall_metrics.csv
@@ -502,5 +502,6 @@ final_report:
   outputs:
     final_report_md: a4_8_svm_final_report.md
     model_comparison_csv: a4_8_svm_model_comparison.csv
+    skipped_models_csv: a4_8_svm_skipped_models.csv
     recommended_class_metrics_csv: a4_8_svm_recommended_class_metrics.csv
     recommended_top_confusions_csv: a4_8_svm_recommended_top_confusions.csv
