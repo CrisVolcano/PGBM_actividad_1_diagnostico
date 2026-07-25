@@ -22,6 +22,7 @@ dependencies:
   - sqlite-utils
   - scikit-learn
   - xgboost
+  - pytorch
   - scipy
   - matplotlib
   - seaborn
