@@ -1,0 +1,146 @@
+# Actividad 4.11-4.14 - Predicción cartográfica a 10 m y 20 m
+# ============================================================================
+# Flujo:
+#   4.11 verifica los 16 GeoTIFF/96 bandas por zona y crea el manifiesto.
+#   4.12 aplica artefactos congelados; nunca entrena ni modifica modelos.
+#   4.13 compara las salidas de 10 m y 20 m.
+#   4.14 compara el acuerdo espacial entre RF, SVM, XGBoost y DNN.
+
+shared:
+  paths:
+    # Las carpetas locales deben llamarse:
+    # PGBM_A4_3_spatial_group_rasters_1 ... _5
+    raster_root: data/raw/predictors
+    predictor_catalog: data/processed/a4_3_spatial_group_raster_export/predictor_catalog_rasters.csv
+    feature_columns: data/processed/a4_6_modeling_dataset/tables/selected_feature_columns.txt
+    class_catalog: data/processed/a4_7_rf_gridsearch_spatial_validation/tables/class_catalog.csv
+    modeling_dataset_parquet: data/processed/a4_6_modeling_dataset/tables/modeling_dataset.parquet
+    split_assignments_csv: data/processed/a4_7_rf_gridsearch_spatial_validation/tables/split_assignments.csv
+
+  regions: [1, 2, 3, 4, 5]
+
+  raster_layout:
+    region_directory_template: PGBM_A4_3_spatial_group_rasters_{region_id}
+    filename_template: "{region_id}__{predictor_id}.tif"
+    # Si una zona está en otra ubicación, puede declararse sin mover rasters:
+    # region_directories:
+    #   "1": D:/rasters/PGBM_A4_3_spatial_group_rasters_1
+    region_directories: {}
+
+  target:
+    field: id_1_propuesta
+    label_field: nivel_1_propuesta
+    nodata_class: 0
+    expected_classes: [11, 12, 13, 14, 15, 21, 22, 23, 24, 25]
+    style:
+      # Paleta temática común para todos los modelos y resoluciones.
+      # Bosques=verdes; manglar=turquesa; cultivos=ocre/amarillo;
+      # construido=rojo; agua=azul; otras tierras=gris.
+      colors:
+        11: "#006D2C"
+        12: "#1F6F78"
+        13: "#00A6A6"
+        14: "#A6A63A"
+        15: "#7CB342"
+        21: "#C58B20"
+        22: "#F2D16B"
+        23: "#D73027"
+        24: "#2C7FB8"
+        25: "#BDBDBD"
+      write_qml: true
+      write_sld: true
+      write_clr: true
+      embed_geotiff_colormap: true
+
+  grids:
+    resolutions_m: [10, 20]
+    reference_predictor_id: mosaico_2020_s2_v06_res10
+    # Cada zona usa el UTM de su centro. Las cuadrículas 10/20 m comparten
+    # origen y extensión; cada píxel de 20 m contiene exactamente 2 x 2 de 10 m.
+    target_crs: auto_utm
+    alignment_m: 20
+
+  resampling:
+    # Los 16 predictores utilizados son continuos (espectrales, SAR, textura,
+    # DEM y clima). Si se incorpora uno categórico, debe declararse nearest.
+    default: bilinear
+    overrides: {}
+
+  models:
+    rf:
+      adapter: sklearn_bundle
+      artifact: data/processed/a4_7_rf_gridsearch_spatial_validation/models/rf_id_1_propuesta_best_development.joblib
+      feature_columns: data/processed/a4_6_modeling_dataset/tables/selected_feature_columns.txt
+      expected_trained_on: development_only
+
+    svm:
+      adapter: sklearn_separate
+      artifact: data/processed/a4_8_svm/04_train_nystroem_rbf_svm/models/nystroem_rbf_svm_id_1_propuesta_best_development.joblib
+      label_encoder: data/processed/a4_8_svm/04_train_nystroem_rbf_svm/models/nystroem_rbf_svm_id_1_propuesta_label_encoder.joblib
+      feature_columns: data/processed/a4_8_svm/04_train_nystroem_rbf_svm/models/nystroem_rbf_svm_feature_columns.txt
+      expected_trained_on: development_only
+
+    xgboost:
+      adapter: sklearn_separate
+      artifact: data/processed/a4_9_xgboost_gpu/03_train_xgboost_gridsearch/models/xgboost_gpu_id_1_propuesta_best_development.joblib
+      label_encoder: data/processed/a4_9_xgboost_gpu/03_train_xgboost_gridsearch/models/xgboost_gpu_id_1_propuesta_label_encoder.joblib
+      feature_columns: data/processed/a4_9_xgboost_gpu/03_train_xgboost_gridsearch/models/xgboost_gpu_feature_columns.txt
+      expected_trained_on: development_only
+
+    dnn:
+      adapter: pytorch_dnn
+      artifact: data/processed/a4_8_dnn_pytorch_spatial_validation/models/dnn_best_development.pt
+      preprocessor: data/processed/a4_8_dnn_pytorch_spatial_validation/models/development_preprocessor.joblib
+      feature_columns: data/processed/a4_8_dnn_pytorch_spatial_validation/metadata/feature_columns.txt
+      expected_trained_on: development_only
+
+prepare:
+  output_dir: data/processed/a4_11_raster_inference_preparation
+  fail_on_incomplete: true
+  validate_band_descriptions_when_present: true
+  # Los rangos se calculan solo con development_cv. Los cuadrantes
+  # independent_validation nunca participan.
+  development_split_role: development_cv
+  training_range_quantiles: [0.01, 0.99]
+
+predict:
+  manifest_json: data/processed/a4_11_raster_inference_preparation/tables/raster_inference_manifest.json
+  output_dir: data/processed/a4_12_raster_predictions
+  # Se usa RF como producto inicial. El código admite:
+  # --models rf,svm,xgboost,dnn
+  model_ids: [xgboost]
+  resolutions_m: [10, 20]
+  block_size: 256
+  prediction_batch_size: 65536
+  checkpoint_every_windows: 10
+  resume: true
+  overwrite: false
+  require_all_predictors_valid: true
+  write_confidence: true
+  write_extrapolation_count: true
+  compression: DEFLATE
+  predictor_threads: 2
+  dnn_device: auto
+
+compare:
+  prediction_dir: data/processed/a4_12_raster_predictions
+  output_dir: data/processed/a4_13_resolution_comparison
+  model_ids: [xgboost]
+  fine_resolution_m: 10
+  coarse_resolution_m: 20
+  write_agreement_raster: true
+  compare_confidence: true
+
+agreement:
+  prediction_dir: data/processed/a4_12_raster_predictions
+  output_dir: data/processed/a4_14_model_agreement
+  model_ids: [rf, svm, xgboost, dnn]
+  resolutions_m: [10, 20]
+
+  # El consenso temático solo se asigna si al menos 3 de los 4 modelos
+  # predicen la misma clase. Empates 2-2 y pluralidades 2-1-1 permanecen
+  # explícitamente marcados como incertidumbre, sin alterar el mapa RF.
+  minimum_strict_consensus_votes: 3
+  reference_model_id: rf
+  focus_class_id: 23
+  compression: DEFLATE
