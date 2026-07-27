@@ -1,9 +1,10 @@
-# Actividad 4.11-4.13 - Predicción cartográfica a 10 m y 20 m
+# Actividad 4.11-4.14 - Predicción cartográfica a 10 m y 20 m
 # ============================================================================
 # Flujo:
 #   4.11 verifica los 16 GeoTIFF/96 bandas por zona y crea el manifiesto.
 #   4.12 aplica artefactos congelados; nunca entrena ni modifica modelos.
 #   4.13 compara las salidas de 10 m y 20 m.
+#   4.14 compara el acuerdo espacial entre RF, SVM, XGBoost y DNN.
 
 shared:
   paths:
@@ -129,3 +130,17 @@ compare:
   coarse_resolution_m: 20
   write_agreement_raster: true
   compare_confidence: true
+
+agreement:
+  prediction_dir: data/processed/a4_12_raster_predictions
+  output_dir: data/processed/a4_14_model_agreement
+  model_ids: [rf, svm, xgboost, dnn]
+  resolutions_m: [10, 20]
+
+  # El consenso temático solo se asigna si al menos 3 de los 4 modelos
+  # predicen la misma clase. Empates 2-2 y pluralidades 2-1-1 permanecen
+  # explícitamente marcados como incertidumbre, sin alterar el mapa RF.
+  minimum_strict_consensus_votes: 3
+  reference_model_id: rf
+  focus_class_id: 23
+  compression: DEFLATE
