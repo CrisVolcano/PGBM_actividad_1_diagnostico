@@ -116,34 +116,34 @@ def usage_fields(score: pd.Series) -> tuple[str, str, str, str, str]:
     value = float(score)
     if value >= 85:
         return (
-            "entrenamiento_alta",
+            "datos_para_entrenamiento",
             "entrenamiento",
-            "Grupo recomendado para entrenamiento de alta prioridad.",
-            "Usar como entrenamiento prioritario.",
-            "Score total >= 85.",
+            "Datos con alta aptitud multicriterio dentro del flujo A3 compatible con A1.",
+            "Usar como núcleo de entrenamiento, aplicando balance por país, clase y fuente.",
+            "score_aptitud_total >= 85",
         )
     if value >= 70:
         return (
-            "entrenamiento_condicionado",
-            "entrenamiento_condicionado",
-            "Grupo utilizable con condicionamientos metodológicos.",
-            "Usar con revisión o filtros complementarios.",
-            "Score total entre 70 y 85.",
+            "datos_para_validacion",
+            "validación",
+            "Datos con aptitud buena pero no máxima; pueden tener alguna condición menor o menor fortaleza relativa.",
+            "Usar preferentemente para validación estratificada o como complemento controlado del entrenamiento.",
+            "70 <= score_aptitud_total < 85",
         )
     if value >= 55:
         return (
-            "referencia_contextual",
-            "referencia_contextual",
-            "Grupo útil como contexto o apoyo interpretativo.",
-            "No priorizar como entrenamiento principal.",
-            "Score total entre 55 y 70.",
+            "referencia_contextual_revision",
+            "referencia contextual",
+            "Datos con limitaciones que requieren revisión experta antes de cualquier uso supervisado.",
+            "Mantener como referencia contextual o cola de revisión experta.",
+            "55 <= score_aptitud_total < 70",
         )
     return (
-        "revision_o_apoyo",
-        "revision_o_apoyo",
-        "Grupo requiere revisión antes de uso analítico.",
-        "Priorizar revisión metodológica.",
-        "Score total < 55.",
+        "mascara_exclusion",
+        "máscaras",
+        "Datos no aptos para uso directo dentro de la preselección automática.",
+        "Usar como máscara de exclusión, control de calidad o lista de descarte.",
+        "score_aptitud_total < 55",
     )
 
 
@@ -374,12 +374,36 @@ def build_master(
 
 def usage_fields(score: float) -> tuple[str, str, str, str, str]:
     if score >= 85:
-        return ("entrenamiento_alta", "entrenamiento", "Alta aptitud para entrenamiento.", "Usar como entrenamiento prioritario.", "score_aptitud_total >= 85")
+        return (
+            "datos_para_entrenamiento",
+            "entrenamiento",
+            "Datos con alta aptitud multicriterio dentro del flujo A3 compatible con A1.",
+            "Usar como núcleo de entrenamiento, aplicando balance por país, clase y fuente.",
+            "score_aptitud_total >= 85",
+        )
     if score >= 70:
-        return ("entrenamiento_condicionado", "entrenamiento_condicionado", "Aptitud condicionada.", "Usar con revisión complementaria.", "70 <= score_aptitud_total < 85")
+        return (
+            "datos_para_validacion",
+            "validación",
+            "Datos con aptitud buena pero no máxima; pueden tener alguna condición menor o menor fortaleza relativa.",
+            "Usar preferentemente para validación estratificada o como complemento controlado del entrenamiento.",
+            "70 <= score_aptitud_total < 85",
+        )
     if score >= 55:
-        return ("referencia_contextual", "referencia_contextual", "Aptitud contextual.", "Usar como apoyo o referencia.", "55 <= score_aptitud_total < 70")
-    return ("revision_o_apoyo", "revision_o_apoyo", "Requiere revisión.", "Priorizar revisión antes de uso.", "score_aptitud_total < 55")
+        return (
+            "referencia_contextual_revision",
+            "referencia contextual",
+            "Datos con limitaciones que requieren revisión experta antes de cualquier uso supervisado.",
+            "Mantener como referencia contextual o cola de revisión experta.",
+            "55 <= score_aptitud_total < 70",
+        )
+    return (
+        "mascara_exclusion",
+        "máscaras",
+        "Datos no aptos para uso directo dentro de la preselección automática.",
+        "Usar como máscara de exclusión, control de calidad o lista de descarte.",
+        "score_aptitud_total < 55",
+    )
 
 
 def clean_for_gpkg(df: pd.DataFrame | gpd.GeoDataFrame) -> pd.DataFrame | gpd.GeoDataFrame:

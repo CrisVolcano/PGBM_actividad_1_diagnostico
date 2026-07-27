@@ -397,8 +397,8 @@ def build_master(
             master["score_aptitud_total"].ge(float(th["training_conditioned"])),
             master["score_aptitud_total"].ge(float(th["contextual"])),
         ],
-        ["entrenamiento_alta", "entrenamiento_condicionado", "referencia_contextual"],
-        default="revision_o_apoyo",
+        ["datos_para_entrenamiento", "datos_para_validacion", "referencia_contextual_revision"],
+        default="mascara_exclusion",
     )
     master["score_method_note"] = (
         "Adaptado del scoring original: temporal, espacial, tematico, espectral, "

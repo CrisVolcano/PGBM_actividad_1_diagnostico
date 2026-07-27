@@ -1,4 +1,4 @@
 ﻿escenario,n_grupos_xy,n_registros_representados,n_fuentes,score_promedio
-entrenamiento_alta,19436,19436,1,98.458
-referencia_contextual,19,38,1,63.922
+datos_para_entrenamiento,19436,19436,1,98.458
+referencia_contextual_revision,19,38,1,63.922
 total_caso,19455,19474,1,98.424

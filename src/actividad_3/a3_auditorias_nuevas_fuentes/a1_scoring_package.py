@@ -12,28 +12,28 @@ import pandas as pd
 CATEGORY_DEFINITIONS = pd.DataFrame(
     [
         {
-            "categoria_aptitud_preliminar": "entrenamiento_alta",
+            "categoria_aptitud_preliminar": "datos_para_entrenamiento",
             "categoria_uso_actividad_1_8": "entrenamiento",
-            "definición": "Alta aptitud para uso como entrenamiento.",
-            "uso_recomendado": "Usar como entrenamiento prioritario.",
+            "definición": "Datos con alta aptitud multicriterio dentro del flujo A3 compatible con A1.",
+            "uso_recomendado": "Usar como núcleo de entrenamiento, aplicando balance por país, clase y fuente.",
         },
         {
-            "categoria_aptitud_preliminar": "entrenamiento_condicionado",
-            "categoria_uso_actividad_1_8": "entrenamiento_condicionado",
-            "definición": "Aptitud suficiente con condicionamientos metodológicos.",
-            "uso_recomendado": "Usar con revisión o filtros complementarios.",
+            "categoria_aptitud_preliminar": "datos_para_validacion",
+            "categoria_uso_actividad_1_8": "validación",
+            "definición": "Datos con aptitud buena pero no máxima; pueden tener alguna condición menor o menor fortaleza relativa.",
+            "uso_recomendado": "Usar preferentemente para validación estratificada o como complemento controlado del entrenamiento.",
         },
         {
-            "categoria_aptitud_preliminar": "referencia_contextual",
-            "categoria_uso_actividad_1_8": "referencia_contextual",
-            "definición": "Aptitud contextual o de apoyo interpretativo.",
-            "uso_recomendado": "Usar como referencia, no como entrenamiento principal.",
+            "categoria_aptitud_preliminar": "referencia_contextual_revision",
+            "categoria_uso_actividad_1_8": "referencia contextual",
+            "definición": "Datos con limitaciones que requieren revisión experta antes de cualquier uso supervisado.",
+            "uso_recomendado": "Mantener como referencia contextual o cola de revisión experta.",
         },
         {
-            "categoria_aptitud_preliminar": "revision_o_apoyo",
-            "categoria_uso_actividad_1_8": "revision_o_apoyo",
-            "definición": "Requiere revisión metodológica antes de uso.",
-            "uso_recomendado": "Priorizar revisión antes de uso analítico.",
+            "categoria_aptitud_preliminar": "mascara_exclusion",
+            "categoria_uso_actividad_1_8": "máscaras",
+            "definición": "Datos no aptos para uso directo dentro de la preselección automática.",
+            "uso_recomendado": "Usar como máscara de exclusión, control de calidad o lista de descarte.",
         },
     ]
 )
@@ -174,7 +174,7 @@ def build_record_aptitude_flags(master: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
 def build_review_priority_cases(master: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     mask = (
-        master["categoria_aptitud_preliminar"].ne("entrenamiento_alta")
+        master["categoria_aptitud_preliminar"].ne("datos_para_entrenamiento")
         | master["flag_conflicto_activo"].gt(0)
         | master["score_prioridad_revision"].gt(0)
         | master["spectral_alert_level_max"].astype(str).str.lower().isin(["media", "alta", "alta_sin_datos"])
@@ -316,9 +316,9 @@ def build_source_aptitude_ranking(master: gpd.GeoDataFrame) -> pd.DataFrame:
                 "score_representatividad_fuente": float(group["score_representatividad"].mean()),
                 "pct_conflicto_activo": round(group["flag_conflicto_activo"].mean() * 100, 3),
                 "pct_alerta_espectral_alta": round(group["spectral_alert_level_max"].astype(str).str.lower().eq("alta").mean() * 100, 3),
-                "pct_no_uso_directo": round(group["categoria_aptitud_preliminar"].ne("entrenamiento_alta").mean() * 100, 3),
+                "pct_no_uso_directo": round(group["categoria_aptitud_preliminar"].ne("datos_para_entrenamiento").mean() * 100, 3),
                 "pct_entrenamiento": round(group["categoria_uso_actividad_1_8"].astype(str).str.contains("entrenamiento", na=False).mean() * 100, 3),
-                "pct_validacion": 0.0,
+                "pct_validacion": round(group["categoria_uso_actividad_1_8"].astype(str).eq("validación").mean() * 100, 3),
                 "pct_prueba": 0.0,
                 "score_trazabilidad_documental": str(group["score_trazabilidad_fuente_promedio"].iloc[0]),
                 "score_compatibilidad_pipeline": 100,

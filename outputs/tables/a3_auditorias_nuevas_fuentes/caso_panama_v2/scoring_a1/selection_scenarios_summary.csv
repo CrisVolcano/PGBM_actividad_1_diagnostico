@@ -1,5 +1,5 @@
 ﻿escenario,n_grupos_xy,n_registros_representados,n_fuentes,score_promedio
-entrenamiento_alta,10510,10510,1,98.019
-entrenamiento_condicionado,2018,2018,1,74.814
-referencia_contextual,23,23,1,60.0
+datos_para_entrenamiento,10510,10510,1,98.019
+datos_para_validacion,2018,2018,1,74.814
+referencia_contextual_revision,23,23,1,60.0
 total_caso,12551,12551,1,94.218

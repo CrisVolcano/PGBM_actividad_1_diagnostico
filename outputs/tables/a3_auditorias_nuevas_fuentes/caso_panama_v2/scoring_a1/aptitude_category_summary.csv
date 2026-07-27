@@ -1,4 +1,4 @@
 ﻿categoria_aptitud_preliminar,n_xy_groups,score_mean,pct_xy_groups
-entrenamiento_alta,10510,98.019,83.738
-entrenamiento_condicionado,2018,74.814,16.078
-referencia_contextual,23,60.0,0.183
+datos_para_entrenamiento,10510,98.019,83.738
+datos_para_validacion,2018,74.814,16.078
+referencia_contextual_revision,23,60.0,0.183

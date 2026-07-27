@@ -1,5 +1,5 @@
 ﻿categoria_aptitud_preliminar,categoria_uso_actividad_1_8,definición,uso_recomendado
-entrenamiento_alta,entrenamiento,Alta aptitud para uso como entrenamiento.,Usar como entrenamiento prioritario.
-entrenamiento_condicionado,entrenamiento_condicionado,Aptitud suficiente con condicionamientos metodológicos.,Usar con revisión o filtros complementarios.
-referencia_contextual,referencia_contextual,Aptitud contextual o de apoyo interpretativo.,"Usar como referencia, no como entrenamiento principal."
-revision_o_apoyo,revision_o_apoyo,Requiere revisión metodológica antes de uso.,Priorizar revisión antes de uso analítico.
+datos_para_entrenamiento,entrenamiento,Datos con alta aptitud multicriterio dentro del flujo A3 compatible con A1.,"Usar como núcleo de entrenamiento, aplicando balance por país, clase y fuente."
+datos_para_validacion,validación,Datos con aptitud buena pero no máxima; pueden tener alguna condición menor o menor fortaleza relativa.,Usar preferentemente para validación estratificada o como complemento controlado del entrenamiento.
+referencia_contextual_revision,referencia contextual,Datos con limitaciones que requieren revisión experta antes de cualquier uso supervisado.,Mantener como referencia contextual o cola de revisión experta.
+mascara_exclusion,máscaras,Datos no aptos para uso directo dentro de la preselección automática.,"Usar como máscara de exclusión, control de calidad o lista de descarte."
