@@ -28,6 +28,10 @@ Orden propuesto:
 5. `4_8_5_svm_report.py`: consolida resultados e interpretacion.
    Implementado como `4_8_5_svm_final_report.py`, consolida metricas,
    configuraciones recomendadas, clases fuertes/debiles y confusiones.
+6. `4_8_6_svm_permutation_importance.py`: calcula importancia por permutacion
+   sobre la validacion independiente para el SVM recomendado. Esta etapa no
+   reentrena el modelo; mide la caida de `f1_macro` al permutar predictores
+   originales.
 
 Secciones principales del YAML maestro:
 
@@ -38,6 +42,7 @@ Secciones principales del YAML maestro:
 - `nystroem_rbf_svm`
 - `nystroem_rbf_svm_refined`
 - `final_report`
+- `permutation_importance`
 
 Ejemplos:
 
@@ -49,6 +54,7 @@ python src/actividad_4/SVM/4_8_3_train_linear_svm.py config/a4_8_svm.yaml::linea
 python src/actividad_4/SVM/4_8_4_train_nystroem_rbf_svm.py
 python src/actividad_4/SVM/4_8_4_train_nystroem_rbf_svm.py config/a4_8_svm.yaml::nystroem_rbf_svm_refined
 python src/actividad_4/SVM/4_8_5_svm_final_report.py
+python src/actividad_4/SVM/4_8_6_svm_permutation_importance.py
 ```
 
 La imputacion y el escalamiento deben ocurrir dentro de los pipelines de

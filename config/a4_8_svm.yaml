@@ -505,3 +505,32 @@ final_report:
     skipped_models_csv: a4_8_svm_skipped_models.csv
     recommended_class_metrics_csv: a4_8_svm_recommended_class_metrics.csv
     recommended_top_confusions_csv: a4_8_svm_recommended_top_confusions.csv
+
+permutation_importance:
+  paths:
+    independent_dataset_parquet: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.parquet
+    independent_dataset_csv: data/processed/a4_8_svm/02_spatial_splits/tables/svm_independent_validation_dataset.csv
+    selected_features_txt: data/processed/a4_8_svm/01_prepare_dataset/tables/svm_selected_feature_columns.txt
+    model_path: data/processed/a4_8_svm/04_train_nystroem_rbf_svm_refined/models/nystroem_rbf_svm_refined_id_1_propuesta_best_development.joblib
+    label_encoder_path: data/processed/a4_8_svm/04_train_nystroem_rbf_svm_refined/models/nystroem_rbf_svm_refined_id_1_propuesta_label_encoder.joblib
+    output_dir: data/processed/a4_8_svm/05_permutation_importance
+
+  read:
+    prefer_parquet: true
+    csv_encoding: utf-8-sig
+
+  fields:
+    target: id_1_propuesta
+
+  permutation:
+    scoring: f1_macro
+    n_repeats: 5
+    random_state: 42
+    n_jobs: 1
+    compute_group_importance: true
+
+  outputs:
+    report_md: reports/a4_8_6_svm_permutation_importance_report.md
+    feature_importance_csv: tables/svm_permutation_feature_importance.csv
+    group_importance_csv: tables/svm_permutation_group_importance.csv
+    metadata_json: tables/svm_permutation_importance_metadata.json
