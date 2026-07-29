@@ -429,13 +429,13 @@ def plot_predictor_variogram(
     plt.close(figure)
 
 
-def plot_range_summary(
+def plot_range_detail(
     summary: pd.DataFrame,
     reference_block_km: float,
     plot_config: dict[str, Any],
     output_path: Path,
 ) -> None:
-    """Resume los rangos estimados de todos los predictores con ajuste válido."""
+    """Grafica el detalle de los rangos estimados para los 96 predictores."""
     work = summary.loc[
         summary["effective_range_km"].notna(),
         ["predictor", "effective_range_km", "range_reaches_within_max_lag"],
@@ -473,6 +473,103 @@ def plot_range_summary(
         color="#555555",
     )
     figure.savefig(output_path, dpi=int(plot_config.get("dpi", 180)), bbox_inches="tight")
+    plt.close(figure)
+
+
+def plot_range_summary(
+    summary: pd.DataFrame,
+    reference_block_km: float,
+    plot_config: dict[str, Any],
+    output_path: Path,
+) -> None:
+    """Genera una síntesis horizontal, compacta y legible al insertarla en Word."""
+    category_order = [
+        "rango_menor_que_bloque",
+        "rango_aproximado_al_bloque",
+        "rango_mayor_que_bloque",
+    ]
+    category_labels = {
+        "rango_menor_que_bloque": "Menor que el bloque\n(< 16 km)",
+        "rango_aproximado_al_bloque": "Aproximado al bloque\n(16–24 km)",
+        "rango_mayor_que_bloque": "Mayor que el bloque\n(> 24 km)",
+    }
+    category_colors = {
+        "rango_menor_que_bloque": "#2f80c1",
+        "rango_aproximado_al_bloque": "#59a14f",
+        "rango_mayor_que_bloque": "#e68645",
+    }
+
+    valid = summary.loc[summary["effective_range_km"].notna()].copy()
+    if valid.empty:
+        return
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    total = len(valid)
+    category_counts = (
+        valid["comparison_with_reference_block"]
+        .value_counts()
+        .reindex(category_order, fill_value=0)
+    )
+    reached = valid["range_reaches_within_max_lag"].fillna(False).astype(bool)
+    n_reached = int(reached.sum())
+    n_extrapolated = int((~reached).sum())
+
+    figure, axis = plt.subplots(figsize=(11.5, 5.2))
+    figure.suptitle(
+        f"Diagnóstico de autocorrelación espacial frente a bloques de {reference_block_km:g} km",
+        fontsize=18,
+        weight="bold",
+        y=0.95,
+    )
+    positions = np.arange(len(category_order))
+    values = category_counts.to_numpy(dtype=int)
+    axis.barh(
+        positions,
+        values,
+        color=[category_colors[item] for item in category_order],
+        height=0.58,
+    )
+    axis.set_yticks(
+        positions,
+        labels=[category_labels[item] for item in category_order],
+        fontsize=14,
+    )
+    axis.invert_yaxis()
+    axis.set_xlabel("Número de predictores", fontsize=14)
+    axis.tick_params(axis="x", labelsize=12)
+    axis.set_xlim(0, max(values) * 1.25)
+    axis.grid(axis="x", color="#dddddd", linewidth=0.8, alpha=0.8)
+    axis.set_axisbelow(True)
+    for position, value in enumerate(values):
+        percentage = 100.0 * value / total
+        axis.text(
+            value + max(values) * 0.025,
+            position,
+            f"{value} ({percentage:.1f} %)",
+            va="center",
+            ha="left",
+            fontsize=14,
+            weight="bold",
+        )
+
+    figure.subplots_adjust(left=0.30, right=0.96, bottom=0.22, top=0.79)
+    figure.text(
+        0.5,
+        0.055,
+        "Tolerancia descriptiva: ±20 %. "
+        f"Rango alcanzado dentro del máximo lag: {n_reached}; "
+        f"rango extrapolado: {n_extrapolated}. Total: {total} predictores.",
+        ha="center",
+        va="bottom",
+        fontsize=11.5,
+        color="#555555",
+    )
+    figure.savefig(
+        output_path,
+        dpi=max(300, int(plot_config.get("dpi", 180))),
+        bbox_inches="tight",
+        facecolor="white",
+    )
     plt.close(figure)
 
 
@@ -677,6 +774,12 @@ def run(config_path: Path) -> None:
             reference_block_km,
             plot_config,
             output_dir / outputs.get("ranges_summary_plot", "plots/predictor_effective_ranges_summary.png"),
+        )
+        plot_range_detail(
+            summary,
+            reference_block_km,
+            plot_config,
+            output_dir / outputs.get("ranges_detailed_plot", "plots/predictor_effective_ranges_detailed.png"),
         )
     write_report(
         output_dir / outputs["report_md"], summary, sample, config, metric_crs,

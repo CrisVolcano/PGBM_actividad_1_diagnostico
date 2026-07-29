@@ -1,0 +1,39 @@
+# A4.8 — Importancia por permutación de la DNN ya entrenada
+# ---------------------------------------------------------
+# Este análisis NO reentrena la red ni modifica sus pesos. Reutiliza:
+#   1) el modelo final ajustado solo con desarrollo;
+#   2) el preprocesador ajustado solo con desarrollo; y
+#   3) el holdout espacial independiente congelado.
+
+paths:
+  prepared_data_dir: data/processed/a4_8_dnn_prepared_data
+  model_artifact: data/processed/a4_8_dnn_pytorch_spatial_validation/models/dnn_best_development.pt
+  preprocessor: data/processed/a4_8_dnn_pytorch_spatial_validation/models/development_preprocessor.joblib
+  output_dir: data/processed/a4_8_dnn_permutation_importance
+
+runtime:
+  # Usa CUDA cuando está disponible; de lo contrario puede ejecutar en CPU.
+  device: auto
+  prediction_batch_size: 4096
+
+analysis:
+  # Métrica usada para ordenar las variables. Es la misma métrica principal
+  # usada en la selección del RF y de la DNN.
+  metric: f1_macro
+  n_repeats: 5
+  random_state: 42
+
+  # Vacío = todas las variables. Es posible indicar una lista concreta para
+  # diagnósticos parciales.
+  features: []
+
+  # null = las 25,555 observaciones del holdout independiente.
+  sample_size: null
+
+outputs:
+  importance_csv: tables/dnn_permutation_importance.csv
+  repeats_csv: tables/dnn_permutation_importance_repeats.csv
+  baseline_metrics_csv: tables/dnn_permutation_baseline_metrics.csv
+  report_md: reports/a4_8_dnn_permutation_importance_report.md
+  metadata_json: metadata/run_metadata.json
+  log: logs/a4_8_dnn_permutation_importance.log
