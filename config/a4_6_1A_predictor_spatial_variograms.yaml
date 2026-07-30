@@ -80,3 +80,4 @@ outputs:
   report_md: reports/predictor_spatial_variograms_report.md
   plots_dir: plots/by_predictor
   ranges_summary_plot: plots/predictor_effective_ranges_summary.png
+  ranges_detailed_plot: plots/predictor_effective_ranges_detailed.png

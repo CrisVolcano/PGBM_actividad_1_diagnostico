@@ -1,0 +1,179 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram id="modelado-implementado" name="Modelado y validación espacial">
+    <mxGraphModel dx="2538" dy="1444" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#0b5394;strokeColor=#073763;fontColor=#ffffff;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Flujo implementado de modelado y validación espacial&#xa;Modelo regional generalista · cuadrantes de 20 × 20 km" vertex="1">
+          <mxGeometry height="80" width="1700" x="560" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="reference_data" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Datos de referencia&#xa;armonizados&#xa;clases homologadas" vertex="1">
+          <mxGeometry height="120" width="330" x="570" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="predictor_extraction" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Extracción y normalización&#xa;de predictores por punto&#xa;S1 · S2 · DEM · clima · texturas" vertex="1">
+          <mxGeometry height="120" width="370" x="980" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="master_dataset" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Dataset maestro de modelado&#xa;124.972 puntos · 96 predictores&#xa;10 clases · clave xy_group_id" vertex="1">
+          <mxGeometry height="120" width="370" x="1430" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="8KSYhsFO5eHftEuwYsRq-2" edge="1" parent="1" source="spatial_groups" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="8KSYhsFO5eHftEuwYsRq-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="spatial_groups" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Agrupación espacial&#xa;id_cuadrante&#xa;bloques completos 20 × 20 km" vertex="1">
+          <mxGeometry height="120" width="370" x="1880" y="165" as="geometry" />
+        </mxCell>
+        <mxCell id="frozen_protocol" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=10;" value="Protocolo espacial común y congelado&#xa;Desarrollo: 99.417 puntos · validación cruzada espacial: 5 folds&#xa;Holdout independiente: 25.555 puntos · sin cuadrantes compartidos · selección por F1 macro" vertex="1">
+          <mxGeometry height="145" width="1100" x="860" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="branch_header" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;fontStyle=1;align=center;verticalAlign=middle;spacing=6;" value="Ramas de entrenamiento: los mismos puntos, clases, folds y holdout; cambia el preprocesamiento y la búsqueda específica del algoritmo" vertex="1">
+          <mxGeometry height="48" width="1680" x="690" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="rf_input" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#eaf2f8;strokeColor=#6c8ebf;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Entrada común&#xa;desarrollo + folds&#xa;96 predictores" vertex="1">
+          <mxGeometry height="100" width="175" x="570" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="rf_config" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Configuración RF&#xa;imputación mediana&#xa;balanced_subsample + GridSearch" vertex="1">
+          <mxGeometry height="100" width="180" x="760" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="rf_model" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;strokeWidth=2;" value="RANDOM FOREST&#xa;modelo seleccionado&#xa;entrenado solo con desarrollo&#xa;duración: 5 h 00 min" vertex="1">
+          <mxGeometry height="135" width="300" x="605" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="dnn_input" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#eaf2f8;strokeColor=#6c8ebf;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Entrada común&#xa;desarrollo + folds&#xa;preprocesador por fold" vertex="1">
+          <mxGeometry height="100" width="175" x="1000" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="dnn_config" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Configuración DNN&#xa;mediana + estandarización&#xa;optimizador · LR · dropout · épocas" vertex="1">
+          <mxGeometry height="100" width="180" x="1190" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="dnn_model" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;strokeWidth=2;" value="DNN PYTORCH&#xa;6 capas × 200 · tanh&#xa;entrenada solo con desarrollo&#xa;duración activa: 5 h 57 min" vertex="1">
+          <mxGeometry height="135" width="300" x="1035" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="svm_input" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#eaf2f8;strokeColor=#6c8ebf;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Entrada común&#xa;desarrollo + folds&#xa;mediana + estandarización" vertex="1">
+          <mxGeometry height="100" width="175" x="1430" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="svm_config" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Configuración SVM&#xa;Lineal y Nyström-RBF&#xa;GridSearch por F1 macro" vertex="1">
+          <mxGeometry height="100" width="180" x="1620" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="svm_model" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;strokeWidth=2;" value="SVM&#xa;variante comparada: Nyström-RBF&#xa;aproximación de kernel + LinearSVC&#xa;duración familia: 41 min" vertex="1">
+          <mxGeometry height="135" width="300" x="1465" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="xgb_input" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#eaf2f8;strokeColor=#6c8ebf;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Entrada común&#xa;desarrollo + folds&#xa;clases codificadas" vertex="1">
+          <mxGeometry height="100" width="175" x="1860" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="xgb_config" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;align=center;verticalAlign=middle;spacing=6;" value="Configuración XGBoost&#xa;GPU · tree_method=hist&#xa;base + GridSearch por F1 macro" vertex="1">
+          <mxGeometry height="100" width="180" x="2050" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="xgb_model" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=8;strokeWidth=2;" value="XGBOOST GPU&#xa;variante comparada: GridSearch&#xa;multi:softprob · CUDA&#xa;duración familia: 31 min" vertex="1">
+          <mxGeometry height="135" width="300" x="1895" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="independent_evaluation" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f8cecc;strokeColor=#b85450;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=10;strokeWidth=2;" value="Evaluación independiente común * — una vez por modelo&#xa;Las mismas 25.555 observaciones y clases verdaderas en RF, DNN, SVM y XGBoost&#xa;Accuracy · balanced accuracy · F1 macro/ponderado · kappa · métricas por clase · matrices de confusión" vertex="1">
+          <mxGeometry height="125" width="1140" x="840" y="945" as="geometry" />
+        </mxCell>
+        <mxCell id="comparison" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=18;fontStyle=1;align=center;verticalAlign=middle;spacing=10;strokeWidth=2;" value="Comparación conjunta A4.10 y diagnóstico de generalización&#xa;SVM: mayor F1 macro · DNN: mayor balanced accuracy · RF: mayor accuracy y kappa&#xa;Firmas SHA-256 confirmaron el mismo holdout y los mismos folds para los cuatro modelos" vertex="1">
+          <mxGeometry height="110" width="980" x="920" y="1120" as="geometry" />
+        </mxCell>
+        <mxCell id="interpretability" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;align=left;verticalAlign=middle;spacing=10;" value="Salidas de interpretación&#xa;RF: importancia nativa&#xa;DNN: importancia por permutación&#xa;SVM: coeficientes&#xa;XGBoost: importancia de variables" vertex="1">
+          <mxGeometry height="130" width="310" x="1940" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="independence_note" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;align=left;verticalAlign=middle;spacing=10;" value="* Regla de independencia&#xa;El holdout no participó en búsqueda, selección ni ajuste. Los modelos reportados se entrenaron exclusivamente con desarrollo." vertex="1">
+          <mxGeometry height="130" width="310" x="550" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="e_reference_predictors" edge="1" parent="1" source="reference_data" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#666666;" target="predictor_extraction">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_predictors_dataset" edge="1" parent="1" source="predictor_extraction" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#666666;" target="master_dataset">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_dataset_groups" edge="1" parent="1" source="master_dataset" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#666666;" target="spatial_groups">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_groups_protocol" edge="1" parent="1" source="spatial_groups" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#666666;" target="frozen_protocol">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2065" y="310" />
+              <mxPoint x="1410" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_dataset_protocol" edge="1" parent="1" source="master_dataset" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#666666;dashed=1;" target="frozen_protocol">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_protocol_rf" edge="1" parent="1" source="frozen_protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#6c8ebf;" target="rf_input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1410" y="580" />
+              <mxPoint x="658" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_protocol_dnn" edge="1" parent="1" source="frozen_protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#6c8ebf;" target="dnn_input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1410" y="580" />
+              <mxPoint x="1088" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_protocol_svm" edge="1" parent="1" source="frozen_protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#6c8ebf;" target="svm_input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1410" y="580" />
+              <mxPoint x="1518" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_protocol_xgb" edge="1" parent="1" source="frozen_protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#6c8ebf;" target="xgb_input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1410" y="580" />
+              <mxPoint x="1948" y="580" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_rf_input_model" edge="1" parent="1" source="rf_input" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="rf_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rf_config_model" edge="1" parent="1" source="rf_config" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="rf_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_dnn_input_model" edge="1" parent="1" source="dnn_input" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="dnn_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_dnn_config_model" edge="1" parent="1" source="dnn_config" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="dnn_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_svm_input_model" edge="1" parent="1" source="svm_input" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="svm_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_svm_config_model" edge="1" parent="1" source="svm_config" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="svm_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_xgb_input_model" edge="1" parent="1" source="xgb_input" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="xgb_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_xgb_config_model" edge="1" parent="1" source="xgb_config" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#9673a6;" target="xgb_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_rf_evaluation" edge="1" parent="1" source="rf_model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;" target="independent_evaluation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_dnn_evaluation" edge="1" parent="1" source="dnn_model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;" target="independent_evaluation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_svm_evaluation" edge="1" parent="1" source="svm_model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;" target="independent_evaluation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_xgb_evaluation" edge="1" parent="1" source="xgb_model" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#b85450;" target="independent_evaluation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_evaluation_comparison" edge="1" parent="1" source="independent_evaluation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=3;endArrow=block;endFill=1;strokeColor=#82b366;" target="comparison">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_comparison_interpretability" edge="1" parent="1" source="comparison" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=0;strokeWidth=2;endArrow=block;endFill=1;strokeColor=#666666;dashed=1;" target="interpretability">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8KSYhsFO5eHftEuwYsRq-1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=17;fontStyle=1;align=center;verticalAlign=middle;spacing=8;" value="Subactividad: determinación de la autocorrelación espacial para establecer los cuadrantes. " vertex="1">
+          <mxGeometry height="120" width="370" x="2000" y="335" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
