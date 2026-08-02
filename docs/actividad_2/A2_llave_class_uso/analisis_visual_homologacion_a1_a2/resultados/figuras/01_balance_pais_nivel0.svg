@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="553" viewBox="0 0 1280 553" role="img" aria-label="Balance país por nivel 0 homologado">
+<defs>
+  <style>
+    .axis { stroke: #C8CED1; stroke-width: 1; }
+    .grid { stroke: #E8ECEC; stroke-width: 1; }
+    .caption { fill: #697276; font-size: 13px; }
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="34.00" y="40.00" font-size="23" font-weight="700" fill="#172326" text-anchor="start" >Balance país por nivel 0 homologado</text>
+<text x="34.00" y="64.00" font-size="13" font-weight="400" fill="#697276" text-anchor="start" >Barras al 100% por país; el círculo codifica el volumen total de grupos XY.</text>
+<text x="225.00" y="94.00" font-size="12" font-weight="400" fill="#697276" text-anchor="start" >Composición dentro de cada país</text>
+<text x="999.00" y="94.00" font-size="12" font-weight="400" fill="#697276" text-anchor="start" >Volumen XY</text>
+<text x="207.00" y="129.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >El Salvador</text>
+<rect x="225" y="112" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="112" width="228.63" height="24" fill="#246B4B"/>
+<text x="339.32" y="128.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >32%</text>
+<rect x="453.63" y="112" width="491.37" height="24" fill="#D2923A"/>
+<text x="699.32" y="128.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >68%</text>
+<circle cx="1017" cy="124" r="23.00" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="128.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >571,610</text>
+<text x="207.00" y="171.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >Guatemala</text>
+<rect x="225" y="154" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="154" width="2.12" height="24" fill="#246B4B"/>
+<rect x="227.12" y="154" width="717.88" height="24" fill="#D2923A"/>
+<text x="586.06" y="170.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >100%</text>
+<circle cx="1017" cy="166" r="15.91" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="170.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >209,829</text>
+<text x="207.00" y="213.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >Costa Rica</text>
+<rect x="225" y="196" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="196" width="300.64" height="24" fill="#246B4B"/>
+<text x="375.32" y="212.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >42%</text>
+<rect x="525.64" y="196" width="419.36" height="24" fill="#D2923A"/>
+<text x="735.32" y="212.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >58%</text>
+<circle cx="1017" cy="208" r="13.68" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="212.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >133,066</text>
+<text x="207.00" y="255.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >Honduras</text>
+<rect x="225" y="238" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="238" width="81.84" height="24" fill="#246B4B"/>
+<text x="265.92" y="254.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >11%</text>
+<rect x="306.84" y="238" width="638.16" height="24" fill="#D2923A"/>
+<text x="625.92" y="254.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >89%</text>
+<circle cx="1017" cy="250" r="13.67" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="254.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >132,683</text>
+<text x="207.00" y="297.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >Belice</text>
+<rect x="225" y="280" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="280" width="310.46" height="24" fill="#246B4B"/>
+<text x="380.23" y="296.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >43%</text>
+<rect x="535.46" y="280" width="409.54" height="24" fill="#D2923A"/>
+<text x="740.23" y="296.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >57%</text>
+<circle cx="1017" cy="292" r="9.35" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="296.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >33,319</text>
+<text x="207.00" y="339.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >Panamá</text>
+<rect x="225" y="322" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="322" width="71.42" height="24" fill="#246B4B"/>
+<rect x="296.42" y="322" width="648.58" height="24" fill="#D2923A"/>
+<text x="620.71" y="338.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >90%</text>
+<circle cx="1017" cy="334" r="9.07" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="338.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >29,187</text>
+<text x="207.00" y="381.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >México</text>
+<rect x="225" y="364" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="364" width="506.91" height="24" fill="#246B4B"/>
+<text x="478.46" y="380.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >70%</text>
+<rect x="731.91" y="364" width="213.09" height="24" fill="#D2923A"/>
+<text x="838.46" y="380.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >30%</text>
+<circle cx="1017" cy="376" r="6.10" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="380.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >2,149</text>
+<text x="207.00" y="423.00" font-size="13" font-weight="600" fill="#263238" text-anchor="end" >Nicaragua</text>
+<rect x="225" y="406" width="720" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="225.00" y="406" width="0.00" height="24" fill="#246B4B"/>
+<rect x="225.00" y="406" width="720.00" height="24" fill="#D2923A"/>
+<text x="585.00" y="422.00" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >100%</text>
+<circle cx="1017" cy="418" r="5.06" fill="#263238" opacity="0.18"/>
+<text x="1052.00" y="422.00" font-size="12" font-weight="600" fill="#263238" text-anchor="start" >7</text>
+<rect x="225" y="509" width="16" height="16" rx="3" fill="#246B4B"/>
+<text x="249.00" y="522.00" font-size="13" font-weight="400" fill="#37474F" text-anchor="start" >Bosques / tierras forestales</text>
+<rect x="470" y="509" width="16" height="16" rx="3" fill="#D2923A"/>
+<text x="494.00" y="522.00" font-size="13" font-weight="400" fill="#37474F" text-anchor="start" >No bosques</text>
+</svg>

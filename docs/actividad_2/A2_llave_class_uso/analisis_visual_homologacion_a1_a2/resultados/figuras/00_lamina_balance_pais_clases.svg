@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="660" viewBox="0 0 1600 660" role="img" aria-label="">
+<defs>
+  <style>
+    .axis { stroke: #C8CED1; stroke-width: 1; }
+    .grid { stroke: #E8ECEC; stroke-width: 1; }
+    .caption { fill: #697276; font-size: 13px; }
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+
+<rect x="54" y="48" width="710" height="570" rx="10" fill="#FFFFFF" stroke="#DDE3E2"/>
+<text x="78.00" y="84.00" font-size="18" font-weight="800" fill="#172326" text-anchor="start" >Balance país por nivel 0</text>
+<text x="78.00" y="108.00" font-size="12" font-weight="500" fill="#697276" text-anchor="start" >% dentro de cada país; etiqueta derecha = nXY</text>
+<text x="182.00" y="157.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >El Salvador</text>
+<rect x="196" y="140" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="140" width="133.37" height="24" fill="#246B4B"/>
+<text x="262.68" y="156.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >32%</text>
+<rect x="329.37" y="140" width="286.63" height="24" fill="#D2923A"/>
+<text x="472.68" y="156.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >68%</text>
+<text x="634.00" y="157.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >571,610</text>
+<text x="182.00" y="203.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >Guatemala</text>
+<rect x="196" y="186" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="186" width="1.24" height="24" fill="#246B4B"/>
+<rect x="197.24" y="186" width="418.76" height="24" fill="#D2923A"/>
+<text x="406.62" y="202.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >100%</text>
+<text x="634.00" y="203.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >209,829</text>
+<text x="182.00" y="249.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >Costa Rica</text>
+<rect x="196" y="232" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="232" width="175.38" height="24" fill="#246B4B"/>
+<text x="283.69" y="248.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >42%</text>
+<rect x="371.38" y="232" width="244.62" height="24" fill="#D2923A"/>
+<text x="493.69" y="248.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >58%</text>
+<text x="634.00" y="249.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >133,066</text>
+<text x="182.00" y="295.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >Honduras</text>
+<rect x="196" y="278" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="278" width="47.74" height="24" fill="#246B4B"/>
+<rect x="243.74" y="278" width="372.26" height="24" fill="#D2923A"/>
+<text x="429.87" y="294.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >89%</text>
+<text x="634.00" y="295.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >132,683</text>
+<text x="182.00" y="341.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >Belice</text>
+<rect x="196" y="324" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="324" width="181.10" height="24" fill="#246B4B"/>
+<text x="286.55" y="340.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >43%</text>
+<rect x="377.10" y="324" width="238.90" height="24" fill="#D2923A"/>
+<text x="496.55" y="340.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >57%</text>
+<text x="634.00" y="341.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >33,319</text>
+<text x="182.00" y="387.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >Panamá</text>
+<rect x="196" y="370" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="370" width="41.66" height="24" fill="#246B4B"/>
+<rect x="237.66" y="370" width="378.34" height="24" fill="#D2923A"/>
+<text x="426.83" y="386.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >90%</text>
+<text x="634.00" y="387.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >29,187</text>
+<text x="182.00" y="433.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >México</text>
+<rect x="196" y="416" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="416" width="295.70" height="24" fill="#246B4B"/>
+<text x="343.85" y="432.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >70%</text>
+<rect x="491.70" y="416" width="124.30" height="24" fill="#D2923A"/>
+<text x="553.85" y="432.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >30%</text>
+<text x="634.00" y="433.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >2,149</text>
+<text x="182.00" y="479.00" font-size="13" font-weight="650" fill="#263238" text-anchor="end" >Nicaragua</text>
+<rect x="196" y="462" width="420" height="24" rx="5" fill="#EEF1F0"/>
+<rect x="196.00" y="462" width="0.00" height="24" fill="#246B4B"/>
+<rect x="196.00" y="462" width="420.00" height="24" fill="#D2923A"/>
+<text x="406.00" y="478.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle" >100%</text>
+<text x="634.00" y="479.00" font-size="12" font-weight="700" fill="#37474F" text-anchor="start" >7</text>
+<rect x="78" y="530" width="16" height="16" rx="3" fill="#246B4B"/>
+<text x="102.00" y="543.00" font-size="12" font-weight="600" fill="#37474F" text-anchor="start" >Bosques / tierras forestales</text>
+<rect x="328" y="530" width="16" height="16" rx="3" fill="#D2923A"/>
+<text x="352.00" y="543.00" font-size="12" font-weight="600" fill="#37474F" text-anchor="start" >No bosques</text>
+<rect x="810" y="48" width="736" height="570" rx="10" fill="#FFFFFF" stroke="#DDE3E2"/>
+<text x="834.00" y="84.00" font-size="18" font-weight="800" fill="#172326" text-anchor="start" >Nivel 1 homologado regional</text>
+<text x="834.00" y="108.00" font-size="12" font-weight="500" fill="#697276" text-anchor="start" >Cantidad de grupos XY únicos por clase</text>
+<rect x="1082" y="126" width="390" height="418" rx="8" fill="#EEF3F8"/>
+<line x1="1082.00" y1="126" x2="1082.00" y2="544" stroke="#FFFFFF" stroke-width="2"/>
+<text x="1082.00" y="574.00" font-size="11" font-weight="600" fill="#536173" text-anchor="middle" >0</text>
+<line x1="1160.00" y1="126" x2="1160.00" y2="544" stroke="#FFFFFF" stroke-width="2"/>
+<text x="1160.00" y="574.00" font-size="11" font-weight="600" fill="#536173" text-anchor="middle" >100k</text>
+<line x1="1238.00" y1="126" x2="1238.00" y2="544" stroke="#FFFFFF" stroke-width="2"/>
+<text x="1238.00" y="574.00" font-size="11" font-weight="600" fill="#536173" text-anchor="middle" >200k</text>
+<line x1="1316.00" y1="126" x2="1316.00" y2="544" stroke="#FFFFFF" stroke-width="2"/>
+<text x="1316.00" y="574.00" font-size="11" font-weight="600" fill="#536173" text-anchor="middle" >300k</text>
+<line x1="1394.00" y1="126" x2="1394.00" y2="544" stroke="#FFFFFF" stroke-width="2"/>
+<text x="1394.00" y="574.00" font-size="11" font-weight="600" fill="#536173" text-anchor="middle" >400k</text>
+<line x1="1472.00" y1="126" x2="1472.00" y2="544" stroke="#FFFFFF" stroke-width="2"/>
+<text x="1472.00" y="574.00" font-size="11" font-weight="600" fill="#536173" text-anchor="middle" >500k</text>
+<text x="1062.00" y="159.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Bosques secos</text>
+<rect x="1082" y="142" width="1.40" height="22" rx="4" fill="#8AA64C"/>
+<text x="1091.40" y="159.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >1,792</text>
+<text x="1062.00" y="199.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Cuerpos de agua</text>
+<rect x="1082" y="182" width="1.94" height="22" rx="4" fill="#3D7FA6"/>
+<text x="1091.94" y="199.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >2,491</text>
+<text x="1062.00" y="239.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Plantaciones forestales</text>
+<rect x="1082" y="222" width="2.53" height="22" rx="4" fill="#6B7F3A"/>
+<text x="1092.53" y="239.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >3,238</text>
+<text x="1062.00" y="279.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Bosques de mangle</text>
+<rect x="1082" y="262" width="9.30" height="22" rx="4" fill="#1B8A7A"/>
+<text x="1099.30" y="279.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >11,920</text>
+<text x="1062.00" y="319.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Bosques de coníferas</text>
+<rect x="1082" y="302" width="10.48" height="22" rx="4" fill="#4D8E4A"/>
+<text x="1100.48" y="319.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >13,442</text>
+<text x="1062.00" y="359.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Otras tierras</text>
+<rect x="1082" y="342" width="12.11" height="22" rx="4" fill="#7A7A7A"/>
+<text x="1102.11" y="359.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >15,527</text>
+<text x="1062.00" y="399.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Construido</text>
+<rect x="1082" y="382" width="25.13" height="22" rx="4" fill="#8A6E58"/>
+<text x="1115.13" y="399.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >32,219</text>
+<text x="1062.00" y="439.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Bosques latifoliados y mixtos</text>
+<rect x="1082" y="422" width="188.10" height="22" rx="4" fill="#2E7D59"/>
+<text x="1278.10" y="439.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >241,156</text>
+<text x="1062.00" y="479.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Cultivos arbóreos</text>
+<rect x="1082" y="462" width="272.02" height="22" rx="4" fill="#B6812A"/>
+<text x="1362.02" y="479.00" font-size="11" font-weight="800" fill="#334155" text-anchor="start" >348,740</text>
+<text x="1062.00" y="519.00" font-size="12" font-weight="650" fill="#334155" text-anchor="end" >Zonas agrícolas no arbóreas</text>
+<rect x="1082" y="502" width="344.23" height="22" rx="4" fill="#D2923A"/>
+<text x="1416.23" y="519.00" font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="end" >441,325</text>
+</svg>

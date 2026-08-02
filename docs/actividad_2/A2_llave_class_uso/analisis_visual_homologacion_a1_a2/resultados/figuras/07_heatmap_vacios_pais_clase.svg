@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="586" viewBox="0 0 1420 586" role="img" aria-label="Vacíos y alertas país x clase">
+<defs>
+  <style>
+    .axis { stroke: #C8CED1; stroke-width: 1; }
+    .grid { stroke: #E8ECEC; stroke-width: 1; }
+    .caption { fill: #697276; font-size: 13px; }
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="34.00" y="40.00" font-size="23" font-weight="700" fill="#172326" text-anchor="start" >Vacíos y alertas país x clase</text>
+<text x="34.00" y="64.00" font-size="13" font-weight="400" fill="#697276" text-anchor="start" >Estado por país y clase original nivel 1. Los umbrales indican cobertura mínima operativa, no aptitud final para modelado.</text>
+<text x="174.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Otras</text>
+<text x="174.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >91</text>
+<text x="278.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Otras tierras</text>
+<text x="278.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >12</text>
+<text x="382.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Urbano</text>
+<text x="382.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >11</text>
+<text x="486.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Bosque de</text>
+<text x="486.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >coníferas</text>
+<text x="486.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >42</text>
+<text x="590.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Manglares</text>
+<text x="590.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >43</text>
+<text x="694.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Cuerpos de</text>
+<text x="694.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Agua</text>
+<text x="694.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >21</text>
+<text x="798.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Otros arbóreo</text>
+<text x="798.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >en tierras no</text>
+<text x="798.00" y="122.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >agrícola</text>
+<text x="798.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >44</text>
+<text x="902.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Humedales</text>
+<text x="902.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >22</text>
+<text x="1006.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Cultivos</text>
+<text x="1006.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Arbóreos</text>
+<text x="1006.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >32</text>
+<text x="1110.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Bosque</text>
+<text x="1110.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >latifoliado y</text>
+<text x="1110.00" y="122.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >mixto</text>
+<text x="1110.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >41</text>
+<text x="1214.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Cultivos</text>
+<text x="1214.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >intensivos</text>
+<text x="1214.00" y="122.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >No-Arbóreos</text>
+<text x="1214.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >31</text>
+<text x="1318.00" y="96.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Cultivos</text>
+<text x="1318.00" y="109.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >extensivos,</text>
+<text x="1318.00" y="122.00" font-size="10" font-weight="600" fill="#475258" text-anchor="middle" >Pastizales y</text>
+<text x="1318.00" y="153.00" font-size="10" font-weight="600" fill="#697276" text-anchor="middle" >33</text>
+<text x="108.00" y="199.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Nicaragua</text>
+<rect x="122" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="174.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="226" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="278.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="330" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="382.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="434" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="486.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="538" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="590.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="642" y="178" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="694.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="746" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="798.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="850" y="178" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="902.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="954" y="178" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="1006.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="1058" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="1110.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="1162" y="178" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="1214.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="1266" y="178" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="1318.00" y="199.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<text x="108.00" y="233.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >México</text>
+<rect x="122" y="212" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="174.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="226" y="212" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="278.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="330" y="212" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="382.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="434" y="212" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="486.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="538" y="212" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="590.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="642" y="212" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="694.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="746" y="212" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="798.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="850" y="212" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="902.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="954" y="212" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="1006.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="1058" y="212" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1162" y="212" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="1214.00" y="233.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="1266" y="212" width="102" height="32" rx="4" fill="#5E9E73"/>
+<text x="108.00" y="267.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Guatemala</text>
+<rect x="122" y="246" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="174.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="226" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="278.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="330" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="382.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="434" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="486.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="538" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="590.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="642" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="694.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="746" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="798.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="850" y="246" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="902.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="954" y="246" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1058" y="246" width="102" height="32" rx="4" fill="#D6B94A"/>
+<text x="1110.00" y="267.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >s</text>
+<rect x="1162" y="246" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1266" y="246" width="102" height="32" rx="4" fill="#5E9E73"/>
+<text x="108.00" y="301.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Panamá</text>
+<rect x="122" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="174.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="226" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="278.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="330" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="382.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="434" y="280" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="486.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="538" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="590.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="642" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="694.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="746" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="798.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="850" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="902.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="954" y="280" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="1006.00" y="301.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="1058" y="280" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1162" y="280" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1266" y="280" width="102" height="32" rx="4" fill="#5E9E73"/>
+<text x="108.00" y="335.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Costa Rica</text>
+<rect x="122" y="314" width="102" height="32" rx="4" fill="#D6B94A"/>
+<text x="174.00" y="335.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >s</text>
+<rect x="226" y="314" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="278.00" y="335.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="330" y="314" width="102" height="32" rx="4" fill="#D6B94A"/>
+<text x="382.00" y="335.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >s</text>
+<rect x="434" y="314" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="486.00" y="335.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="538" y="314" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="590.00" y="335.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="642" y="314" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="694.00" y="335.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="746" y="314" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="850" y="314" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="954" y="314" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1058" y="314" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1162" y="314" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1266" y="314" width="102" height="32" rx="4" fill="#5E9E73"/>
+<text x="108.00" y="369.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Belice</text>
+<rect x="122" y="348" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="174.00" y="369.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="226" y="348" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="278.00" y="369.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="330" y="348" width="102" height="32" rx="4" fill="#D6B94A"/>
+<text x="382.00" y="369.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >s</text>
+<rect x="434" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="538" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="642" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="746" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="850" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="954" y="348" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="1006.00" y="369.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="1058" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1162" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1266" y="348" width="102" height="32" rx="4" fill="#5E9E73"/>
+<text x="108.00" y="403.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >El Salvador</text>
+<rect x="122" y="382" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="174.00" y="403.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="226" y="382" width="102" height="32" rx="4" fill="#D6B94A"/>
+<text x="278.00" y="403.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >s</text>
+<rect x="330" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="434" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="538" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="642" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="746" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="850" y="382" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="902.00" y="403.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="954" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1058" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1162" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1266" y="382" width="102" height="32" rx="4" fill="#5E9E73"/>
+<text x="108.00" y="437.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Honduras</text>
+<rect x="122" y="416" width="102" height="32" rx="4" fill="#B94A48"/>
+<text x="174.00" y="437.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >0</text>
+<rect x="226" y="416" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="278.00" y="437.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="330" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="434" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="538" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="642" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="746" y="416" width="102" height="32" rx="4" fill="#D9903D"/>
+<text x="798.00" y="437.00" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle" >n</text>
+<rect x="850" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="954" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1058" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1162" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="1266" y="416" width="102" height="32" rx="4" fill="#5E9E73"/>
+<rect x="122" y="508" width="16" height="16" rx="3" fill="#B94A48"/>
+<text x="146.00" y="521.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Sin puntos</text>
+<rect x="282" y="508" width="16" height="16" rx="3" fill="#D9903D"/>
+<text x="306.00" y="521.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Baja cantidad</text>
+<rect x="442" y="508" width="16" height="16" rx="3" fill="#D6B94A"/>
+<text x="466.00" y="521.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Score bajo</text>
+<rect x="602" y="508" width="16" height="16" rx="3" fill="#5E9E73"/>
+<text x="626.00" y="521.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Cumple umbral operativo</text>
+<text x="122.00" y="551.00" font-size="12" font-weight="500" fill="#697276" text-anchor="start" >Cumple umbral operativo = nXY &gt;= 200 y score medio &gt;= 80. No implica balance espacial, independencia entre fuentes ni suficiencia para modelado sin estratificación.</text>
+</svg>

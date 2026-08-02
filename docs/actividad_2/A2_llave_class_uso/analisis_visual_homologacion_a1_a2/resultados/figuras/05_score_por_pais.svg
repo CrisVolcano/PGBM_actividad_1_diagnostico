@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="529" viewBox="0 0 1180 529" role="img" aria-label="Distribución de score de aptitud por país">
+<defs>
+  <style>
+    .axis { stroke: #C8CED1; stroke-width: 1; }
+    .grid { stroke: #E8ECEC; stroke-width: 1; }
+    .caption { fill: #697276; font-size: 13px; }
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="34.00" y="40.00" font-size="23" font-weight="700" fill="#172326" text-anchor="start" >Distribución de score de aptitud por país</text>
+<text x="34.00" y="64.00" font-size="13" font-weight="400" fill="#697276" text-anchor="start" >Línea gris = p10-p90; barra verde = p25-p75; punto = mediana; rombo = promedio.</text>
+<line x1="190.0" y1="87" x2="190.0" y2="459" class="grid"/>
+<text x="190.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >40</text>
+<line x1="335.0" y1="87" x2="335.0" y2="459" class="grid"/>
+<text x="335.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >50</text>
+<line x1="480.0" y1="87" x2="480.0" y2="459" class="grid"/>
+<text x="480.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >60</text>
+<line x1="625.0" y1="87" x2="625.0" y2="459" class="grid"/>
+<text x="625.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >70</text>
+<line x1="770.0" y1="87" x2="770.0" y2="459" class="grid"/>
+<text x="770.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >80</text>
+<line x1="915.0" y1="87" x2="915.0" y2="459" class="grid"/>
+<text x="915.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >90</text>
+<line x1="1060.0" y1="87" x2="1060.0" y2="459" class="grid"/>
+<text x="1060.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >100</text>
+<text x="1070.00" y="481.00" font-size="11" font-weight="400" fill="#697276" text-anchor="start" >score</text>
+<text x="172.00" y="118.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Guatemala</text>
+<line x1="969.27" y1="114" x2="1038.55" y2="114" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="1014.09" y1="114" x2="1033.33" y2="114" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="1026.55" cy="114" r="5" fill="#172326"/>
+<path d="M 1007.60 107 L 1014.60 114 L 1007.60 121 L 1000.60 114 Z" fill="#D2923A"/>
+<text x="1078.00" y="118.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 97.7</text>
+<text x="172.00" y="160.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Costa Rica</text>
+<line x1="780.64" y1="156" x2="1016.33" y2="156" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="891.41" y1="156" x2="1008.50" y2="156" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="994.18" cy="156" r="5" fill="#172326"/>
+<path d="M 933.77 149 L 940.77 156 L 933.77 163 L 926.77 156 Z" fill="#D2923A"/>
+<text x="1078.00" y="160.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 95.5</text>
+<text x="172.00" y="202.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Panamá</text>
+<line x1="948.34" y1="198" x2="1001.62" y2="198" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="978.07" y1="198" x2="997.10" y2="198" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="992.88" cy="198" r="5" fill="#172326"/>
+<path d="M 979.93 191 L 986.93 198 L 979.93 205 L 972.93 198 Z" fill="#D2923A"/>
+<text x="1078.00" y="202.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 95.4</text>
+<text x="172.00" y="244.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >México</text>
+<line x1="813.84" y1="240" x2="1024.09" y2="240" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="890.70" y1="240" x2="1021.05" y2="240" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="967.59" cy="240" r="5" fill="#172326"/>
+<path d="M 939.17 233 L 946.17 240 L 939.17 247 L 932.17 240 Z" fill="#D2923A"/>
+<text x="1078.00" y="244.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 93.6</text>
+<text x="172.00" y="286.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >El Salvador</text>
+<line x1="802.29" y1="282" x2="999.25" y2="282" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="867.64" y1="282" x2="989.37" y2="282" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="944.10" cy="282" r="5" fill="#172326"/>
+<path d="M 910.26 275 L 917.26 282 L 910.26 289 L 903.26 282 Z" fill="#D2923A"/>
+<text x="1078.00" y="286.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 92.0</text>
+<text x="172.00" y="328.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Honduras</text>
+<line x1="747.38" y1="324" x2="973.90" y2="324" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="803.26" y1="324" x2="884.56" y2="324" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="845.79" cy="324" r="5" fill="#172326"/>
+<path d="M 836.04 317 L 843.04 324 L 836.04 331 L 829.04 324 Z" fill="#D2923A"/>
+<text x="1078.00" y="328.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 85.2</text>
+<text x="172.00" y="370.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Nicaragua</text>
+<line x1="578.98" y1="366" x2="861.58" y2="366" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="732.27" y1="366" x2="850.05" y2="366" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="822.03" cy="366" r="5" fill="#172326"/>
+<path d="M 761.22 359 L 768.22 366 L 761.22 373 L 754.22 366 Z" fill="#D2923A"/>
+<text x="1078.00" y="370.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 83.6</text>
+<text x="172.00" y="412.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Belice</text>
+<line x1="697.50" y1="408" x2="894.61" y2="408" stroke="#AAB4B7" stroke-width="3" stroke-linecap="round"/>
+<line x1="793.78" y1="408" x2="871.66" y2="408" stroke="#2E7D59" stroke-width="10" stroke-linecap="round"/>
+<circle cx="811.63" cy="408" r="5" fill="#172326"/>
+<path d="M 816.39 401 L 823.39 408 L 816.39 415 L 809.39 408 Z" fill="#D2923A"/>
+<text x="1078.00" y="412.00" font-size="11" font-weight="600" fill="#263238" text-anchor="start" >med 82.9</text>
+</svg>

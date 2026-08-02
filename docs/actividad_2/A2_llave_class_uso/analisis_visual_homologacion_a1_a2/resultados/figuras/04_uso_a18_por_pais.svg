@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="543" viewBox="0 0 1280 543" role="img" aria-label="Uso homologado A1.8 por país">
+<defs>
+  <style>
+    .axis { stroke: #C8CED1; stroke-width: 1; }
+    .grid { stroke: #E8ECEC; stroke-width: 1; }
+    .caption { fill: #697276; font-size: 13px; }
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="34.00" y="40.00" font-size="23" font-weight="700" fill="#172326" text-anchor="start" >Uso homologado A1.8 por país</text>
+<text x="34.00" y="64.00" font-size="13" font-weight="400" fill="#697276" text-anchor="start" >Composición de uso final A1.8 por país; etiqueta derecha = grupos XY.</text>
+<line x1="210.0" y1="96" x2="210.0" y2="455" class="grid"/>
+<text x="210.00" y="475.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >0%</text>
+<line x1="407.5" y1="96" x2="407.5" y2="455" class="grid"/>
+<text x="407.50" y="475.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >25%</text>
+<line x1="605.0" y1="96" x2="605.0" y2="455" class="grid"/>
+<text x="605.00" y="475.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >50%</text>
+<line x1="802.5" y1="96" x2="802.5" y2="455" class="grid"/>
+<text x="802.50" y="475.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >75%</text>
+<line x1="1000.0" y1="96" x2="1000.0" y2="455" class="grid"/>
+<text x="1000.00" y="475.00" font-size="11" font-weight="400" fill="#697276" text-anchor="middle" >100%</text>
+<text x="194.00" y="124.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >El Salvador</text>
+<rect x="210.00" y="108" width="681.91" height="22" fill="#2E7D59"/>
+<text x="550.95" y="123.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >86%</text>
+<rect x="891.91" y="108" width="53.27" height="22" fill="#356C9A"/>
+<rect x="945.18" y="108" width="54.71" height="22" fill="#D49A2A"/>
+<rect x="999.89" y="108" width="0.11" height="22" fill="#B85C3A"/>
+<text x="1016.00" y="124.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >571,610</text>
+<text x="194.00" y="164.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Guatemala</text>
+<rect x="210.00" y="148" width="779.29" height="22" fill="#2E7D59"/>
+<text x="599.65" y="163.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >99%</text>
+<rect x="989.29" y="148" width="1.97" height="22" fill="#356C9A"/>
+<rect x="991.26" y="148" width="7.61" height="22" fill="#D49A2A"/>
+<rect x="998.87" y="148" width="1.13" height="22" fill="#B85C3A"/>
+<text x="1016.00" y="164.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >209,829</text>
+<text x="194.00" y="204.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Costa Rica</text>
+<rect x="210.00" y="188" width="661.71" height="22" fill="#2E7D59"/>
+<text x="540.85" y="203.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >84%</text>
+<rect x="871.71" y="188" width="89.67" height="22" fill="#356C9A"/>
+<text x="916.54" y="203.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >11%</text>
+<rect x="961.37" y="188" width="25.49" height="22" fill="#D49A2A"/>
+<rect x="986.87" y="188" width="12.82" height="22" fill="#777A7E"/>
+<rect x="999.69" y="188" width="0.31" height="22" fill="#B85C3A"/>
+<text x="1016.00" y="204.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >133,066</text>
+<text x="194.00" y="244.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Honduras</text>
+<rect x="210.00" y="228" width="403.86" height="22" fill="#2E7D59"/>
+<text x="411.93" y="243.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >51%</text>
+<rect x="613.86" y="228" width="319.51" height="22" fill="#356C9A"/>
+<text x="773.61" y="243.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >40%</text>
+<rect x="933.36" y="228" width="61.74" height="22" fill="#D49A2A"/>
+<text x="964.23" y="243.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >8%</text>
+<rect x="995.11" y="228" width="3.69" height="22" fill="#777A7E"/>
+<rect x="998.79" y="228" width="1.21" height="22" fill="#B85C3A"/>
+<text x="1016.00" y="244.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >132,683</text>
+<text x="194.00" y="284.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Belice</text>
+<rect x="210.00" y="268" width="277.27" height="22" fill="#2E7D59"/>
+<text x="348.63" y="283.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >35%</text>
+<rect x="487.27" y="268" width="434.32" height="22" fill="#356C9A"/>
+<text x="704.43" y="283.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >55%</text>
+<rect x="921.59" y="268" width="78.22" height="22" fill="#D49A2A"/>
+<text x="960.70" y="283.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >10%</text>
+<rect x="999.81" y="268" width="0.19" height="22" fill="#B85C3A"/>
+<text x="1016.00" y="284.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >33,319</text>
+<text x="194.00" y="324.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Panamá</text>
+<rect x="210.00" y="308" width="780.07" height="22" fill="#2E7D59"/>
+<text x="600.03" y="323.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >99%</text>
+<rect x="990.07" y="308" width="4.22" height="22" fill="#356C9A"/>
+<rect x="994.29" y="308" width="5.71" height="22" fill="#D49A2A"/>
+<text x="1016.00" y="324.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >29,187</text>
+<text x="194.00" y="364.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >México</text>
+<rect x="210.00" y="348" width="631.19" height="22" fill="#2E7D59"/>
+<text x="525.60" y="363.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >80%</text>
+<rect x="841.19" y="348" width="146.68" height="22" fill="#356C9A"/>
+<text x="914.53" y="363.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >19%</text>
+<rect x="987.87" y="348" width="12.13" height="22" fill="#D49A2A"/>
+<text x="1016.00" y="364.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >2,149</text>
+<text x="194.00" y="404.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Nicaragua</text>
+<rect x="210.00" y="388" width="225.71" height="22" fill="#2E7D59"/>
+<text x="322.86" y="403.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >29%</text>
+<rect x="435.71" y="388" width="451.43" height="22" fill="#356C9A"/>
+<text x="661.43" y="403.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >57%</text>
+<rect x="887.14" y="388" width="112.86" height="22" fill="#D49A2A"/>
+<text x="943.57" y="403.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >14%</text>
+<text x="1016.00" y="404.00" font-size="11" font-weight="600" fill="#697276" text-anchor="start" >7</text>
+<rect x="210" y="505" width="14" height="14" rx="3" fill="#2E7D59"/>
+<text x="231.00" y="517.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Entrenamiento</text>
+<rect x="385" y="505" width="14" height="14" rx="3" fill="#356C9A"/>
+<text x="406.00" y="517.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Validación</text>
+<rect x="560" y="505" width="14" height="14" rx="3" fill="#D49A2A"/>
+<text x="581.00" y="517.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Apoyo interpretativo</text>
+<rect x="770" y="505" width="14" height="14" rx="3" fill="#777A7E"/>
+<text x="791.00" y="517.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Referencia contextual</text>
+<rect x="945" y="505" width="14" height="14" rx="3" fill="#B85C3A"/>
+<text x="966.00" y="517.00" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Máscaras</text>
+</svg>

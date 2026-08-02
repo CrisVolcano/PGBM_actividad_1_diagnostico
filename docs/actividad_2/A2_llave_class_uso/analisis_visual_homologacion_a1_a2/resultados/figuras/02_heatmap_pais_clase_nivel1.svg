@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1244" height="552" viewBox="0 0 1244 552" role="img" aria-label="Matriz país x clase homologada nivel 1">
+<defs>
+  <style>
+    .axis { stroke: #C8CED1; stroke-width: 1; }
+    .grid { stroke: #E8ECEC; stroke-width: 1; }
+    .caption { fill: #697276; font-size: 13px; }
+  </style>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="34.00" y="40.00" font-size="23" font-weight="700" fill="#172326" text-anchor="start" >Matriz país x clase homologada nivel 1</text>
+<text x="34.00" y="64.00" font-size="13" font-weight="400" fill="#697276" text-anchor="start" >Color = porcentaje de la clase dentro del país. Punto = presencia menor a 8%.</text>
+<text x="190.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Zonas</text>
+<text x="190.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >agrícolas no</text>
+<text x="190.00" y="130.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >arbóreas</text>
+<text x="190.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >441,325</text>
+<text x="294.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Cultivos</text>
+<text x="294.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >arbóreos</text>
+<text x="294.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >348,740</text>
+<text x="398.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Bosques</text>
+<text x="398.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >latifoliados</text>
+<text x="398.00" y="130.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >y mixtos</text>
+<text x="398.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >241,156</text>
+<text x="502.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Construido</text>
+<text x="502.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >32,219</text>
+<text x="606.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Otras tierras</text>
+<text x="606.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >15,527</text>
+<text x="710.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Bosques de</text>
+<text x="710.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >coníferas</text>
+<text x="710.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >13,442</text>
+<text x="814.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Bosques de</text>
+<text x="814.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >mangle</text>
+<text x="814.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >11,920</text>
+<text x="918.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Plantaciones</text>
+<text x="918.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >forestales</text>
+<text x="918.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >3,238</text>
+<text x="1022.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Cuerpos de</text>
+<text x="1022.00" y="117.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >agua</text>
+<text x="1022.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >2,491</text>
+<text x="1126.00" y="104.00" font-size="11" font-weight="600" fill="#475258" text-anchor="middle" >Bosques secos</text>
+<text x="1126.00" y="150.00" font-size="10" font-weight="400" fill="#697276" text-anchor="middle" >1,792</text>
+<text x="124.00" y="189.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >El Salvador</text>
+<rect x="138" y="166" width="102" height="34" rx="4" fill="#4C9488"/>
+<text x="190.00" y="188.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >48%</text>
+<rect x="242" y="166" width="102" height="34" rx="4" fill="#99C0B9"/>
+<text x="294.00" y="188.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >14%</text>
+<rect x="346" y="166" width="102" height="34" rx="4" fill="#72AAA0"/>
+<text x="398.00" y="188.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >29%</text>
+<rect x="450" y="166" width="102" height="34" rx="4" fill="#BAD4CE"/>
+<text x="502.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="166" width="102" height="34" rx="4" fill="#DFE9E5"/>
+<text x="606.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="166" width="102" height="34" rx="4" fill="#D9E6E2"/>
+<text x="710.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="762" y="166" width="102" height="34" rx="4" fill="#D3E2DD"/>
+<text x="814.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="866" y="166" width="102" height="34" rx="4" fill="#E3EBE8"/>
+<text x="918.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="166" width="102" height="34" rx="4" fill="#E4ECE8"/>
+<text x="1022.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="1074" y="166" width="102" height="34" rx="4" fill="#F1F3F0"/>
+<text x="1126.00" y="188.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<text x="124.00" y="225.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Guatemala</text>
+<rect x="138" y="202" width="102" height="34" rx="4" fill="#68A49A"/>
+<text x="190.00" y="224.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >33%</text>
+<rect x="242" y="202" width="102" height="34" rx="4" fill="#2F8376"/>
+<text x="294.00" y="224.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >66%</text>
+<rect x="346" y="202" width="102" height="34" rx="4" fill="#E6EDE9"/>
+<text x="398.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="450" y="202" width="102" height="34" rx="4" fill="#ECF1ED"/>
+<text x="502.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="202" width="102" height="34" rx="4" fill="#E9EFEC"/>
+<text x="606.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="202" width="102" height="34" rx="4" fill="#F1F3F0"/>
+<text x="710.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="762" y="202" width="102" height="34" rx="4" fill="#EDF1EE"/>
+<text x="814.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="866" y="202" width="102" height="34" rx="4" fill="#F1F4F1"/>
+<text x="918.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="202" width="102" height="34" rx="4" fill="#EEF2EF"/>
+<text x="1022.00" y="224.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="1074" y="202" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<text x="124.00" y="261.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Costa Rica</text>
+<rect x="138" y="238" width="102" height="34" rx="4" fill="#70A89F"/>
+<text x="190.00" y="260.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >30%</text>
+<rect x="242" y="238" width="102" height="34" rx="4" fill="#85B5AC"/>
+<text x="294.00" y="260.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >21%</text>
+<rect x="346" y="238" width="102" height="34" rx="4" fill="#599B90"/>
+<text x="398.00" y="260.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >41%</text>
+<rect x="450" y="238" width="102" height="34" rx="4" fill="#E4ECE8"/>
+<text x="502.00" y="260.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="238" width="102" height="34" rx="4" fill="#B1CEC8"/>
+<text x="606.00" y="260.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="238" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="762" y="238" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="866" y="238" width="102" height="34" rx="4" fill="#DEE9E5"/>
+<text x="918.00" y="260.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="238" width="102" height="34" rx="4" fill="#F1F3F0"/>
+<text x="1022.00" y="260.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="1074" y="238" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<text x="124.00" y="297.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Honduras</text>
+<rect x="138" y="274" width="102" height="34" rx="4" fill="#9EC3BC"/>
+<text x="190.00" y="296.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >12%</text>
+<rect x="242" y="274" width="102" height="34" rx="4" fill="#227C6E"/>
+<text x="294.00" y="296.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >75%</text>
+<rect x="346" y="274" width="102" height="34" rx="4" fill="#BDD5D0"/>
+<text x="398.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="450" y="274" width="102" height="34" rx="4" fill="#E5EDE9"/>
+<text x="502.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="274" width="102" height="34" rx="4" fill="#E2EBE7"/>
+<text x="606.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="274" width="102" height="34" rx="4" fill="#C0D7D2"/>
+<text x="710.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="762" y="274" width="102" height="34" rx="4" fill="#DBE7E3"/>
+<text x="814.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="866" y="274" width="102" height="34" rx="4" fill="#EFF2EF"/>
+<text x="918.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="274" width="102" height="34" rx="4" fill="#E7EEEA"/>
+<text x="1022.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="1074" y="274" width="102" height="34" rx="4" fill="#D7E4E0"/>
+<text x="1126.00" y="296.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<text x="124.00" y="333.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Belice</text>
+<rect x="138" y="310" width="102" height="34" rx="4" fill="#469085"/>
+<text x="190.00" y="332.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >52%</text>
+<rect x="242" y="310" width="102" height="34" rx="4" fill="#EFF2EF"/>
+<text x="294.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="346" y="310" width="102" height="34" rx="4" fill="#62A196"/>
+<text x="398.00" y="332.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >36%</text>
+<rect x="450" y="310" width="102" height="34" rx="4" fill="#DBE7E3"/>
+<text x="502.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="310" width="102" height="34" rx="4" fill="#C5DAD4"/>
+<text x="606.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="310" width="102" height="34" rx="4" fill="#BDD5CF"/>
+<text x="710.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="762" y="310" width="102" height="34" rx="4" fill="#D1E1DC"/>
+<text x="814.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="866" y="310" width="102" height="34" rx="4" fill="#EEF2EE"/>
+<text x="918.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="310" width="102" height="34" rx="4" fill="#DEE8E4"/>
+<text x="1022.00" y="332.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="1074" y="310" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<text x="124.00" y="369.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Panamá</text>
+<rect x="138" y="346" width="102" height="34" rx="4" fill="#207A6C"/>
+<text x="190.00" y="368.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >77%</text>
+<rect x="242" y="346" width="102" height="34" rx="4" fill="#9FC4BD"/>
+<text x="294.00" y="368.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >12%</text>
+<rect x="346" y="346" width="102" height="34" rx="4" fill="#A9CAC3"/>
+<text x="398.00" y="368.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >9%</text>
+<rect x="450" y="346" width="102" height="34" rx="4" fill="#E4ECE8"/>
+<text x="502.00" y="368.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="346" width="102" height="34" rx="4" fill="#EBF0ED"/>
+<text x="606.00" y="368.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="346" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="762" y="346" width="102" height="34" rx="4" fill="#E3ECE8"/>
+<text x="814.00" y="368.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="866" y="346" width="102" height="34" rx="4" fill="#E8EEEB"/>
+<text x="918.00" y="368.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="346" width="102" height="34" rx="4" fill="#E6EDE9"/>
+<text x="1022.00" y="368.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="1074" y="346" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<text x="124.00" y="405.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >México</text>
+<rect x="138" y="382" width="102" height="34" rx="4" fill="#74ABA2"/>
+<text x="190.00" y="404.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >28%</text>
+<rect x="242" y="382" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="346" y="382" width="102" height="34" rx="4" fill="#35877A"/>
+<text x="398.00" y="404.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >62%</text>
+<rect x="450" y="382" width="102" height="34" rx="4" fill="#E6EDEA"/>
+<text x="502.00" y="404.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="554" y="382" width="102" height="34" rx="4" fill="#D3E2DD"/>
+<text x="606.00" y="404.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="658" y="382" width="102" height="34" rx="4" fill="#D0E0DB"/>
+<text x="710.00" y="404.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="762" y="382" width="102" height="34" rx="4" fill="#DDE8E4"/>
+<text x="814.00" y="404.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="866" y="382" width="102" height="34" rx="4" fill="#E8EEEA"/>
+<text x="918.00" y="404.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<rect x="970" y="382" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="1074" y="382" width="102" height="34" rx="4" fill="#BBD4CF"/>
+<text x="1126.00" y="404.00" font-size="16" font-weight="700" fill="#263238" text-anchor="middle" >·</text>
+<text x="124.00" y="441.00" font-size="12" font-weight="600" fill="#263238" text-anchor="end" >Nicaragua</text>
+<rect x="138" y="418" width="102" height="34" rx="4" fill="#72AAA0"/>
+<text x="190.00" y="440.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >29%</text>
+<rect x="242" y="418" width="102" height="34" rx="4" fill="#98C0B8"/>
+<text x="294.00" y="440.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >14%</text>
+<rect x="346" y="418" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="450" y="418" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="554" y="418" width="102" height="34" rx="4" fill="#98C0B8"/>
+<text x="606.00" y="440.00" font-size="11" font-weight="700" fill="#263238" text-anchor="middle" >14%</text>
+<rect x="658" y="418" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="762" y="418" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="866" y="418" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="970" y="418" width="102" height="34" rx="4" fill="#55998E"/>
+<text x="1022.00" y="440.00" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >43%</text>
+<rect x="1074" y="418" width="102" height="34" rx="4" fill="#F2F4F1"/>
+<rect x="138" y="507" width="36" height="14" rx="3" fill="#F2F4F1"/>
+<text x="182.00" y="519.00" font-size="12" font-weight="400" fill="#697276" text-anchor="start" >0%</text>
+<rect x="243" y="507" width="36" height="14" rx="3" fill="#A6C8C1"/>
+<text x="287.00" y="519.00" font-size="12" font-weight="400" fill="#697276" text-anchor="start" >10%</text>
+<rect x="348" y="507" width="36" height="14" rx="3" fill="#7AAFA6"/>
+<text x="392.00" y="519.00" font-size="12" font-weight="400" fill="#697276" text-anchor="start" >25%</text>
+<rect x="453" y="507" width="36" height="14" rx="3" fill="#499286"/>
+<text x="497.00" y="519.00" font-size="12" font-weight="400" fill="#697276" text-anchor="start" >50%+</text>
+</svg>
