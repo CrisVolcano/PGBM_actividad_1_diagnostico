@@ -1,0 +1,115 @@
+<mxfile host="Electron" agent="ChatGPT">
+  <diagram name="Etapa 1 - versión mejorada" id="etapa1_mejorada_2020">
+    <mxGraphModel dx="2200" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="980" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="stage_data" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;strokeWidth=1;arcSize=8;shadow=0;dashed=0;opacity=85;" value="" vertex="1">
+          <mxGeometry height="640" width="2120" x="40" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="s1_auditoria" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#ECFDF5;strokeColor=#059669;" value="&lt;div&gt;&lt;font color=&quot;#047857&quot;&gt;01 · Diagnóstico&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Auditoría de base de datos regional preexistente&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="250" x="80" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="s2_homologacion" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#EFF6FF;strokeColor=#2563EB;" value="&lt;div&gt;&lt;font color=&quot;#1D4ED8&quot;&gt;02 · Armonización temática&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Armonización de clases semánticas&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="250" x="430" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="s3_vacios" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#F5F3FF;strokeColor=#7C3AED;" value="&lt;div&gt;&lt;font color=&quot;#6D28D9&quot;&gt;03A · Complementación&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Estrategias de llenado de vacíos de información&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="270" x="790" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="s4_piloto" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#F5F3FF;strokeColor=#7C3AED;" value="&lt;div&gt;&lt;font color=&quot;#6D28D9&quot;&gt;03B · Experimentación&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Pruebas piloto de modelado&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="270" x="780" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="s5_base" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#FEF3C7;strokeColor=#D97706;" value="&lt;div&gt;&lt;font color=&quot;#B45309&quot;&gt;04 · &lt;/font&gt;&lt;b style=&quot;background-color: transparent;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(180, 83, 9), rgb(211, 218, 234));&quot;&gt;Base de datos consolidada&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Apta para modelado&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="250" x="1180" y="285" as="geometry" />
+        </mxCell>
+        <mxCell id="s6_modelado" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#EEF2FF;strokeColor=#4F46E5;" value="&lt;div&gt;&lt;font color=&quot;#4338CA&quot;&gt;05 ·&amp;nbsp;&lt;/font&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(15, 23, 42), rgb(211, 218, 234));&quot;&gt;&lt;font style=&quot;color: rgb(79, 70, 229);&quot;&gt;Modelado de línea base forestal&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="250" x="1500" y="287.5" as="geometry" />
+        </mxCell>
+        <mxCell id="s7_salida" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=12;shadow=0;strokeWidth=2;fontFamily=Helvetica;fontSize=15;fontColor=#0F172A;align=center;verticalAlign=middle;spacing=10;fillColor=#DCFCE7;strokeColor=#16A34A;" value="&lt;div&gt;&lt;font color=&quot;#15803D&quot;&gt;06 · Producto final&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Línea base forestal 2020&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="250" x="1840" y="287.5" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Detalle operativo&lt;/b&gt;&lt;br&gt;• Diagnóstico de la base de datos.&lt;br&gt;• Evaluación con criterios múltiples.&lt;br&gt;• Scoring de calidad y detección de vacíos." vertex="1">
+          <mxGeometry height="140" width="250" x="80" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Detalle operativo&lt;/b&gt;&lt;br&gt;• Reuniones con contrapartes técnicas.&lt;br&gt;• Clases realistas desde teledetección/RS y datos preexistentes.&lt;br&gt;• Reglas de juego: resolución, UMP y criterios mínimos." vertex="1">
+          <mxGeometry height="160" width="250" x="430" y="425" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Detalle operativo&lt;/b&gt;&lt;br&gt;• Fotointerpretación.&lt;br&gt;• Extracción desde fuentes reconocidas.&lt;br&gt;• Balanceo de datos por clase semántica." vertex="1">
+          <mxGeometry height="90" width="270" x="790" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Detalle operativo&lt;/b&gt;&lt;br&gt;• Evaluación del desempeño de arquitecturas de modelado.&lt;br&gt;• Identificación de zonas óptimas de datos." vertex="1">
+          <mxGeometry height="105" width="270" x="780" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Criterio de calidad&lt;/b&gt;&lt;br&gt;Base de datos preparada para entrenar, validar y evaluar modelos de clasificación." vertex="1">
+          <mxGeometry height="110" width="250" x="1160" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Detalle operativo&lt;/b&gt;&lt;br&gt;• Implementación regional de arquitecturas de modelado.&lt;br&gt;• Estrategia de validación y control de calidad." vertex="1">
+          <mxGeometry height="120" width="250" x="1500" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;shadow=0;strokeWidth=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontFamily=Helvetica;fontSize=12;fontColor=#334155;align=left;verticalAlign=top;spacing=10;spacingTop=8;" value="&lt;b&gt;Uso esperado&lt;/b&gt;&lt;br&gt;Mapa armonizasdo a nivel regional, con clases semánticas definidas, como base para monitoreo y toma de decisiones." vertex="1">
+          <mxGeometry height="135" width="250" x="1840" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="callout_actores" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;shadow=0;strokeWidth=1;fillColor=#FFF7ED;strokeColor=#FB923C;fontFamily=Helvetica;fontSize=12;fontColor=#7C2D12;align=center;verticalAlign=middle;spacing=8;dashed=1;" value="&lt;b&gt;Contexto institucional&lt;/b&gt;&lt;br&gt;Existe interés de diversos actores regionales." vertex="1">
+          <mxGeometry height="70" width="210" x="1180" y="167" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="s1_auditoria" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s2_homologacion" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="s2_homologacion" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s3_vacios" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s4_piloto" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="350" />
+              <mxPoint x="700" y="460" />
+              <mxPoint x="915" y="460" />
+            </Array>
+            <mxPoint x="680" y="350" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="s3_vacios" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s5_base" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="s4_piloto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s5_base" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1140" y="548" />
+              <mxPoint x="1140" y="348" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="s5_base" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s6_modelado" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="s6_modelado" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#64748B;endArrow=block;endFill=1;" target="s7_salida" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="s5_base" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1.5;strokeColor=#FB923C;endArrow=none;dashed=1;" target="callout_actores" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed1" edge="1" parent="1" source="s1_auditoria" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed2" edge="1" parent="1" source="s2_homologacion" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed3" edge="1" parent="1" source="s3_vacios" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed4" edge="1" parent="1" source="s4_piloto" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed5" edge="1" parent="1" source="s5_base" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed6" edge="1" parent="1" source="s6_modelado" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ed7" edge="1" parent="1" source="s7_salida" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=1;strokeColor=#CBD5E1;endArrow=none;dashed=1;" target="n7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
