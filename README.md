@@ -1,72 +1,88 @@
-# PGBM - Actividad 1: Diagnóstico regional de aptitud de fuentes y vacíos de información
+# PGBM - Actividades de diagnóstico y modelado geoespacial
 
-## Descripción
+## Resumen
 
-Repositorio técnico para implementar la Actividad 1 del proyecto PGBM, orientada al diagnóstico regional de aptitud de fuentes y vacíos de información.
+Repositorio reproducible del proyecto PGBM que contiene múltiples actividades: diagnóstico regional de aptitud, auditorías de datos geoespaciales, normalización, muestreo y modelado predictivo. Incluye auditorías estructurales, espaciales, temporales y temáticas, junto con preparación de datos y modelos para actividades 2, 3 y 4.
 
-El objetivo es construir una base reproducible para auditar datos geoespaciales desde dimensiones estructurales, espaciales, temporales, temáticas, de trazabilidad y confiabilidad.
+## Estructura del repositorio
 
-## Ruta local del proyecto
+- `config/`: YAML de configuración para auditorías, extracción, normalización y modelado.
+- `data/`: datos organizados en `raw/`, `interim/`, `processed/`, `external/` y `maps/`.
+- `src/`: código fuente por actividad (`actividad_1` a `actividad_4`) y utilidades.
+- `notebooks/`: scripts y notebooks para inspección de GPKG, auditorías y análisis de resultados.
+- `docs/`: documentación de entregables y resultados de la actividad 1.
+- `outputs/`: figuras, mapas, reportes y tablas generadas.
+- `logs/`: registros de decisiones metodológicas y auditorías.
 
-/media/estb/PGB_disco/PGBM_actividad_1_diagnostico
+## Descripción de actividades
 
-## Principios de trabajo
+- `Actividad 1`: Diagnóstico regional de aptitud de fuentes y vacíos de información.
+  - Inventario de fuentes y metadatos.
+  - Auditoría estructural de la base de datos.
+  - Auditoría espacial de multirregistros, coordenadas y calidad geoespacial.
+  - Auditoría temporal y análisis de ventanas de tiempo.
+  - Auditoría temática y clasificación de conflictos semánticos.
+  - Scoring multicriterio y clasificación funcional.
+  - Principal código en `src/actividad_1/`, documentación en `docs/actividad_1/` y validación en `notebooks/`.
 
-1. No modificar datos originales.
-2. No limpiar antes de auditar.
-3. No descartar registros sin documentación.
-4. Registrar decisiones metodológicas.
-5. Separar datos crudos, intermedios y procesados.
-6. Versionar scripts, notebooks, documentación y configuración.
-7. No subir datos geoespaciales pesados a GitHub.
+- `Actividad 2`: Preparación y normalización de datos para modelado.
+  - Normalización de clases y atributos.
+  - Generación de grillas de densidad y balance de puntos.
+  - Preparación de dataset de entrenamiento espacialmente balanceado.
+  - Código clave en `src/actividad_2/`.
 
-## Estructura principal
+- `Actividad 3`: Auditoría de nuevas fuentes y muestreo especializado.
+  - Evaluación de nuevas fuentes de datos y auditorías adicionales.
+  - Muestreo de bosque deciduo y otros casos de estudio.
+  - Extracción y validación de muestras de entrenamiento.
+  - Código clave en `src/actividad_3/`.
 
-- config/
-- data/
-- notebooks/
-- src/
-- outputs/
-- logs/
-- docs/
+- `Actividad 4`: Extracción de predictores y modelado predictivo.
+  - Extracción de puntos piloto y cuadrantes piloto.
+  - Preparación de predictores ráster y normalización de salidas puntuales.
+  - Validación de entradas de modelado y variogramas espaciales.
+  - Entrenamiento y comparación de modelos RF, DNN, SVM y XGBoost.
+  - Generación de mapas de predicción raster y comparación de resolución/consenso.
+  - Código clave en `src/actividad_4/`.
 
-## Entorno Conda
+## Entorno de trabajo
 
-Para crear el entorno:
+El proyecto utiliza Python 3.11 y dependencias manejadas por Conda.
 
+Crear el entorno:
+
+```bash
 conda env create -f environment.yml
+```
 
-Para activarlo:
+Activar el entorno:
 
+```bash
 conda activate pgbm_actividad1
-
-## Uso del extractor de cuadrantes piloto
-
-El script [src/actividad_4/extract_pilot_quadrant_points.py](src/actividad_4/extract_pilot_quadrant_points.py) ahora acepta un archivo YAML para parametrizar rutas y parámetros espaciales. Un ejemplo está en [config/pilot_quadrant_extraction.yaml](config/pilot_quadrant_extraction.yaml).
-
-Ejemplo de ejecución:
-
-```bash
-conda run -n pgbm_actividad1 python src/actividad_4/extract_pilot_quadrant_points.py --config config/pilot_quadrant_extraction.yaml
 ```
 
-También puede sobrescribir valores desde la línea de comandos, por ejemplo:
+Herramientas de desarrollo y formato:
 
-```bash
-conda run -n pgbm_actividad1 python src/actividad_4/extract_pilot_quadrant_points.py --config config/pilot_quadrant_extraction.yaml --predicate intersects --buffer-negative-m 12.5
-```
+- `black`
+- `ruff`
+- `isort`
 
-## Estado de implementación
+## Archivos clave
 
-- [x] Módulo 0: configuración inicial del proyecto.
-- [ ] Módulo 1: lectura inicial del GeoPackage.
-- [ ] Módulo 2: auditoría estructural.
-- [ ] Módulo 3: auditoría espacial.
-- [ ] Módulo 4: auditoría temporal.
-- [ ] Módulo 5: auditoría temática.
-- [ ] Módulo 6: fuentes y trazabilidad.
-- [ ] Módulo 7: confiabilidad.
-- [ ] Módulo 8: vacíos críticos.
-- [ ] Módulo 9: scoring multicriterio.
-- [ ] Módulo 10: clasificación funcional.
-- [ ] Módulo 11: reportes.
+- `environment.yml`: entorno Conda y dependencias principales.
+- `pyproject.toml`: metadatos de proyecto, configuración de `black`, `ruff` e `isort`.
+- `config/config.yaml`: configuración general del flujo de trabajo.
+- `logs/decisiones_metodologicas.csv`: trazabilidad de decisiones metodológicas.
+- `docs/actividad_1/`: entregables de alcance, inventario, auditorías y scoring.
+- `src/actividad_1/`: código fuente para el diagnóstico de la primera actividad.
+- `notebooks/`: análisis exploratorios y notebooks de validación.
+
+## Flujo recomendado
+
+1. Revisar configuraciones en `config/` y datos en `data/`.
+2. Ejecutar auditorías con el código en `src/actividad_1`.
+3. Inspeccionar resultados y generadores en `notebooks/`.
+4. Documentar las decisiones en `logs/decisiones_metodologicas.csv`.
+5. Revisar entregables y análisis en `docs/actividad_1`.
+6. Guardar outputs en `outputs/`.
+
